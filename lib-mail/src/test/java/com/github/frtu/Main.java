@@ -18,7 +18,7 @@ public class Main {
             throws MessagingException {
         final MimeMessage mimeMessage = mailSender.createMimeMessage();
 
-        mimeMessage.setFrom(new InternetAddress("xxx@yyy.com"));
+        mimeMessage.setFrom(new InternetAddress("rndfred@163.com"));
         mimeMessage.setRecipient(Message.RecipientType.TO, new InternetAddress(to));
 
         mimeMessage.setSubject(subject);
@@ -32,7 +32,7 @@ public class Main {
         ApplicationContext context = new AnnotationConfigApplicationContext(JavaMailConfig.class);
         final JavaMailSender mailSender = context.getBean(JavaMailSender.class);
 
-        sendMail(mailSender, "zzz@yyy.com", "Test lib", "Testing body");
+        sendMail(mailSender, "rndfred@163.com", "Test lib", "Testing body");
     }
 }
 
