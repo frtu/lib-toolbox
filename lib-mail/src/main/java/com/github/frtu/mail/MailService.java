@@ -6,10 +6,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
-import javax.mail.Message;
 import javax.mail.MessagingException;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 
 @Service
 @Slf4j
@@ -20,14 +17,16 @@ public class MailService {
     @Autowired
     private JavaMailSender mailSender;
 
-    public void sendText(String to, String subject, String body) throws MessagingException {
-        final MimeMessage mimeMessage = mailSender.createMimeMessage();
+    public MailComposer createMimeMessage() {
+        final MailComposer mailComposer = new MailComposer(mailSender);
+        return mailComposer.from(senderAddress);
+    }
 
-        mimeMessage.setFrom(new InternetAddress(senderAddress));
-        mimeMessage.setRecipient(Message.RecipientType.TO, new InternetAddress(to));
-
-        mimeMessage.setSubject(subject);
-        mimeMessage.setText(body);
-        mailSender.send(mimeMessage);
+    public void sendText(String to, String subject, String body) {
+        final MailComposer mailComposer = createMimeMessage();
+        mailComposer.to(to)
+                .subject(subject)
+                .text(body)
+                .send();
     }
 }

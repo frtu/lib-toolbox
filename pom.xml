@@ -16,7 +16,7 @@
     <url>https://github.com/frtu/lib-toolbox/</url>
 
     <modules>
-        <module>library-mail</module>
+        <module>lib-mail</module>
     </modules>
 
     <properties>

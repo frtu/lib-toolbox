@@ -3,6 +3,7 @@ package com.github.frtu.mail;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -12,6 +13,7 @@ import java.util.Properties;
 
 @Slf4j
 @Configuration
+@ComponentScan
 @PropertySource("classpath:application.properties")
 public class JavaMailConfig {
     @Value("${spring.mail.username}")
