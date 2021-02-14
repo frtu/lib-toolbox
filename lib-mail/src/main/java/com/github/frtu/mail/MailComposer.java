@@ -30,7 +30,7 @@ public class MailComposer {
 
     public MailComposer to(String to) {
         try {
-            mimeMessage.setRecipient(Message.RecipientType.TO, new InternetAddress(to));
+            mimeMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
         } catch (MessagingException e) {
             raiseException("to", to, e);
         }
