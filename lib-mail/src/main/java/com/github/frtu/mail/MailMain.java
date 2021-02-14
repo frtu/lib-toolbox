@@ -11,7 +11,7 @@ public class MailMain {
     public static void main(String[] args) {
         LOGGER.info("Executing Main.main() with args.length:{}", args.length);
         if (args.length < 3) {
-            throw new IllegalArgumentException("Usage main : 'to' 'subject' 'body'");
+            throw new IllegalArgumentException("Usage main : 'to' 'subject' 'body' '[attachment1]' '[attachment2]'");
         }
 
         ApplicationContext context = new AnnotationConfigApplicationContext(JavaMailConfig.class);
