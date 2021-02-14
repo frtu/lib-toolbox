@@ -21,13 +21,14 @@ public class MailService {
         return mailComposer.from(senderAddress);
     }
 
-    public void sendText(String to, String subject, String body) {
+    public void sendText(String to, String subject, String body, String... attachments) {
         final MailComposer mailComposer = createMimeMessage();
         for (String email : splitEmail(to)) {
             mailComposer.to(email.trim());
         }
         mailComposer.subject(subject)
                 .text(body)
+                .attachment(attachments)
                 .send();
     }
 
