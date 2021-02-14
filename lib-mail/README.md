@@ -26,13 +26,15 @@ mailComposer.to(to)
         .send();
 ```
 
+Note : method ```to()``` can be called multiple times each time per recipient.
+
 ### Command line
 
 Have a file configured with all SMTP mail server named ```application.properties```
 
 Run the command passing :
 
-* Target email
+* Target emails (separated with comma ```,```)
 * Subject
 * Body
 

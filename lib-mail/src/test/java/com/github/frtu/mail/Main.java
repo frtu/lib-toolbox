@@ -1,6 +1,4 @@
-package com.github.frtu;
-
-import com.github.frtu.mail.MailMain;
+package com.github.frtu.mail;
 
 public class Main {
     public static void main(String[] args) {
