@@ -26,8 +26,9 @@ mailComposer.to(to)
         .send();
 ```
 
-
 ### Command line
+
+Have a file configured with all SMTP mail server named ```application.properties```
 
 Run the command passing :
 
@@ -36,11 +37,11 @@ Run the command passing :
 * Body
 
 ```
-java -jar target/lib-mail-1.1.0-SNAPSHOT.jar "xxx@yyy.com" "Test subject" "Testing body"
+java -cp "./folder_having_application_properties/:target/lib-mail-1.1.0-SNAPSHOT.jar" com.github.frtu.mail.MailMain "xxx@yyy.com" "Test subject" "Testing body"
 ```
 
 ## Release notes
 
-### 0.0.1-SNAPSHOT - Current version
+### 1.1.0-SNAPSHOT - Current version
 
-* Feature list
+* Sending SMTP mail thru command line and java API
