@@ -41,7 +41,7 @@ Run the command passing :
 * Attachments.. : append any attachment using file: prefixes
 
 ```
-java -cp "./folder_having_application_properties/:target/lib-mail-1.1.0.jar" com.github.frtu.mail.MailMain "xxx@yyy.com" "Test subject" "Testing body" "file:./src/test/resources/mail-servers.pdf"
+java -cp "/Users/fred/git/platform/lib-toolbox-frtu/lib-mail/src/test/resources:target/lib-mail-1.1.0-SNAPSHOT.jar" com.github.frtu.mail.MailMain "rndfred@163.com" "Test subject" "Testing body" "file:./src/test/resources/mail-servers.pdf"
 ```
 
 ## Release notes
