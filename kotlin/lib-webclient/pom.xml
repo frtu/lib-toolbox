@@ -13,7 +13,8 @@
     <properties>
         <start-class>com.github.frtu.webclient.MainKt</start-class>
         <!--=========================== -->
-        <okhttp.version>4.9.1</okhttp.version> <!-- 2021-03-22 -->
+        <okhttp.version>4.0.1</okhttp.version> <!-- This version auto flush logs -->
+        <frtu.logger.version>1.1.0</frtu.logger.version>
         <!--=========================== -->
     </properties>
 
@@ -49,6 +50,11 @@
         <dependency>
             <groupId>io.kotlintest</groupId>
             <artifactId>kotlintest-runner-junit5</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
             <scope>test</scope>
         </dependency>
         <!-- https://mockk.io/ -->
@@ -88,6 +94,7 @@
         <dependency>
             <groupId>com.github.frtu.logs</groupId>
             <artifactId>logger-core</artifactId>
+            <version>${frtu.logger.version}</version>
         </dependency>
     </dependencies>
 </project>
