@@ -19,6 +19,7 @@
 
     <modules>
         <module>java/lib-mail</module>
+        <module>kotlin</module>
     </modules>
 
     <properties>
