@@ -12,6 +12,9 @@
 
     <properties>
         <start-class>com.github.frtu.webclient.MainKt</start-class>
+        <!--=========================== -->
+        <okhttp.version>4.9.1</okhttp.version> <!-- 2021-03-22 -->
+        <!--=========================== -->
     </properties>
 
     <dependencies>
@@ -69,13 +72,13 @@
         <dependency>
             <groupId>com.squareup.okhttp3</groupId>
             <artifactId>okhttp</artifactId>
-            <version>4.0.1</version>
+            <version>${okhttp.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.squareup.okhttp3</groupId>
             <artifactId>mockwebserver</artifactId>
-            <version>4.0.1</version>
+            <version>${okhttp.version}</version>
             <scope>test</scope>
         </dependency>
 
