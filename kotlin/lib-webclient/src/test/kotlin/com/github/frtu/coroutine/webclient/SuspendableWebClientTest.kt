@@ -76,6 +76,13 @@ class SuspendableWebClientTest : BaseMockWebServerTest() {
         // 2. Execute
         //--------------------------------------
         assertFailsWith<WebClientResponseException>("This should throw an illegal argument exception") {
+            runBlocking {
+                suspendableWebClient.post(
+                    url = "/resources/1234",
+                    requestId = UUID.randomUUID(),
+                    requestBody = """{"message":"request"}""",
+                )
+            }
         }
     }
 }
