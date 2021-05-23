@@ -24,14 +24,14 @@ open class SuspendableWebClient(private val webClient: WebClient) {
     /**
      * @param url full URL for the resource
      * @param requestId unique ID for post idempotency
-     * @param consumer header populator
+     * @param headerPopulator header populator
      * @param requestBody post body
      * @param responseConsumer response callback
      */
     suspend fun post(
         url: String, requestId: UUID,
         requestBody: Any,
-        consumer: Consumer<HttpHeaders> = Consumer { header -> {} },
+        headerPopulator: Consumer<HttpHeaders> = Consumer { header -> {} },
         responseCallback: Consumer<WebClientResponse>? = null
     ) {
         val eventSignature = entries(client(), uri(url), requestId(requestId.toString()))
@@ -41,7 +41,7 @@ open class SuspendableWebClient(private val webClient: WebClient) {
             val webClientResult = webClient.post()
                 .uri(url)
                 .contentType(MediaType.APPLICATION_JSON)
-                .headers(consumer)
+                .headers(headerPopulator)
                 .bodyValue(requestBody)
                 .awaitExchange { clientResponse ->
                     val statusCode = clientResponse.statusCode()
@@ -89,5 +89,5 @@ open class SuspendableWebClient(private val webClient: WebClient) {
 
     /** Logger for all inherited class */
     val logger = LoggerFactory.getLogger(this::class.java)
-    val rpcLogger = RpcLogger.create(logger, client())
+    val rpcLogger = RpcLogger.create(logger)
 }
