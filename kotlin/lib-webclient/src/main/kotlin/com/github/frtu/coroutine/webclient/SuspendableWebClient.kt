@@ -34,7 +34,7 @@ open class SuspendableWebClient(private val webClient: WebClient) {
         headerPopulator: Consumer<HttpHeaders> = Consumer { header -> {} },
         responseCallback: Consumer<WebClientResponse>? = null
     ) {
-        val eventSignature = entries(client(), uri(url), requestId(requestId.toString()))
+        val eventSignature = entries(client(), uri(url), requestId(requestId.toString()))!!
         try {
             rpcLogger.debug(eventSignature, phase("PREPARE TO SEND"), requestBody(requestBody, false))
 
@@ -77,13 +77,16 @@ open class SuspendableWebClient(private val webClient: WebClient) {
                     webClientResult
                 }
             rpcLogger.debug(eventSignature, phase("FINISHED"))
+        } catch (e: WebClientResponseException) {
+            // Don't log twice
+            throw e
         } catch (e: Exception) {
             onException(eventSignature, e)
             throw e
         }
     }
 
-    fun onException(eventSignature: Array<out MutableMap.MutableEntry<Any?, Any?>>?, e: Exception) {
+    fun onException(eventSignature: Array<out MutableMap.MutableEntry<Any?, Any?>>, e: Exception) {
         rpcLogger.error(eventSignature, errorMessage(e.message))
     }
 
