@@ -13,7 +13,9 @@ import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
 import org.springframework.web.reactive.function.client.WebClient
+import org.springframework.web.reactive.function.client.WebClientResponseException
 import java.util.function.Consumer
+import kotlin.test.assertFailsWith
 
 @ExtendWith(MockKExtension::class)
 class SuspendableWebClientTest : BaseMockWebServerTest() {
@@ -52,5 +54,28 @@ class SuspendableWebClientTest : BaseMockWebServerTest() {
         assertThat(webClientResponse).isNotNull
         assertThat(webClientResponse?.statusCode).isEqualTo(HttpStatus.OK)
         assertThat(webClientResponse?.reponseBody).isEqualTo(responseBody)
+    }
+
+    @Test
+    fun `Post call 500 error`() {
+        //--------------------------------------
+        // 1. Prepare server data & Init client
+        //--------------------------------------
+        val responseBody = """{"error":"error message"}"""
+        mockWebServer.enqueue(
+            MockResponse()
+                .setResponseCode(500)
+                .setBody(responseBody)
+                .addHeader("Content-Type", "application/json")
+        )
+
+        val webClient = WebClient.create("http://localhost:${mockWebServer.port}")
+        val suspendableWebClient = SuspendableWebClient(webClient)
+
+        //--------------------------------------
+        // 2. Execute
+        //--------------------------------------
+        assertFailsWith<WebClientResponseException>("This should throw an illegal argument exception") {
+        }
     }
 }
