@@ -1,5 +1,6 @@
 package com.github.frtu.coroutine.webclient
 
+import com.github.frtu.coroutine.webclient.config.WebClientBuilder
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import org.slf4j.LoggerFactory
@@ -7,26 +8,28 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.web.reactive.function.BodyInserters
 import org.springframework.web.reactive.function.server.RouterFunction
-import org.springframework.web.reactive.function.server.router
+import org.springframework.web.reactive.function.server.bodyAndAwait
+import org.springframework.web.reactive.function.server.coRouter
+import org.springframework.web.reactive.function.server.json
 import javax.annotation.PreDestroy
 
 @Configuration
-class WebConfig {
+class WebClientConfig {
     @Bean
-    fun route(): RouterFunction<*> = router {
+    fun suspendableWebClient(mockWebServer: MockWebServer): SuspendableWebClient =
+        SuspendableWebClient.create("http://localhost:${mockWebServer.port}")
+
+    @Bean
+    fun route(suspendableWebClient: SuspendableWebClient): RouterFunction<*> = coRouter {
         GET("/", { r ->
-            ok().body(
-                BodyInserters.fromValue("""{"message":"response"}""")
-            )
+            ok().json().bodyAndAwait(suspendableWebClient.get("/"))
         })
     }
 }
 
-
-@SpringBootApplication
-class Application {
+@Configuration
+class MockServerConfig {
     lateinit var mockWebServer: MockWebServer
 
     @Bean
@@ -53,6 +56,9 @@ class Application {
 
     private val logger = LoggerFactory.getLogger(Application::class.java)
 }
+
+@SpringBootApplication
+class Application
 
 fun main(args: Array<String>) {
     runApplication<Application>(*args)

@@ -3,6 +3,10 @@ package com.github.frtu.coroutine.webclient
 import org.slf4j.LoggerFactory
 import com.github.frtu.logs.core.RpcLogger
 import com.github.frtu.logs.core.RpcLogger.*
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.flow.Flow
 import org.springframework.http.HttpHeaders
 import org.springframework.http.MediaType
 import org.springframework.web.reactive.function.client.*
@@ -21,6 +25,39 @@ import java.util.function.Consumer
  * @param webClient built and configured
  */
 open class SuspendableWebClient(private val webClient: WebClient) {
+    companion object {
+        fun create(baseUrl: String, builder: WebClient.Builder = WebClient.builder()): SuspendableWebClient =
+            SuspendableWebClient(builder.baseUrl(baseUrl).build())
+    }
+
+    /**
+     * @param url full URL for the resource
+     * @param requestId unique ID for post idempotency
+     * @param headerPopulator header populator
+     * @param responseConsumer response callback
+     */
+    suspend fun get(
+        url: String, requestId: UUID = UUID.randomUUID(),
+        headerPopulator: Consumer<HttpHeaders> = Consumer { header -> {} }
+    ): Flow<String> {
+        val eventSignature = entries(client(), uri(url), requestId(requestId.toString()))!!
+        try {
+            rpcLogger.debug(eventSignature, phase("PREPARE TO SEND"))
+            return webClient.get()
+                .uri(url)
+                .accept(MediaType.APPLICATION_JSON)
+                .headers(headerPopulator)
+                .awaitExchange()
+                .bodyToFlow<String>()
+        } catch (e: WebClientResponseException) {
+            // Don't log twice
+            throw e
+        } catch (e: Exception) {
+            onException(eventSignature, e)
+            throw e
+        }
+    }
+
     /**
      * @param url full URL for the resource
      * @param requestId unique ID for post idempotency
