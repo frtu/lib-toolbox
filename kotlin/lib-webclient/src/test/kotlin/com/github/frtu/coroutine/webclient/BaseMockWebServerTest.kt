@@ -1,8 +1,8 @@
 package com.github.frtu.coroutine.webclient
 
 import okhttp3.mockwebserver.MockWebServer
-import org.junit.After
-import org.junit.Before
+import org.junit.jupiter.api.AfterAll
+import org.junit.jupiter.api.BeforeAll
 import org.slf4j.LoggerFactory
 
 /**
@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory
 open class BaseMockWebServerTest {
     internal var mockWebServer = MockWebServer()
 
-    @Before
+    @BeforeAll
     fun setup() {
         mockWebServer = MockWebServer()
         logger.debug("=== ${this.javaClass.simpleName} starting mockWebServer:${mockWebServer}")
@@ -24,7 +24,7 @@ open class BaseMockWebServerTest {
         mockWebServer.start()
     }
 
-    @After
+    @AfterAll
     fun tearDown() {
         logger.debug("=== ${this.javaClass.simpleName} stopping mockWebServer")
         mockWebServer.shutdown()
