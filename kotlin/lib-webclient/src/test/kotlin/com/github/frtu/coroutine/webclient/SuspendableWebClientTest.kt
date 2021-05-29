@@ -8,10 +8,10 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.api.extension.ExtendWith
-import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.web.reactive.function.client.WebClient
 import org.springframework.web.reactive.function.client.WebClientResponseException
+import reactor.core.publisher.Mono
 import java.util.*
 
 @ExtendWith(MockKExtension::class)
@@ -113,5 +113,45 @@ class SuspendableWebClientTest : BaseMockWebServerTest() {
                 )
             }
         }
+    }
+
+
+    @Test
+    fun `Async post call`() {
+        //--------------------------------------
+        // 1. Prepare server data & Init client
+        //--------------------------------------
+        val responseBody = """{"message":"response"}"""
+        mockWebServer.enqueue(
+            MockResponse()
+                .setBody(responseBody)
+                .addHeader("Content-Type", "application/json")
+        )
+
+        //--------------------------------------
+        // 2. Execute
+        //--------------------------------------
+        var webClientResponse: WebClientResponse? = null
+        runBlocking {
+            suspendableWebClient().post(
+                url = "/resources/1234",
+                requestId = UUID.randomUUID(),
+                publisher = Mono.just("""{"message":"request"}"""),
+                elementClass = String::class.java,
+                responseCallback = { result ->
+                    webClientResponse = result
+                }
+            )
+        }
+
+        webClientResponse
+            ?.let { logger.debug("statusCode=${it.statusCode} reponseBody=${it.reponseBody}") }
+            ?: run { logger.error("webClientResponse is empty!") }
+        //--------------------------------------
+        // 3. Validate
+        //--------------------------------------
+        assertThat(webClientResponse).isNotNull
+        assertThat(webClientResponse?.statusCode).isEqualTo(HttpStatus.OK)
+        assertThat(webClientResponse?.reponseBody).isEqualTo(responseBody)
     }
 }

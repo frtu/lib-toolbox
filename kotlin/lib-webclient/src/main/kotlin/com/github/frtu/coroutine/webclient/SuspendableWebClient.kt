@@ -3,13 +3,16 @@ package com.github.frtu.coroutine.webclient
 import org.slf4j.LoggerFactory
 import com.github.frtu.logs.core.RpcLogger
 import com.github.frtu.logs.core.RpcLogger.*
-import kotlinx.coroutines.Deferred
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.Flow
+import org.reactivestreams.Publisher
 import org.springframework.http.HttpHeaders
 import org.springframework.http.MediaType
+import org.springframework.http.ReactiveHttpOutputMessage
+import org.springframework.util.MultiValueMap
+import org.springframework.web.reactive.function.BodyInserter
+import org.springframework.web.reactive.function.BodyInserters
 import org.springframework.web.reactive.function.client.*
+import reactor.core.publisher.Mono
 import java.util.*
 import java.util.function.Consumer
 
@@ -61,25 +64,69 @@ open class SuspendableWebClient(private val webClient: WebClient) {
     /**
      * @param url full URL for the resource
      * @param requestId unique ID for post idempotency
+     * @param requestBody post body object
      * @param headerPopulator header populator
-     * @param requestBody post body
      * @param responseConsumer response callback
      */
-    suspend fun post(
+    suspend fun <T> post(
         url: String, requestId: UUID,
-        requestBody: Any,
+        requestBody: T,
         headerPopulator: Consumer<HttpHeaders> = Consumer { header -> {} },
         responseCallback: Consumer<WebClientResponse>? = null
     ) {
         val eventSignature = entries(client(), uri(url), requestId(requestId.toString()))!!
-        try {
-            rpcLogger.debug(eventSignature, phase("PREPARE TO SEND"), requestBody(requestBody, false))
+        rpcLogger.debug(eventSignature, phase("PREPARE TO SEND"), requestBody(requestBody, false))
 
+        post(url, requestId, BodyInserters.fromValue(requestBody), headerPopulator, responseCallback, eventSignature)
+    }
+
+    /**
+     * @param url full URL for the resource
+     * @param requestId unique ID for post idempotency
+     * @param publisher reactive publisher
+     * @param elementClass class of the produced object from publisher
+     * @param headerPopulator header populator
+     * @param responseConsumer response callback
+     */
+    suspend fun <T, P: Publisher<T>> post(
+        url: String, requestId: UUID,
+        publisher: P, elementClass: Class<T>,
+        headerPopulator: Consumer<HttpHeaders> = Consumer { header -> {} },
+        responseCallback: Consumer<WebClientResponse>? = null
+    ) {
+        val eventSignature = entries(client(), uri(url), requestId(requestId.toString()))!!
+        rpcLogger.debug(eventSignature, phase("PREPARE TO SEND"))
+
+        post(url, requestId, BodyInserters.fromPublisher(publisher, elementClass), headerPopulator, responseCallback, eventSignature)
+    }
+
+    /**
+     * @param url full URL for the resource
+     * @param requestId unique ID for post idempotency
+     * @param requestBodyInserters BodyInserter for request body
+     * @param headerPopulator header populator
+     * @param responseConsumer response callback
+     */
+    suspend fun <T> post(
+        url: String, requestId: UUID,
+        requestBodyInserters: BodyInserter<T, ReactiveHttpOutputMessage>,
+        headerPopulator: Consumer<HttpHeaders> = Consumer { header -> {} },
+        responseCallback: Consumer<WebClientResponse>? = null,
+        previousEventSignature: Array<out MutableMap.MutableEntry<Any?, Any?>>? = null
+    ) {
+        val eventSignature = previousEventSignature ?: let {
+            // ONLY log when not previously logged
+            val newEventSignature = entries(client(), uri(url), requestId(requestId.toString()))!!
+            rpcLogger.debug(newEventSignature, phase("PREPARE TO SEND"))
+            newEventSignature
+        }
+
+        try {
             val webClientResult = webClient.post()
                 .uri(url)
                 .contentType(MediaType.APPLICATION_JSON)
                 .headers(headerPopulator)
-                .bodyValue(requestBody)
+                .body(requestBodyInserters)
                 .awaitExchange { clientResponse ->
                     val statusCode = clientResponse.statusCode()
                     rpcLogger.debug(eventSignature, phase("ON_RESPONSE"), statusCode(statusCode.value()))
