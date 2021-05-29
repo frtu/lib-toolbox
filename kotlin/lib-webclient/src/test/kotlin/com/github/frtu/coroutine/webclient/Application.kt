@@ -1,6 +1,5 @@
 package com.github.frtu.coroutine.webclient
 
-import com.github.frtu.coroutine.webclient.config.WebClientBuilder
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import org.slf4j.LoggerFactory
@@ -22,9 +21,9 @@ class WebClientConfig {
 
     @Bean
     fun route(suspendableWebClient: SuspendableWebClient): RouterFunction<*> = coRouter {
-        GET("/", { r ->
+        GET("/") { serverRequest ->
             ok().json().bodyAndAwait(suspendableWebClient.get("/"))
-        })
+        }
     }
 }
 
