@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<List name="LIST">
-    <PatternLayout>
-        <Pattern>${ENCODER_PATTERN}%n</Pattern>
-    </PatternLayout>
-</List>
