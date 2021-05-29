@@ -107,14 +107,24 @@
         <dependency>
             <groupId>com.github.frtu.logs</groupId>
             <artifactId>logger-core</artifactId>
-            <version>${frtu.logger.version}</version>
         </dependency>
         <dependency>
             <groupId>com.github.frtu.logs</groupId>
             <artifactId>logger-async</artifactId>
-            <version>${frtu.logger.version}</version>
         </dependency>
     </dependencies>
+    <dependencyManagement>
+        <dependencies>
+            <!-- Internal domain dependencies -->
+            <dependency>
+                <groupId>com.github.frtu.logs</groupId>
+                <artifactId>logger-bom</artifactId>
+                <version>${frtu.logger.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <build>
         <plugins>
