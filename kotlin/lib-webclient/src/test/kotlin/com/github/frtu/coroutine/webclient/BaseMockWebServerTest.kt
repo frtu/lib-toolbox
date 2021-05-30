@@ -18,9 +18,7 @@ open class BaseMockWebServerTest {
 
     @BeforeAll
     fun setup() {
-        mockWebServer = MockWebServer()
         logger.debug("=== ${this.javaClass.simpleName} starting mockWebServer:${mockWebServer}")
-
         mockWebServer.start()
     }
 
