@@ -3,6 +3,8 @@ package com.github.frtu.coroutine.webclient
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.TestInstance
+import org.junit.jupiter.api.TestInstance.*
 import org.slf4j.LoggerFactory
 
 /**
@@ -13,6 +15,7 @@ import org.slf4j.LoggerFactory
  * @author Frédéric TU
  * @since 1.1.1
  */
+@TestInstance(Lifecycle.PER_CLASS)
 open class BaseMockWebServerTest {
     internal var mockWebServer = MockWebServer()
 
