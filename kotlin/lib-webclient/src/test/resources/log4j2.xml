@@ -15,7 +15,8 @@
     <Loggers>
         <!-- https://logging.apache.org/log4j/2.x/manual/async.html-->
         <!-- SET TO debug TO SEE unit test LOGS -->
-        <Logger name="com.github.frtu.coroutine.webclient.SuspendableWebClientTest" level="info" includeLocation="true"
+        <Logger name="com.github.frtu.coroutine.webclient.SuspendableWebClientTest" level="info"
+                includeLocation="true"/>
         <Logger name="com.github.frtu.coroutine.webclient.interceptors" level="info" includeLocation="true"
                 additivity="true"/>
         <!-- SET TO info or debug TO SEE application LOGS -->
