@@ -11,10 +11,8 @@
     <artifactId>lib-webclient</artifactId>
 
     <properties>
-        <start-class>com.github.frtu.webclient.MainKt</start-class>
         <!--=========================== -->
         <okhttp.version>4.0.1</okhttp.version> <!-- This version auto flush logs -->
-        <frtu.logger.version>1.1.1-SNAPSHOT</frtu.logger.version>
         <!--=========================== -->
     </properties>
 
@@ -118,18 +116,6 @@
             <artifactId>logger-async</artifactId>
         </dependency>
     </dependencies>
-    <dependencyManagement>
-        <dependencies>
-            <!-- Internal domain dependencies -->
-            <dependency>
-                <groupId>com.github.frtu.logs</groupId>
-                <artifactId>logger-bom</artifactId>
-                <version>${frtu.logger.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
 
     <build>
         <plugins>
@@ -154,22 +140,6 @@
                         <version>${kotlin.version}</version>
                     </dependency>
                 </dependencies>
-            </plugin>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>${spring-boot.version}</version>
-                <executions>
-                    <execution>
-                        <id>repackage</id>
-                        <goals>
-                            <goal>repackage</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <mainClass>${start-class}</mainClass>
-                </configuration>
             </plugin>
         </plugins>
         <pluginManagement>

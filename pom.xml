@@ -29,7 +29,7 @@
         <!--===========================-->
         <java.version>1.8</java.version>
         <base-pom.version>1.1.5</base-pom.version>
-        <spring-boot.version>2.4.1</spring-boot.version>
+        <frtu.logger.version>1.1.1</frtu.logger.version>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -37,6 +37,13 @@
                 <groupId>com.github.frtu.archetype</groupId>
                 <artifactId>base-pom</artifactId>
                 <version>${base-pom.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.github.frtu.logs</groupId>
+                <artifactId>logger-bom</artifactId>
+                <version>${frtu.logger.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
