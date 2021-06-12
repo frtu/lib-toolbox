@@ -1,4 +1,4 @@
-package com.github.frtu.persistence.r2dbc.query
+package com.github.frtu.coroutine.r2dbc.query
 
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -6,14 +6,20 @@ import org.springframework.data.domain.Pageable
 import org.springframework.data.relational.core.query.Criteria
 import org.springframework.data.relational.core.query.Query
 
-class PostgresJsonbQueryBuilder(
+/**
+ * Implementation for {@link IPostgresJsonbQueryBuilder}
+ *
+ * @author Frédéric TU
+ * @since 1.1.1
+ */
+class PostgresJsonbQueryBuilder<T : Any>(
     private val skipKeys: Set<String> = setOf(),
     private val idColumnName: String = "id",
     private val jsonbColumnName: String = "data"
-) : IPostgresJsonbQueryBuilder {
+) : IPostgresJsonbQueryBuilder<T> {
     private val LOGGER: Logger = LoggerFactory.getLogger(PostgresJsonbQueryBuilder::class.java)
 
-    override fun id(id: Any): Query = Query.query(Criteria.where(idColumnName).`is`(id))
+    override fun id(id: T): Query = Query.query(Criteria.where(idColumnName).`is`(id))
         .apply { LOGGER.debug("""{"query_type":"id", "${idColumnName}":"${id}"""") }
 
     override fun query(criteriaMap: Map<String, String>, pageable: Pageable?): Query {
@@ -38,8 +44,8 @@ class PostgresJsonbQueryBuilder(
     override fun query(criteria: Criteria, offset: Long?, limit: Int?): Query {
         var query = Query.query(criteria)
         LOGGER.debug("""{"offset":${offset}, "limit":${limit}}""")
-        offset ?. let { query = query.offset(offset) }
-        limit ?. let { query = query.limit(limit) }
+        offset?.let { query = query.offset(offset) }
+        limit?.let { query = query.limit(limit) }
         return query
     }
 

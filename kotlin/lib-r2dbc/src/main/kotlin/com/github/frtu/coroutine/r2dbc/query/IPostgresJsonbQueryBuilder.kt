@@ -1,11 +1,19 @@
-package com.github.frtu.persistence.r2dbc.query
+package com.github.frtu.coroutine.r2dbc.query
 
 import org.springframework.data.domain.Pageable
 import org.springframework.data.relational.core.query.Criteria
 import org.springframework.data.relational.core.query.Query
 
-interface IPostgresJsonbQueryBuilder {
-    fun id(id: Any): Query
+/**
+ * Builder for {@link Query} and {@link Criteria} of spring data.
+ * Help to create query for id or Criteria using Map<String, String>
+ *
+ * @param <T> Type for id field (UUID, Long, ..)
+ * @author Frédéric TU
+ * @since 1.1.1
+ */
+interface IPostgresJsonbQueryBuilder<T> {
+    fun id(id: T): Query
 
     fun criteria(criteriaMap: Map<String, String>): Criteria
 
