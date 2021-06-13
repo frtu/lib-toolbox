@@ -22,7 +22,7 @@
         <kotlin.compiler.incremental>true</kotlin.compiler.incremental>
         <r2dbc.version>Arabba-SR9</r2dbc.version> <!-- 2021-02-25 -->
         <!--===========================-->
-        <frtu.logger.version>1.1.1</frtu.logger.version>
+        <base-pom.version>1.1.6</base-pom.version>
     </properties>
 
     <dependencies>
@@ -35,7 +35,6 @@
         <dependency>
             <groupId>com.github.frtu.logs</groupId>
             <artifactId>logger-core</artifactId>
-            <version>${frtu.logger.version}</version>
         </dependency>
 
         <!-- Regular spring-boot -->
@@ -196,7 +195,7 @@
             <dependency>
                 <groupId>com.github.frtu.archetype</groupId>
                 <artifactId>kotlin-base-pom</artifactId>
-                <version>1.1.5</version>
+                <version>${base-pom.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
