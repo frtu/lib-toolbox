@@ -197,6 +197,12 @@
                         <artifactId>jmh-generator-bytecode</artifactId>
                         <version>${jmh.version}</version>
                     </dependency>
+                    <!-- Just to allow importing ExchangeFilterFunction for test -->
+                    <dependency>
+                        <groupId>org.springframework</groupId>
+                        <artifactId>spring-webflux</artifactId>
+                        <version>5.3.2</version>
+                    </dependency>
                 </dependencies>
             </plugin>
             <!-- 3. Add JMH generated code to the compile session. -->
