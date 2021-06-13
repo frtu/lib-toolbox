@@ -96,6 +96,16 @@
                             </execution>
                         </executions>
                     </plugin>
+                    <!-- Finding bugs - https://spotbugs.github.io/spotbugs-maven-plugin/spotbugs-mojo.html -->
+                    <plugin>
+                        <groupId>com.github.spotbugs</groupId>
+                        <artifactId>spotbugs-maven-plugin</artifactId>
+                        <configuration>
+                            <!-- List of visitors : https://spotbugs-in-kengo-toda.readthedocs.io/en/lqc-list-detectors/detectors.html#standard-detectors-->
+                            <!-- Detailed descriptions : http://findbugs.sourceforge.net/bugDescriptions.html -->
+                            <omitVisitors>FindNullDeref,FindBadCast2</omitVisitors>
+                        </configuration>
+                    </plugin>
                 </plugins>
             </build>
         </profile>
