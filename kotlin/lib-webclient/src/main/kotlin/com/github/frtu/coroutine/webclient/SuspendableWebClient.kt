@@ -41,7 +41,7 @@ open class SuspendableWebClient(private val webClient: WebClient) {
      */
     suspend fun get(
         url: String, requestId: UUID = UUID.randomUUID(),
-        headerPopulator: Consumer<HttpHeaders> = Consumer { header -> {} }
+        headerPopulator: Consumer<HttpHeaders> = Consumer { _ -> run {} }
     ): Flow<String> {
         val eventSignature = entries(client(), uri(url), requestId(requestId.toString()))!!
         try {
@@ -71,13 +71,14 @@ open class SuspendableWebClient(private val webClient: WebClient) {
     suspend fun <T> post(
         url: String, requestId: UUID,
         requestBody: T,
-        headerPopulator: Consumer<HttpHeaders> = Consumer { header -> {} },
+        headerPopulator: Consumer<HttpHeaders> = Consumer { _ -> run {} },
         responseCallback: Consumer<WebClientResponse>? = null
     ) {
         val eventSignature = entries(client(), uri(url), requestId(requestId.toString()))!!
         rpcLogger.debug(eventSignature, phase("PREPARE TO SEND"), requestBody(requestBody, false))
 
-        post(url, requestId, BodyInserters.fromValue(requestBody), headerPopulator, responseCallback, eventSignature)
+        val requestBodyInserters = BodyInserters.fromValue(requestBody)
+        post(url, requestId, requestBodyInserters, headerPopulator, responseCallback, eventSignature)
     }
 
     /**
@@ -88,16 +89,23 @@ open class SuspendableWebClient(private val webClient: WebClient) {
      * @param headerPopulator header populator
      * @param responseConsumer response callback
      */
-    suspend fun <T, P: Publisher<T>> post(
+    suspend fun <T, P : Publisher<T>> post(
         url: String, requestId: UUID,
         publisher: P, elementClass: Class<T>,
-        headerPopulator: Consumer<HttpHeaders> = Consumer { header -> {} },
+        headerPopulator: Consumer<HttpHeaders> = Consumer { _ -> run {} },
         responseCallback: Consumer<WebClientResponse>? = null
     ) {
         val eventSignature = entries(client(), uri(url), requestId(requestId.toString()))!!
         rpcLogger.debug(eventSignature, phase("PREPARE TO SEND"))
 
-        post(url, requestId, BodyInserters.fromPublisher(publisher, elementClass), headerPopulator, responseCallback, eventSignature)
+        post(
+            url,
+            requestId,
+            BodyInserters.fromPublisher(publisher, elementClass),
+            headerPopulator,
+            responseCallback,
+            eventSignature
+        )
     }
 
     /**
@@ -110,7 +118,7 @@ open class SuspendableWebClient(private val webClient: WebClient) {
     suspend fun <T> post(
         url: String, requestId: UUID,
         requestBodyInserters: BodyInserter<T, ReactiveHttpOutputMessage>,
-        headerPopulator: Consumer<HttpHeaders> = Consumer { header -> {} },
+        headerPopulator: Consumer<HttpHeaders> = Consumer { _ -> run {} },
         responseCallback: Consumer<WebClientResponse>? = null,
         previousEventSignature: Array<out MutableMap.MutableEntry<Any?, Any?>>? = null
     ) {
@@ -160,7 +168,7 @@ open class SuspendableWebClient(private val webClient: WebClient) {
                     }
                     webClientResult
                 }
-            rpcLogger.debug(eventSignature, phase("FINISHED"))
+            rpcLogger.debug(eventSignature, statusCode(webClientResult.statusCode.value()), phase("FINISHED"))
         } catch (e: WebClientResponseException) {
             // Don't log twice
             throw e

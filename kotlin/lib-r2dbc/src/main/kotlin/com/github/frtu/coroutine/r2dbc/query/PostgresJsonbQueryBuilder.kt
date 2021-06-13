@@ -12,22 +12,22 @@ import org.springframework.data.relational.core.query.Query
  * @author Frédéric TU
  * @since 1.1.1
  */
-class PostgresJsonbQueryBuilder<T : Any>(
+class PostgresJsonbQueryBuilder(
     private val skipKeys: Set<String> = setOf(),
     private val idColumnName: String = "id",
     private val jsonbColumnName: String = "data"
-) : IPostgresJsonbQueryBuilder<T> {
+) : IPostgresJsonbQueryBuilder {
     private val LOGGER: Logger = LoggerFactory.getLogger(PostgresJsonbQueryBuilder::class.java)
 
-    override fun id(id: T): Query = Query.query(Criteria.where(idColumnName).`is`(id))
+    override fun <T : Any> id(id: T): Query = Query.query(Criteria.where(idColumnName).`is`(id))
         .apply { LOGGER.debug("""{"query_type":"id", "${idColumnName}":"${id}"""") }
 
-    override fun query(criteriaMap: Map<String, String>, pageable: Pageable?): Query {
+    override fun query(criteriaMap: Map<String?, String?>, pageable: Pageable?): Query {
         val criteria = criteria(criteriaMap)
         return query(criteria, pageable)
     }
 
-    override fun query(criteriaMap: Map<String, String>, offset: Long?, limit: Int?): Query {
+    override fun query(criteriaMap: Map<String?, String?>, offset: Long?, limit: Int?): Query {
         val criteria = criteria(criteriaMap)
         return query(criteria, offset, limit)
     }
@@ -49,12 +49,12 @@ class PostgresJsonbQueryBuilder<T : Any>(
         return query
     }
 
-    override fun criteria(criteriaMap: Map<String, String>): Criteria {
+    override fun criteria(criteriaMap: Map<String?, String?>): Criteria {
         val criteriaIterator = criteriaMap
             // skip empty key or value
             .filter { it.key != null && it.value != null }
             .filter { !skipKeys.contains(it.key) }
-            .map { Criteria.where("${jsonbColumnName}->>'${it.key}'").`is`(it.value) }
+            .map { Criteria.where("${jsonbColumnName}->>'${it.key}'").`is`(it.value!!) }
             .asSequence().iterator()
 
         // Build fluent CriteriaDefinition

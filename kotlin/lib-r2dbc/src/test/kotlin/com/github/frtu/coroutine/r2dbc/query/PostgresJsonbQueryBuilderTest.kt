@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test
 import org.slf4j.LoggerFactory
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.relational.core.query.Criteria
-import java.util.*
 
 internal class PostgresJsonbQueryBuilderTest {
     private val LOGGER = LoggerFactory.getLogger(PostgresJsonbQueryBuilderTest::class.java)
@@ -44,7 +43,7 @@ internal class PostgresJsonbQueryBuilderTest {
         assertThat(criteria2.value).isEqualTo("value2")
     }
 
-    private fun postgresJsonbQueryBuilder(): PostgresJsonbQueryBuilder<UUID> {
-        return PostgresJsonbQueryBuilder<UUID>()
+    private fun postgresJsonbQueryBuilder(): PostgresJsonbQueryBuilder {
+        return PostgresJsonbQueryBuilder()
     }
 }
