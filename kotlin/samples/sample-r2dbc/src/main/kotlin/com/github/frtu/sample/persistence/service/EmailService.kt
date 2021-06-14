@@ -1,7 +1,7 @@
-package com.github.frtu.persistence.service
+package com.github.frtu.sample.persistence.service
 
-import com.github.frtu.persistence.r2dbc.Email
-import com.github.frtu.persistence.r2dbc.entitytemplate.IEmailRepository
+import com.github.frtu.sample.persistence.r2dbc.Email
+import com.github.frtu.sample.persistence.r2dbc.entitytemplate.IEmailRepository
 import kotlinx.coroutines.flow.Flow
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service

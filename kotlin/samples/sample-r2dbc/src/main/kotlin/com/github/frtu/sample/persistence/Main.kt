@@ -1,8 +1,8 @@
-package com.github.frtu.persistence
+package com.github.frtu.sample.persistence
 
-import com.github.frtu.persistence.r2dbc.Email
-import com.github.frtu.persistence.r2dbc.repository.IEmailRepository
 import com.github.frtu.persistence.r2dbc.R2dbcConfiguration
+import com.github.frtu.sample.persistence.r2dbc.Email
+import com.github.frtu.sample.persistence.r2dbc.repository.IEmailRepository
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
 import org.slf4j.LoggerFactory
@@ -30,5 +30,4 @@ fun main() {
         repository.save(entity)
         LOGGER.debug(repository.findAll().toList(mutableListOf()).toString())
     }
-
 }

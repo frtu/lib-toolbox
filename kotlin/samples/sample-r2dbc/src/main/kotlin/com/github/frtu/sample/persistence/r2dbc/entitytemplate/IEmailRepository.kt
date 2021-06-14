@@ -1,6 +1,6 @@
-package com.github.frtu.persistence.r2dbc.entitytemplate
+package com.github.frtu.sample.persistence.r2dbc.entitytemplate
 
-import com.github.frtu.persistence.r2dbc.Email
+import com.github.frtu.sample.persistence.r2dbc.Email
 import kotlinx.coroutines.flow.Flow
 import org.springframework.data.domain.Pageable
 

@@ -1,11 +1,11 @@
-package com.github.frtu.persistence
+package com.github.frtu.sample.persistence
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.github.frtu.persistence.r2dbc.Email
 import com.github.frtu.persistence.r2dbc.R2dbcConfiguration
-import com.github.frtu.persistence.r2dbc.STATUS
+import com.github.frtu.sample.persistence.r2dbc.Email
+import com.github.frtu.sample.persistence.r2dbc.STATUS
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
 import org.springframework.boot.CommandLineRunner

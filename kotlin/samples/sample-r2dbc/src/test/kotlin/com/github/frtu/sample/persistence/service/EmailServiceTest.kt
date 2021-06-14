@@ -1,27 +1,21 @@
-package com.github.frtu.persistence.service
+package com.github.frtu.sample.persistence.service
 
-import com.github.frtu.persistence.r2dbc.Email
-import com.github.frtu.persistence.r2dbc.entitytemplate.EmailRepository
-import com.github.frtu.persistence.r2dbc.entitytemplate.IEmailRepository
+import com.github.frtu.sample.persistence.r2dbc.Email
+import com.github.frtu.sample.persistence.r2dbc.entitytemplate.IEmailRepository
 import io.mockk.coEvery
 import io.mockk.coVerify
-import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.junit5.MockKExtension
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.reactive.asFlow
 import kotlinx.coroutines.runBlocking
 import org.assertj.core.api.Assertions
-import org.junit.jupiter.api.Test
-
-import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.DisplayName
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import org.springframework.data.r2dbc.core.R2dbcEntityTemplate
 import reactor.core.publisher.Flux
-import reactor.core.publisher.Mono
 
 @DisplayName("Test for EmailService")
 @ExtendWith(MockKExtension::class)

@@ -1,7 +1,7 @@
-package com.github.frtu.persistence.r2dbc.entitytemplate
+package com.github.frtu.sample.persistence.r2dbc.entitytemplate
 
 import com.github.frtu.persistence.exception.DataNotExist
-import com.github.frtu.persistence.r2dbc.Email
+import com.github.frtu.sample.persistence.r2dbc.Email
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.junit5.MockKExtension
