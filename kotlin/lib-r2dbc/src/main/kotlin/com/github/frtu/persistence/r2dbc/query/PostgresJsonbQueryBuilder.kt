@@ -1,4 +1,4 @@
-package com.github.frtu.coroutine.r2dbc.query
+package com.github.frtu.persistence.r2dbc.query
 
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory

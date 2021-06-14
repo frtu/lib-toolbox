@@ -5,7 +5,7 @@ sample-r2dbcbuild() {
 }
 echo "-> Run bash individually - Type 'sample-r2dbcrun' to run the executable"
 sample-r2dbcrun() {
-  echo "Running executable > java -jar target/persistence-r2dbc-1.1.1-SNAPSHOT.jar"
+  echo "Running executable > java -jar target/sample-r2dbc-1.1.1-SNAPSHOT.jar"
   java -jar target/sample-r2dbc-1.1.1-SNAPSHOT.jar
 }
 

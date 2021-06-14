@@ -1,9 +1,9 @@
 package com.github.frtu.persistence.r2dbc.entitytemplate
 
-import com.github.frtu.coroutine.r2dbc.query.IPostgresJsonbQueryBuilder
-import com.github.frtu.coroutine.r2dbc.query.PostgresJsonbQueryBuilder
 import com.github.frtu.persistence.exception.DataNotExist
 import com.github.frtu.persistence.r2dbc.Email
+import com.github.frtu.persistence.r2dbc.query.IPostgresJsonbQueryBuilder
+import com.github.frtu.persistence.r2dbc.query.PostgresJsonbQueryBuilder
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.reactive.asFlow
 import kotlinx.coroutines.reactive.awaitFirstOrNull
