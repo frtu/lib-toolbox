@@ -1,6 +1,6 @@
 package com.github.frtu.sample.persistence
 
-import com.github.frtu.persistence.r2dbc.R2dbcConfiguration
+import com.github.frtu.persistence.r2dbc.config.PostgresR2dbcConfiguration
 import com.github.frtu.sample.persistence.r2dbc.Email
 import com.github.frtu.sample.persistence.r2dbc.repository.IEmailRepository
 import kotlinx.coroutines.flow.toList
@@ -12,7 +12,7 @@ import org.springframework.context.annotation.*
 @Configuration
 @ComponentScan
 @PropertySource("classpath:application.properties")
-@Import(R2dbcConfiguration::class)
+@Import(PostgresR2dbcConfiguration::class)
 @SpringBootApplication
 class AppConfig
 

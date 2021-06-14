@@ -1,9 +1,9 @@
 package com.github.frtu.sample.persistence
 
+import com.github.frtu.persistence.r2dbc.config.PostgresR2dbcConfiguration
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.github.frtu.persistence.r2dbc.R2dbcConfiguration
 import com.github.frtu.sample.persistence.r2dbc.Email
 import com.github.frtu.sample.persistence.r2dbc.STATUS
 import kotlinx.coroutines.flow.toList
@@ -25,7 +25,7 @@ import org.springframework.data.r2dbc.connectionfactory.init.ResourceDatabasePop
 import java.util.*
 
 @Configuration
-@Import(R2dbcConfiguration::class)
+@Import(PostgresR2dbcConfiguration::class)
 class RepositoryPopulatorConfig {
     @Bean
     fun initDatabase(repository: CoroutineCrudRepository<Email, UUID>): CommandLineRunner {
