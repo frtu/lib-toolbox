@@ -15,6 +15,7 @@
     <modules>
         <module>lib-webclient</module>
         <module>lib-r2dbc</module>
+        <module>lib-utils</module>
     </modules>
 
     <properties>
