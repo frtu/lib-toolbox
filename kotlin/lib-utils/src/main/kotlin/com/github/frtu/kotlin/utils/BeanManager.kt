@@ -19,9 +19,25 @@ class BeanManager {
     /**
      * Allow to easily deserialize an object using a class and a JSON file location.
      */
-    fun <T> fileToBean(clazz: Class<T>, location: String): T? {
+    fun <T> toBean(clazz: Class<T>, location: String): T? {
         logger.debug("Deserialize class:${clazz} from location:${location}")
         val resource = resourceLoader.getResource(location)
         return mapper.readValue(resource.file, clazz)
     }
+
+    /**
+     * Smart cast from Java
+     */
+    fun <T> toStringOrNull(map: Map<T, Any?>, key: T): String? {
+        val result = toStringOrNull(map[key])
+        logger.debug("Fetch key:${key} with result:${result}")
+        return result
+    }
+
+    fun toStringOrNull(item: Any?): String? =
+        if (item is String?) {
+            item
+        } else {
+            null
+        }
 }
