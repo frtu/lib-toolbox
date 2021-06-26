@@ -10,7 +10,7 @@ import org.springframework.core.io.DefaultResourceLoader
  * @author Frédéric TU
  * @since 1.1.1
  */
-class ResourceManager {
+class BeanManager {
     private val logger = LoggerFactory.getLogger(this::class.java)
 
     private val resourceLoader = DefaultResourceLoader()
@@ -19,7 +19,7 @@ class ResourceManager {
     /**
      * Allow to easily deserialize an object using a class and a JSON file location.
      */
-    fun <T> createFromFile(clazz: Class<T>, location: String): T? {
+    fun <T> fileToBean(clazz: Class<T>, location: String): T? {
         logger.debug("Deserialize class:${clazz} from location:${location}")
         val resource = resourceLoader.getResource(location)
         return mapper.readValue(resource.file, clazz)
