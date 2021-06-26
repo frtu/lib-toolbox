@@ -22,7 +22,8 @@
         <kotlin.compiler.incremental>true</kotlin.compiler.incremental>
         <r2dbc.version>Arabba-SR9</r2dbc.version> <!-- 2021-02-25 -->
         <!--===========================-->
-        <base-pom.version>1.1.6</base-pom.version>
+        <frtu.logger.version>1.1.2</frtu.logger.version>
+        <base-pom.version>1.2.0</base-pom.version>
     </properties>
 
     <dependencies>
@@ -186,6 +187,14 @@
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>com.github.frtu.logs</groupId>
+                <artifactId>logger-bom</artifactId>
+                <version>${frtu.logger.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
             <!--ONLY NEEDED IF YOU WANT TO OVERRIDE SPRING DEPENDENCIES MGMT.-->
             <!--<dependency>-->
             <!--    <groupId>io.r2dbc</groupId>-->
