@@ -18,15 +18,27 @@ internal class BeanManagerTest {
     }
 
     @Test
-    fun `Testing beanManager toStringOrNull if type is String`() {
+    fun `Testing beanManager MAP toStringOrNull if type is String`() {
         val map = mapOf<String, Any>("name" to "bean_name", "age" to 18)
         assertThat(beanManager.toStringOrNull(map,"name")).isEqualTo("bean_name")
     }
 
     @Test
-    fun `Testing beanManager toStringOrNull if type is other`() {
+    fun `Testing beanManager MAP toStringOrNull if type is other`() {
         val map = mapOf<String, Any>("name" to "bean_name", "age" to 18)
         assertThat(beanManager.toStringOrNull(map, "age")).isNull()
+    }
+
+    @Test
+    fun `Testing beanManager LIST toStringOrNull if type is String`() {
+        val list = listOf<Any>("bean_name", 18)
+        assertThat(beanManager.toStringOrNull(list,0)).isEqualTo("bean_name")
+    }
+
+    @Test
+    fun `Testing beanManager LIST toStringOrNull if type is other`() {
+        val list = listOf<Any>("bean_name", 18)
+        assertThat(beanManager.toStringOrNull(list,1)).isNull()
     }
 
     private val logger = LoggerFactory.getLogger(this::class.java)
