@@ -1,7 +1,7 @@
-package com.github.frtu.sample.persistence.r2dbc.entitytemplate
+package com.github.frtu.sample.persistence.r2dbc.json.entitytemplate
 
 import com.github.frtu.persistence.exception.DataNotExist
-import com.github.frtu.sample.persistence.r2dbc.Email
+import com.github.frtu.sample.persistence.r2dbc.basic.Email
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.junit5.MockKExtension
@@ -17,10 +17,11 @@ import org.slf4j.LoggerFactory
 import org.springframework.data.r2dbc.core.R2dbcEntityTemplate
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
+import java.util.*
 
 @DisplayName("Test for EmailRepository")
 @ExtendWith(MockKExtension::class)
-internal class EmailRepositoryTest {
+internal class EmailJsonRepositoryTest {
     @MockK
     lateinit var template: R2dbcEntityTemplate
 
@@ -35,10 +36,10 @@ internal class EmailRepositoryTest {
         } returns Mono.just(givenEmail1)
 
         // Execution
-        val repository = EmailRepository(template)
+        val repository = EmailJsonRepository(template)
         runBlocking {
             // Execute
-            val result = repository.findById(1)
+            val result = repository.findById(UUID.randomUUID())
             LOGGER.debug("Test result: ${result}")
 
             // Validate
@@ -54,11 +55,11 @@ internal class EmailRepositoryTest {
         } returns Mono.empty()
 
         // Execution
-        val repository = EmailRepository(template)
+        val repository = EmailJsonRepository(template)
         runBlocking {
             // Execute & Validate
             assertThrows<DataNotExist> {
-                repository.findById(99999)
+                repository.findById(UUID.randomUUID())
             }
         }
     }
@@ -71,7 +72,7 @@ internal class EmailRepositoryTest {
         } returns Flux.just(givenEmail1, givenEmail2)
 
         // Execution
-        val repository = EmailRepository(template)
+        val repository = EmailJsonRepository(template)
         runBlocking {
             // Execute flow to list
             val result = repository.findAll().toList(mutableListOf())
@@ -92,7 +93,7 @@ internal class EmailRepositoryTest {
         } returns Flux.just(givenEmail1, givenEmail2)
 
         // Execution
-        val repository = EmailRepository(template)
+        val repository = EmailJsonRepository(template)
         runBlocking {
             // Execute flow to list
             val result = repository.findAll(mutableMapOf()).toList(mutableListOf())
@@ -105,5 +106,5 @@ internal class EmailRepositoryTest {
         }
     }
 
-    private val LOGGER: Logger = LoggerFactory.getLogger(EmailRepositoryTest::class.java)
+    private val LOGGER: Logger = LoggerFactory.getLogger(EmailJsonRepositoryTest::class.java)
 }

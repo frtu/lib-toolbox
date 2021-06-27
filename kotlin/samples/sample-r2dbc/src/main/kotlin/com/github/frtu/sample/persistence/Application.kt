@@ -1,8 +1,8 @@
 package com.github.frtu.sample.persistence
 
-import com.github.frtu.persistence.r2dbc.config.PostgresR2dbcConfiguration
-import com.github.frtu.sample.persistence.r2dbc.basic.Email
-import com.github.frtu.sample.persistence.r2dbc.basic.IEmailRepository
+import com.github.frtu.persistence.r2dbc.config.PostgresJsonR2dbcConfiguration
+import com.github.frtu.sample.persistence.r2dbc.json.EmailJsonDetail
+import com.github.frtu.sample.persistence.r2dbc.json.entitytemplate.EmailJsonRepository
 import io.r2dbc.spi.ConnectionFactory
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
@@ -18,7 +18,7 @@ import org.springframework.r2dbc.connection.init.ConnectionFactoryInitializer
 import org.springframework.r2dbc.connection.init.ResourceDatabasePopulator
 
 @SpringBootApplication
-@Import(PostgresR2dbcConfiguration::class)
+@Import(PostgresJsonR2dbcConfiguration::class)
 class Application {
     @Bean
     fun initializer(connectionFactory: ConnectionFactory): ConnectionFactoryInitializer {
@@ -26,14 +26,15 @@ class Application {
         initializer.setConnectionFactory(connectionFactory)
         val populator = CompositeDatabasePopulator()
         populator.addPopulators(ResourceDatabasePopulator(ClassPathResource("./db/migration/V0_1_0__h2-table-email.sql")))
+        populator.addPopulators(ResourceDatabasePopulator(ClassPathResource("db/migration/V0_1_1__postgres-table-email.sql")))
         initializer.setDatabasePopulator(populator)
         return initializer
     }
 
     @Bean
-    fun initDatabase(repository: IEmailRepository): CommandLineRunner {
+    fun initDatabase(repository: EmailJsonRepository): CommandLineRunner {
         return CommandLineRunner {
-            val entity = Email(
+            val entity = EmailJsonDetail(
                 "rndfred@gmail.com", "Mail subject",
                 "Lorem ipsum dolor sit amet.", "SENT"
             )

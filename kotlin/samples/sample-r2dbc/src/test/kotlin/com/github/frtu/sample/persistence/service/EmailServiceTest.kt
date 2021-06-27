@@ -1,7 +1,8 @@
 package com.github.frtu.sample.persistence.service
 
-import com.github.frtu.sample.persistence.r2dbc.Email
-import com.github.frtu.sample.persistence.r2dbc.entitytemplate.IEmailRepository
+import com.github.frtu.sample.persistence.r2dbc.json.EmailJson
+import com.github.frtu.sample.persistence.r2dbc.json.EmailJsonDetail
+import com.github.frtu.sample.persistence.r2dbc.json.entitytemplate.IEmailRepository
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
@@ -13,39 +14,39 @@ import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
-import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import reactor.core.publisher.Flux
+import java.util.*
 
 @DisplayName("Test for EmailService")
 @ExtendWith(MockKExtension::class)
 internal class EmailServiceTest {
     @MockK
-    lateinit var emailRepository: IEmailRepository
+    lateinit var emailJsonRepository: IEmailJsonRepository
 
-    private val givenEmail1 = Email("rndfred@gmail.com", "Mail subject", "Lorem ipsum dolor sit amet.", "INIT", 1)
-    private val givenEmail2 = Email("rndfred@hotmail.com", "Mail subject", "Lorem ipsum dolor sit amet.", "SENT", 2)
+    private val givenEmail1 = EmailJson(EmailJsonDetail("rndfred@gmail.com", "Mail subject", "Lorem ipsum dolor sit amet.", "INIT"))
+    private val givenEmail2 = EmailJson(EmailJsonDetail("rndfred@hotmail.com", "Mail subject", "Lorem ipsum dolor sit amet.", "SENT"))
 
     @Test
     fun findById() {
         // Fixture & mock
         coEvery {
-            emailRepository.findById(any())
+            emailJsonRepository.findById(any())
         } returns givenEmail1
 
         // Execution
-        val service = EmailService(emailRepository)
+        val service = EmailService(emailJsonRepository)
         runBlocking {
             // Execute
-            val result = service.findById(1)
-            LOGGER.debug("Test result: ${result}")
+            val result = service.findById(UUID.randomUUID())
+            logger.debug("Test result: ${result}")
 
             // Validate
             Assertions.assertThat(result).isEqualTo(givenEmail1)
         }
 
         coVerify {
-            emailRepository.findById(any())
+            emailJsonRepository.findById(any())
         }
     }
 
@@ -53,15 +54,15 @@ internal class EmailServiceTest {
     fun searchByQueryParams() {
         // Fixture & mock
         coEvery {
-            emailRepository.findAll(any())
+            emailJsonRepository.findAll(any())
         } returns Flux.just(givenEmail1, givenEmail2).asFlow()
 
         // Execution
-        val service = EmailService(emailRepository)
+        val service = EmailService(emailJsonRepository)
         runBlocking {
             // Execute
             val result = service.searchByQueryParams(mutableMapOf()).toList(mutableListOf())
-            LOGGER.debug("Test result: ${result}")
+            logger.debug("Test result: ${result}")
 
             // Validate
             Assertions.assertThat(result).isNotNull()
@@ -70,9 +71,9 @@ internal class EmailServiceTest {
         }
 
         coVerify {
-            emailRepository.findAll(any())
+            emailJsonRepository.findAll(any())
         }
     }
 
-    private val LOGGER: Logger = LoggerFactory.getLogger(EmailServiceTest::class.java)
+    private val logger = LoggerFactory.getLogger(EmailServiceTest::class.java)
 }
