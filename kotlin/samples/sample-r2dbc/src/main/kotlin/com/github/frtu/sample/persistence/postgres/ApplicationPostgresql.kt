@@ -18,16 +18,15 @@ import org.springframework.r2dbc.connection.init.CompositeDatabasePopulator
 import org.springframework.r2dbc.connection.init.ConnectionFactoryInitializer
 import org.springframework.r2dbc.connection.init.ResourceDatabasePopulator
 
-@SpringBootApplication
-@ComponentScan("com.github.frtu.sample.persistence.r2dbc")
 @Import(PostgresJsonR2dbcConfiguration::class)
+@ComponentScan("com.github.frtu.sample.persistence.r2dbc")
+@SpringBootApplication
 class ApplicationPostgresql {
     @Bean
     fun initializer(connectionFactory: ConnectionFactory): ConnectionFactoryInitializer {
         val initializer = ConnectionFactoryInitializer()
         initializer.setConnectionFactory(connectionFactory)
         val populator = CompositeDatabasePopulator()
-//        populator.addPopulators(ResourceDatabasePopulator(ClassPathResource("./db/migration/V0_1_0__h2-table-email.sql")))
         populator.addPopulators(ResourceDatabasePopulator(ClassPathResource("db/migration/V0_1_1__postgres-table-email.sql")))
         initializer.setDatabasePopulator(populator)
         return initializer
