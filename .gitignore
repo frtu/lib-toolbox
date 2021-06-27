@@ -97,3 +97,4 @@ pip-log.txt
 # Unit test / coverage reports
 .coverage
 .tox
+kotlin/samples/sample-r2dbc/docker/db/data

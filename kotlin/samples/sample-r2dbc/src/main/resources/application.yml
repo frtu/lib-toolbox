@@ -1,0 +1,51 @@
+# ======================================
+# TOPOLOGY and EXTERNAL DEPENDENCIES
+# ======================================
+application:
+  name: sample-r2dbc
+  persistence:
+    host: localhost
+    port: 5432
+    database: sample
+    username: user_admin
+    password: pass
+    url: r2dbc:postgresql://${application.persistence.host}:${application.persistence.port}/${application.persistence.database}
+
+# ======================================
+# Spring Boot
+# ======================================
+spring:
+  application:
+    name: ${application.name}
+
+  main:
+    # SERVLET | REACTIVE | NONE
+    web-application-type: ${RUNTIME_MODE:REACTIVE}
+
+  r2dbc:
+    url: ${application.persistence.url}
+    username: ${application.persistence.username}
+    password: ${application.persistence.password}
+    initialization-mode: always
+
+logging:
+  level:
+    org.springframework.data.r2dbc: ${LOG_LEVEL_DB_SQL:DEBUG}
+    org.springframework.transaction: ${LOG_LEVEL_DB_TXN:TRACE}
+
+# ======================================
+# Management
+# ======================================
+server:
+  port: 8080
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - prometheus
+          - info
+info:
+  app:
+    name: ${application.name}

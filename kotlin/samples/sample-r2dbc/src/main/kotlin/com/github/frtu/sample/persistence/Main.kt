@@ -9,11 +9,6 @@ import org.slf4j.LoggerFactory
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.context.annotation.*
 
-@Configuration
-@ComponentScan
-@PropertySource("classpath:application.properties")
-@Import(PostgresR2dbcConfiguration::class)
-@SpringBootApplication
 class AppConfig
 
 fun main() {

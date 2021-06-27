@@ -15,6 +15,8 @@
     </Appenders>
     <Loggers>
         <Logger name="com" level="trace"/>
+        <Logger name="com.github.frtu" level="debug" includeLocation="true" additivity="true"/>
+
         <Root level="INFO">
             <AppenderRef ref="Console"/>
         </Root>

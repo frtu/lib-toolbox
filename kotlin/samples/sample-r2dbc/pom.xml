@@ -20,10 +20,11 @@
         <kotlin.test.version>3.4.2</kotlin.test.version>
         <!--CHECK FOR COMPILER PROPS : https://kotlinlang.org/docs/reference/using-maven.html#attributes-common-for-jvm-and-js-->
         <kotlin.compiler.incremental>true</kotlin.compiler.incremental>
-        <r2dbc.version>Arabba-SR9</r2dbc.version> <!-- 2021-02-25 -->
         <!--===========================-->
         <frtu.logger.version>1.1.2</frtu.logger.version>
         <base-pom.version>1.2.0</base-pom.version>
+        <!--===========================-->
+        <r2dbc.version>Arabba-SR9</r2dbc.version> <!-- 2021-02-25 -->
     </properties>
 
     <dependencies>
@@ -72,15 +73,15 @@
         </dependency>
         <dependency>
             <groupId>io.r2dbc</groupId>
+            <artifactId>r2dbc-postgresql</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.r2dbc</groupId>
             <artifactId>r2dbc-h2</artifactId>
         </dependency>
         <dependency>
             <groupId>dev.miku</groupId>
             <artifactId>r2dbc-mysql</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.r2dbc</groupId>
-            <artifactId>r2dbc-postgresql</artifactId>
         </dependency>
 
         <!--===========================-->
@@ -114,10 +115,11 @@
             <artifactId>assertj-core</artifactId>
             <scope>test</scope>
         </dependency>
+
+        <!-- Application tests libs-->
         <dependency>
-            <groupId>org.jetbrains.kotlin</groupId>
-            <artifactId>kotlin-test</artifactId>
-            <version>${kotlin.version}</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -187,6 +189,25 @@
 
     <dependencyManagement>
         <dependencies>
+            <!-- https://kotlinlang.org/docs/reference/using-maven.html -->
+            <dependency>
+                <groupId>org.jetbrains.kotlin</groupId>
+                <artifactId>kotlin-bom</artifactId>
+                <version>${kotlin.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!-- https://kotlinlang.org/docs/tutorials/coroutines/async-programming.html -->
+            <dependency>
+                <groupId>org.jetbrains.kotlinx</groupId>
+                <artifactId>kotlinx-coroutines-bom</artifactId>
+                <version>${kotlinx.coroutines.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!--===========================-->
+            <!-- Platform -->
+            <!--===========================-->
             <dependency>
                 <groupId>com.github.frtu.logs</groupId>
                 <artifactId>logger-bom</artifactId>
