@@ -1,4 +1,4 @@
-package com.github.frtu.sample.persistence.r2dbc
+package com.github.frtu.sample.persistence.r2dbc.basic
 
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.Id

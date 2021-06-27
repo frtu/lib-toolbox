@@ -21,14 +21,12 @@ import org.springframework.r2dbc.connection.init.ResourceDatabasePopulator
 @SpringBootApplication
 @Import(PostgresR2dbcConfiguration::class)
 class Application {
-    internal val logger = LoggerFactory.getLogger(this::class.java)
-
     @Bean
     fun initializer(connectionFactory: ConnectionFactory): ConnectionFactoryInitializer {
         val initializer = ConnectionFactoryInitializer()
         initializer.setConnectionFactory(connectionFactory)
         val populator = CompositeDatabasePopulator()
-        populator.addPopulators(ResourceDatabasePopulator(ClassPathResource("./db/migration/V0_1_0__table-email.sql")))
+        populator.addPopulators(ResourceDatabasePopulator(ClassPathResource("./db/migration/V0_1_0__h2-table-email.sql")))
         initializer.setDatabasePopulator(populator)
         return initializer
     }
@@ -46,6 +44,8 @@ class Application {
             }
         }
     }
+
+    internal val logger = LoggerFactory.getLogger(this::class.java)
 }
 
 fun main(args: Array<String>) {

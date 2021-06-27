@@ -1,6 +1,5 @@
-package com.github.frtu.sample.persistence.r2dbc.repository
+package com.github.frtu.sample.persistence.r2dbc.basic
 
-import com.github.frtu.sample.persistence.r2dbc.Email
 import org.springframework.data.repository.kotlin.CoroutineCrudRepository
 import org.springframework.stereotype.Repository
 import java.util.*
