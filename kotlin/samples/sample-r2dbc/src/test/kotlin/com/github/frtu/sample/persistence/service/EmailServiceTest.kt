@@ -2,7 +2,7 @@ package com.github.frtu.sample.persistence.service
 
 import com.github.frtu.sample.persistence.r2dbc.json.EmailJson
 import com.github.frtu.sample.persistence.r2dbc.json.EmailJsonDetail
-import com.github.frtu.sample.persistence.r2dbc.json.entitytemplate.IEmailRepository
+import com.github.frtu.sample.persistence.r2dbc.json.entitytemplate.IEmailJsonRepository
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK

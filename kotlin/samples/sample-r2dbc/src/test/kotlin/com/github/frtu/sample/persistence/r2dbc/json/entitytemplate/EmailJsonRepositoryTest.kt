@@ -1,7 +1,8 @@
 package com.github.frtu.sample.persistence.r2dbc.json.entitytemplate
 
 import com.github.frtu.persistence.exception.DataNotExist
-import com.github.frtu.sample.persistence.r2dbc.basic.Email
+import com.github.frtu.sample.persistence.r2dbc.json.EmailJson
+import com.github.frtu.sample.persistence.r2dbc.json.EmailJsonDetail
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.junit5.MockKExtension
@@ -25,14 +26,14 @@ internal class EmailJsonRepositoryTest {
     @MockK
     lateinit var template: R2dbcEntityTemplate
 
-    private val givenEmail1 = Email("rndfred@gmail.com", "Mail subject", "Lorem ipsum dolor sit amet.", "INIT", 1)
-    private val givenEmail2 = Email("rndfred@hotmail.com", "Mail subject", "Lorem ipsum dolor sit amet.", "SENT", 2)
+    private val givenEmail1 = EmailJson(EmailJsonDetail("rndfred@gmail.com", "Mail subject", "Lorem ipsum dolor sit amet.", "INIT"))
+    private val givenEmail2 = EmailJson(EmailJsonDetail("rndfred@hotmail.com", "Mail subject", "Lorem ipsum dolor sit amet.", "SENT"))
 
     @Test
     fun `Test basic findById`() {
         // Fixture & mock
         every {
-            template.selectOne(any(), Email::class.java)
+            template.selectOne(any(), EmailJson::class.java)
         } returns Mono.just(givenEmail1)
 
         // Execution
@@ -51,7 +52,7 @@ internal class EmailJsonRepositoryTest {
     fun `Test non existing findById raise exception`() {
         // Fixture & mock
         every {
-            template.selectOne(any(), Email::class.java)
+            template.selectOne(any(), EmailJson::class.java)
         } returns Mono.empty()
 
         // Execution
@@ -68,7 +69,7 @@ internal class EmailJsonRepositoryTest {
     fun `Test basic findAll`() {
         // Fixture & mock
         every {
-            template.select(Email::class.java).all()
+            template.select(EmailJson::class.java).all()
         } returns Flux.just(givenEmail1, givenEmail2)
 
         // Execution
@@ -89,7 +90,7 @@ internal class EmailJsonRepositoryTest {
     fun `Test findAll with searchParams`() {
         // Fixture & mock
         every {
-            template.select(Email::class.java).matching(any()).all()
+            template.select(EmailJson::class.java).matching(any()).all()
         } returns Flux.just(givenEmail1, givenEmail2)
 
         // Execution
@@ -106,5 +107,5 @@ internal class EmailJsonRepositoryTest {
         }
     }
 
-    private val LOGGER: Logger = LoggerFactory.getLogger(EmailJsonRepositoryTest::class.java)
+    private val LOGGER = LoggerFactory.getLogger(EmailJsonRepositoryTest::class.java)
 }
