@@ -12,7 +12,8 @@ data class PersistenceProperties(
     val port: Int,
     val database: String,
     val username: String,
-    val password: String
+    val password: String,
+    val driver: String?
 ) {
     companion object {
         const val PROPERTIES_PREFIX = "application.persistence"
