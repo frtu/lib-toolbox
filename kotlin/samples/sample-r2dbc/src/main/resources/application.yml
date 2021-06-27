@@ -9,7 +9,8 @@ application:
     database: sample
     username: user_admin
     password: pass
-    url: r2dbc:postgresql://${application.persistence.host}:${application.persistence.port}/${application.persistence.database}
+#    url: r2dbc:postgresql://${application.persistence.host}:${application.persistence.port}/${application.persistence.database}
+    url: r2dbc:h2:mem:///test?options=DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
 
 # ======================================
 # Spring Boot
