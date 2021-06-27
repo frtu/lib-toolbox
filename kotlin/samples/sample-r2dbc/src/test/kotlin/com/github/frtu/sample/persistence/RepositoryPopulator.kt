@@ -1,11 +1,11 @@
 package com.github.frtu.sample.persistence
 
 import com.github.frtu.persistence.r2dbc.config.PostgresR2dbcConfiguration
+import com.github.frtu.sample.persistence.r2dbc.basic.Email
+import com.github.frtu.sample.persistence.r2dbc.basic.STATUS
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.github.frtu.sample.persistence.r2dbc.Email
-import com.github.frtu.sample.persistence.r2dbc.STATUS
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
 import org.springframework.boot.CommandLineRunner

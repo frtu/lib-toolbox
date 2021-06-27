@@ -1,15 +1,14 @@
 package com.github.frtu.sample.persistence
 
 import com.github.frtu.persistence.r2dbc.config.PostgresR2dbcConfiguration
-import com.github.frtu.sample.persistence.r2dbc.Email
-import com.github.frtu.sample.persistence.r2dbc.repository.IEmailRepository
+import com.github.frtu.sample.persistence.r2dbc.basic.Email
+import com.github.frtu.sample.persistence.r2dbc.basic.IEmailRepository
 import io.r2dbc.spi.ConnectionFactory
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
 import org.slf4j.LoggerFactory
 import org.springframework.boot.CommandLineRunner
 import org.springframework.boot.autoconfigure.SpringBootApplication
-import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.boot.runApplication
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Import
