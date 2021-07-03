@@ -1,0 +1,10 @@
+{
+  "type": "record",
+  "name": "DummyBeanData",
+  "namespace": "com.github.frtu.serdes.avro",
+  "doc": "Random simple POJO object",
+  "fields": [
+    { "name" : "name" , "type" : "string", "doc": "Name of the sample object" },
+    { "name" : "value" , "type" : "string", "doc": "Value of the sample object" }
+  ]
+}
