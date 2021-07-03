@@ -30,6 +30,15 @@
         <base-pom.version>1.2.0</base-pom.version>
     </properties>
 
+    <dependencies>
+        <dependency>
+            <groupId>javax.annotation</groupId>
+            <artifactId>javax.annotation-api</artifactId>
+            <version>1.3.2</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+
     <licenses>
         <license>
             <name>The Apache Software License, Version 2.0</name>
