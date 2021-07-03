@@ -12,6 +12,7 @@
     <packaging>pom</packaging>
 
     <modules>
+        <module>lib-dot</module>
         <module>lib-mail</module>
     </modules>
 

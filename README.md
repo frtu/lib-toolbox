@@ -5,6 +5,7 @@ Library toolbox to provide specific capabilities
 
 All libraries for [java](java)
 
+* [lib-dot](java/lib-dot) : lib to generate dot files
 * [lib-mail](java/lib-mail) : lib to send email using SMTP
 
 ## Kotlin libs
