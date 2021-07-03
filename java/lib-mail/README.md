@@ -46,6 +46,10 @@ java -cp "/Users/fred/git/platform/lib-toolbox-frtu/lib-mail/src/test/resources:
 
 ## Release notes
 
-### 1.1.0-SNAPSHOT - Current version
+### 1.1.0 - Send email & attachement using command line
 
-* Sending SMTP mail thru command line and java API
+Sending SMTP mail thru command line and java API :
+
+* API : Provide a fluent API to send email (see docs)
+* Cmd line : send email with HTML content
+* Cmd line : send email with Attachments

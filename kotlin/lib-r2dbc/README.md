@@ -62,3 +62,10 @@ interface IEmailRepository : CoroutineCrudRepository<Email, UUID> {
 ```
 
 Also import class from https://github.com/frtu/sample-code/tree/master/persistence-r2dbc/src/main/kotlin/com/github/frtu/persistence/r2dbc/query
+
+
+## Release notes
+
+### 1.1.1
+
+* spring data R2DBC for coroutine
