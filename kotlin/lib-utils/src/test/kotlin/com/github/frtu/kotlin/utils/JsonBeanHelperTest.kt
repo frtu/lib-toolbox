@@ -10,10 +10,13 @@ internal class JsonBeanHelperTest {
     @Test
     fun `Testing beanManager toBean`() {
         val dummyBean = beanManager.toBean(DummyBean::class.java, "classpath:dummy-bean.json")!!
+        //--------------------------------------
+        // Validate
+        //--------------------------------------
         logger.debug("Found bean:${dummyBean}")
         assertThat(dummyBean.name).isEqualTo("bean_name")
         assertThat(dummyBean.value).isEqualTo("bean_value")
     }
 
-    internal val logger = LoggerFactory.getLogger(this::class.java)
+    private val logger = LoggerFactory.getLogger(this::class.java)
 }

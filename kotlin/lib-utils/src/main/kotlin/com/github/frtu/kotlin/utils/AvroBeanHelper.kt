@@ -19,9 +19,9 @@ class AvroBeanHelper<T>(
     /**
      * ONLY when full parameters has been passed during constructor call.
      */
-    fun fileToBean(location: String): T? = fileToBean(this.schema!!, this.clazz!!, location)
+    fun jsonFileToBean(location: String): T? = jsonFileToBean(this.schema!!, this.clazz!!, location)
 
-    fun <T> fileToBean(schema: Schema, clazz: Class<T>, location: String): T? {
+    fun <T> jsonFileToBean(schema: Schema, clazz: Class<T>, location: String): T? {
         logger.debug("Deserialize class:${clazz} from location:${location}")
         val text = readFromFile(location)
         text?.let {
