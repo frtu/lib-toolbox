@@ -13,6 +13,10 @@ All libraries for Kotlin
 Import using :
 
 ```XML
+<properties>
+  <frtu-libs.version>LATEST_VERSION</frtu-libs.version>
+</properties>
+
 <dependency>
   <groupId>com.github.frtu.libs</groupId>
   <artifactId>lib-r2dbc</artifactId>

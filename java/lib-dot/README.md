@@ -107,13 +107,6 @@ You can find the png file in the same folder.
 
 => Also check [other viewers](https://www.graphviz.org/about/#viewers)
 
-
-## Release notes
-
-### 1.1.2-SNAPSHOT
-
-* 
-
 ## History
 
 * Migrated from [governance-toolbox](https://github.com/frtu/governance-toolbox/tree/master/libraries/library-dot).
@@ -126,3 +119,9 @@ You can find the png file in the same folder.
   <version>${governance-libraries.version}</version>
 </dependency>
 ```
+
+## Release notes
+
+### 1.1.2-SNAPSHOT
+
+* 
