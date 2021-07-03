@@ -4,18 +4,8 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.slf4j.LoggerFactory
 
-internal class BeanManagerTest {
-    data class DummyBean(val name: String, val value: String)
-
-    private val beanManager = BeanManager()
-
-    @Test
-    fun `Testing beanManager toBean`() {
-        val dummyBean = beanManager.toBean(DummyBean::class.java, "classpath:dummy-bean.json")!!
-        logger.debug("Found bean:${dummyBean}")
-        assertThat(dummyBean.name).isEqualTo("bean_name")
-        assertThat(dummyBean.value).isEqualTo("bean_value")
-    }
+internal class BeanHelperTest {
+    private val beanManager = BeanHelper()
 
     @Test
     fun `Testing beanManager MAP toStringOrNull if type is String`() {
@@ -40,6 +30,4 @@ internal class BeanManagerTest {
         val list = listOf<Any>("bean_name", 18)
         assertThat(beanManager.toStringOrNull(list,1)).isNull()
     }
-
-    private val logger = LoggerFactory.getLogger(this::class.java)
 }
