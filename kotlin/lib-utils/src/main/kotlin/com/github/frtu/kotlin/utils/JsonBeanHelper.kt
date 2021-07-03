@@ -3,6 +3,12 @@ package com.github.frtu.kotlin.utils
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 
+/**
+ * Allow to easily deserialize an object from external JSON source
+ *
+ * @author Frédéric TU
+ * @since 1.1.2
+ */
 class JsonBeanHelper<T>(
     private val mapper: ObjectMapper = jacksonObjectMapper(),
     private val clazz: Class<T>? = null
