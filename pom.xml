@@ -17,7 +17,7 @@
     <url>https://github.com/frtu/lib-toolbox/</url>
 
     <modules>
-        <module>java/lib-mail</module>
+        <module>java</module>
         <module>kotlin</module>
     </modules>
 
@@ -29,17 +29,6 @@
         <java.version>1.8</java.version>
         <base-pom.version>1.2.0</base-pom.version>
     </properties>
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>com.github.frtu.archetype</groupId>
-                <artifactId>base-pom</artifactId>
-                <version>${base-pom.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
 
     <licenses>
         <license>

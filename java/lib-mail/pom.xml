@@ -2,9 +2,9 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.github.frtu.libs</groupId>
-        <artifactId>master-pom</artifactId>
+        <artifactId>java</artifactId>
         <version>1.1.2-SNAPSHOT</version>
-        <relativePath>../../pom.xml</relativePath>
+        <relativePath>../pom.xml</relativePath>
     </parent>
 
     <artifactId>lib-mail</artifactId>
