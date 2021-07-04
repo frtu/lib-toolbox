@@ -124,4 +124,4 @@ You can find the png file in the same folder.
 
 ### 1.1.2-SNAPSHOT
 
-* Migrated version
+* Migrated version with latest base-pom.xml

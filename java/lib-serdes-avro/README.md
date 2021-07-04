@@ -24,4 +24,4 @@ Lib for Avro serdes (serialization/deserialization) for serialization & deserial
 
 ### 1.1.2-SNAPSHOT
 
-* Migrated version
+* Migrated version with latest base-pom.xml
