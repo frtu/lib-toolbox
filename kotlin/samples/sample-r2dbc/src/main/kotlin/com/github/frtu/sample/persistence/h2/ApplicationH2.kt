@@ -30,15 +30,17 @@ import org.springframework.r2dbc.connection.init.ResourceDatabasePopulator
 @SpringBootApplication
 class ApplicationH2 {
     @Bean
-    fun initializer(connectionFactory: ConnectionFactory): ConnectionFactoryInitializer {
-        val initializer = ConnectionFactoryInitializer()
-        initializer.setConnectionFactory(connectionFactory)
-        val populator = CompositeDatabasePopulator()
-        populator.addPopulators(ResourceDatabasePopulator(ClassPathResource("./db/migration/V0_1_0__h2-table-email.sql")))
-        initializer.setDatabasePopulator(populator)
-        return initializer
-    }
-
+    fun initializer(connectionFactory: ConnectionFactory): ConnectionFactoryInitializer =
+        ConnectionFactoryInitializer().also { initializer ->
+            initializer.setConnectionFactory(connectionFactory)
+            initializer.setDatabasePopulator(
+                CompositeDatabasePopulator().also { populator ->
+                    // Add all populators
+                    populator.addPopulators(ResourceDatabasePopulator(ClassPathResource("./db/migration/V0_1_0__h2-table-email.sql")))
+                }
+            )
+        }
+        
     @Bean
     fun initDatabase(repository: IEmailRepository): CommandLineRunner {
         return CommandLineRunner {
