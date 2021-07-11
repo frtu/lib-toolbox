@@ -22,7 +22,50 @@ Check the latest version (clickable) :
 
 ## Init spring-boot
 
-For PostgresQL :
+### H2
+
+application.yml :
+
+```yaml
+application:
+  persistence:
+    url: r2dbc:h2:mem:///test?options=DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+```
+
+Spring Boot application :
+
+```kotlin
+@Import(H2R2dbcConfiguration::class)
+@SpringBootApplication
+class Application {
+    @Bean
+    fun initializer(connectionFactory: ConnectionFactory): ConnectionFactoryInitializer =
+        ConnectionFactoryInitializer().also { initializer ->
+            initializer.setConnectionFactory(connectionFactory)
+            initializer.setDatabasePopulator(
+                CompositeDatabasePopulator().also { populator ->
+                    // Add all populators
+                    populator.addPopulators(ResourceDatabasePopulator(ClassPathResource("db/migration/V0_1_1__table-email-json.sql")))
+                }
+            )
+        }
+```
+
+### PostgresQL
+
+application.yml :
+
+```yaml
+application:
+  persistence:
+    host: localhost
+    port: 5432
+    database: sample
+    username: user_admin
+    password: pass
+    url: r2dbc:postgresql://${application.persistence.host}:${application.persistence.port}/${application.persistence.database}
+
+```
 
 ```kotlin
 @Import(PostgresR2dbcConfiguration::class)
@@ -33,17 +76,6 @@ Or if you also include JSONB types :
 
 ```kotlin
 @Import(PostgresJsonR2dbcConfiguration::class)
-class Application {
-```
-
-For H2 :
-
-```kotlin
-@Import(
-    H2R2dbcConfiguration::class, // Initialize H2 DB
-    EntityConfiguration::class // Create Repositories
-)
-@SpringBootApplication
 class Application {
 ```
 

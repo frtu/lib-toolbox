@@ -22,6 +22,7 @@
         <kotlin.compiler.incremental>true</kotlin.compiler.incremental>
         <!--===========================-->
         <frtu.logger.version>1.1.2</frtu.logger.version>
+        <frtu-libs.version>${project.version}</frtu-libs.version>
         <base-pom.version>1.2.0</base-pom.version>
         <!--===========================-->
         <r2dbc.version>Arabba-SR9</r2dbc.version> <!-- 2021-02-25 -->
@@ -32,7 +33,7 @@
         <dependency>
             <groupId>com.github.frtu.libs</groupId>
             <artifactId>lib-r2dbc</artifactId>
-            <version>${project.version}</version>
+            <version>${frtu-libs.version}</version>
         </dependency>
         <dependency>
             <groupId>com.github.frtu.logs</groupId>
