@@ -6,6 +6,7 @@ import io.r2dbc.spi.ConnectionFactory
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.cloud.stream.annotation.EnableBinding
+import org.springframework.cloud.stream.annotation.StreamListener
 import org.springframework.cloud.stream.messaging.Sink
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.ComponentScan
@@ -20,6 +21,11 @@ import org.springframework.r2dbc.connection.init.ResourceDatabasePopulator
 @Import(H2R2dbcConfiguration::class)
 @ComponentScan("com.github.frtu.sample.persistence")
 class Application {
+    @StreamListener(Sink.INPUT)
+    fun handle(message: String) {
+        println("Received: $message")
+    }
+
     @Bean
     fun initializer(connectionFactory: ConnectionFactory): ConnectionFactoryInitializer =
         ConnectionFactoryInitializer().also { initializer ->

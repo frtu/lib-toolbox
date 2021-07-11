@@ -2,7 +2,7 @@
 # TOPOLOGY and EXTERNAL DEPENDENCIES
 # ======================================
 application:
-  name: sample-broker
+  name: sample-broker-stream
   topic:
     # Where domain request is consumed : ATTENTION please put between double quote to avoid ASCII check error
     domain-source: "domain-source"
@@ -42,18 +42,17 @@ spring:
         binder:
           auto-create-topics: true
           consumer-properties:
-            key.deserializer: org.apache.kafka.common.serialization.StringDeserializer
-            value.deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
             max.poll.records: 10
-            spring.json.trusted.packages: "*"
-          producer-properties:
-            key.serializer: org.apache.kafka.common.serialization.StringSerializer
-            value.serializer: org.springframework.kafka.support.serializer.JsonSerializer
   kafka:
     bootstrap-servers: localhost:9092
     consumer:
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       properties:
         spring.json.trusted.packages: "*"
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
 
 # ======================================
 # Management
