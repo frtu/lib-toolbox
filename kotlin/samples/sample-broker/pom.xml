@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.github.frtu.archetype</groupId>
+        <artifactId>kotlin-base-pom</artifactId>
+        <version>1.2.0</version>
+    </parent>
+
+    <groupId>com.github.frtu.sample.broker</groupId>
+    <artifactId>sample-broker-pom</artifactId>
+    <version>1.1.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <properties>
+        <testcontainers.version>1.15.3</testcontainers.version> <!-- 2021-04-15 -->
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.testcontainers</groupId>
+                <artifactId>testcontainers-bom</artifactId>
+                <version>${testcontainers.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!-- Internal domain dependencies -->
+            <!--===============================================================================-->
+            <!-- UNCOMMMENT TO FREE PARENT - ATTENTION pluginManagement is not managed anymore -->
+            <!--===============================================================================-->
+            <!--<dependency>-->
+            <!--    <groupId>com.github.frtu.archetype</groupId>-->
+            <!--    <artifactId>kotlin-base-pom</artifactId>-->
+            <!--    <version>1.2.0</version>-->
+            <!--    <type>pom</type>-->
+            <!--    <scope>import</scope>-->
+            <!--</dependency>-->
+        </dependencies>
+    </dependencyManagement>
+    <modules>
+        <module>sample-broker-publisher</module>
+        <module>sample-broker-stream</module>
+    </modules>
+</project>

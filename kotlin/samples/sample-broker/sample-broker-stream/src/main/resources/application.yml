@@ -1,0 +1,72 @@
+# ======================================
+# TOPOLOGY and EXTERNAL DEPENDENCIES
+# ======================================
+application:
+  name: sample-broker
+  topic:
+    # Where domain request is consumed : ATTENTION please put between double quote to avoid ASCII check error
+    domain-source: "domain-source"
+    # Where domain result is published
+    domain-result: "domain-result"
+  persistence:
+    host: localhost
+    port: 5432
+    database: sample
+    username: user_admin
+    password: pass
+    url: r2dbc:postgresql://${application.persistence.host}:${application.persistence.port}/${application.persistence.database}
+#    url: r2dbc:h2:mem:///test?options=DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+
+# ======================================
+# Spring Boot
+# ======================================
+spring:
+  application:
+    name: ${application.name}
+  cloud:
+    stream:
+      default-binder: kafka
+      bindings:
+        input:
+          destination: ${application.topic.domain-source}
+          group: domain_events
+        # domain source topic
+        domain-source:
+          destination: ${application.topic.domain-source}
+          group: domain_events
+        # domain result topic
+        domain-result:
+          destination: ${application.topic.domain-result}
+          group: domain_events
+      kafka:
+        binder:
+          auto-create-topics: true
+          consumer-properties:
+            key.deserializer: org.apache.kafka.common.serialization.StringDeserializer
+            value.deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+            max.poll.records: 10
+            spring.json.trusted.packages: "*"
+          producer-properties:
+            key.serializer: org.apache.kafka.common.serialization.StringSerializer
+            value.serializer: org.springframework.kafka.support.serializer.JsonSerializer
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      properties:
+        spring.json.trusted.packages: "*"
+
+# ======================================
+# Management
+# ======================================
+server:
+  port: 8080
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - info
+info:
+  app:
+    name: ${application.name}
