@@ -66,7 +66,7 @@ public class AnnotationMethodScan<MethodAnno extends Class<? extends Annotation>
      * @return Empty array when no annotation found
      */
     public <ParamAnno extends Annotation> ParamAnno[] getParamAnnotations() {
-        return (ParamAnno[]) paramAnnotation;
+        return Arrays.copyOf((ParamAnno[]) paramAnnotation, paramAnnotation.length);
     }
 
     /**
