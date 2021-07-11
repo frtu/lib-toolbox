@@ -6,11 +6,14 @@
         <version>1.1.2-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-
     <artifactId>lib-spring-reflection</artifactId>
 
     <name>library-spring-reflection</name>
     <description>Library for Class, Annotation reflection and Bean based on spring-context</description>
+
+    <properties>
+        <jaxb.version>2.3.1</jaxb.version>
+    </properties>
 
     <dependencies>
         <!-- Common libs -->
@@ -43,6 +46,18 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+            <version>${jaxb.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>jaxb-impl</artifactId>
+            <version>${jaxb.version}</version>
+            <scope>provided</scope>
         </dependency>
 
         <!--===========================-->

@@ -9,7 +9,7 @@
 
     <artifactId>lib-serdes-avro</artifactId>
 
-    <name>library-serdes</name>
+    <name>serdes library for Avro</name>
     <description>Library for serialization deserialization based on dynamic schema.</description>
 
     <properties>

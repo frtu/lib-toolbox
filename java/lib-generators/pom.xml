@@ -13,6 +13,7 @@
     <description>Library for generating objects and populating them</description>
 
     <properties>
+        <jaxb.version>2.3.1</jaxb.version>
         <javafaker.version>1.0.2</javafaker.version>
     </properties>
 
@@ -22,16 +23,20 @@
             <artifactId>javafaker</artifactId>
             <version>${javafaker.version}</version>
         </dependency>
-
-        <!--===========================-->
-        <!-- Internal domain dependencies -->
-        <!--===========================-->
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>lib-spring-reflection</artifactId>
             <version>${project.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+        </dependency>
+
+        <!--===========================-->
+        <!-- Base -->
+        <!--===========================-->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -43,8 +48,16 @@
             <artifactId>slf4j-api</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+            <version>${jaxb.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>jaxb-impl</artifactId>
+            <version>${jaxb.version}</version>
+            <scope>provided</scope>
         </dependency>
 
         <!--===========================-->
