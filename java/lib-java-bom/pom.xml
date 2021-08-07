@@ -1,0 +1,48 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.github.frtu.libs</groupId>
+        <artifactId>java</artifactId>
+        <version>1.1.2-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>lib-java-bom</artifactId>
+    <packaging>pom</packaging>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.github.frtu.libs</groupId>
+                <artifactId>lib-dot</artifactId>
+                <version>1.1.2-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.frtu.libs</groupId>
+                <artifactId>lib-mail</artifactId>
+                <version>1.1.2-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.frtu.libs</groupId>
+                <artifactId>lib-serdes-avro</artifactId>
+                <version>1.1.2-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.frtu.libs</groupId>
+                <artifactId>lib-serdes-jackson</artifactId>
+                <version>1.1.2-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.frtu.libs</groupId>
+                <artifactId>lib-spring-reflection</artifactId>
+                <version>1.1.2-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.frtu.libs</groupId>
+                <artifactId>lib-generators</artifactId>
+                <version>1.1.2-SNAPSHOT</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+</project>
