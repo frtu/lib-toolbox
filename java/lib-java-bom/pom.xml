@@ -3,7 +3,7 @@
     <parent>
         <groupId>com.github.frtu.libs</groupId>
         <artifactId>java</artifactId>
-        <version>1.1.2</version>
+        <version>1.1.3-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -15,32 +15,32 @@
             <dependency>
                 <groupId>com.github.frtu.libs</groupId>
                 <artifactId>lib-dot</artifactId>
-                <version>1.1.2</version>
+                <version>1.1.3-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>com.github.frtu.libs</groupId>
                 <artifactId>lib-mail</artifactId>
-                <version>1.1.2</version>
+                <version>1.1.3-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>com.github.frtu.libs</groupId>
                 <artifactId>lib-serdes-avro</artifactId>
-                <version>1.1.2</version>
+                <version>1.1.3-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>com.github.frtu.libs</groupId>
                 <artifactId>lib-serdes-jackson</artifactId>
-                <version>1.1.2</version>
+                <version>1.1.3-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>com.github.frtu.libs</groupId>
                 <artifactId>lib-spring-reflection</artifactId>
-                <version>1.1.2</version>
+                <version>1.1.3-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>com.github.frtu.libs</groupId>
                 <artifactId>lib-generators</artifactId>
-                <version>1.1.2</version>
+                <version>1.1.3-SNAPSHOT</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
