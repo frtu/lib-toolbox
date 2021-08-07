@@ -18,11 +18,11 @@ public class SampleDataGeneratorTest {
         assertEquals("{\"id\":\"id\",\"name\":\"name\"}", jsonSampleFromString);
     }
 
-    @Test
-    public void testXML() {
-        String xmlSampleFromString = SampleDataGenerator.getXMLSampleFromString(TestBean.class);
-        assertNotNull(xmlSampleFromString);
-        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><testBean><id>id</id><name>name</name></testBean>",
-                xmlSampleFromString);
-    }
+//    @Test
+//    public void testXML() {
+//        String xmlSampleFromString = SampleDataGenerator.getXMLSampleFromString(TestBean.class);
+//        assertNotNull(xmlSampleFromString);
+//        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><testBean><id>id</id><name>name</name></testBean>",
+//                xmlSampleFromString);
+//    }
 }
