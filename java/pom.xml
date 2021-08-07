@@ -15,6 +15,7 @@
         <module>lib-dot</module>
         <module>lib-mail</module>
         <module>lib-serdes-avro</module>
+        <module>lib-serdes-jackson</module>
         <module>lib-spring-reflection</module>
         <module>lib-generators</module>
     </modules>
