@@ -4,6 +4,7 @@ import com.github.frtu.logs.core.RpcLogger
 import com.github.frtu.logs.core.RpcLogger.requestBody
 import com.github.frtu.logs.core.RpcLogger.responseBody
 import com.github.frtu.logs.core.RpcLogger.uri
+import com.github.frtu.test.resilience.ChaosGenerator
 import kotlinx.coroutines.reactive.asFlow
 import java.net.URI
 import java.util.UUID
@@ -17,6 +18,7 @@ import reactor.core.publisher.Flux
 class RouterConfig {
     internal val logger = LoggerFactory.getLogger(this::class.java)
     internal val rpcLogger = RpcLogger.create(logger)
+    private val chaosGenerator = ChaosGenerator()
 
     @Bean
     fun route(): RouterFunction<*> = coRouter {
@@ -24,6 +26,7 @@ class RouterConfig {
         GET("$uriPath/{id}") { serverRequest ->
             val id = serverRequest.pathVariable("id")
             println(id)
+            chaosGenerator.raiseException("Error")
             ServerResponse.ok()
                 .bodyAndAwait(Flux.just("ok").asFlow())
         }

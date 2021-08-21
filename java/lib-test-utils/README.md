@@ -17,6 +17,20 @@ field.
 </dependency>
 ```
 
+## Resilience
+
+Generate random exception using :
+
+```kotlin
+ChaosGenerator().raiseException("Error Message returned")
+```
+
+OR
+
+```java
+new ChaosGenerator().raiseException("Error Message returned")
+```
+
 ## History
 
 * Migrated
