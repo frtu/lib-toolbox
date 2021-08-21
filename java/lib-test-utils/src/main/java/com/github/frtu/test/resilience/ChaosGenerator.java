@@ -17,6 +17,12 @@ import java.util.Random;
 public class ChaosGenerator {
     private List<String> memoryLeak = new ArrayList<>();
 
+    /**
+     * Randomly generate IllegalStateException
+     *
+     * @param errorMsg What the message should return
+     * @return random number between 0 and 100
+     */
     public String raiseException(String errorMsg) {
         Random rand = new Random();
         int n = rand.nextInt(100);
@@ -24,6 +30,21 @@ public class ChaosGenerator {
             throw new IllegalStateException(errorMsg);
         }
         return Integer.toString(n);
+    }
+
+    /**
+     * Introduce random delay for the current thread
+     *
+     * @param maxDelayInMilli Range of max millisecond it can wait
+     */
+    public void randomSleep(int maxDelayInMilli) {
+        Random rand = new Random();
+        int n = rand.nextInt(maxDelayInMilli);
+        try {
+            Thread.sleep(n);
+        } catch (InterruptedException e) {
+            LOGGER.error(e.getMessage(), e);
+        }
     }
 
     public String memoryleak() {

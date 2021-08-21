@@ -19,7 +19,8 @@ field.
 
 ## Resilience
 
-Generate random exception using :
+* randomSleep(maxDelayInMilli:Int) : Make the current Thread sleep a max of milliseconds
+* raiseException(errorMessage:String) : Generate random exception using :
 
 ```kotlin
 ChaosGenerator().raiseException("Error Message returned")
