@@ -14,6 +14,8 @@
     <properties>
         <start-class>com.github.frtu.mail.MailMain</start-class>
         <email.version>1.6.2</email.version>
+        <!-- Make sure to import your own version of spring -->
+        <spring.version>5.3.5</spring.version> <!-- related to spring-boot:2.4.4 -->
     </properties>
 
     <dependencies>
@@ -52,6 +54,19 @@
             <artifactId>logger-core</artifactId>
         </dependency>
     </dependencies>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-framework-bom</artifactId>
+                <version>${spring.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
     <profiles>
         <profile>
             <id>exploded</id>
