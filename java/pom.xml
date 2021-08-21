@@ -17,7 +17,7 @@
         <module>lib-serdes-avro</module>
         <module>lib-serdes-jackson</module>
         <module>lib-spring-reflection</module>
-        <module>lib-generators</module>
+        <module>lib-test-utils</module>
         <module>lib-java-bom</module>
     </modules>
 

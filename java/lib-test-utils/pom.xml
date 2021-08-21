@@ -6,17 +6,25 @@
         <version>1.1.3-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>lib-generators</artifactId>
+    <artifactId>lib-test-utils</artifactId>
 
-    <name>library-generators</name>
-    <description>Library for generating objects and populating them</description>
+    <name>lib-test-utils</name>
+    <description>Library for all kinds of test</description>
 
     <properties>
         <jaxb.version>2.3.1</jaxb.version>
         <javafaker.version>1.0.2</javafaker.version>
+        <!-- Make sure to import your own version of spring -->
+        <spring.version>5.3.5</spring.version> <!-- related to spring-boot:2.4.4 -->
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
         <dependency>
             <groupId>com.github.javafaker</groupId>
             <artifactId>javafaker</artifactId>
@@ -36,11 +44,6 @@
         <!--===========================-->
         <!-- Base -->
         <!--===========================-->
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <optional>true</optional>
-        </dependency>
         <!-- Logging -->
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -57,6 +60,12 @@
             <artifactId>jaxb-impl</artifactId>
             <version>${jaxb.version}</version>
             <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.sun.istack</groupId>
+                    <artifactId>istack-commons-runtime</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <!--===========================-->
@@ -72,5 +81,26 @@
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-framework-bom</artifactId>
+                <version>${spring.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 </project>

@@ -1,4 +1,4 @@
-package com.github.frtu.generators;
+package com.github.frtu.test.data;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 

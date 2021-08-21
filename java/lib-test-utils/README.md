@@ -1,9 +1,21 @@
-# Project - lib-generators
+# Project - lib-test-utils
 
 ## About
 
 Lib for generating mock object. Also include [java-faker](https://github.com/DiUS/java-faker) to facilitate strong-typed
 field.
+
+```XML
+<properties>
+  <frtu.lib.version>x.y.z</frtu.lib.version>
+</properties>
+
+<dependency>
+    <groupId>com.github.frtu.libs</groupId>
+    <artifactId>lib-test-utils</artifactId>
+    <version>${frtu.lib.version}</version>
+</dependency>
+```
 
 ## History
 
@@ -12,7 +24,6 @@ field.
 * Existed under :
 
 ```XML
-
 <dependency>
     <groupId>com.github.frtu.governance</groupId>
     <artifactId>library-generators</artifactId>
@@ -22,6 +33,6 @@ field.
 
 ## Release notes
 
-### 1.1.2-SNAPSHOT
+### 1.1.3
 
 * Migrated version with latest base-pom.xml
