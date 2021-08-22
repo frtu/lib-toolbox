@@ -16,6 +16,27 @@ import java.util.Random;
 @Slf4j
 public class ChaosGenerator {
     private List<String> memoryLeak = new ArrayList<>();
+    private int ratio;
+
+    public ChaosGenerator() {
+        // By default, use 50% error
+        this(50);
+    }
+
+    /**
+     * Create an error ratio to raise error. Only divided round number is precise :
+     * 10%, 25%, 50%
+     *
+     * @param percentage MUST be between 0 and 100
+     */
+    public ChaosGenerator(int percentage) {
+        if (0 < percentage && percentage <= 100) {
+            this.ratio = 100 / percentage;
+        } else {
+            LOGGER.error("Cannot support provided percentage={}. Using 50%", percentage);
+            this.ratio = 2;
+        }
+    }
 
     /**
      * Randomly generate IllegalStateException
@@ -26,7 +47,7 @@ public class ChaosGenerator {
     public String raiseException(String errorMsg) {
         Random rand = new Random();
         int n = rand.nextInt(100);
-        if ((n % 2) == 0) {
+        if ((n % ratio) == 0) {
             throw new IllegalStateException(errorMsg);
         }
         return Integer.toString(n);
