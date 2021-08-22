@@ -15,14 +15,17 @@ import org.springframework.web.reactive.function.client.WebClient
 import org.springframework.web.reactive.function.client.WebClientResponseException
 import reactor.core.publisher.Mono
 import reactor.test.StepVerifier
+import reactor.util.retry.Retry
+import java.time.Duration
 import java.util.*
 
 @ExtendWith(MockKExtension::class)
 class SuspendableWebClientTest : BaseMockWebServerTest() {
-    private fun suspendableWebClient(): SuspendableWebClient {
+    private fun suspendableWebClient(
+        getRetrySpec: Retry = Retry.max(3)
+    ): SuspendableWebClient {
         val webClient = WebClient.create("http://localhost:${mockWebServer.port}")
-        val suspendableWebClient = SuspendableWebClient(webClient)
-        return suspendableWebClient
+        return SuspendableWebClient(webClient, getRetrySpec)
     }
 
     @Test
@@ -55,9 +58,42 @@ class SuspendableWebClientTest : BaseMockWebServerTest() {
         assertThat(toList[0]).isEqualTo(responseBody)
     }
 
-
     @Test
     fun `Resilient get call`() {
+        runBlocking {
+            //--------------------------------------
+            // 1. Prepare server data & Init client
+            //--------------------------------------
+            // Simulate 2 errors
+            for (index in 1..4) {
+                mockWebServer.enqueue(MockResponse().setResponseCode(HttpResponseStatus.SERVICE_UNAVAILABLE.code()))
+            }
+            // Before returning the correct response
+            val responseBody = """{"message":"response"}"""
+            mockWebServer.enqueue(
+                MockResponse()
+                    .setBody(responseBody)
+                    .addHeader("Content-Type", "application/json")
+            )
+
+            //--------------------------------------
+            // 2. Execute
+            //--------------------------------------
+            val suspendableWebClient = suspendableWebClient(Retry.max(5))
+            StepVerifier
+                .create(
+                    suspendableWebClient.get(
+                        url = "/resources/1234",
+                        requestId = UUID.randomUUID()
+                    ).asFlux()
+                )
+                .expectNextMatches { response -> response.equals("""{"message":"response"}""") }
+                .verifyComplete()
+        }
+    }
+
+    @Test
+    fun `Resilient get call with delay`() {
         runBlocking {
             //--------------------------------------
             // 1. Prepare server data & Init client
@@ -77,9 +113,12 @@ class SuspendableWebClientTest : BaseMockWebServerTest() {
             //--------------------------------------
             // 2. Execute
             //--------------------------------------
+            val suspendableWebClient = suspendableWebClient(
+                Retry.backoff(3, Duration.ofSeconds(1))
+            )
             StepVerifier
                 .create(
-                    suspendableWebClient().get(
+                    suspendableWebClient.get(
                         url = "/resources/1234",
                         requestId = UUID.randomUUID()
                     ).asFlux()
