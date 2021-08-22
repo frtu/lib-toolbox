@@ -1,7 +1,9 @@
 package com.github.frtu.coroutine.webclient
 
 import io.mockk.junit5.MockKExtension
+import io.netty.handler.codec.http.HttpResponseStatus
 import kotlinx.coroutines.flow.toList
+import kotlinx.coroutines.reactor.asFlux
 import kotlinx.coroutines.runBlocking
 import okhttp3.mockwebserver.MockResponse
 import org.assertj.core.api.Assertions.assertThat
@@ -12,6 +14,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.web.reactive.function.client.WebClient
 import org.springframework.web.reactive.function.client.WebClientResponseException
 import reactor.core.publisher.Mono
+import reactor.test.StepVerifier
 import java.util.*
 
 @ExtendWith(MockKExtension::class)
@@ -50,6 +53,40 @@ class SuspendableWebClientTest : BaseMockWebServerTest() {
         //--------------------------------------
         assertThat(toList.size).isEqualTo(1)
         assertThat(toList[0]).isEqualTo(responseBody)
+    }
+
+
+    @Test
+    fun `Resilient get call`() {
+        runBlocking {
+            //--------------------------------------
+            // 1. Prepare server data & Init client
+            //--------------------------------------
+            // Simulate 2 errors
+            for (index in 1..2) {
+                mockWebServer.enqueue(MockResponse().setResponseCode(HttpResponseStatus.SERVICE_UNAVAILABLE.code()))
+            }
+            // Before returning the correct response
+            val responseBody = """{"message":"response"}"""
+            mockWebServer.enqueue(
+                MockResponse()
+                    .setBody(responseBody)
+                    .addHeader("Content-Type", "application/json")
+            )
+
+            //--------------------------------------
+            // 2. Execute
+            //--------------------------------------
+            StepVerifier
+                .create(
+                    suspendableWebClient().get(
+                        url = "/resources/1234",
+                        requestId = UUID.randomUUID()
+                    ).asFlux()
+                )
+                .expectNextMatches { response -> response.equals("""{"message":"response"}""") }
+                .verifyComplete()
+        }
     }
 
     @Test
@@ -114,7 +151,6 @@ class SuspendableWebClientTest : BaseMockWebServerTest() {
             }
         }
     }
-
 
     @Test
     fun `Async post call`() {

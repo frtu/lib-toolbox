@@ -4,15 +4,15 @@ import org.slf4j.LoggerFactory
 import com.github.frtu.logs.core.RpcLogger
 import com.github.frtu.logs.core.RpcLogger.*
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.reactive.asFlow
 import org.reactivestreams.Publisher
 import org.springframework.http.HttpHeaders
 import org.springframework.http.MediaType
 import org.springframework.http.ReactiveHttpOutputMessage
-import org.springframework.util.MultiValueMap
 import org.springframework.web.reactive.function.BodyInserter
 import org.springframework.web.reactive.function.BodyInserters
 import org.springframework.web.reactive.function.client.*
-import reactor.core.publisher.Mono
+import reactor.util.retry.Retry
 import java.util.*
 import java.util.function.Consumer
 
@@ -27,7 +27,11 @@ import java.util.function.Consumer
 /**
  * @param webClient built and configured
  */
-open class SuspendableWebClient(private val webClient: WebClient) {
+open class SuspendableWebClient(
+    private val webClient: WebClient,
+    // Check https://projectreactor.io/docs/core/3.4.1/api/reactor/util/retry/Retry.html
+    private val getRetrySpec: Retry = Retry.max(3),
+) {
     companion object {
         fun create(baseUrl: String, builder: WebClient.Builder = WebClient.builder()): SuspendableWebClient =
             SuspendableWebClient(builder.baseUrl(baseUrl).build())
@@ -39,7 +43,7 @@ open class SuspendableWebClient(private val webClient: WebClient) {
      * @param headerPopulator header populator
      * @param responseConsumer response callback
      */
-    suspend fun get(
+    fun get(
         url: String, requestId: UUID = UUID.randomUUID(),
         headerPopulator: Consumer<HttpHeaders> = Consumer { _ -> run {} }
     ): Flow<String> {
@@ -50,8 +54,10 @@ open class SuspendableWebClient(private val webClient: WebClient) {
                 .uri(url)
                 .accept(MediaType.APPLICATION_JSON)
                 .headers(headerPopulator)
-                .awaitExchange()
-                .bodyToFlow<String>()
+                .retrieve()
+                .bodyToFlux<String>()
+                .retryWhen(getRetrySpec)
+                .asFlow()
         } catch (e: WebClientResponseException) {
             // Don't log twice
             throw e
