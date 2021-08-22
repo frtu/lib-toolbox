@@ -22,7 +22,7 @@ import java.util.*
 @ExtendWith(MockKExtension::class)
 class SuspendableWebClientTest : BaseMockWebServerTest() {
     private fun suspendableWebClient(
-        getRetrySpec: Retry = Retry.max(3)
+        getRetrySpec: Retry = Retry.max(1)
     ): SuspendableWebClient {
         val webClient = WebClient.create("http://localhost:${mockWebServer.port}")
         return SuspendableWebClient(webClient, getRetrySpec)
@@ -65,7 +65,7 @@ class SuspendableWebClientTest : BaseMockWebServerTest() {
             // 1. Prepare server data & Init client
             //--------------------------------------
             // Simulate 2 errors
-            for (index in 1..4) {
+            for (index in 1..2) {
                 mockWebServer.enqueue(MockResponse().setResponseCode(HttpResponseStatus.SERVICE_UNAVAILABLE.code()))
             }
             // Before returning the correct response
@@ -79,7 +79,7 @@ class SuspendableWebClientTest : BaseMockWebServerTest() {
             //--------------------------------------
             // 2. Execute
             //--------------------------------------
-            val suspendableWebClient = suspendableWebClient(Retry.max(5))
+            val suspendableWebClient = suspendableWebClient(Retry.max(3))
             StepVerifier
                 .create(
                     suspendableWebClient.get(
@@ -115,6 +115,9 @@ class SuspendableWebClientTest : BaseMockWebServerTest() {
             //--------------------------------------
             val suspendableWebClient = suspendableWebClient(
                 Retry.backoff(3, Duration.ofSeconds(1))
+                    .filter { th ->
+                        th is WebClientResponseException && th.statusCode.is5xxServerError
+                    }
             )
             StepVerifier
                 .create(
