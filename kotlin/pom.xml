@@ -165,7 +165,7 @@
         </profile>
     </profiles>
 
-    <dependencyMcom.github.frtu.test.data.SampleDataGeneratorTestanagement>
+    <dependencyManagement>
         <dependencies>
             <dependency>
                 <groupId>com.github.frtu.archetype</groupId>
@@ -182,5 +182,5 @@
                 <scope>import</scope>
             </dependency>
         </dependencies>
-    </dependencyMcom.github.frtu.test.data.SampleDataGeneratorTestanagement>
+    </dependencyManagement>
 </project>
