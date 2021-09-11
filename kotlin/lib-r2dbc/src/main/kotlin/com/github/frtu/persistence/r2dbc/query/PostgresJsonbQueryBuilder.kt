@@ -13,7 +13,8 @@ import org.springframework.data.relational.core.query.Query
  * @since 1.1.1
  */
 class PostgresJsonbQueryBuilder(
-    private val skipKeys: Set<String> = setOf(),
+    private val deniedKeys: Set<String> = setOf(),
+    private val allowedKeys: Set<String> = setOf(),
     private val idColumnName: String = "id",
     private val jsonbColumnName: String = "data"
 ) : IPostgresJsonbQueryBuilder {
@@ -53,7 +54,8 @@ class PostgresJsonbQueryBuilder(
         val criteriaIterator = criteriaMap
             // skip empty key or value
             .filter { it.key != null && it.value != null }
-            .filter { !skipKeys.contains(it.key) }
+            .filter { allowedKeys.isEmpty() || allowedKeys.contains(it.key) }
+            .filter { deniedKeys.isEmpty() || !deniedKeys.contains(it.key) }
             .map { Criteria.where("${jsonbColumnName}->>'${it.key}'").`is`(it.value!!) }
             .asSequence().iterator()
 
