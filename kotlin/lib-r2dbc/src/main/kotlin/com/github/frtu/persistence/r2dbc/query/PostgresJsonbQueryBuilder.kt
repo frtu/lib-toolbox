@@ -21,7 +21,7 @@ class PostgresJsonbQueryBuilder(
     private val logger: Logger = LoggerFactory.getLogger(PostgresJsonbQueryBuilder::class.java)
 
     override fun <T : Any> id(id: T): Query = Query.query(Criteria.where(idColumnName).`is`(id))
-        .apply { logger.debug("""{"query_type":"id", "${idColumnName}":"${id}"""") }
+        .apply { logger.trace("""{"query_type":"id", "${idColumnName}":"${id}"""") }
 
     override fun query(criteriaMap: Map<String?, String?>, pageable: Pageable?): Query {
         val criteria = criteria(criteriaMap)
@@ -36,7 +36,7 @@ class PostgresJsonbQueryBuilder(
     override fun query(criteria: Criteria, pageable: Pageable?): Query {
         var query = Query.query(criteria)
         if (pageable != null && pageable.isPaged) {
-            logger.debug("""{"offset":${pageable.offset}, "limit":${pageable.pageSize}, "sort":"${pageable.sort}"}""")
+            logger.trace("""{"offset":${pageable.offset}, "limit":${pageable.pageSize}, "sort":"${pageable.sort}"}""")
             query = query.with(pageable)
         }
         return query
@@ -44,7 +44,7 @@ class PostgresJsonbQueryBuilder(
 
     override fun query(criteria: Criteria, offset: Long?, limit: Int?): Query {
         var query = Query.query(criteria)
-        logger.debug("""{"offset":${offset}, "limit":${limit}}""")
+        logger.trace("""{"offset":${offset}, "limit":${limit}}""")
         offset?.let { query = query.offset(offset) }
         limit?.let { query = query.limit(limit) }
         return query
