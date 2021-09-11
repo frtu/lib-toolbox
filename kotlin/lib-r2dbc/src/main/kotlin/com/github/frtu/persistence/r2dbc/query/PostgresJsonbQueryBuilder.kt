@@ -17,10 +17,10 @@ class PostgresJsonbQueryBuilder(
     private val idColumnName: String = "id",
     private val jsonbColumnName: String = "data"
 ) : IPostgresJsonbQueryBuilder {
-    private val LOGGER: Logger = LoggerFactory.getLogger(PostgresJsonbQueryBuilder::class.java)
+    private val logger: Logger = LoggerFactory.getLogger(PostgresJsonbQueryBuilder::class.java)
 
     override fun <T : Any> id(id: T): Query = Query.query(Criteria.where(idColumnName).`is`(id))
-        .apply { LOGGER.debug("""{"query_type":"id", "${idColumnName}":"${id}"""") }
+        .apply { logger.debug("""{"query_type":"id", "${idColumnName}":"${id}"""") }
 
     override fun query(criteriaMap: Map<String?, String?>, pageable: Pageable?): Query {
         val criteria = criteria(criteriaMap)
@@ -35,7 +35,7 @@ class PostgresJsonbQueryBuilder(
     override fun query(criteria: Criteria, pageable: Pageable?): Query {
         var query = Query.query(criteria)
         if (pageable != null && pageable.isPaged) {
-            LOGGER.debug("""{"offset":${pageable.offset}, "limit":${pageable.pageSize}, "sort":"${pageable.sort}"}""")
+            logger.debug("""{"offset":${pageable.offset}, "limit":${pageable.pageSize}, "sort":"${pageable.sort}"}""")
             query = query.with(pageable)
         }
         return query
@@ -43,7 +43,7 @@ class PostgresJsonbQueryBuilder(
 
     override fun query(criteria: Criteria, offset: Long?, limit: Int?): Query {
         var query = Query.query(criteria)
-        LOGGER.debug("""{"offset":${offset}, "limit":${limit}}""")
+        logger.debug("""{"offset":${offset}, "limit":${limit}}""")
         offset?.let { query = query.offset(offset) }
         limit?.let { query = query.limit(limit) }
         return query
@@ -64,7 +64,7 @@ class PostgresJsonbQueryBuilder(
             while (criteriaIterator.hasNext()) {
                 criteria = criteria?.and(criteriaIterator.next())
             }
-            LOGGER.debug("""{"query_type":"criteria", criteria":"${criteria}"""")
+            logger.debug("""{"query_type":"criteria", criteria":"${criteria}"""")
         }
         return criteria ?: Criteria.empty()
     }
