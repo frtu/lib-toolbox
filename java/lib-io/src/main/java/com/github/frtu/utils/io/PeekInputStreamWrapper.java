@@ -11,7 +11,8 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
 /**
- * Encapsulate an InputStream that cannot be read twice, to allow read the data multiple times.
+ * Encapsulate an {@link InputStream} that cannot be read twice, this class allows to
+ * capture InputStream value from stream and replay as much as needed.
  *
  * @author Frédéric TU
  * @since 1.1.3
