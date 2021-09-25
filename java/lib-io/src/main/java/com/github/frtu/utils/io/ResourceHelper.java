@@ -1,4 +1,4 @@
-package com.github.frtu.test.data;
+package com.github.frtu.utils.io;
 
 import lombok.val;
 import org.slf4j.Logger;
@@ -18,9 +18,13 @@ import java.nio.charset.StandardCharsets;
 public class ResourceHelper {
     private ResourceLoader resourceLoader = new DefaultResourceLoader();
 
+    public String getAbsolutePath(String location) throws IOException {
+        return resourceLoader.getResource(location).getFile().getAbsolutePath();
+    }
+
     public String readFromFile(String location) {
         try {
-            val absolutePath = resourceLoader.getResource(location).getFile().getAbsolutePath();
+            final String absolutePath = getAbsolutePath(location);
             val file = new File(absolutePath);
             if (file.exists() && file.canRead()) {
                 logger.debug("Reading file from location:{} & absolutePath:{}", location, absolutePath);
