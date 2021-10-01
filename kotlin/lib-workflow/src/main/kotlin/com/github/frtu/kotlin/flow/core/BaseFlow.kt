@@ -1,5 +1,7 @@
 package com.github.frtu.kotlin.flow.core
 
+import com.github.frtu.kotlin.flow.errors.ErrorHandler
+import com.github.frtu.kotlin.flow.errors.LogErrorHandler
 import com.github.frtu.kotlin.flow.interceptors.LogInterceptorFlow
 import com.github.frtu.logs.core.StructuredLogger
 import org.slf4j.Logger
@@ -13,6 +15,7 @@ import org.slf4j.LoggerFactory
 abstract class BaseFlow<INPUT, OUTPUT>(
     val flowName: String,
     private val logger: Logger = LoggerFactory.getLogger("flow.$flowName"),
+    private val errorHandler: ErrorHandler = LogErrorHandler(logger),
 ) {
     fun execute(input: INPUT): OUTPUT {
         val eventSignature = beforeExecution(input)
@@ -21,12 +24,15 @@ abstract class BaseFlow<INPUT, OUTPUT>(
         doValidation(input)
 
         // Execution
-        val output = doExecute(input)
-
-        // End framework
-        afterExecution(eventSignature)
-
-        return output
+        try {
+            return doExecute(input)
+        } catch (throwable: Throwable) {
+            errorHandler.handle(throwable)
+            throw throwable
+        } finally {
+            // End framework
+            afterExecution(eventSignature)
+        }
     }
 
     abstract fun extractId(input: INPUT): String
@@ -44,6 +50,8 @@ abstract class BaseFlow<INPUT, OUTPUT>(
     private fun beforeExecution(event: INPUT): Array<MutableMap.MutableEntry<Any?, Any?>> =
         logInterceptorFlow.start(extractId(event))
 
-    private fun afterExecution(eventSignature: Array<MutableMap.MutableEntry<Any?, Any?>>) =
-        logInterceptorFlow.end(eventSignature)
+    private fun afterExecution(
+        eventSignature: Array<MutableMap.MutableEntry<Any?, Any?>>,
+        throwable: Throwable? = null,
+    ) = logInterceptorFlow.end(eventSignature, throwable)
 }

@@ -1,14 +1,12 @@
 package com.github.frtu.kotlin.flow.interceptors
 
 import com.github.frtu.logs.core.StructuredLogger
-import com.github.frtu.logs.core.StructuredLogger.entries
-import com.github.frtu.logs.core.StructuredLogger.flow
-import com.github.frtu.logs.core.StructuredLogger.flowId
-import com.github.frtu.logs.core.StructuredLogger.phase
+import com.github.frtu.logs.core.StructuredLogger.*
 
 /**
  * Log interceptor
  * @author frtu
+ * @since 1.1.4
  */
 class LogInterceptorFlow(
     private val structuredLogger: StructuredLogger,
@@ -26,9 +24,12 @@ class LogInterceptorFlow(
     /**
      * @param eventSignature Signature for this event
      */
-    fun end(eventSignature: Array<out MutableMap.MutableEntry<Any?, Any?>>) {
-        structuredLogger.info(eventSignature, phase("END"))
-    }
+    fun end(eventSignature: Array<out MutableMap.MutableEntry<Any?, Any?>>, throwable: Throwable? = null) =
+        if (throwable == null) {
+            structuredLogger.info(eventSignature, phase("END"))
+        } else {
+            structuredLogger.error(eventSignature, phase("END_ERROR"), message(throwable.stackTraceToString()))
+        }
 
     /**
      * @param eventId Unique ID for this event
