@@ -14,15 +14,15 @@
     </Appenders>
     <Loggers>
         <!-- https://logging.apache.org/log4j/2.x/manual/async.html-->
-        <!-- SET TO debug TO SEE unit test LOGS -->
+        <!-- SET TO info or debug TO SEE application LOGS -->
         <Logger name="com.github.frtu.coroutine.webclient.SuspendableWebClientTest" level="info"
                 includeLocation="true"/>
         <Logger name="com.github.frtu.coroutine.webclient.interceptors" level="info" includeLocation="true"
                 additivity="true"/>
         <!-- SET TO info or debug TO SEE application LOGS -->
-        <Logger name="com.github.frtu.coroutine.webclient" level="warn" includeLocation="true" additivity="true"/>
+        <Logger name="com.github.frtu.coroutine.webclient" level="debug" includeLocation="true" additivity="true"/>
 
-        <Root level="WARN">
+        <Root level="INFO">
             <AppenderRef ref="ASYNC"/>
         </Root>
     </Loggers>
