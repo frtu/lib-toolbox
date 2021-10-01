@@ -9,12 +9,12 @@ import org.slf4j.LoggerFactory
 
 /**
  * Prototype for a flow
- * @author frtu
+ * @author Frédéric TU
  * @since 1.1.4
  */
 abstract class BaseFlow<INPUT, OUTPUT>(
     val flowName: String,
-    private val logger: Logger = LoggerFactory.getLogger("flow.$flowName"),
+    internal val logger: Logger = LoggerFactory.getLogger("flow.$flowName"),
     private val errorHandler: ErrorHandler = LogErrorHandler(logger),
 ) {
     fun execute(input: INPUT): OUTPUT {
@@ -35,9 +35,9 @@ abstract class BaseFlow<INPUT, OUTPUT>(
         }
     }
 
-    abstract fun extractId(input: INPUT): String
-    abstract fun doValidation(input: INPUT)
-    abstract fun doExecute(input: INPUT): OUTPUT
+    protected abstract fun extractId(input: INPUT): String
+    protected abstract fun doValidation(input: INPUT)
+    protected abstract fun doExecute(input: INPUT): OUTPUT
 
     internal val structuredLogger = StructuredLogger.create(logger)
     internal val logInterceptorFlow: LogInterceptorFlow = LogInterceptorFlow(structuredLogger, flowName)

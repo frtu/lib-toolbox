@@ -4,7 +4,7 @@ import org.slf4j.Logger
 
 /**
  * Basic ErrorHandler to log errors
- * @author frtu
+ * @author Frédéric TU
  * @since 1.1.4
  */
 class LogErrorHandler(private val logger: Logger) : ErrorHandler {

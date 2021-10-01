@@ -5,7 +5,7 @@ import com.github.frtu.logs.core.StructuredLogger.*
 
 /**
  * Log interceptor
- * @author frtu
+ * @author Frédéric TU
  * @since 1.1.4
  */
 class LogInterceptorFlow(
