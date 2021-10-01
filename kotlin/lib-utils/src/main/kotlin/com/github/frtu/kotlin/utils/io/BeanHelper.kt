@@ -1,10 +1,10 @@
-package com.github.frtu.kotlin.utils
+package com.github.frtu.kotlin.utils.io
 
 /**
  * Allow to easily deserialize an object and use object.
  *
  * @author Frédéric TU
- * @since 1.1.2
+ * @since 1.1.4
  */
 open class BeanHelper: ResourceHelper() {
     /**

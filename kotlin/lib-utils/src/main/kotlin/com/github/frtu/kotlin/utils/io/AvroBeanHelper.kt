@@ -1,4 +1,4 @@
-package com.github.frtu.kotlin.utils
+package com.github.frtu.kotlin.utils.io
 
 import org.apache.avro.Schema
 import org.apache.avro.io.DatumReader
@@ -10,7 +10,7 @@ import org.apache.avro.specific.SpecificDatumReader
  * Allow to easily deserialize an Avro object from external source
  *
  * @author Frédéric TU
- * @since 1.1.2
+ * @since 1.1.4
  */
 class AvroBeanHelper<T>(
     private val schema: Schema? = null,

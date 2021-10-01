@@ -1,4 +1,4 @@
-package com.github.frtu.kotlin.utils
+package com.github.frtu.kotlin.utils.io
 
 import com.github.frtu.serdes.avro.DummyBeanData
 import org.apache.avro.util.Utf8

@@ -1,4 +1,4 @@
-package com.github.frtu.kotlin.utils
+package com.github.frtu.kotlin.utils.io
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test

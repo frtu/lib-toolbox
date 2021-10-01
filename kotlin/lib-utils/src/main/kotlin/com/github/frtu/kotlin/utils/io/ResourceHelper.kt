@@ -1,4 +1,4 @@
-package com.github.frtu.kotlin.utils
+package com.github.frtu.kotlin.utils.io
 
 import org.slf4j.LoggerFactory
 import org.springframework.core.io.DefaultResourceLoader
@@ -8,7 +8,7 @@ import java.io.File
  * Allow to easily read data from resources
  *
  * @author Frédéric TU
- * @since 1.1.3
+ * @since 1.1.4
  */
 open class ResourceHelper {
     internal val logger = LoggerFactory.getLogger(this::class.java)
