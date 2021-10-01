@@ -6,5 +6,5 @@ data class Event(
     val id: UUID,
     val eventTimeEpochMilli: Long,
     val name: String,
-    var description: String,
+    var description: String?,
 )
