@@ -12,7 +12,7 @@ internal class SampleBusinessFlowTest {
     fun `Check flowName`() {
         val flowName = "Name1"
         val businessFlow = SampleBusinessFlow(flowName)
-        assertThat(businessFlow.flowName).isEqualTo(flowName)
+        assertThat(businessFlow.name).isEqualTo(flowName)
     }
 
     @Test

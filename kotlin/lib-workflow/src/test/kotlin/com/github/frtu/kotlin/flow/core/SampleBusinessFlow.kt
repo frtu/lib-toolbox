@@ -3,9 +3,9 @@ package com.github.frtu.kotlin.flow.core
 import java.lang.IllegalStateException
 
 class SampleBusinessFlow(
-    flowName: String,
+    name: String,
     private val shouldSucceed: Boolean = true
-) : BaseFlow<Event, String>(flowName) {
+) : BaseFlow<Event, String>(name) {
     override fun extractId(event: Event): String = event.id.toString()
 
     override fun doValidation(event: Event) {
@@ -15,5 +15,5 @@ class SampleBusinessFlow(
     override fun doExecute(event: Event): String =
         if (shouldSucceed)
             "SUCCESS"
-        else throw IllegalStateException("Error in BusinessFlow[$flowName]")
+        else throw IllegalStateException("Error in BusinessFlow[$name]")
 }
