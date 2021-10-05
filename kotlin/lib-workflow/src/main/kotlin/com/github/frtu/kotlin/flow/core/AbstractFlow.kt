@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory
  * @author Frédéric TU
  * @since 1.1.4
  */
-abstract class BaseFlow<INPUT, OUTPUT>(
+abstract class AbstractFlow<INPUT, OUTPUT>(
     override val name: String,
     protected val logger: Logger = LoggerFactory.getLogger("flow.$name"),
     private val errorHandler: ErrorHandler = LogErrorHandler(logger),

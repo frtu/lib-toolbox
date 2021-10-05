@@ -5,7 +5,7 @@ import java.lang.IllegalStateException
 class SampleBusinessFlow(
     name: String,
     private val shouldSucceed: Boolean = true
-) : BaseFlow<Event, String>(name) {
+) : AbstractFlow<Event, String>(name) {
     override fun extractId(event: Event): String = event.id.toString()
 
     override fun doValidation(event: Event) {
