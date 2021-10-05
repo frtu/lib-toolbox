@@ -1,5 +1,6 @@
 package com.github.frtu.kotlin.flow.core
 
+import com.github.frtu.kotlin.flow.core.Event.Companion.event
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -36,11 +37,4 @@ internal class SampleBusinessFlowTest {
                 .execute(event())
         }
     }
-
-    private fun event(description: String? = "Event description") = Event(
-        id = UUID.randomUUID(),
-        eventTimeEpochMilli = Instant.now().toEpochMilli(),
-        name = "EventName",
-        description = description,
-    )
 }
