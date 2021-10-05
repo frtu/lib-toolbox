@@ -8,7 +8,11 @@ import org.slf4j.Logger
  * @since 1.1.4
  */
 class LogErrorHandler(private val logger: Logger) : ErrorHandler {
-    override fun handle(throwable: Throwable) {
+    override fun warn(throwable: Throwable) {
+        logger.warn(throwable.message, throwable)
+    }
+
+    override fun error(throwable: Throwable) {
         logger.error(throwable.message, throwable)
     }
 }

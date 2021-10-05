@@ -16,8 +16,8 @@ abstract class BaseFlow<INPUT, OUTPUT>(
     override val name: String,
     protected val logger: Logger = LoggerFactory.getLogger("flow.$name"),
     private val errorHandler: ErrorHandler = LogErrorHandler(logger),
-) {
-    fun execute(input: INPUT): OUTPUT {
+) : Flow<INPUT, OUTPUT> {
+    override fun execute(input: INPUT): OUTPUT {
         val eventSignature = beforeExecution(input)
 
         // Precondition
@@ -27,7 +27,7 @@ abstract class BaseFlow<INPUT, OUTPUT>(
         try {
             return doExecute(input)
         } catch (throwable: Throwable) {
-            errorHandler.handle(throwable)
+            errorHandler.error(throwable)
             throw throwable
         } finally {
             // End framework
