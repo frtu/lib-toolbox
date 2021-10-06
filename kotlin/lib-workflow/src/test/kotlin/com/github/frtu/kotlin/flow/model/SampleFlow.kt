@@ -1,8 +1,13 @@
-package com.github.frtu.kotlin.flow.core
+package com.github.frtu.kotlin.flow.model
 
-import java.lang.IllegalStateException
+import com.github.frtu.kotlin.flow.core.AbstractFlow
 
-class SampleBusinessFlow(
+/**
+ * A sample business flow defining : the Event, what is the ID and validation rules, how to execute request.
+ * @author Frédéric TU
+ * @since 1.1.4
+ */
+class SampleFlow(
     name: String,
     private val shouldSucceed: Boolean = true
 ) : AbstractFlow<Event, String>(name) {
