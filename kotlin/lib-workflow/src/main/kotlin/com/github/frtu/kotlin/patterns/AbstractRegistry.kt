@@ -29,7 +29,7 @@ abstract class AbstractRegistry<T>(
     }
 
     companion object {
-        internal fun normalizedName(name: String) = name.toLowerCase()
-        internal val logger = LoggerFactory.getLogger(this::class.java)
+        protected fun normalizedName(name: String) = name.toLowerCase()
+        protected val logger = LoggerFactory.getLogger(this::class.java)
     }
 }
