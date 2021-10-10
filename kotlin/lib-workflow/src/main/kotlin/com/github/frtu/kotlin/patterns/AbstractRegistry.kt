@@ -1,5 +1,6 @@
 package com.github.frtu.kotlin.patterns
 
+import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
 /**
@@ -28,8 +29,7 @@ abstract class AbstractRegistry<T>(
         return result
     }
 
-    companion object {
-        protected fun normalizedName(name: String) = name.toLowerCase()
-        protected val logger = LoggerFactory.getLogger(this::class.java)
-    }
+    protected open fun normalizedName(name: String) = name.toLowerCase()
+    
+    protected val logger: Logger = LoggerFactory.getLogger(this::class.java)
 }
