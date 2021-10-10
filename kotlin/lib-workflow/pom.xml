@@ -11,6 +11,8 @@
     <artifactId>lib-workflow</artifactId>
 
     <properties>
+        <!-- Make sure to import your own version of spring -->
+        <spring.version>5.3.5</spring.version> <!-- related to spring-boot:2.4.4 -->
     </properties>
 
     <dependencies>
@@ -60,6 +62,14 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Compatible with spring framework-->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>${spring.version}</version>
             <scope>test</scope>
         </dependency>
 

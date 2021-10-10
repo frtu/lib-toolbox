@@ -7,7 +7,7 @@ import com.github.frtu.kotlin.flow.core.AbstractFlow
  * @author Frédéric TU
  * @since 1.1.4
  */
-class SampleFlow(
+open class SampleFlow(
     name: String,
     private val shouldSucceed: Boolean = true
 ) : AbstractFlow<Event, String>(name) {
