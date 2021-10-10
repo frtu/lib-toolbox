@@ -11,4 +11,4 @@ import org.springframework.stereotype.Component
  */
 @Component
 class SpringFlowRegistry(registry: MutableMap<String, SampleFlow>) :
-    AbstractRegistry<SampleFlow>("flow", registry)
+    AbstractRegistry<String, SampleFlow>("flow", registry)

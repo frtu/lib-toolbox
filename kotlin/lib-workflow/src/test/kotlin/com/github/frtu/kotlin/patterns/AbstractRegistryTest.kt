@@ -36,10 +36,12 @@ internal class AbstractRegistryTest {
         assertThat(eventRegistry.getElement("unknown")).isEqualTo(eventDefault)
     }
 
-    class EventRegistry : AbstractRegistry<Event>("event")
+    class EventRegistry : AbstractRegistry<String, Event>("event") {
+        public override fun register(name: String, element: Event) = super.register(name, element) as EventRegistry
+    }
 
     class EventWithDefaultRegistry(defaultElement: Event) :
-        AbstractRegistry<Event>(
+        AbstractRegistry<String, Event>(
             "event", mutableMapOf(DEFAULT_KEY to defaultElement)
         ) {
 
