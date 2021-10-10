@@ -29,7 +29,10 @@ abstract class AbstractRegistry<T>(
         return result
     }
 
-    protected open fun normalizedName(name: String) = name.toLowerCase()
-    
+    /**
+     * Allow override name normalization using any convention
+     */
+    protected open fun normalizedName(name: String) = name
+
     protected val logger: Logger = LoggerFactory.getLogger(this::class.java)
 }
