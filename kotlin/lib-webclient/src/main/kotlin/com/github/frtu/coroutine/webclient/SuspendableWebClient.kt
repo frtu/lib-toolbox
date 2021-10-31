@@ -90,15 +90,70 @@ open class SuspendableWebClient(
         val eventSignature = entries(client(), uri(url), requestId(requestId.toString()))!!
         try {
             rpcLogger.debug(eventSignature, phase("PREPARE TO SEND"))
-            return webClient.get()
+
+            val spec = webClient.get()
                 .uri(url)
                 .accept(*binariesMediaTypes)
                 .headers(headerPopulator)
-                .retrieve()
-                .bodyToFlux(DataBuffer::class.java)
+
+            return spec
 //                .exchange()
 //                .flatMapMany { response ->
 //                    response.bodyToFlux(DataBuffer::class.java)
+                .retrieve()
+                .bodyToFlux(DataBuffer::class.java)
+
+//                .awaitExchange { clientResponse ->
+//                    val statusCode = clientResponse.statusCode()
+//                    rpcLogger.debug(eventSignature, phase("ON_RESPONSE"), statusCode(statusCode.value()))
+//
+//                    if (statusCode.is2xxSuccessful) {
+//                        rpcLogger.info(
+//                            eventSignature,
+//                            phase("SUCCESS"),
+//                            statusCode(statusCode.value())
+//                        )
+//                    } else {
+//                        rpcLogger.error(
+//                            eventSignature,
+//                            phase("FAILURE"),
+//                            statusCode(statusCode.value()),
+//                            errorMessage(statusCode.reasonPhrase)
+//                        )
+//                    }
+//                    // Response consumed, logged and cleaned up
+//
+//                    // RETURN
+//                    if (statusCode.isError) {
+//                        throw clientResponse.createExceptionAndAwait()
+//                    }
+//
+//                    val osPipe = PipedOutputStream()
+//                    val isPipe = PipedInputStream(osPipe)
+//
+//                    val body: Flux<DataBuffer> = clientResponse.body(BodyExtractors.toDataBuffers())
+//                        .doOnError { t ->
+//                            logger.error("Error reading body.", t)
+//                            // close pipe to force InputStream to error,
+//                            // otherwise the returned InputStream will hang forever if an error occurs
+//                            try {
+//                                isPipe.use {}
+//                            } catch (ioe: IOException) {
+//                                logger.error("Error closing streams", ioe)
+//                            }
+//                        }
+//                        .doFinally { s ->
+//                            try {
+//                                osPipe.use {}
+//                            } catch (ioe: IOException) {
+//                                logger.error("Error closing streams", ioe)
+//                            }
+//                        }
+//
+//                    DataBufferUtils.write(body, osPipe)
+//                        .subscribe(DataBufferUtils.releaseConsumer())
+//
+//                    isPipe
 //                }
                 .asFlow()
         } catch (e: WebClientResponseException) {
