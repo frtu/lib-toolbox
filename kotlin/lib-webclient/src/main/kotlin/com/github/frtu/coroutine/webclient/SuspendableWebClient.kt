@@ -121,12 +121,12 @@ open class SuspendableWebClient(
         requestBody: T,
         headerPopulator: Consumer<HttpHeaders> = Consumer { _ -> run {} },
         responseCallback: Consumer<WebClientResponse>? = null
-    ) {
+    ): WebClientResponse {
         val eventSignature = entries(client(), uri(url), requestId(requestId.toString()))!!
         rpcLogger.debug(eventSignature, phase("PREPARE TO SEND"), requestBody(requestBody, false))
 
         val requestBodyInserters = BodyInserters.fromValue(requestBody)
-        post(url, requestId, requestBodyInserters, headerPopulator, responseCallback, eventSignature)
+        return post(url, requestId, requestBodyInserters, headerPopulator, responseCallback, eventSignature)
     }
 
     /**
@@ -142,11 +142,11 @@ open class SuspendableWebClient(
         publisher: P, elementClass: Class<T>,
         headerPopulator: Consumer<HttpHeaders> = Consumer { _ -> run {} },
         responseCallback: Consumer<WebClientResponse>? = null
-    ) {
+    ): WebClientResponse {
         val eventSignature = entries(client(), uri(url), requestId(requestId.toString()))!!
         rpcLogger.debug(eventSignature, phase("PREPARE TO SEND"))
 
-        post(
+        return post(
             url,
             requestId,
             BodyInserters.fromPublisher(publisher, elementClass),
@@ -169,7 +169,7 @@ open class SuspendableWebClient(
         headerPopulator: Consumer<HttpHeaders> = Consumer { _ -> run {} },
         responseCallback: Consumer<WebClientResponse>? = null,
         previousEventSignature: Array<out MutableMap.MutableEntry<Any?, Any?>>? = null
-    ) {
+    ): WebClientResponse {
         val eventSignature = previousEventSignature ?: let {
             // ONLY log when not previously logged
             val newEventSignature = entries(client(), uri(url), requestId(requestId.toString()))!!
@@ -178,11 +178,13 @@ open class SuspendableWebClient(
         }
 
         try {
-            val webClientResult = webClient.post()
+            val spec = webClient.post()
                 .uri(url)
                 .contentType(MediaType.APPLICATION_JSON)
                 .headers(headerPopulator)
                 .body(requestBodyInserters)
+
+            val webClientResult = spec
                 .awaitExchange { clientResponse ->
                     val statusCode = clientResponse.statusCode()
                     rpcLogger.debug(eventSignature, phase("ON_RESPONSE"), statusCode(statusCode.value()))
@@ -217,6 +219,7 @@ open class SuspendableWebClient(
                     webClientResult
                 }
             rpcLogger.debug(eventSignature, statusCode(webClientResult.statusCode.value()), phase("FINISHED"))
+            return webClientResult
         } catch (e: WebClientResponseException) {
             // Don't log twice
             throw e
