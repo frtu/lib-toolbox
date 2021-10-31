@@ -88,9 +88,6 @@ open class SuspendableWebClient(
         responseCallback: Consumer<WebClientResponse>? = null,
     ): Flow<DataBuffer> {
         val eventSignature = entries(client(), uri(url), requestId(requestId.toString()))!!
-        val mapper: (ClientResponse) -> Publisher<DataBuffer> = { response ->
-            response.bodyToFlux(DataBuffer::class.java)
-        }
         try {
             rpcLogger.debug(eventSignature, phase("PREPARE TO SEND"))
             return webClient.get()
@@ -99,6 +96,10 @@ open class SuspendableWebClient(
                 .headers(headerPopulator)
                 .retrieve()
                 .bodyToFlux(DataBuffer::class.java)
+//                .exchange()
+//                .flatMapMany { response ->
+//                    response.bodyToFlux(DataBuffer::class.java)
+//                }
                 .asFlow()
         } catch (e: WebClientResponseException) {
             // Don't log twice
