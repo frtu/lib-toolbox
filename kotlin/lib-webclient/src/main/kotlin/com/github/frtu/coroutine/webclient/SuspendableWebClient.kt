@@ -6,6 +6,7 @@ import com.github.frtu.logs.core.RpcLogger.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.reactive.asFlow
 import org.reactivestreams.Publisher
+import org.springframework.core.io.buffer.DataBuffer
 import org.springframework.http.HttpHeaders
 import org.springframework.http.MediaType
 import org.springframework.http.ReactiveHttpOutputMessage
@@ -35,6 +36,14 @@ open class SuspendableWebClient(
     companion object {
         fun create(baseUrl: String, builder: WebClient.Builder = WebClient.builder()): SuspendableWebClient =
             SuspendableWebClient(builder.baseUrl(baseUrl).build())
+
+        val binariesMediaTypes = arrayOf(
+            MediaType.APPLICATION_OCTET_STREAM,
+            MediaType.APPLICATION_PDF,
+            MediaType.IMAGE_PNG,
+            MediaType.IMAGE_JPEG,
+            MediaType.IMAGE_GIF
+        )
     }
 
     /**
@@ -57,6 +66,39 @@ open class SuspendableWebClient(
                 .retrieve()
                 .bodyToFlux<String>()
                 .retryWhen(getRetrySpec)
+                .asFlow()
+        } catch (e: WebClientResponseException) {
+            // Don't log twice
+            throw e
+        } catch (e: Exception) {
+            onException(eventSignature, e)
+            throw e
+        }
+    }
+
+    /**
+     * @param url full URL for the resource
+     * @param requestId unique ID for post idempotency
+     * @param headerPopulator header populator
+     * @param responseConsumer response callback
+     */
+    fun getBinary(
+        url: String, requestId: UUID = UUID.randomUUID(),
+        headerPopulator: Consumer<HttpHeaders> = Consumer { _ -> run {} },
+        responseCallback: Consumer<WebClientResponse>? = null,
+    ): Flow<DataBuffer> {
+        val eventSignature = entries(client(), uri(url), requestId(requestId.toString()))!!
+        val mapper: (ClientResponse) -> Publisher<DataBuffer> = { response ->
+            response.bodyToFlux(DataBuffer::class.java)
+        }
+        try {
+            rpcLogger.debug(eventSignature, phase("PREPARE TO SEND"))
+            return webClient.get()
+                .uri(url)
+                .accept(*binariesMediaTypes)
+                .headers(headerPopulator)
+                .retrieve()
+                .bodyToFlux(DataBuffer::class.java)
                 .asFlow()
         } catch (e: WebClientResponseException) {
             // Don't log twice

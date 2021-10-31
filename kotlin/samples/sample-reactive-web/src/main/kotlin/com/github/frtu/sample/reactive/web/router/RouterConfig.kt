@@ -1,18 +1,18 @@
 package com.github.frtu.sample.reactive.web.router
 
 import com.github.frtu.logs.core.RpcLogger
-import com.github.frtu.logs.core.RpcLogger.requestBody
-import com.github.frtu.logs.core.RpcLogger.responseBody
-import com.github.frtu.logs.core.RpcLogger.uri
+import com.github.frtu.logs.core.RpcLogger.*
+import com.github.frtu.sample.reactive.web.bridge.Bridge
 import com.github.frtu.test.resilience.ChaosGenerator
 import kotlinx.coroutines.reactive.asFlow
-import java.net.URI
-import java.util.UUID
 import org.slf4j.LoggerFactory
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.http.MediaType.APPLICATION_PDF
 import org.springframework.web.reactive.function.server.*
 import reactor.core.publisher.Flux
+import java.net.URI
+import java.util.*
 
 @Configuration
 class RouterConfig {
@@ -21,8 +21,11 @@ class RouterConfig {
     private val chaosGenerator = ChaosGenerator()
 
     @Bean
-    fun route(): RouterFunction<*> = coRouter {
+    fun route(bridge: Bridge): RouterFunction<*> = coRouter {
         val uriPath = "/v1/resources"
+        GET("/pdf") { serverRequest ->
+            ok().contentType(APPLICATION_PDF).bodyAndAwait(bridge.nonBlockingQuery())
+        }
         GET("$uriPath/{id}") { serverRequest ->
             val id = serverRequest.pathVariable("id")
             println(id)
