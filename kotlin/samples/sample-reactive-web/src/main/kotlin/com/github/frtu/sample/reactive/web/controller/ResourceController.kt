@@ -15,7 +15,7 @@ import reactor.core.publisher.Flux
 @RestController
 @RequestMapping("/resource")
 class ResourceController {
-    @GetMapping("/pdf")
+    @GetMapping(value = ["/pdf"], produces = ["application/pdf"])
     fun generatePdf(): Flux<DataBuffer> {
         val resource = DefaultResourceLoader().getResource("classpath:kotlin_docs.pdf")
         return DataBufferUtils.read(

@@ -1,4 +1,4 @@
-package com.github.frtu.sample.reactive.web.web
+package com.github.frtu.sample.reactive.web.router
 
 import com.github.frtu.logs.core.RpcLogger
 import com.github.frtu.logs.core.RpcLogger.requestBody
