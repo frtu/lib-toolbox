@@ -10,10 +10,15 @@ import org.springframework.core.io.buffer.DataBuffer
 import org.springframework.http.HttpHeaders
 import org.springframework.http.MediaType
 import org.springframework.http.ReactiveHttpOutputMessage
+import org.springframework.web.reactive.function.BodyExtractors
 import org.springframework.web.reactive.function.BodyInserter
 import org.springframework.web.reactive.function.BodyInserters
 import org.springframework.web.reactive.function.client.*
+import reactor.core.publisher.Flux
 import reactor.util.retry.Retry
+import java.io.IOException
+import java.io.PipedInputStream
+import java.io.PipedOutputStream
 import java.util.*
 import java.util.function.Consumer
 
@@ -97,64 +102,57 @@ open class SuspendableWebClient(
                 .headers(headerPopulator)
 
             return spec
-//                .exchange()
-//                .flatMapMany { response ->
-//                    response.bodyToFlux(DataBuffer::class.java)
-                .retrieve()
-                .bodyToFlux(DataBuffer::class.java)
+                .exchange()
+                .flatMapMany { clientResponse ->
+                    val statusCode = clientResponse.statusCode()
+                    rpcLogger.debug(eventSignature, phase("ON_RESPONSE"), statusCode(statusCode.value()))
 
-//                .awaitExchange { clientResponse ->
-//                    val statusCode = clientResponse.statusCode()
-//                    rpcLogger.debug(eventSignature, phase("ON_RESPONSE"), statusCode(statusCode.value()))
-//
-//                    if (statusCode.is2xxSuccessful) {
-//                        rpcLogger.info(
-//                            eventSignature,
-//                            phase("SUCCESS"),
-//                            statusCode(statusCode.value())
-//                        )
-//                    } else {
-//                        rpcLogger.error(
-//                            eventSignature,
-//                            phase("FAILURE"),
-//                            statusCode(statusCode.value()),
-//                            errorMessage(statusCode.reasonPhrase)
-//                        )
-//                    }
-//                    // Response consumed, logged and cleaned up
-//
-//                    // RETURN
+                    if (statusCode.is2xxSuccessful) {
+                        rpcLogger.info(
+                            eventSignature,
+                            phase("SUCCESS"),
+                            statusCode(statusCode.value())
+                        )
+                    } else {
+                        rpcLogger.error(
+                            eventSignature,
+                            phase("FAILURE"),
+                            statusCode(statusCode.value()),
+                            errorMessage(statusCode.reasonPhrase)
+                        )
+                    }
+                    // Response consumed, logged and cleaned up
+
+                    // RETURN
 //                    if (statusCode.isError) {
 //                        throw clientResponse.createExceptionAndAwait()
 //                    }
-//
-//                    val osPipe = PipedOutputStream()
-//                    val isPipe = PipedInputStream(osPipe)
-//
-//                    val body: Flux<DataBuffer> = clientResponse.body(BodyExtractors.toDataBuffers())
-//                        .doOnError { t ->
-//                            logger.error("Error reading body.", t)
-//                            // close pipe to force InputStream to error,
-//                            // otherwise the returned InputStream will hang forever if an error occurs
-//                            try {
-//                                isPipe.use {}
-//                            } catch (ioe: IOException) {
-//                                logger.error("Error closing streams", ioe)
-//                            }
-//                        }
-//                        .doFinally { s ->
-//                            try {
-//                                osPipe.use {}
-//                            } catch (ioe: IOException) {
-//                                logger.error("Error closing streams", ioe)
-//                            }
-//                        }
-//
-//                    DataBufferUtils.write(body, osPipe)
-//                        .subscribe(DataBufferUtils.releaseConsumer())
-//
-//                    isPipe
-//                }
+
+                    val osPipe = PipedOutputStream()
+                    val isPipe = PipedInputStream(osPipe)
+
+                    val body: Flux<DataBuffer> = clientResponse.body(BodyExtractors.toDataBuffers())
+                        .doOnError { t ->
+                            logger.error("Error reading body.", t)
+                            // close pipe to force InputStream to error,
+                            // otherwise the returned InputStream will hang forever if an error occurs
+                            try {
+                                isPipe.use {}
+                            } catch (ioe: IOException) {
+                                logger.error("Error closing streams", ioe)
+                            }
+                        }
+                        .doFinally { s ->
+                            try {
+                                osPipe.use {}
+                            } catch (ioe: IOException) {
+                                logger.error("Error closing streams", ioe)
+                            }
+                        }
+                    body
+                }
+//                .retrieve()
+//                .bodyToFlux(DataBuffer::class.java)
                 .asFlow()
         } catch (e: WebClientResponseException) {
             // Don't log twice
