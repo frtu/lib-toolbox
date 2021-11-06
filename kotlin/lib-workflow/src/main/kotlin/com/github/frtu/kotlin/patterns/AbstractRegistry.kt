@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory
  *
  * @author Frédéric TU
  * @since 1.1.4
+ * @param <K> Type of the Key
  * @param <E> Type of element registered
  */
 abstract class AbstractRegistry<K, E>(
