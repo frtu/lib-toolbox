@@ -30,7 +30,7 @@ internal class AbstractRegistryTest {
     }
 
     @Test
-    fun `Register default element`() {
+    fun `Register default element using EventWithDefaultRegistry`() {
         val eventDefault = event("default event")
         val eventRegistry = EventWithDefaultRegistry(eventDefault)
         assertThat(eventRegistry.getElement("unknown")).isEqualTo(eventDefault)
@@ -41,18 +41,5 @@ internal class AbstractRegistryTest {
     }
 
     class EventWithDefaultRegistry(defaultElement: Event) :
-        AbstractRegistry<String, Event>(
-            "event", mutableMapOf(DEFAULT_KEY to defaultElement)
-        ) {
-
-        override fun getElement(name: String): Event = try {
-            super.getElement(name)
-        } catch (e: UnrecognizedElementException) {
-            super.getElement(DEFAULT_KEY)
-        }
-
-        companion object {
-            const val DEFAULT_KEY = "default"
-        }
-    }
+        AbstractRegistryWithDefault<Event>(defaultElement, "event")
 }
