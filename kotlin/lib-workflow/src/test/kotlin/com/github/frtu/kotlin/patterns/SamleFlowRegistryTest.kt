@@ -21,8 +21,8 @@ internal class SamleFlowRegistryTest {
             .register("${namePattern}-1", businessFlow1)
             .register("${namePattern}-2", businessFlow2)
 
-        assertThat(eventRegistry.getElement(businessFlow.name)).isEqualTo(businessFlow)
-        assertThat(eventRegistry.getElement("${namePattern}-1")).isEqualTo(businessFlow1)
-        assertThat(eventRegistry.getElement("${namePattern}-2")).isEqualTo(businessFlow2)
+        assertThat(eventRegistry[businessFlow.name]).isEqualTo(businessFlow)
+        assertThat(eventRegistry["${namePattern}-1"]).isEqualTo(businessFlow1)
+        assertThat(eventRegistry["${namePattern}-2"]).isEqualTo(businessFlow2)
     }
 }

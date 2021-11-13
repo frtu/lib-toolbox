@@ -18,14 +18,14 @@ internal class AbstractRegistryTest {
             .register("${namePattern}-1", event1)
             .register("${namePattern}-2", event2)
 
-        assertThat(eventRegistry.getElement("${namePattern}-2")).isEqualTo(event2)
-        assertThat(eventRegistry.getElement("${namePattern}-1")).isEqualTo(event1)
+        assertThat(eventRegistry["${namePattern}-2"]).isEqualTo(event2)
+        assertThat(eventRegistry["${namePattern}-1"]).isEqualTo(event1)
     }
 
     @Test
     fun `Test doValidation negative case`() {
         assertThrows<UnrecognizedElementException> {
-            EventRegistry().getElement("unknown")
+            EventRegistry().get("unknown")
         }
     }
 
@@ -33,7 +33,7 @@ internal class AbstractRegistryTest {
     fun `Register default element using EventWithDefaultRegistry`() {
         val eventDefault = event("default event")
         val eventRegistry = EventWithDefaultRegistry(eventDefault)
-        assertThat(eventRegistry.getElement("unknown")).isEqualTo(eventDefault)
+        assertThat(eventRegistry["unknown"]).isEqualTo(eventDefault)
     }
 
     class EventRegistry : AbstractRegistry<String, Event>("event") {

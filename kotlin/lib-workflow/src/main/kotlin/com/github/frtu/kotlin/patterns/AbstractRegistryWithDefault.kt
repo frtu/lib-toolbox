@@ -15,10 +15,10 @@ abstract class AbstractRegistryWithDefault<E>(
     registry: MutableMap<String, E> = mutableMapOf(),
 ) : AbstractRegistry<String, E>(type, registry.apply { put(DEFAULT_KEY, defaultElement) }) {
 
-    override fun getElement(name: String): E = try {
-        super.getElement(name)
+    override operator fun get(name: String): E = try {
+        super.get(name)
     } catch (e: UnrecognizedElementException) {
-        super.getElement(DEFAULT_KEY)
+        super.get(DEFAULT_KEY)
     }
 
     companion object {

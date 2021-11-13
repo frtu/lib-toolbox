@@ -19,7 +19,7 @@ abstract class AbstractRegistry<K, E>(
     /** Storage for Element */
     private val registry: MutableMap<K, E> = mutableMapOf(),
 ) {
-    open fun getElement(name: K): E {
+    open operator fun get(name: K): E {
         val normalizedName = normalizedName(name)
         val result = registry[normalizedName] ?: throw UnrecognizedElementException(type, normalizedName.toString())
         logger.debug("Resolve $type:[$name] with normalizedName=[$normalizedName] and result=[${result}]")

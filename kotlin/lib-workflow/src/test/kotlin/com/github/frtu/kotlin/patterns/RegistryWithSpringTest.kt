@@ -15,10 +15,10 @@ internal class RegistryWithSpringTest {
         val applicationContext = AnnotationConfigApplicationContext(SpringConfig::class.java)
         val springFlowRegistry = applicationContext.getBean(SpringFlowRegistry::class.java)
 
-        val sampleFlow: SampleFlow = springFlowRegistry.getElement(GoodSampleFlow.FLOW_NAME)
+        val sampleFlow: SampleFlow = springFlowRegistry[GoodSampleFlow.FLOW_NAME]
         assertThat(sampleFlow.name).isEqualTo(GoodSampleFlow.FLOW_NAME)
 
-        val errorSampleFlow: SampleFlow = springFlowRegistry.getElement(ErrorSampleFlow.FLOW_NAME)
+        val errorSampleFlow: SampleFlow = springFlowRegistry[ErrorSampleFlow.FLOW_NAME]
         assertThat(errorSampleFlow.name).isEqualTo(ErrorSampleFlow.FLOW_NAME)
     }
 }

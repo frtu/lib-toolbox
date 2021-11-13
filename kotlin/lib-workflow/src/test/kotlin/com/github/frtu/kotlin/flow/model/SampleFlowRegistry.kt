@@ -17,9 +17,9 @@ class SampleFlowRegistry(defaultElement: SampleFlow) :
     public override fun register(name: String, element: SampleFlow) =
         super.register(name, element) as SampleFlowRegistry
 
-    override fun getElement(name: String): SampleFlow = try {
-        super.getElement(name)
+    override operator fun get(name: String): SampleFlow = try {
+        super.get(name)
     } catch (e: UnrecognizedElementException) {
-        super.getElement(defaultKey)
+        super.get(defaultKey)
     }
 }
