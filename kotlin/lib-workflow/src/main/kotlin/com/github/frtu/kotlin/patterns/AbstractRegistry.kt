@@ -19,6 +19,10 @@ abstract class AbstractRegistry<K, E>(
     /** Storage for Element */
     private val registry: MutableMap<K, E> = mutableMapOf(),
 ) {
+    open fun all(): List<E> {
+        return registry.values.toList()
+    }
+
     open operator fun get(name: K): E {
         val normalizedName = normalizedName(name)
         val result = registry[normalizedName] ?: throw UnrecognizedElementException(type, normalizedName.toString())
