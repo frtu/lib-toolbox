@@ -8,7 +8,7 @@ import org.junit.jupiter.api.assertThrows
 
 internal class AbstractRegistryTest {
     @Test
-    fun `Register and getElement`() {
+    fun `Register and get`() {
         val namePattern = "event-name"
         val event1 = event("event for ${namePattern}-1")
         val event2 = event("event for ${namePattern}-2")
@@ -29,17 +29,7 @@ internal class AbstractRegistryTest {
         }
     }
 
-    @Test
-    fun `Register default element using EventWithDefaultRegistry`() {
-        val eventDefault = event("default event")
-        val eventRegistry = EventWithDefaultRegistry(eventDefault)
-        assertThat(eventRegistry["unknown"]).isEqualTo(eventDefault)
-    }
-
     class EventRegistry : AbstractRegistry<String, Event>("event") {
         public override fun register(name: String, element: Event) = super.register(name, element) as EventRegistry
     }
-
-    class EventWithDefaultRegistry(defaultElement: Event) :
-        AbstractRegistryWithDefault<Event>(defaultElement, "event")
 }
