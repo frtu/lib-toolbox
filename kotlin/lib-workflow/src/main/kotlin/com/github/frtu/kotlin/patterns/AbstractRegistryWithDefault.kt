@@ -13,7 +13,9 @@ abstract class AbstractRegistryWithDefault<E>(
     type: String,
     /** Storage for Element */
     registry: MutableMap<String, E> = mutableMapOf(),
-) : AbstractRegistry<String, E>(type, registry.apply { put(DEFAULT_KEY, defaultElement) }) {
+    /** Name prefix */
+    namePrefix: String = "",
+) : AbstractRegistryStringKeys<E>(type, registry.apply { put(DEFAULT_KEY, defaultElement) }, namePrefix) {
 
     override operator fun get(name: String): E = try {
         super.get(name)

@@ -1,7 +1,7 @@
 package com.github.frtu.kotlin.patterns.spring
 
 import com.github.frtu.kotlin.flow.model.SampleFlow
-import com.github.frtu.kotlin.patterns.AbstractRegistry
+import com.github.frtu.kotlin.patterns.AbstractRegistryStringKeys
 import org.springframework.stereotype.Component
 
 /**
@@ -11,4 +11,10 @@ import org.springframework.stereotype.Component
  */
 @Component
 class SpringFlowRegistry(registry: MutableMap<String, SampleFlow>) :
-    AbstractRegistry<String, SampleFlow>("flow", registry)
+    AbstractRegistryStringKeys<SampleFlow>("flow", registry, SPRING_NAMESPACE) {
+
+    companion object {
+        /** Best practices - Use namespace to avoid spring beans name collision */
+        const val SPRING_NAMESPACE = "spring-namespace-"
+    }
+}
