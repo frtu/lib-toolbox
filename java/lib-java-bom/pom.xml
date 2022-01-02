@@ -42,11 +42,6 @@
                 <artifactId>lib-spring-reflection</artifactId>
                 <version>1.1.5-SNAPSHOT</version>
             </dependency>
-            <dependency>
-                <groupId>com.github.frtu.libs</groupId>
-                <artifactId>lib-generators</artifactId>
-                <version>1.1.5-SNAPSHOT</version>
-            </dependency>
         </dependencies>
     </dependencyManagement>
 </project>
