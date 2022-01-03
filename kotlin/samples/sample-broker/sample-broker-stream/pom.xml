@@ -18,8 +18,8 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
         <!--===========================-->
-        <base-pom.version>1.2.0-SNAPSHOT</base-pom.version>
-        <frtu.logger.version>1.1.3-SNAPSHOT</frtu.logger.version>
+        <base-pom.version>1.2.2</base-pom.version>
+        <frtu.logger.version>1.1.4</frtu.logger.version>
         <!--===========================-->
         <spring.version>5.3.5</spring.version>
         <spring-boot.version>2.4.4</spring-boot.version>
@@ -340,6 +340,11 @@
             <groupId>com.github.frtu.logs</groupId>
             <artifactId>logger-async</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.github.frtu.libs</groupId>
+            <artifactId>lib-utils</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -511,7 +516,7 @@
                 <configuration>
                     <!-- List of visitors : https://spotbugs-in-kengo-toda.readthedocs.io/en/lqc-list-detectors/detectors.html#standard-detectors-->
                     <!-- Detailed descriptions : http://findbugs.sourceforge.net/bugDescriptions.html -->
-                    <omitVisitors>FindNullDeref,FindBadCast2</omitVisitors>
+                    <omitVisitors>FindNullDeref,FindBadCast2,CheckRelaxingNullnessAnnotation,InconsistentAnnotations,NoteUnconditionalParamDerefs,OptionalReturnNull,SynchronizeAndNullCheckField,BooleanReturnNull</omitVisitors>
                 </configuration>
             </plugin>
             <!-- Generate source jar -->
@@ -632,6 +637,30 @@
 
     <dependencyManagement>
         <dependencies>
+            <!-- Spring platform -->
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-framework-bom</artifactId>
+                <version>${spring.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!-- Spring Boot and Platform -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!-- Spring platform -->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
             <!-- https://kotlinlang.org/docs/reference/using-maven.html -->
             <dependency>
                 <groupId>org.jetbrains.kotlin</groupId>
@@ -644,51 +673,15 @@
             <dependency>
                 <groupId>org.jetbrains.kotlinx</groupId>
                 <artifactId>kotlinx-coroutines-bom</artifactId>
-                <version>${kotlinx.coroutines.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <!-- Spring platform -->
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-framework-bom</artifactId>
-                <version>${spring.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-dependencies</artifactId>
-                <version>${spring-boot.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-dependencies</artifactId>
-                <version>${spring-cloud.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.testcontainers</groupId>
-                <artifactId>testcontainers-bom</artifactId>
-                <version>${testcontainers.version}</version>
+                <version>${kotlinx.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
             <!-- Internal domain dependencies -->
             <dependency>
-                <groupId>com.github.frtu.logs</groupId>
-                <artifactId>logger-bom</artifactId>
-                <version>${frtu.logger.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
                 <groupId>com.github.frtu.archetype</groupId>
-                <artifactId>kotlin-base-pom</artifactId>
-                <version>1.2.1-SNAPSHOT</version>
+                <artifactId>kotlin-extended-pom</artifactId>
+                <version>1.2.2</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -708,6 +701,14 @@
             <!--<type>pom</type>-->
             <!--<scope>import</scope>-->
             <!--</dependency>-->
+
+            <dependency>
+                <groupId>org.testcontainers</groupId>
+                <artifactId>testcontainers-bom</artifactId>
+                <version>${testcontainers.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 </project>
