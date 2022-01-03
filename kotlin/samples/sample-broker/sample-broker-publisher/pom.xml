@@ -4,7 +4,7 @@
     <parent>
         <groupId>com.github.frtu.sample.broker</groupId>
         <artifactId>sample-broker-pom</artifactId>
-        <version>1.1.1-SNAPSHOT</version>
+        <version>1.1.6-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -19,8 +19,8 @@
         <spring-kafka.version>2.6.6</spring-kafka.version>
         <!--===========================-->
         <!--https://kotlinlang.org/docs/reference/using-maven.html-->
-        <kotlin.version>1.4.32</kotlin.version>
-        <kotlinx.coroutines.version>1.4.3</kotlinx.coroutines.version>
+        <kotlin.version>1.6.10</kotlin.version> <!-- 2021-12-14 -->
+        <kotlinx.version>1.6.0</kotlinx.version> <!-- 2021-12-22 -->
         <kotlin.test.version>3.4.2</kotlin.test.version>
         <!--CHECK FOR COMPILER PROPS : https://kotlinlang.org/docs/reference/using-maven.html#attributes-common-for-jvm-and-js-->
         <kotlin.compiler.incremental>true</kotlin.compiler.incremental>
@@ -255,7 +255,7 @@
             <dependency>
                 <groupId>org.jetbrains.kotlinx</groupId>
                 <artifactId>kotlinx-coroutines-bom</artifactId>
-                <version>${kotlinx.coroutines.version}</version>
+                <version>${kotlinx.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>

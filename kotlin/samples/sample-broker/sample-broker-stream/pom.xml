@@ -9,16 +9,18 @@
 
     <groupId>com.github.frtu.sample.broker</groupId>
     <artifactId>sample-broker-stream</artifactId>
-    <version>1.1.1-SNAPSHOT</version>
+    <version>1.1.6-SNAPSHOT</version>
 
     <properties>
+        <frtu.libs.version>${project.version}</frtu.libs.version>
+        <!--===========================-->
         <start-class>com.github.frtu.sample.broker.ApplicationKt</start-class>
         <!--===========================-->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
         <!--===========================-->
-        <base-pom.version>1.2.2</base-pom.version>
+        <base-pom.version>1.2.3</base-pom.version>
         <frtu.logger.version>1.1.4</frtu.logger.version>
         <!--===========================-->
         <spring.version>5.3.5</spring.version>
@@ -28,14 +30,13 @@
         <springdoc.version>1.5.4</springdoc.version>
         <!--<frtu.tools.version>1.0.2</frtu.tools.version>-->
         <!--===========================-->
-        <frtu-libs.version>${project.version}</frtu-libs.version>
         <javax.persistence-api.version>2.2</javax.persistence-api.version>
         <r2dbc.version>Arabba-SR9</r2dbc.version>
         <testcontainers.version>1.15.3</testcontainers.version> <!-- 2021-04-15 -->
         <!--===========================-->
         <!-- https://kotlinlang.org/docs/reference/using-maven.html -->
-        <kotlin.version>1.4.32</kotlin.version>
-        <kotlinx.coroutines.version>1.4.3</kotlinx.coroutines.version>
+        <kotlin.version>1.6.10</kotlin.version> <!-- 2021-12-14 -->
+        <kotlinx.version>1.6.0</kotlinx.version> <!-- 2021-12-22 -->
         <kotlin.test.version>3.4.2</kotlin.test.version>
         <!-- CHECK FOR COMPILER PROPS : https://kotlinlang.org/docs/reference/using-maven.html#attributes-common-for-jvm-and-js-->
         <kotlin.code.style>official</kotlin.code.style>
@@ -205,7 +206,7 @@
         <dependency>
             <groupId>com.github.frtu.libs</groupId>
             <artifactId>lib-r2dbc</artifactId>
-            <version>${frtu-libs.version}</version>
+            <version>${frtu.libs.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -677,14 +678,14 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-            <!-- Internal domain dependencies -->
             <dependency>
                 <groupId>com.github.frtu.archetype</groupId>
                 <artifactId>kotlin-extended-pom</artifactId>
-                <version>1.2.2</version>
+                <version>${base-pom.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+
             <!--ONLY NEEDED IF YOU WANT TO OVERRIDE SPRING DEPENDENCIES MGMT.-->
             <!--<dependency>-->
             <!--    <groupId>io.r2dbc</groupId>-->
