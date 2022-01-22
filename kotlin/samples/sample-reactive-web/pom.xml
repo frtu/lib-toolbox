@@ -41,6 +41,10 @@
         <kotlin.plugin.dep>kotlin-maven-noarg</kotlin.plugin.dep>
         <!-- <kotlin.plugin.dep>kotlin-maven-sam-with-receiver</kotlin.plugin.dep>-->
         <!-- <kotlin.mode>sam-with-receiver</kotlin.mode>-->
+        <!--===========================-->
+        <!-- https://github.com/eclipse/jkube/tree/master/quickstarts/maven/docker-file-simple -->
+        <jkube.version>1.5.1</jkube.version>
+        <jkube.enricher.jkube-service.type>NodePort</jkube.enricher.jkube-service.type>
     </properties>
 
     <dependencies>
@@ -444,10 +448,11 @@
                     </excludes>
                 </configuration>
             </plugin>
+            <!-- https://github.com/eclipse/jkube/tree/master/quickstarts/maven/docker-file-simple -->
             <plugin>
-                <groupId>com.spotify</groupId>
-                <artifactId>docker-maven-plugin</artifactId>
-                <version>1.2.2</version>
+                <groupId>org.eclipse.jkube</groupId>
+                <artifactId>kubernetes-maven-plugin</artifactId>
+                <version>${jkube.version}</version>
                 <executions>
                     <execution>
                         <id>default</id>
@@ -458,19 +463,6 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <imageName>${project.artifactId}</imageName>
-                    <dockerDirectory>src/main/docker</dockerDirectory>
-                    <imageTags>
-                        <imageTag>${project.version}</imageTag>
-                        <imageTag>latest</imageTag>
-                    </imageTags>
-                    <resources>
-                        <resource>
-                            <targetPath>/</targetPath>
-                            <directory>${project.build.directory}</directory>
-                            <include>${project.build.finalName}.jar</include>
-                        </resource>
-                    </resources>
                     <buildArgs>
                         <JAR_FILE>${project.build.finalName}.jar</JAR_FILE>
                     </buildArgs>
