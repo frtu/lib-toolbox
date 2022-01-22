@@ -551,7 +551,7 @@
         </profile>
         <!-- https://github.com/eclipse/jkube/blob/master/quickstarts/maven/docker-file-provided/pom.xml#L101-L125 -->
         <profile>
-            <id>docker-regisry</id>
+            <id>registry-k8s</id>
             <properties>
                 <docker.image.prefix>myregistry-127-0-0-1.nip.io:5000</docker.image.prefix>
             </properties>
@@ -566,6 +566,7 @@
                                 <id>default</id>
                                 <phase>verify</phase>
                                 <goals>
+                                    <goal>resource</goal>
                                     <goal>build</goal>
                                 </goals>
                             </execution>
