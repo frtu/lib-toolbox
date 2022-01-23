@@ -553,7 +553,7 @@
         <profile>
             <id>registry-k8s</id>
             <properties>
-                <docker.image.prefix>myregistry-127-0-0-1.nip.io:5000</docker.image.prefix>
+                <docker.registry>myregistry-127-0-0-1.nip.io:5000</docker.registry>
             </properties>
             <build>
                 <plugins>
@@ -574,7 +574,9 @@
                         <configuration>
                             <images>
                                 <image>
-                                    <name>${docker.image.prefix}/${project.artifactId}:${project.version}</name>
+                                    <!-- https://www.eclipse.org/jkube/docs/kubernetes-maven-plugin#registry -->
+                                    <registry>${docker.registry}</registry>
+                                    <name>${docker.registry}/${project.artifactId}:${project.version}</name>
                                     <build>
                                         <!-- https://www.eclipse.org/jkube/docs/kubernetes-maven-plugin#external-dockerfile -->
                                         <dockerFile>${project.basedir}/Dockerfile</dockerFile>
