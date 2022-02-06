@@ -552,8 +552,12 @@
         <!-- https://github.com/eclipse/jkube/blob/master/quickstarts/maven/docker-file-provided/pom.xml#L101-L125 -->
         <profile>
             <id>registry-k8s</id>
+            <activation>
+                <!-- this profile is active by default -->
+                <activeByDefault>true</activeByDefault>
+            </activation>
             <properties>
-                <docker.registry>myregistry-127-0-0-1.nip.io:5000</docker.registry>
+                <docker.registry>docker-registry:5000</docker.registry>
             </properties>
             <build>
                 <plugins>
@@ -576,7 +580,7 @@
                                 <image>
                                     <!-- https://www.eclipse.org/jkube/docs/kubernetes-maven-plugin#registry -->
                                     <registry>${docker.registry}</registry>
-                                    <name>${docker.registry}/${project.artifactId}:${project.version}</name>
+                                    <name>${project.artifactId}:${project.version}</name>
                                     <build>
                                         <!-- https://www.eclipse.org/jkube/docs/kubernetes-maven-plugin#external-dockerfile -->
                                         <dockerFile>${project.basedir}/Dockerfile</dockerFile>
@@ -624,7 +628,7 @@
             <dependency>
                 <groupId>com.github.frtu.archetype</groupId>
                 <artifactId>kotlin-extended-pom</artifactId>
-                <version>1.2.1</version>
+                <version>1.2.2</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
