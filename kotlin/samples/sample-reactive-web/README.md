@@ -23,7 +23,22 @@ docker run -d --name <instance-name> -p 8080:8080 -P <your-archetype-id>
 ```
 
 * -d : startup as a daemon
-* --name : give it a name
+* --name <instance-name> : give it a name
+
+## Integration with Docker Registry
+
+Start with one line or 
+use [vm/docker/docker-registry](https://github.com/frtu/vm/docker/docker-registry) that has UI.
+
+```
+docker run -d -p 5000:5000 --name docker-registry registry:2.7
+```
+
+Also add in /etc/hosts
+
+```
+127.0.0.1 docker-registry
+```
 
 ## Release notes
 

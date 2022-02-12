@@ -557,6 +557,7 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
             <properties>
+                <!-- If using local, add docker-registry into /etc/hosts -->
                 <docker.registry>docker-registry:5000</docker.registry>
             </properties>
             <build>
