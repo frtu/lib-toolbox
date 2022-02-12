@@ -28,7 +28,7 @@ docker run -d --name <instance-name> -p 8080:8080 -P <your-archetype-id>
 ## Integration with Docker Registry
 
 Start with one line or 
-use [vm/docker/docker-registry](https://github.com/frtu/vm/docker/docker-registry) that has UI.
+use [vm/docker/docker-registry](https://github.com/frtu/vm/tree/master/docker/docker-registry) that has UI.
 
 ```
 docker run -d -p 5000:5000 --name docker-registry registry:2.7
