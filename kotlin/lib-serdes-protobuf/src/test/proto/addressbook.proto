@@ -1,0 +1,40 @@
+// From https://github.com/protocolbuffers/protobuf/blob/v3.11.2/examples/addressbook.proto
+syntax = "proto3";
+option java_multiple_files = true;
+
+package metadata;
+option java_package = "com.github.frtu.proto.metadata";
+
+// [START security_flag]
+import "metadata/sec.proto";
+import "metadata/sla.proto";
+// [START security_flag]
+
+option java_outer_classname = "AddressBookProtos";
+
+message Person {
+    option (sla.data_sla) = RELIABLE;
+
+    string name = 1;
+    int32 id = 2;
+    string email = 3 [(sec.secured_field) = true];
+
+    enum PhoneType {
+        MOBILE = 0;
+        HOME = 1;
+        WORK = 2;
+    }
+
+    message PhoneNumber {
+        string number = 1 [(sec.secured_field) = true];
+        PhoneType type = 2;
+    }
+
+    repeated PhoneNumber phones = 4;
+}
+
+message AddressBook {
+    option (sla.data_sla) = REALTIME;
+
+    repeated Person people = 1;
+}
