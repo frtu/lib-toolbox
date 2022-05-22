@@ -7,7 +7,7 @@ Lib for reflection, object manipulation using Spring & org.reflections:reflectio
 ## History
 
 * Migrated from [governance-toolbox](https://github.com/frtu/governance-toolbox/tree/master/libraries/library-spring-reflection).
-* Existed under :
+* Existed previously under :
 
 ```XML
 <dependency>
@@ -19,6 +19,6 @@ Lib for reflection, object manipulation using Spring & org.reflections:reflectio
 
 ## Release notes
 
-### 1.1.2-SNAPSHOT
+### 1.1.2
 
 * Migrated version with latest base-pom.xml
