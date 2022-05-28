@@ -1,4 +1,4 @@
-package com.github.frtu.sample.grpc
+package com.github.frtu.sample.proto
 
 import com.github.frtu.kotlin.protobuf.BaseMessageMetadataHelper
 import com.github.frtu.sample.grpc.metadata.sla.DataSLA
