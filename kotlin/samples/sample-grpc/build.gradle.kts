@@ -98,7 +98,11 @@ sourceSets {
         }
     }
 }
-
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+    kotlinOptions {
+        freeCompilerArgs += "-Xopt-in=kotlin.RequiresOptIn"
+    }
+}
 protobuf {
     protoc { artifact = "com.google.protobuf:protoc:${Versions.protobuf}" }
     plugins {
