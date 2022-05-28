@@ -12,6 +12,9 @@ import "data/model.proto";
 message ById {
     string id = 1;
 }
+message Id {
+    string id = 1;
+}
 
 // Singular query
 message By {
@@ -23,5 +26,7 @@ message ItemList {
 
 service EmailRepositoryService {
     rpc QueryOne (ById) returns (EmailHistoryItem);
-    rpc QueryMany (By) returns (ItemList);
+    rpc QueryMany (By) returns (stream EmailHistoryItem);
+
+    rpc Insert (stream EmailHistoryItem) returns (stream Id);
 }
