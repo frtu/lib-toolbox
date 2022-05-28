@@ -20,10 +20,13 @@ apply(plugin = "io.spring.dependency-management")
 group = "com.github.frtu.sample.grpc"
 
 dependencies {
-    // Spring
-    implementation("org.springframework.boot:spring-boot-starter-webflux")
-    implementation("org.springdoc:springdoc-openapi-webflux-ui:${Versions.springdoc}")
+    // Reactive database
+    implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
+    implementation("org.springframework.boot:spring-boot-starter-data-r2dbc")
+    runtimeOnly("io.r2dbc:r2dbc-h2")
+    runtimeOnly("com.h2database:h2")
 
+    // gRPC
     implementation("com.google.protobuf:protobuf-java:${Versions.protobuf}")
     implementation("com.google.protobuf:protobuf-java-util:${Versions.protobuf}")
     implementation("com.google.protobuf:protobuf-kotlin:${Versions.protobuf}")
@@ -31,11 +34,18 @@ dependencies {
     implementation("io.grpc:grpc-kotlin-stub:${Versions.grpc_kotlin}")
     implementation("io.grpc:grpc-stub:${Versions.grpc}")
     implementation("io.grpc:grpc-netty:${Versions.grpc}")
-    implementation(Libs.lib_serdes_protobuf)
 
     // Serialization
+    implementation(Libs.lib_serdes_protobuf)
     implementation(Libs.jackson_databind)
     implementation(Libs.jackson_module_kotlin)
+
+    // Spring Boot
+    implementation("org.springframework.boot:spring-boot-starter-webflux")
+    implementation("org.springdoc:springdoc-openapi-webflux-ui:${Versions.springdoc}")
+    // Dev & monitoring
+    implementation("org.springframework.boot:spring-boot-starter-actuator")
+    implementation("io.micrometer:micrometer-core:1.6.2")
 
     // Platform - Coroutine
     implementation(Libs.coroutines_reactor)
@@ -51,6 +61,8 @@ dependencies {
     testImplementation(Libs.mock)
     testImplementation(Libs.assertions)
     testImplementation(kotlin("test"))
+    testImplementation("io.projectreactor:reactor-test")
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
 
     // Platform - BOMs
     implementation(platform(kotlin("bom")))
