@@ -1,18 +1,29 @@
 // https://github.com/grpc/grpc-kotlin/blob/master/compiler/README.md
 import com.google.protobuf.gradle.*
+import io.spring.gradle.dependencymanagement.dsl.DependencyManagementExtension
+import org.springframework.boot.gradle.plugin.SpringBootPlugin
 
 plugins {
     `java-library`
     kotlin("jvm")
+    kotlin("plugin.spring") version Versions.kotlin
+    id("org.springframework.boot") version Versions.spring_boot
     id("com.google.protobuf") version Versions.plugin_protobuf
 //    id("org.jlleitschuh.gradle.ktlint") version "10.2.0"
 }
 //apply(plugin = "org.jlleitschuh.gradle.ktlint")
 apply(plugin = "idea")
+apply(plugin = "org.jetbrains.kotlin.jvm")
+apply(plugin = "org.jetbrains.kotlin.plugin.spring")
+apply(plugin = "io.spring.dependency-management")
 
 group = "com.github.frtu.sample.grpc"
 
 dependencies {
+    // Spring
+    implementation("org.springframework.boot:spring-boot-starter-webflux")
+    implementation("org.springdoc:springdoc-openapi-webflux-ui:${Versions.springdoc}")
+
     implementation("com.google.protobuf:protobuf-java:${Versions.protobuf}")
     implementation("com.google.protobuf:protobuf-java-util:${Versions.protobuf}")
     implementation("com.google.protobuf:protobuf-kotlin:${Versions.protobuf}")
@@ -24,7 +35,7 @@ dependencies {
 
     // Serialization
     implementation(Libs.jackson_databind)
-//    implementation(Libs.jackson_module_kotlin)
+    implementation(Libs.jackson_module_kotlin)
 
     // Platform - Coroutine
     implementation(Libs.coroutines_reactor)
@@ -42,10 +53,6 @@ dependencies {
     testImplementation(kotlin("test"))
 
     // Platform - BOMs
-    implementation(platform(Libs.bom_jackson))
-//    implementation(platform(Libs.bom_kotlin_base))
-    implementation(platform(Libs.bom_kotlin_libs))
-    implementation(platform(Libs.bom_logger))
     implementation(platform(kotlin("bom")))
     implementation(kotlin("stdlib-jdk8"))
     implementation(kotlin("reflect"))
@@ -54,6 +61,16 @@ dependencies {
         // Workaround for @javax.annotation.Generated
         // see: https://github.com/grpc/grpc-java/issues/3633
         implementation("javax.annotation:javax.annotation-api:1.3.2")
+    }
+}
+
+the<DependencyManagementExtension>().apply {
+    imports {
+        mavenBom(SpringBootPlugin.BOM_COORDINATES)
+        mavenBom(Libs.bom_jackson)
+        mavenBom(Libs.bom_kotlin_base)
+        mavenBom(Libs.bom_kotlin_libs)
+        mavenBom(Libs.bom_logger)
     }
 }
 
