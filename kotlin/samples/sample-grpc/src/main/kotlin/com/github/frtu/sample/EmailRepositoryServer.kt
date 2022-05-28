@@ -2,6 +2,7 @@ package com.github.frtu.sample
 
 import com.github.frtu.kotlin.protobuf.utils.toTimestamp
 import com.github.frtu.sample.grpc.*
+import com.github.frtu.sample.persistence.basic.STATUS
 import io.grpc.Server
 import io.grpc.ServerBuilder
 import java.time.Instant
@@ -44,14 +45,14 @@ class EmailRepositoryServer(private val port: Int) {
             }
             this.creationTime = Instant.now().toTimestamp()
             this.updateTime = Instant.now().toTimestamp()
-            this.status = "SENT"
+            this.status = STATUS.SENT.toString()
         }
     }
 }
 
-fun main() {
-    val port = System.getenv("PORT")?.toInt() ?: 9090
-    val server = EmailRepositoryServer(port)
-    server.start()
-    server.blockUntilShutdown()
-}
+//fun main() {
+//    val port = System.getenv("PORT")?.toInt() ?: 9090
+//    val server = EmailRepositoryServer(port)
+//    server.start()
+//    server.blockUntilShutdown()
+//}

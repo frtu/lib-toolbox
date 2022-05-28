@@ -25,7 +25,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-r2dbc")
     runtimeOnly("io.r2dbc:r2dbc-h2")
     runtimeOnly("com.h2database:h2")
-    implementation("io.r2dbc:r2dbc-postgresql:${Versions.r2dbc_postgres}")
+    implementation("io.r2dbc:r2dbc-postgresql")
     runtimeOnly("org.postgresql:postgresql")
     runtimeOnly("org.springframework.boot:spring-boot-starter-jdbc")
     runtimeOnly("org.flywaydb:flyway-core")
@@ -98,11 +98,6 @@ sourceSets {
         }
     }
 }
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-    kotlinOptions {
-        freeCompilerArgs += "-Xopt-in=kotlin.RequiresOptIn"
-    }
-}
 protobuf {
     protoc { artifact = "com.google.protobuf:protoc:${Versions.protobuf}" }
     plugins {
@@ -127,6 +122,12 @@ java {
     sourceCompatibility = JavaVersion.VERSION_11
     targetCompatibility = JavaVersion.VERSION_11
 }
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+    kotlinOptions {
+        freeCompilerArgs += "-Xopt-in=kotlin.RequiresOptIn"
+    }
+}
+
 repositories {
     mavenLocal()
     mavenCentral()

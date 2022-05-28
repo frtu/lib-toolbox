@@ -6,7 +6,7 @@ import com.google.protobuf.Descriptors
 
 private val slaMetadataHelper = SlaMetadataHelper()
 
-fun main(args: Array<String>) {
+fun main() {
     val personDescriptor: Descriptors.Descriptor = Email.getDescriptor()
     val dataSLA: DataSLA = slaMetadataHelper.getSLA(personDescriptor).get()
     println(dataSLA.toString())
