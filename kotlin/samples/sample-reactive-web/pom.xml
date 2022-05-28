@@ -5,16 +5,16 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.5.3</version>
+        <version>2.6.6</version>
     </parent>
 
     <groupId>com.github.frtu.samples</groupId>
     <artifactId>sample-reactive-web</artifactId>
-    <version>1.1.4-SNAPSHOT</version>
+    <version>1.2.0-SNAPSHOT</version>
 
     <properties>
         <start-class>com.github.frtu.sample.reactive.web.ApplicationKt</start-class>
-        <frtu.lib.version>1.1.4-SNAPSHOT</frtu.lib.version>
+        <frtu.lib.version>${project.version}</frtu.lib.version>
         <!--===========================-->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -29,9 +29,9 @@
         <r2dbc.version>Arabba-SR9</r2dbc.version>
         <!--===========================-->
         <!-- https://kotlinlang.org/docs/reference/using-maven.html -->
-        <kotlin.version>1.5.21</kotlin.version>
-        <kotlinx.coroutines.version>1.5.1</kotlinx.coroutines.version>
-        <kotlin.test.version>3.4.2</kotlin.test.version>
+        <kotlin.version>1.5.32</kotlin.version> <!-- 2021-11-29 -->
+        <kotlinx.version>1.5.2</kotlinx.version> <!-- 2021-09-01 -->
+        <kotlin.test.version>3.4.2</kotlin.test.version> <!-- 2019-09-21 -->
         <!-- CHECK FOR COMPILER PROPS : https://kotlinlang.org/docs/reference/using-maven.html#attributes-common-for-jvm-and-js-->
         <kotlin.code.style>official</kotlin.code.style>
         <kotlin.compiler.incremental>true</kotlin.compiler.incremental>
@@ -621,7 +621,7 @@
             <dependency>
                 <groupId>org.jetbrains.kotlinx</groupId>
                 <artifactId>kotlinx-coroutines-bom</artifactId>
-                <version>${kotlinx.coroutines.version}</version>
+                <version>${kotlinx.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -629,7 +629,7 @@
             <dependency>
                 <groupId>com.github.frtu.archetype</groupId>
                 <artifactId>kotlin-extended-pom</artifactId>
-                <version>1.2.2</version>
+                <version>1.2.3</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>

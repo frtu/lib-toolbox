@@ -4,12 +4,12 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.4.4</version>
+        <version>2.6.6</version>
     </parent>
 
     <groupId>com.github.frtu.sample.broker</groupId>
     <artifactId>sample-broker-stream</artifactId>
-    <version>1.1.6-SNAPSHOT</version>
+    <version>1.2.0-SNAPSHOT</version>
 
     <properties>
         <frtu.libs.version>${project.version}</frtu.libs.version>
@@ -23,9 +23,8 @@
         <base-pom.version>1.2.3</base-pom.version>
         <frtu.logger.version>1.1.4</frtu.logger.version>
         <!--===========================-->
-        <spring.version>5.3.5</spring.version>
-        <spring-boot.version>2.4.4</spring-boot.version>
-        <spring-cloud.version>Hoxton.SR11</spring-cloud.version>
+        <spring-boot.version>2.6.6</spring-boot.version>
+        <spring-cloud.version>2021.0.0</spring-cloud.version>
         <!-- https://search.maven.org/artifact/org.springdoc/springdoc-openapi-ui/1.5.4/jar -->
         <springdoc.version>1.5.4</springdoc.version>
         <!--<frtu.tools.version>1.0.2</frtu.tools.version>-->
@@ -35,9 +34,9 @@
         <testcontainers.version>1.15.3</testcontainers.version> <!-- 2021-04-15 -->
         <!--===========================-->
         <!-- https://kotlinlang.org/docs/reference/using-maven.html -->
-        <kotlin.version>1.6.10</kotlin.version> <!-- 2021-12-14 -->
-        <kotlinx.version>1.6.0</kotlinx.version> <!-- 2021-12-22 -->
-        <kotlin.test.version>3.4.2</kotlin.test.version>
+        <kotlin.version>1.5.32</kotlin.version> <!-- 2021-11-29 -->
+        <kotlinx.version>1.5.2</kotlinx.version> <!-- 2021-09-01 -->
+        <kotlin.test.version>3.4.2</kotlin.test.version> <!-- 2019-09-21 -->
         <!-- CHECK FOR COMPILER PROPS : https://kotlinlang.org/docs/reference/using-maven.html#attributes-common-for-jvm-and-js-->
         <kotlin.code.style>official</kotlin.code.style>
         <kotlin.compiler.incremental>true</kotlin.compiler.incremental>
@@ -638,14 +637,6 @@
 
     <dependencyManagement>
         <dependencies>
-            <!-- Spring platform -->
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-framework-bom</artifactId>
-                <version>${spring.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
             <!-- Spring Boot and Platform -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
@@ -682,6 +673,14 @@
                 <groupId>com.github.frtu.archetype</groupId>
                 <artifactId>kotlin-extended-pom</artifactId>
                 <version>${base-pom.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!-- Platform - Log -->
+            <dependency>
+                <groupId>com.github.frtu.logs</groupId>
+                <artifactId>logger-bom</artifactId>
+                <version>${frtu.logger.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>

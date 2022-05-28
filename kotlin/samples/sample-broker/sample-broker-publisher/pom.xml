@@ -4,7 +4,7 @@
     <parent>
         <groupId>com.github.frtu.sample.broker</groupId>
         <artifactId>sample-broker-pom</artifactId>
-        <version>1.1.6-SNAPSHOT</version>
+        <version>1.2.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -19,9 +19,9 @@
         <spring-kafka.version>2.6.6</spring-kafka.version>
         <!--===========================-->
         <!--https://kotlinlang.org/docs/reference/using-maven.html-->
-        <kotlin.version>1.6.10</kotlin.version> <!-- 2021-12-14 -->
-        <kotlinx.version>1.6.0</kotlinx.version> <!-- 2021-12-22 -->
-        <kotlin.test.version>3.4.2</kotlin.test.version>
+        <kotlin.version>1.5.32</kotlin.version> <!-- 2021-11-29 -->
+        <kotlinx.version>1.5.2</kotlinx.version> <!-- 2021-09-01 -->
+        <kotlin.test.version>3.4.2</kotlin.test.version> <!-- 2019-09-21 -->
         <!--CHECK FOR COMPILER PROPS : https://kotlinlang.org/docs/reference/using-maven.html#attributes-common-for-jvm-and-js-->
         <kotlin.compiler.incremental>true</kotlin.compiler.incremental>
     </properties>
