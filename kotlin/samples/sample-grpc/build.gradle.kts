@@ -34,6 +34,7 @@ dependencies {
     implementation("io.grpc:grpc-kotlin-stub:${Versions.grpc_kotlin}")
     implementation("io.grpc:grpc-stub:${Versions.grpc}")
     implementation("io.grpc:grpc-netty:${Versions.grpc}")
+    implementation("net.devh:grpc-server-spring-boot-starter:${Versions.grpc_spring_boot_starter}")
 
     // Serialization
     implementation(Libs.lib_serdes_protobuf)

@@ -29,8 +29,11 @@ class Application {
                 )
             )
             coroutineRepository.findAll().toList(list)
+            logger.debug(list.toString())
+
+            val emailEntity = coroutineRepository.findById(0)
+            logger.debug(emailEntity.toString())
         }
-        logger.debug(list.toString())
     }
 
     @Bean

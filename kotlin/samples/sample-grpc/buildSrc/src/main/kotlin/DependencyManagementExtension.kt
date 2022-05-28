@@ -21,6 +21,7 @@ object Versions {
     const val protobuf = "3.18.1" // 2021-10-06
     const val grpc = "1.39.0" // 2021-06-30
     const val grpc_kotlin = "1.2.0" // 2021-10-15
+    const val grpc_spring_boot_starter = "2.13.1.RELEASE"
 }
 
 object Libs {

@@ -1,0 +1,27 @@
+syntax = "proto3";
+option java_multiple_files = true;
+
+package sample.grpc;
+option java_package = "com.github.frtu.sample.grpc";
+
+import "metadata/sec.proto";
+import "metadata/sla.proto";
+import "data/model.proto";
+
+// Singular query
+message ById {
+    int64 id = 1;
+}
+
+// Singular query
+message By {
+    string name = 1;
+}
+message ItemList {
+    repeated EmailHistoryItem list = 1;
+}
+
+service EmailRepositoryService {
+    rpc QueryOne (ById) returns (EmailHistoryItem);
+    rpc QueryMany (By) returns (ItemList);
+}
