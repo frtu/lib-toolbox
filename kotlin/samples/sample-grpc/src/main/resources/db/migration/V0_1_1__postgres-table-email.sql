@@ -1,6 +1,8 @@
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
 CREATE TABLE IF NOT EXISTS email
 (
-    id              bigint auto_increment   PRIMARY KEY,
+    id              uuid                    PRIMARY KEY DEFAULT uuid_generate_v4(),
     receiver        VARCHAR(255)            NOT NULL,
     subject         VARCHAR(130)            NOT NULL,
     content         VARCHAR(255)            NOT NULL,

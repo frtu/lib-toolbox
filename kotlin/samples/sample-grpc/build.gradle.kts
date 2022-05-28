@@ -25,6 +25,10 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-r2dbc")
     runtimeOnly("io.r2dbc:r2dbc-h2")
     runtimeOnly("com.h2database:h2")
+    implementation("io.r2dbc:r2dbc-postgresql:${Versions.r2dbc_postgres}")
+    runtimeOnly("org.postgresql:postgresql")
+    runtimeOnly("org.springframework.boot:spring-boot-starter-jdbc")
+    runtimeOnly("org.flywaydb:flyway-core")
 
     // gRPC
     implementation("com.google.protobuf:protobuf-java:${Versions.protobuf}")

@@ -10,7 +10,7 @@ import "data/model.proto";
 
 // Singular query
 message ById {
-    int64 id = 1;
+    string id = 1;
 }
 
 // Singular query

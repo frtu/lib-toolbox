@@ -2,6 +2,7 @@ package com.github.frtu.sample
 
 import com.github.frtu.sample.persistence.basic.EmailEntity
 import com.github.frtu.sample.persistence.basic.IEmailRepository
+import com.github.frtu.sample.persistence.basic.STATUS
 import io.r2dbc.spi.ConnectionFactory
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
@@ -22,17 +23,16 @@ class Application {
         logger.debug("======================================")
         val list = mutableListOf<EmailEntity>()
         runBlocking {
-            coroutineRepository.save(
-                EmailEntity(
-                    "rndfred@gmail.com", "Mail subject",
-                    "Lorem ipsum dolor sit amet.", "SENT"
-                )
+            val entity = EmailEntity(
+                "rndfred@gmail.com", "Mail subject",
+                "Lorem ipsum dolor sit amet.", STATUS.SENT
             )
+            coroutineRepository.save(entity)
             coroutineRepository.findAll().toList(list)
             logger.debug(list.toString())
 
-            val emailEntity = coroutineRepository.findById(0)
-            logger.debug(emailEntity.toString())
+//            val emailEntity = coroutineRepository.findById(entity.id!!)
+//            logger.debug(emailEntity.toString())
         }
     }
 
@@ -41,7 +41,7 @@ class Application {
         ConnectionFactoryInitializer().apply {
             setConnectionFactory(connectionFactory)
             setDatabasePopulator(CompositeDatabasePopulator().apply {
-                addPopulators(ResourceDatabasePopulator(ClassPathResource("db/migration/V0_1_0__h2-table-email.sql")))
+                addPopulators(ResourceDatabasePopulator(ClassPathResource("db/migration/V0_1_1__postgres-table-email.sql")))
             })
         }
 

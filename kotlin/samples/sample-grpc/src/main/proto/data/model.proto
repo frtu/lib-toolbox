@@ -20,21 +20,22 @@ option java_outer_classname = "EmailProtos";
 message Email {
     option (sla.data_sla) = RELIABLE;
 
-    int64 id = 1; // ID from which this data can be uniquely identified.
-    string receiver = 2 [(sec.secured_field) = true]; // A certain value this data contains.
-    string subject = 3;
-    string content = 4 [(sec.secured_field) = true];
+    string receiver = 1 [(sec.secured_field) = true]; // A certain value this data contains.
+    string subject = 2;
+    string content = 3 [(sec.secured_field) = true];
 }
 
 message EmailEvent {
-    Email data = 1;
+    string id = 1; // ID from which this data can be uniquely identified.
     google.protobuf.Timestamp event_time = 2; // epoch time when the event occurred. See https://databricks.com/blog/2017/05/08/event-time-aggregation-watermarking-apache-sparks-structured-streaming.html
     string status = 3;
+    Email data = 4;
 }
 message EmailHistoryItem {
-    Email data = 1;
+    string id = 1; // ID from which this data can be uniquely identified.
     google.protobuf.Timestamp creation_time = 2; // epoch time when the event occurred. See https://databricks.com/blog/2017/05/08/event-time-aggregation-watermarking-apache-sparks-structured-streaming.html
     google.protobuf.Timestamp update_time = 3; // epoch time when the event occurred. See https://databricks.com/blog/2017/05/08/event-time-aggregation-watermarking-apache-sparks-structured-streaming.html
     string status = 4;
+    Email data = 5;
 }
 // [END java_declaration and messages]

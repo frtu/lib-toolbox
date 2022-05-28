@@ -6,6 +6,7 @@ import org.springframework.data.annotation.LastModifiedDate
 import org.springframework.data.relational.core.mapping.Column
 import org.springframework.data.relational.core.mapping.Table
 import java.time.LocalDateTime
+import java.util.*
 
 @Table("email")
 data class EmailEntity(
@@ -13,17 +14,17 @@ data class EmailEntity(
     var receiver: String? = null,
 
     @Column("subject")
-    var subject: String? = null,
+    var subject: String = "",
 
     @Column("content")
-    var content: String? = null,
+    var content: String = "",
 
     @Column("status")
-    var status: String? = null,
+    var status: STATUS = STATUS.INIT,
 
     @Id
     @Column("id")
-    var id: Long? = null,
+    var id: UUID? = null,
 
     @CreatedDate
     @Column("creation_time")

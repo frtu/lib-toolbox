@@ -3,6 +3,14 @@
 # ======================================
 application:
   name: sample-grpc
+  persistence:
+    host: localhost
+    port: 5432
+    database: postgres
+    username: root
+    password: admin
+    url: r2dbc:postgresql://${application.persistence.host}:${application.persistence.port}/${application.persistence.database}
+#    url: r2dbc:h2:mem:///test?options=DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
 
 # ======================================
 # Spring Boot
@@ -10,6 +18,26 @@ application:
 spring:
   application:
     name: ${application.name}
+
+  # Bootstrap DB
+#  flyway:
+#    url: ${application.persistence.url}
+#    user: ${application.persistence.username}
+#    password: ${application.persistence.password}
+#    locations: "classpath:/db/migration"
+#    enabled: true
+
+  # R2DBC
+  r2dbc:
+    url: ${application.persistence.url}
+    username: ${application.persistence.username}
+    password: ${application.persistence.password}
+    initialization-mode: always
+
+logging:
+  level:
+    org.springframework.data.r2dbc: ${LOG_LEVEL_DB_SQL:DEBUG}
+    org.springframework.transaction: ${LOG_LEVEL_DB_TXN:TRACE}
 
 # ======================================
 # Management
@@ -22,5 +50,9 @@ management:
     web:
       exposure:
         include:
-          - info
           - health
+          - prometheus
+          - info
+info:
+  app:
+    name: ${application.name}

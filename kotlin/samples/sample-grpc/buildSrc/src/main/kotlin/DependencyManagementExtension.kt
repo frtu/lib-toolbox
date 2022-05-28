@@ -22,6 +22,7 @@ object Versions {
     const val grpc = "1.39.0" // 2021-06-30
     const val grpc_kotlin = "1.2.0" // 2021-10-15
     const val grpc_spring_boot_starter = "2.13.1.RELEASE"
+    const val r2dbc_postgres = "0.8.12.RELEASE"
 }
 
 object Libs {
@@ -51,6 +52,7 @@ object Libs {
 
     //---------- TESTS -----------
     const val junit = "org.junit.jupiter:junit-jupiter"
+
     // Mock lib mockk or mockito
     const val mock = "io.mockk:mockk"
     const val assertions = "org.assertj:assertj-core"
