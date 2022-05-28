@@ -22,3 +22,7 @@ All libraries for [kotlin](kotlin)
 
 * Bump kotlin.version -> 1.5.32
 * Bump kotlinx.version -> 1.5.2
+
+### 1.1.4
+
+* Bump frtu.logger.version ->1.1.4
