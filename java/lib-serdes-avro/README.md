@@ -10,7 +10,7 @@ Lib for Avro serdes (serialization/deserialization) for serialization & deserial
 ## History
 
 * Migrated from [governance-toolbox](https://github.com/frtu/governance-toolbox/tree/master/libraries/library-serdes).
-* Existed under :
+* Existed previously under :
 
 ```XML
 <dependency>
@@ -22,6 +22,6 @@ Lib for Avro serdes (serialization/deserialization) for serialization & deserial
 
 ## Release notes
 
-### 1.1.2-SNAPSHOT
+### 1.1.2
 
 * Migrated version with latest base-pom.xml
