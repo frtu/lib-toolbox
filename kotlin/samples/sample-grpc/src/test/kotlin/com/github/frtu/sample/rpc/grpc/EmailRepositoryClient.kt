@@ -1,5 +1,8 @@
-package com.github.frtu.sample.grpc
+package com.github.frtu.sample.rpc.grpc
 
+import com.github.frtu.sample.grpc.EmailHistoryItem
+import com.github.frtu.sample.grpc.EmailRepositoryServiceGrpcKt
+import com.github.frtu.sample.grpc.byId
 import io.grpc.ManagedChannel
 import io.grpc.ManagedChannelBuilder
 import java.io.Closeable
