@@ -2,6 +2,7 @@
 import com.google.protobuf.gradle.*
 import io.spring.gradle.dependencymanagement.dsl.DependencyManagementExtension
 import org.springframework.boot.gradle.plugin.SpringBootPlugin
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     `java-library`
@@ -123,12 +124,13 @@ java {
     targetCompatibility = JavaVersion.toVersion(Versions.java)
     withSourcesJar()
 }
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+tasks.withType<KotlinCompile>().configureEach {
     kotlinOptions {
-        freeCompilerArgs += "-Xopt-in=kotlin.RequiresOptIn"
+        jvmTarget = Versions.java
+        languageVersion = Versions.language
+        freeCompilerArgs = listOf("-Xjsr305=strict", "-Xopt-in=kotlin.RequiresOptIn")
     }
 }
-
 repositories {
     mavenLocal()
     mavenCentral()
