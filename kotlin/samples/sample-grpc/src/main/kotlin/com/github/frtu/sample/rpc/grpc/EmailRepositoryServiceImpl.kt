@@ -24,9 +24,9 @@ class EmailRepositoryServiceImpl(
     override fun queryMany(request: By): Flow<EmailHistoryItem> =
         coroutineRepository.findAll().map { it.toEmailHistoryItem() }
 
-    override fun insert(insertFlow: Flow<EmailHistoryItem>): Flow<Id> =
+    override fun insert(requests: Flow<EmailHistoryItem>): Flow<Id> =
         coroutineRepository
-            .saveAll(insertFlow.map { it.toEmailEntity() })
+            .saveAll(requests.map { it.toEmailEntity() })
             .map {
                 println("Saving uuid ${it.id}")
                 id { it.id }

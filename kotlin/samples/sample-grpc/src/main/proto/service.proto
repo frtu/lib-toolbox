@@ -20,9 +20,6 @@ message Id {
 message By {
     string name = 1;
 }
-message ItemList {
-    repeated EmailHistoryItem list = 1;
-}
 
 service EmailRepositoryService {
     rpc QueryOne (ById) returns (EmailHistoryItem);
