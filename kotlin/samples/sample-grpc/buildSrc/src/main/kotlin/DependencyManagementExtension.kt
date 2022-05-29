@@ -9,8 +9,8 @@ object Versions {
     const val jackson = "2.13.2.1" // 2022-03-30
     const val spring_boot = "2.6.6"
     const val springdoc = "1.5.4"
-    const val frtu_base = "1.2.4-SNAPSHOT"
-    const val frtu_libs = "1.1.6-SNAPSHOT"
+    const val frtu_base = "1.2.3"
+    const val frtu_libs = "1.2.0"
     const val frtu_logs = "1.1.4"
 
     const val plugin_jacoco = "0.8.8" // 2022-04-05
@@ -18,9 +18,9 @@ object Versions {
     const val plugin_protobuf = "0.8.18"
     const val plugin_grpc_kotlin = "0.1.5"
 
-    const val protobuf = "3.18.1" // 2021-10-06
-    const val grpc = "1.39.0" // 2021-06-30
-    const val grpc_kotlin = "1.2.0" // 2021-10-15
+    const val protobuf = "3.21.1" // 2022-05-28
+    const val grpc = "1.46.0" // 2022-04-26
+    const val grpc_kotlin = "1.3.0" // 2022-05-28
     const val grpc_spring_boot_starter = "2.13.1.RELEASE"
     const val r2dbc_postgres = "0.8.12.RELEASE"
 }
