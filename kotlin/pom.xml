@@ -18,6 +18,7 @@
         <module>lib-serdes-protobuf</module>
         <module>lib-workflow</module>
         <module>lib-kotlin-bom</module>
+        <module>temporal-bom</module>
     </modules>
 
     <properties>
