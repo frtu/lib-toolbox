@@ -1,0 +1,38 @@
+# ======================================
+# TOPOLOGY and EXTERNAL DEPENDENCIES
+# ======================================
+application:
+  name: sample-workflow-temporal
+
+# ======================================
+# Spring Boot
+# ======================================
+spring:
+  application:
+    name: ${application.name}
+
+# ======================================
+# Management
+# ======================================
+server:
+  port: 8080
+
+jaeger:
+  enabled: true
+  endpoint: "http://localhost:14250"
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - health
+          - prometheus
+          - info
+info:
+  app:
+    name: ${application.name}
+  observability:
+    jaeger:
+      enable: ${jaeger.enable}
+      endpoint: ${jaeger.endpoint}
