@@ -1,0 +1,165 @@
+version: "3.5"
+services:
+  jaeger.observability:
+    image: ${JAEGER_IMAGE}
+    links:
+      - elasticsearch.observability
+    # https://www.jaegertracing.io/docs/1.26/deployment/
+    # https://www.jaegertracing.io/docs/1.26/monitoring/
+    ports:
+      - 5775:5775/udp
+      - 5778:5778
+      - 6831:6831/udp
+      - 6832:6832/udp
+      - 14250:14250 # Jaeger gRPC
+      # - 14267:14267
+      - 9411:9411
+      - 14268:14268
+      - 16686:16686 # Web UI
+    networks:
+      - observability
+    environment:
+      SPAN_STORAGE_TYPE: elasticsearch
+      ES_SERVER_URLS: http://elasticsearch.observability:9200
+      ES_TAGS_AS_FIELDS_ALL: "true"
+    healthcheck:
+      # https://www.elastic.co/guide/en/elasticsearch/reference/current/cluster-health.html
+      test: ["CMD", "curl", "--fail", "http://elasticsearch.observability:9200/_cluster/health"]
+      interval: 30s
+      timeout: 40s
+      retries: 5
+
+  elasticsearch.observability:
+    image: ${ELASTICSEARCH_IMAGE}
+    restart: always
+    environment:
+      - node.name=LOGGING
+      - discovery.type=single-node
+#      - bootstrap.memory_lock=true
+#      - ES_JAVA_OPTS=-Xms256m -Xmx256m
+    expose:
+      - 9200
+    ports:
+      - 9200:9200
+    networks:
+      - observability
+    volumes:
+      - ~/data/elasticsearch:/usr/share/elasticsearch/data
+
+  kibana.observability:
+    image: ${KIBANA_IMAGE}
+    links:
+      - elasticsearch.observability
+    restart: always
+    ports:
+      - 5601:5601
+    networks:
+      - observability
+    environment:
+      # https://www.elastic.co/guide/en/kibana/current/docker.html
+      ELASTICSEARCH_HOSTS: http://elasticsearch.observability:9200
+
+#   fluentbit:
+#     image: ${FLUENT_BIT_IMAGE}
+#     expose:
+#       - 24224
+#     ports:
+#       - 24224:24224
+#       - 24224:24224/udp
+#     volumes:
+#       - ./fluent-bit:/fluent-bit/etc/
+#     command: /fluent-bit/bin/fluent-bit -c /fluent-bit/etc/fluent-bit.conf
+# #   UNCOMMENT FOR PULLING ./log folder
+# #    volumes:
+# #      - ./log:/var/log
+# #    command: |
+# #      /fluent-bit/bin/fluent-bit
+# #        -i tail
+# #        -p Refresh_Interval=10
+# #        -p path=/var/log/*.log
+# #        -o es
+# #        -p Host=elasticsearch.observability
+# #        -p Port=9200
+# #        -p Index=fluent_bit
+# #        -p Type=logs
+#     networks:
+#       - observability
+#
+#  fluentd.observability:
+#    image: ${FLUENTD_IMAGE}
+#    volumes:
+#      - ./fluentd/conf:/etc/fluent
+##    build: ./fluentd
+##    volumes:
+##      - ./fluentd/conf:/fluentd/etc
+#    links:
+#      - elasticsearch.observability
+#    ports:
+#      - 24220:24220
+#      - 24224:24224
+#      - 24224:24224/udp
+#      - 9880:9880
+#    networks:
+#      - observability
+#    environment:
+#      ES_PORT_9200_TCP_ADDR: elasticsearch.observability
+#    observability:
+#      driver: "json-file"
+#      options:
+#        max-size: "1G"
+#        max-file: "2"
+#
+#   prometheus:
+#     image: ${PROMETHEUS_IMAGE}
+#     hostname: prometheus
+#     volumes:
+#       - ./prometheus:/etc/prometheus
+# #      - ~/data/prometheus:/prometheus
+#     command:
+#       - '--config.file=/etc/prometheus/prometheus.yml'
+#       - '--storage.tsdb.path=/prometheus'
+#     ports:
+#       - 9090:9090
+#     networks:
+#       - observability
+#  # https://blog.pvincent.io/2017/12/prometheus-blog-series-part-3-exposing-and-collecting-metrics/
+#   node-exporter:
+#     image: ${NODE_EXPORTER_IMAGE}
+#     ports:
+#       - 9100:9100
+#     networks:
+#       - observability
+#  alertmanager:
+#    image: ${ALERTMANAGER_IMAGE}
+#    restart: unless-stopped
+#    volumes:
+#      - ./alertmanager:/etc/alertmanager
+#    command:
+#      - '--config.file=/etc/alertmanager/config.yml'
+#      - '--storage.path=/alertmanager'
+#    expose:
+#      - 9093
+#    networks:
+#      - observability
+#   grafana:
+#     image: ${GRAFANA_IMAGE}
+#     hostname: grafana
+#     depends_on:
+#       - prometheus
+# #    environment:
+# #      - 'GF_SECURITY_ADMIN_PASSWORD=YourPassword'
+# #    volumes:
+# #      - ./grafana.ini:/etc/grafana/grafana.ini
+# #      - ~/data/grafana:/var/lib/grafana
+#     ports:
+#       - 3000:3000
+#     networks:
+#       - observability
+
+# https://docs.docker.com/compose/networking/
+networks:
+  observability:
+    driver: bridge
+    # To enable IPv6 uncomment below lines
+#    driver_opts:
+#        com.docker.network.enable_ipv6: "true"
