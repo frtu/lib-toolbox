@@ -38,8 +38,65 @@ Spring Boot application :
 class Application
 ```
 
+### Observability
+
+To enable jaeger :
+
+```yaml
+jaeger:
+  enabled: true
+  endpoint: "http://localhost:14250"
+```
+
+```xml
+<properties>
+    <jaeger.version>1.8.0</jaeger.version>
+    <opentelemetry.version>1.14.0</opentelemetry.version>
+</properties>
+
+<dependencies>
+    <!-- Tracing -->
+    <dependency>
+        <groupId>io.temporal</groupId>
+        <artifactId>temporal-opentracing</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>io.opentelemetry</groupId>
+        <artifactId>opentelemetry-sdk</artifactId>
+        <version>${opentelemetry.version}</version>
+    </dependency>
+    <dependency>
+        <groupId>io.opentelemetry</groupId>
+        <artifactId>opentelemetry-extension-trace-propagators</artifactId>
+        <version>${opentelemetry.version}</version>
+    </dependency>
+    <dependency>
+        <groupId>io.opentelemetry</groupId>
+        <artifactId>opentelemetry-semconv</artifactId>
+        <version>${opentelemetry.version}-alpha</version>
+    </dependency>
+    <dependency>
+        <groupId>io.opentelemetry</groupId>
+        <artifactId>opentelemetry-opentracing-shim</artifactId>
+        <version>${opentelemetry.version}-alpha</version>
+    </dependency>
+    <dependency>
+        <groupId>io.opentelemetry</groupId>
+        <artifactId>opentelemetry-exporter-jaeger</artifactId>
+        <version>${opentelemetry.version}</version>
+    </dependency>
+    <dependency>
+        <groupId>io.jaegertracing</groupId>
+        <artifactId>jaeger-client</artifactId>
+        <version>${jaeger.version}</version>
+    </dependency>
+...
+<dependencies>
+```
+
 ## Release notes
 
 ### 1.2.1
 
-* spring data R2DBC for coroutine
+* Bootstrap Temporal server stubs
+* Add interceptors for Jaeger
