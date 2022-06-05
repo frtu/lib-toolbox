@@ -5,12 +5,12 @@
     <parent>
         <groupId>com.github.frtu.archetype</groupId>
         <artifactId>kotlin-extended-pom</artifactId>
-        <version>1.2.3</version>
+        <version>1.2.4</version>
     </parent>
 
     <groupId>com.github.frtu.sample.broker</groupId>
     <artifactId>sample-broker-pom</artifactId>
-    <version>1.2.0-SNAPSHOT</version>
+    <version>1.2.2-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <properties>

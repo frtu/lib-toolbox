@@ -10,7 +10,7 @@ object Versions {
     const val spring_boot = "2.7.0"
     const val springdoc = "1.5.4"
     const val frtu_base = "1.2.4"
-    const val frtu_libs = "1.2.1"
+    const val frtu_libs = "1.2.2-SNAPSHOT"
     const val frtu_logs = "1.1.4"
 
     const val plugin_jacoco = "0.8.8" // 2022-04-05
