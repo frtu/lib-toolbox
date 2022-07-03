@@ -6,8 +6,14 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Import
 
+/**
+ * Autoconfigure Temporal connectivity, Metrics, Jaeger, ...
+ *
+ * @author Frédéric TU
+ * @since 1.2.1
+ */
 @Configuration
-@Import(TemporalConfig::class, ObservabilityConfig::class)
+@Import(TemporalConfig::class, ObservabilityJaegerConfig::class)
 @EnableConfigurationProperties(TemporalStubProperties::class)
 @ConditionalOnClass(WorkflowClient::class)
 class AutoConfigs

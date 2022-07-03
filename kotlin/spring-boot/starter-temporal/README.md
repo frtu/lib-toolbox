@@ -51,7 +51,7 @@ jaeger:
 ```xml
 <properties>
     <jaeger.version>1.8.0</jaeger.version>
-    <opentelemetry.version>1.14.0</opentelemetry.version>
+    <opentelemetry.version>1.15.0</opentelemetry.version>
 </properties>
 
 <dependencies>
@@ -62,28 +62,23 @@ jaeger:
     </dependency>
     <dependency>
         <groupId>io.opentelemetry</groupId>
+        <artifactId>opentelemetry-opentracing-shim</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>io.opentelemetry</groupId>
         <artifactId>opentelemetry-sdk</artifactId>
-        <version>${opentelemetry.version}</version>
     </dependency>
     <dependency>
         <groupId>io.opentelemetry</groupId>
         <artifactId>opentelemetry-extension-trace-propagators</artifactId>
-        <version>${opentelemetry.version}</version>
     </dependency>
     <dependency>
         <groupId>io.opentelemetry</groupId>
         <artifactId>opentelemetry-semconv</artifactId>
-        <version>${opentelemetry.version}-alpha</version>
-    </dependency>
-    <dependency>
-        <groupId>io.opentelemetry</groupId>
-        <artifactId>opentelemetry-opentracing-shim</artifactId>
-        <version>${opentelemetry.version}-alpha</version>
     </dependency>
     <dependency>
         <groupId>io.opentelemetry</groupId>
         <artifactId>opentelemetry-exporter-jaeger</artifactId>
-        <version>${opentelemetry.version}</version>
     </dependency>
     <dependency>
         <groupId>io.jaegertracing</groupId>
@@ -91,6 +86,25 @@ jaeger:
         <version>${jaeger.version}</version>
     </dependency>
 ...
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>io.opentelemetry</groupId>
+                <artifactId>opentelemetry-bom</artifactId>
+                <version>${opentelemetry.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>io.opentelemetry</groupId>
+                <artifactId>opentelemetry-bom-alpha</artifactId>
+                <version>${opentelemetry.version}-alpha</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>            
 <dependencies>
 ```
 

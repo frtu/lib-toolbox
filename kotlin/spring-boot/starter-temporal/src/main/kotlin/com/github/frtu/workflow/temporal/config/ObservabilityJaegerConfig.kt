@@ -12,25 +12,27 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnClass
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import javax.annotation.PostConstruct
 
+/**
+ * Build Jaeger connection if find JaegerSpanContext in classpath and 'observability.jaeger.enabled=true'
+ *
+ * @author Frédéric TU
+ * @since 1.2.2
+ */
 @Configuration
-@ConditionalOnProperty(name = ["jaeger.enabled"], havingValue = "true", matchIfMissing = false)
+@ConditionalOnProperty(name = ["observability.jaeger.enabled"], havingValue = "true", matchIfMissing = false)
 @ConditionalOnClass(JaegerSpanContext::class)
-class ObservabilityConfig {
-    @Value("\${spring.application.name}")
-    lateinit var applicationName: String
-
-    @Value("\${jaeger.endpoint}")
-    lateinit var jaegerEndpoint: String
-
-    @PostConstruct
-    fun afterInit() {
-        structuredLogger.info(key("applicationName", applicationName), key("jaegerEndpoint", jaegerEndpoint))
-    }
-
+class ObservabilityJaegerConfig {
     @Bean
-    fun tracingOptions(): OpenTracingOptions = JaegerUtils.getJaegerOptions(applicationName, jaegerEndpoint)
+    fun tracingOptions(
+        @Value("\${spring.application.name}")
+        applicationName: String,
+        @Value("\${observability.jaeger.endpoint}")
+        jaegerEndpoint: String,
+    ): OpenTracingOptions {
+        structuredLogger.info(key("applicationName", applicationName), key("jaegerEndpoint", jaegerEndpoint))
+        return JaegerUtils.getJaegerOptions(applicationName, jaegerEndpoint)
+    }
 
     @Bean
     fun tracingClientInterceptor(tracingOptions: OpenTracingOptions) = OpenTracingClientInterceptor(tracingOptions)

@@ -21,6 +21,12 @@ import org.springframework.context.annotation.Configuration
 import java.util.function.Consumer
 import com.uber.m3.tally.Scope as MetricScope
 
+/**
+ * Configure Temporal stub, factory, client
+ *
+ * @author Frédéric TU
+ * @since 1.2.1
+ */
 @Configuration
 class TemporalConfig {
     @Bean

@@ -3,6 +3,12 @@ package com.github.frtu.workflow.temporal.config
 import org.springframework.boot.context.properties.ConfigurationProperties
 import java.time.Duration
 
+/**
+ * Temporal stub configuration properties starting with 'temporal.stub'
+ *
+ * @author Frédéric TU
+ * @since 1.2.2
+ */
 @ConfigurationProperties(prefix = "temporal.stub")
 class TemporalStubProperties(
     val target: String = "localhost:7233",

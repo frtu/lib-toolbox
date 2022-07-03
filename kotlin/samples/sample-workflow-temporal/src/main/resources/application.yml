@@ -17,9 +17,13 @@ spring:
 server:
   port: 8080
 
-jaeger:
-  enabled: true
-  endpoint: "http://localhost:14250"
+
+observability:
+  metrics:
+    report.sec: 1
+  jaeger:
+    enabled: true
+    endpoint: "http://localhost:14250"
 
 management:
   endpoints:
