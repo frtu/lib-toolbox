@@ -8,6 +8,6 @@ import org.springframework.context.annotation.Import
 
 @Configuration
 @Import(TemporalConfig::class, ObservabilityConfig::class)
-@EnableConfigurationProperties(TemporalProperties::class)
+@EnableConfigurationProperties(TemporalStubProperties::class)
 @ConditionalOnClass(WorkflowClient::class)
 class AutoConfigs
