@@ -19,7 +19,6 @@
         <dependency>
             <groupId>com.github.frtu.libs</groupId>
             <artifactId>lib-utils</artifactId>
-            <version>1.2.2-SNAPSHOT</version>
             <optional>true</optional>
         </dependency>
 
@@ -154,6 +153,13 @@
                 <groupId>org.apache.logging.log4j</groupId>
                 <artifactId>log4j-bom</artifactId>
                 <version>${log4j2.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.github.frtu.libs</groupId>
+                <artifactId>lib-kotlin-bom</artifactId>
+                <version>${project.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
