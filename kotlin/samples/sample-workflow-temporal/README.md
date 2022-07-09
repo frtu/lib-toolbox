@@ -4,6 +4,42 @@
 
 Sample Temporal using spring-boot
 
+## Modules
+
+### gRPC
+
+* gRPC server-client implementation : ```com.github.frtu.sample.rpc.grpc```
+
+gRPC URL : `0.0.0.0:9090`
+
+```json
+{
+  "data": {
+    "receiver": "rndfred@gmail.com",
+    "subject": "Mail subject",
+    "content": "Lorem ipsum dolor sit amet."
+  },
+  "status": "INIT"
+}
+```
+
+### HTTP
+
+* GET http://localhost:8080/v1/emails
+* POST http://localhost:8080/v1/emails
+```json
+{
+  "receiver": "rndfred@gmail.com",
+  "subject": "Mail subject",
+  "content": "Lorem ipsum dolor sit amet.",
+  "status": "SENT"
+}
+```
+
+### R2DBC
+
+* R2DBC Coroutine repository : ```com.github.frtu.sample.persistence```
+
 ## Metrics
 
 * [Temporal metrics](http://localhost:8000/metrics) at `http://localhost:8000/metrics`
