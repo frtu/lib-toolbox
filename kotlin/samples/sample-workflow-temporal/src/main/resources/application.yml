@@ -17,7 +17,6 @@ spring:
 server:
   port: 8080
 
-
 observability:
   metrics:
     report.sec: 1
@@ -30,10 +29,20 @@ management:
     web:
       exposure:
         include:
-          - health
-          - prometheus
           - info
+          - health
+          - metrics
+          - prometheus
+  endpoint:
+    # https://docs.spring.io/spring-boot/docs/current/reference/html/actuator.html#actuator.metrics
+    metrics:
+      enabled: true
+    health:
+      # ALWAYS | NEVER
+      show-details: ALWAYS
+
 info:
+  # https://www.callicoder.com/spring-boot-actuator/
   app:
     name: ${application.name}
   observability:

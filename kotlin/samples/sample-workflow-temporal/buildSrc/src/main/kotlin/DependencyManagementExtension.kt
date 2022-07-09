@@ -8,10 +8,14 @@ object Versions {
 
     const val jackson = "2.13.2.1" // 2022-03-30
     const val spring_boot = "2.7.0"
+    const val micrometer = "1.9.0"
     const val springdoc = "1.5.4"
     const val frtu_base = "1.2.4"
-    const val frtu_libs = "1.2.2-SNAPSHOT"
+    const val frtu_libs = "1.2.2"
     const val frtu_logs = "1.1.4"
+    const val opentelemetry = "1.15.0"
+    const val jaeger = "1.8.0"
+    const val prometheus = "0.16.0"
 
     const val plugin_jacoco = "0.8.8" // 2022-04-05
     const val plugin_google_format = "0.9" // 2020-06-09
@@ -51,6 +55,8 @@ object Libs {
     const val bom_kotlin_base = "com.github.frtu.archetype:kotlin-base-pom:${Versions.frtu_base}"
     const val bom_kotlin_libs = "com.github.frtu.libs:lib-kotlin-bom:${Versions.frtu_libs}"
     const val bom_logger = "com.github.frtu.logs:logger-bom:${Versions.frtu_logs}"
+    const val bom_opentelemetry = "io.opentelemetry:opentelemetry-bom:${Versions.opentelemetry}"
+    const val bom_opentelemetry_alpha = "io.opentelemetry:opentelemetry-bom-alpha:${Versions.opentelemetry}-alpha"
 
     //---------- TESTS -----------
     const val junit = "org.junit.jupiter:junit-jupiter"
