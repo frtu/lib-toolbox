@@ -10,7 +10,7 @@ object Versions {
     const val spring_boot = "2.6.6"
     const val springdoc = "1.5.4"
     const val frtu_base = "1.2.3"
-    const val frtu_libs = "1.2.2-SNAPSHOT"
+    const val frtu_libs = "1.2.3-SNAPSHOT"
     const val frtu_logs = "1.1.4"
 
     const val plugin_jacoco = "0.8.8" // 2022-04-05
@@ -30,7 +30,7 @@ object Libs {
     const val jackson_databind = "com.fasterxml.jackson.core:jackson-databind"
     const val jackson_module_kotlin = "com.fasterxml.jackson.module:jackson-module-kotlin"
     const val jackson_yaml = "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml"
-    const val lib_serdes_protobuf = "com.github.frtu.libs:lib-serdes-protobuf:${Versions.frtu_libs}"
+    const val lib_serdes_protobuf = "com.github.frtu.libs:lib-serdes-protobuf"
     const val lib_utils = "com.github.frtu.libs:lib-utils"
     const val spring_core = "org.springframework:spring-core"
 
@@ -49,6 +49,8 @@ object Libs {
     const val bom_kotlin_base = "com.github.frtu.archetype:kotlin-base-pom:${Versions.frtu_base}"
     const val bom_kotlin_libs = "com.github.frtu.libs:lib-kotlin-bom:${Versions.frtu_libs}"
     const val bom_logger = "com.github.frtu.logs:logger-bom:${Versions.frtu_logs}"
+    const val bom_protobuf = "com.google.protobuf:protobuf-bom:${Versions.protobuf}"
+    const val bom_grpc = "io.grpc:grpc-bom:${Versions.grpc}"
 
     //---------- TESTS -----------
     const val junit = "org.junit.jupiter:junit-jupiter"

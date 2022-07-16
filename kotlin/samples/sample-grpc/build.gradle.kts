@@ -32,13 +32,13 @@ dependencies {
     runtimeOnly("org.flywaydb:flyway-core")
 
     // gRPC
-    implementation("com.google.protobuf:protobuf-java:${Versions.protobuf}")
-    implementation("com.google.protobuf:protobuf-java-util:${Versions.protobuf}")
+    implementation("com.google.protobuf:protobuf-java")
+    implementation("com.google.protobuf:protobuf-java-util")
     implementation("com.google.protobuf:protobuf-kotlin:${Versions.protobuf}")
-    implementation("io.grpc:grpc-protobuf:${Versions.grpc}")
+    implementation("io.grpc:grpc-protobuf")
+    implementation("io.grpc:grpc-stub")
+    implementation("io.grpc:grpc-netty")
     implementation("io.grpc:grpc-kotlin-stub:${Versions.grpc_kotlin}")
-    implementation("io.grpc:grpc-stub:${Versions.grpc}")
-    implementation("io.grpc:grpc-netty:${Versions.grpc}")
     implementation("net.devh:grpc-server-spring-boot-starter:${Versions.grpc_spring_boot_starter}")
 
     // Serialization
@@ -89,6 +89,8 @@ the<DependencyManagementExtension>().apply {
         mavenBom(Libs.bom_kotlin_base)
         mavenBom(Libs.bom_kotlin_libs)
         mavenBom(Libs.bom_logger)
+        mavenBom(Libs.bom_protobuf)
+        mavenBom(Libs.bom_grpc)
     }
 }
 
