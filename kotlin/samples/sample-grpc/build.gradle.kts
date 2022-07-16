@@ -1,8 +1,14 @@
 // https://github.com/grpc/grpc-kotlin/blob/master/compiler/README.md
-import com.google.protobuf.gradle.*
+import com.google.protobuf.gradle.builtins
+import com.google.protobuf.gradle.generateProtoTasks
+import com.google.protobuf.gradle.id
+import com.google.protobuf.gradle.plugins
+import com.google.protobuf.gradle.proto
+import com.google.protobuf.gradle.protobuf
+import com.google.protobuf.gradle.protoc
 import io.spring.gradle.dependencymanagement.dsl.DependencyManagementExtension
-import org.springframework.boot.gradle.plugin.SpringBootPlugin
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.springframework.boot.gradle.plugin.SpringBootPlugin
 
 plugins {
     `java-library`
@@ -51,7 +57,8 @@ dependencies {
     implementation("org.springdoc:springdoc-openapi-webflux-ui:${Versions.springdoc}")
     // Dev & monitoring
     implementation("org.springframework.boot:spring-boot-starter-actuator")
-    implementation("io.micrometer:micrometer-core:1.6.2")
+    implementation("io.micrometer:micrometer-core")
+    implementation("io.micrometer:micrometer-registry-prometheus")
 
     // Platform - Coroutine
     implementation(Libs.coroutines_reactor)
@@ -70,7 +77,7 @@ dependencies {
     implementation("io.opentelemetry:opentelemetry-semconv")
 
     implementation("org.springframework.cloud:spring-cloud-sleuth-otel-autoconfigure")
-    implementation("org.springframework.cloud:spring-cloud-starter-sleuth"){
+    implementation("org.springframework.cloud:spring-cloud-starter-sleuth") {
         exclude("org.springframework.cloud", "spring-cloud-sleuth-brave")
     }
 
@@ -96,17 +103,17 @@ dependencies {
 
 the<DependencyManagementExtension>().apply {
     imports {
-        mavenBom(SpringBootPlugin.BOM_COORDINATES)
         mavenBom(Libs.bom_spring_cloud_sleuth)
         mavenBom(Libs.bom_spring_cloud_sleuth_otel)
         mavenBom(Libs.bom_opentelemetry)
         mavenBom(Libs.bom_opentelemetry_alpha)
-        mavenBom(Libs.bom_jackson)
-        mavenBom(Libs.bom_kotlin_base)
         mavenBom(Libs.bom_kotlin_libs)
         mavenBom(Libs.bom_logger)
+        mavenBom(Libs.bom_jackson)
         mavenBom(Libs.bom_protobuf)
         mavenBom(Libs.bom_grpc)
+        mavenBom(Libs.bom_r2dbc)
+        mavenBom(SpringBootPlugin.BOM_COORDINATES)
     }
 }
 
@@ -153,4 +160,15 @@ repositories {
     mavenLocal()
     mavenCentral()
     maven("https://repo.spring.io/milestone")
+}
+configurations.all {
+    exclude(group = "junit", module = "junit")
+    exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
+    exclude(group = "io.projectreactor.netty", module = "reactor-netty-http-brave")
+
+    resolutionStrategy.eachDependency {
+        if (requested.group == "org.jetbrains.kotlin") {
+            useVersion(Versions.kotlin)
+        }
+    }
 }

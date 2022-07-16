@@ -24,7 +24,7 @@ object Versions {
     const val grpc = "1.47.0" // 2022-06-02
     const val grpc_kotlin = "1.2.0" // 2021-10-15
     const val grpc_spring_boot_starter = "2.13.1.RELEASE"
-    const val r2dbc_postgres = "0.8.12.RELEASE"
+    const val r2dbc = "Arabba-SR13"  // 2022-03-18
     const val opentelemetry = "1.16.0" // 2022-07-13
 }
 
@@ -54,6 +54,7 @@ object Libs {
     const val bom_logger = "com.github.frtu.logs:logger-bom:${Versions.frtu_logs}"
     const val bom_protobuf = "com.google.protobuf:protobuf-bom:${Versions.protobuf}"
     const val bom_grpc = "io.grpc:grpc-bom:${Versions.grpc}"
+    const val bom_r2dbc = "io.r2dbc:r2dbc-bom:${Versions.r2dbc}"
     const val bom_opentelemetry = "io.opentelemetry:opentelemetry-bom:${Versions.opentelemetry}"
     const val bom_opentelemetry_alpha = "io.opentelemetry:opentelemetry-bom-alpha:${Versions.opentelemetry}-alpha"
     const val bom_spring_cloud_sleuth = "org.springframework.cloud:spring-cloud-sleuth-dependencies:${Versions.spring_cloud_sleuth}"
