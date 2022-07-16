@@ -62,6 +62,18 @@ dependencies {
     testImplementation(Libs.lib_utils)
     testImplementation(Libs.spring_core)
 
+    // Platform - Monitoring
+    implementation("io.opentelemetry:opentelemetry-sdk")
+    implementation("io.opentelemetry:opentelemetry-exporter-jaeger")
+    implementation("io.opentelemetry:opentelemetry-extension-trace-propagators")
+    implementation("io.opentelemetry:opentelemetry-opentracing-shim")
+    implementation("io.opentelemetry:opentelemetry-semconv")
+
+    implementation("org.springframework.cloud:spring-cloud-sleuth-otel-autoconfigure")
+    implementation("org.springframework.cloud:spring-cloud-starter-sleuth"){
+        exclude("org.springframework.cloud", "spring-cloud-sleuth-brave")
+    }
+
     // Test
     testImplementation(Libs.junit)
     testImplementation(Libs.mock)
@@ -85,6 +97,10 @@ dependencies {
 the<DependencyManagementExtension>().apply {
     imports {
         mavenBom(SpringBootPlugin.BOM_COORDINATES)
+        mavenBom(Libs.bom_spring_cloud_sleuth)
+        mavenBom(Libs.bom_spring_cloud_sleuth_otel)
+        mavenBom(Libs.bom_opentelemetry)
+        mavenBom(Libs.bom_opentelemetry_alpha)
         mavenBom(Libs.bom_jackson)
         mavenBom(Libs.bom_kotlin_base)
         mavenBom(Libs.bom_kotlin_libs)
@@ -136,4 +152,5 @@ tasks.withType<KotlinCompile>().configureEach {
 repositories {
     mavenLocal()
     mavenCentral()
+    maven("https://repo.spring.io/milestone")
 }

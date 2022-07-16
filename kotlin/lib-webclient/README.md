@@ -4,8 +4,6 @@
 
 Spring webflux webclient for coroutine
 
-
-
 ## Release notes
 
 ### 1.1.1
