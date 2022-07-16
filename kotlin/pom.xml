@@ -16,6 +16,7 @@
         <module>lib-r2dbc</module>
         <module>lib-utils</module>
         <module>lib-serdes-protobuf</module>
+        <module>lib-grpc</module>
         <module>lib-workflow</module>
         <module>lib-kotlin-bom</module>
         <module>temporal-bom</module>

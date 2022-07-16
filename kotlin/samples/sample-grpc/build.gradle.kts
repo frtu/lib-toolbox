@@ -49,6 +49,7 @@ dependencies {
 
     // Serialization
     implementation(Libs.lib_serdes_protobuf)
+    implementation(Libs.lib_grpc)
     implementation(Libs.jackson_databind)
     implementation(Libs.jackson_module_kotlin)
 
