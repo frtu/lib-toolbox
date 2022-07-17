@@ -1,5 +1,7 @@
 package com.github.frtu.sample.config
 
+import com.github.frtu.kotlin.grpc.instrumentation.server.ServerLogGrpcInterceptor
+import io.grpc.ServerInterceptor
 import io.micrometer.core.instrument.Meter
 import io.micrometer.core.instrument.MeterRegistry
 import io.micrometer.core.instrument.Metrics
@@ -7,7 +9,7 @@ import io.micrometer.core.instrument.composite.CompositeMeterRegistry
 import io.micrometer.core.instrument.config.MeterFilter
 import io.micrometer.core.instrument.distribution.DistributionStatisticConfig
 import java.time.Duration
-import net.devh.boot.grpc.server.interceptor.GrpcGlobalServerInterceptor
+import net.devh.boot.grpc.server.interceptor.GlobalServerInterceptorConfigurer
 import net.devh.boot.grpc.server.metric.MetricCollectingServerInterceptor
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
@@ -22,8 +24,15 @@ class ObservabilityConfig {
     @Primary
     fun primaryMeterRegistry(): CompositeMeterRegistry = Metrics.globalRegistry
 
-    @GrpcGlobalServerInterceptor
-    fun serverLogGrpcInterceptor(meterRegistry: MeterRegistry) = MetricCollectingServerInterceptor(meterRegistry)
+    @Bean
+    fun globalTraceServerInterceptorConfigurerAdapter(meterRegistry: MeterRegistry): GlobalServerInterceptorConfigurer {
+        return GlobalServerInterceptorConfigurer { registry: MutableList<ServerInterceptor> ->
+            registry.add(ServerLogGrpcInterceptor())
+            logger.debug("Registering GlobalServerInterceptor: {}", "ServerLogGrpcInterceptor");
+            registry.add(MetricCollectingServerInterceptor(meterRegistry))
+            logger.debug("Registering GlobalServerInterceptor: {}", "MetricCollectingServerInterceptor");
+        }
+    }
 
     @Value("\${spring.application.name:application-name}")
     lateinit var applicationName: String
@@ -44,7 +53,7 @@ class ObservabilityConfig {
             if (id.name.startsWith("grpc.server.processing") // Adding P99 for gRPC
                 || id.name.startsWith("spring.data.repository") // Adding P99 for Repository
             ) {
-                logger.debug("METRICS - Id:${id} -> adding P99")
+                logger.trace("METRICS - Id:${id} -> adding P99")
                 DistributionStatisticConfig.builder()
                     .percentilesHistogram(true)
                     .percentiles(0.99)
