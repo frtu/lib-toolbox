@@ -17,6 +17,15 @@ class RouterConfig(
 ) {
     @Bean
     fun route(): RouterFunction<*> = coRouter {
+        // Workflow
+        val uriPath = "/v1/workflows"
+        POST(uriPath) { serverRequest ->
+            val subscriptionEvent = serverRequest.awaitBody<SubscriptionEvent>()
+            val createdId = subscriptionHandler.handle(subscriptionEvent)
+            rpcLogger.info(uri(uriPath), requestBody(subscriptionEvent), responseBody(createdId))
+            created(URI.create("$uriPath/$createdId")).buildAndAwait()
+        }
+
         // Simple CRUD
         val uriPathEmails = "/v1/emails"
         GET(uriPathEmails) {

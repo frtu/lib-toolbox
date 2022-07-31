@@ -6,6 +6,8 @@ import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.github.frtu.sample.persistence.basic.EmailEntity
 import com.github.frtu.sample.persistence.basic.IEmailRepository
 import com.github.frtu.sample.persistence.basic.STATUS
+import com.github.frtu.sample.temporal.staticwkf.SubscriptionEvent
+import com.github.frtu.sample.temporal.staticwkf.starter.SubscriptionHandler
 import io.r2dbc.spi.ConnectionFactory
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
@@ -22,23 +24,14 @@ import org.springframework.r2dbc.connection.init.ResourceDatabasePopulator
 @SpringBootApplication
 class Application {
     @Bean
-    fun initializer(coroutineRepository: IEmailRepository): CommandLineRunner = CommandLineRunner {
+    fun initializer(
+        coroutineRepository: IEmailRepository,
+        subscriptionHandler: SubscriptionHandler,
+    ): CommandLineRunner = CommandLineRunner {
         logger.debug("======================================")
-        runBlocking {
-            val entity = EmailEntity(
-                "rndfred@gmail.com", "Mail subject",
-                "Lorem ipsum dolor sit amet.", STATUS.SENT
-            )
-            logger.debug(objectMapper.writeValueAsString(entity))
-            coroutineRepository.save(entity)
-
-            val list = mutableListOf<EmailEntity>()
-            coroutineRepository.findAll().toList(list)
-            logger.debug(list.toString())
-
-//            val emailEntity = coroutineRepository.findById(entity.id!!)
-//            logger.debug(emailEntity.toString())
-        }
+        val subscriptionEvent = SubscriptionEvent("""{"key":"value"}""", "event.type")
+        logger.debug(objectMapper.writeValueAsString(subscriptionEvent))
+        subscriptionHandler.handle(subscriptionEvent)
     }
 
     @Bean

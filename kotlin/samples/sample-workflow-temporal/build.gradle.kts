@@ -23,6 +23,12 @@ apply(plugin = "io.spring.dependency-management")
 group = "com.github.frtu.sample.workflow.temporal"
 
 dependencies {
+    implementation("com.github.frtu.libs:starter-temporal:${Versions.frtu_libs}")
+
+    implementation("io.temporal:temporal-sdk:${Versions.temporal}")
+    implementation("io.temporal:temporal-kotlin:${Versions.temporal}")
+    implementation("io.temporal:temporal-opentracing:${Versions.temporal}")
+
     implementation("org.springframework.boot:spring-boot-starter")
 
     // Reactive database

@@ -8,6 +8,18 @@ Sample Temporal using spring-boot
 
 ### HTTP
 
+#### Workflow
+
+* POST http://localhost:8080/v1/workflows
+```json
+{
+  "receiver": "rndfred@gmail.com",
+  "subject": "Mail subject",
+  "content": "Lorem ipsum dolor sit amet.",
+  "status": "SENT"
+}
+```
+
 #### Simple CRUD
 
 * GET http://localhost:8080/v1/emails
