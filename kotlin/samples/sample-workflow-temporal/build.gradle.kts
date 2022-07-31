@@ -1,14 +1,16 @@
 // https://github.com/grpc/grpc-kotlin/blob/master/compiler/README.md
 import com.google.protobuf.gradle.*
 import io.spring.gradle.dependencymanagement.dsl.DependencyManagementExtension
-import org.springframework.boot.gradle.plugin.SpringBootPlugin
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.springframework.boot.gradle.plugin.SpringBootPlugin
 
 plugins {
+    java
     `java-library`
     kotlin("jvm")
     kotlin("plugin.spring") version Versions.kotlin
     id("org.springframework.boot") version Versions.spring_boot
+    id("io.spring.dependency-management") version Versions.spring_boot_dep_mgmt
     id("com.google.protobuf") version Versions.plugin_protobuf
 //    id("org.jlleitschuh.gradle.ktlint") version "10.2.0"
 }
@@ -21,12 +23,6 @@ apply(plugin = "io.spring.dependency-management")
 group = "com.github.frtu.sample.workflow.temporal"
 
 dependencies {
-    implementation("com.github.frtu.libs:starter-temporal:${Versions.frtu_libs}")
-
-    implementation("io.temporal:temporal-sdk:${Versions.temporal}")
-    implementation("io.temporal:temporal-kotlin:${Versions.temporal}")
-    implementation("io.temporal:temporal-opentracing:${Versions.temporal}")
-
     implementation("org.springframework.boot:spring-boot-starter")
 
     // Reactive database
@@ -60,9 +56,20 @@ dependencies {
     implementation("org.springdoc:springdoc-openapi-webflux-ui:${Versions.springdoc}")
     // Dev & monitoring
     implementation("org.springframework.boot:spring-boot-starter-actuator")
-    implementation("io.micrometer:micrometer-core:1.6.2")
+    implementation("io.micrometer:micrometer-core:${Versions.micrometer}")
+    implementation("io.micrometer:micrometer-registry-prometheus:${Versions.micrometer}")
+
+    implementation("io.opentelemetry:opentelemetry-sdk")
+    implementation("io.opentelemetry:opentelemetry-semconv")
+    implementation("io.opentelemetry:opentelemetry-extension-trace-propagators")
+    implementation("io.opentelemetry:opentelemetry-opentracing-shim")
+    implementation("io.opentelemetry:opentelemetry-exporter-jaeger")
+    implementation("io.jaegertracing:jaeger-client:${Versions.jaeger}")
 
     // Platform - Coroutine
+    implementation(Libs.coroutines_core)
+    implementation(Libs.coroutines_core_jvm)
+    implementation(Libs.coroutines_reactive)
     implementation(Libs.coroutines_reactor)
 
     // Platform - Log
@@ -81,6 +88,7 @@ dependencies {
 
     // Platform - BOMs
     implementation(platform(kotlin("bom")))
+    implementation(kotlin("stdlib"))
     implementation(kotlin("stdlib-jdk8"))
     implementation(kotlin("reflect"))
 
@@ -94,10 +102,13 @@ dependencies {
 the<DependencyManagementExtension>().apply {
     imports {
         mavenBom(SpringBootPlugin.BOM_COORDINATES)
+        mavenBom(Libs.bom_springboot)
         mavenBom(Libs.bom_jackson)
         mavenBom(Libs.bom_kotlin_base)
         mavenBom(Libs.bom_kotlin_libs)
         mavenBom(Libs.bom_logger)
+        mavenBom(Libs.bom_opentelemetry)
+        mavenBom(Libs.bom_opentelemetry_alpha)
     }
 }
 

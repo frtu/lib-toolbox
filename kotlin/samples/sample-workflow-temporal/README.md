@@ -6,9 +6,25 @@ Sample Temporal using spring-boot
 
 ## Modules
 
+### HTTP
+
+#### Simple CRUD
+
+* GET http://localhost:8080/v1/emails
+* POST http://localhost:8080/v1/emails
+```json
+{
+  "receiver": "rndfred@gmail.com",
+  "subject": "Mail subject",
+  "content": "Lorem ipsum dolor sit amet.",
+  "status": "SENT"
+}
+```
+
 ### gRPC
 
 * gRPC server-client implementation : ```com.github.frtu.sample.rpc.grpc```
+* gRPC Error handling : TODO
 
 gRPC URL : `0.0.0.0:9090`
 
@@ -20,19 +36,6 @@ gRPC URL : `0.0.0.0:9090`
     "content": "Lorem ipsum dolor sit amet."
   },
   "status": "INIT"
-}
-```
-
-### HTTP
-
-* GET http://localhost:8080/v1/emails
-* POST http://localhost:8080/v1/emails
-```json
-{
-  "receiver": "rndfred@gmail.com",
-  "subject": "Mail subject",
-  "content": "Lorem ipsum dolor sit amet.",
-  "status": "SENT"
 }
 ```
 

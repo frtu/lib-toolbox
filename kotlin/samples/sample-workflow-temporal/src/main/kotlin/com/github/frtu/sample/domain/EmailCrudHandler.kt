@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 
 @Service
-class EmailHandler(
+class EmailCrudHandler(
     private val coroutineRepository: IEmailRepository,
 ) {
     suspend fun queryOne(id: String): EmailEntity? {

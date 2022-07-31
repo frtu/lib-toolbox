@@ -7,7 +7,8 @@ object Versions {
     const val kotlinx = "1.5.2"
 
     const val jackson = "2.13.2.1" // 2022-03-30
-    const val spring_boot = "2.7.0"
+    const val spring_boot = "2.7.1"
+    const val spring_boot_dep_mgmt = "1.0.11.RELEASE"
     const val micrometer = "1.9.0"
     const val springdoc = "1.5.4"
     const val frtu_base = "1.2.4"
@@ -42,6 +43,7 @@ object Libs {
 
     //---------- COROUTINE -----------
     const val coroutines_core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.kotlinx}"
+    const val coroutines_core_jvm = "org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:${Versions.kotlinx}"
     const val coroutines_reactive = "org.jetbrains.kotlinx:kotlinx-coroutines-reactive:${Versions.kotlinx}"
     const val coroutines_reactor = "org.jetbrains.kotlinx:kotlinx-coroutines-reactor:${Versions.kotlinx}"
 
@@ -51,6 +53,7 @@ object Libs {
     const val logger_core = "com.github.frtu.logs:logger-core"
 
     //---------- LIBS BOM -----------
+    const val bom_springboot = "org.springframework.boot:spring-boot-dependencies:${Versions.spring_boot}"
     const val bom_jackson = "com.fasterxml.jackson:jackson-bom:${Versions.jackson}"
     const val bom_kotlin_base = "com.github.frtu.archetype:kotlin-base-pom:${Versions.frtu_base}"
     const val bom_kotlin_libs = "com.github.frtu.libs:lib-kotlin-bom:${Versions.frtu_libs}"

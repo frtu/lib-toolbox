@@ -1,0 +1,41 @@
+// https://developers.google.com/protocol-buffers/docs/javatutorial
+
+// From https://github.com/protocolbuffers/protobuf/blob/v3.11.2/examples/addressbook.proto
+syntax = "proto3";
+option java_multiple_files = true;
+
+package sample.grpc;
+option java_package = "com.github.frtu.sample.grpc";
+
+// [START security_flag]
+import "metadata/sec.proto";
+import "metadata/sla.proto";
+// [START security_flag]
+
+// [START java_declaration and messages]
+import "google/protobuf/timestamp.proto";
+
+option java_outer_classname = "EmailProtos";
+
+message Email {
+    option (sla.data_sla) = RELIABLE;
+
+    string receiver = 1 [(sec.secured_field) = true]; // A certain value this data contains.
+    string subject = 2;
+    string content = 3 [(sec.secured_field) = true];
+}
+
+message EmailEvent {
+    string id = 1; // ID from which this data can be uniquely identified.
+    google.protobuf.Timestamp event_time = 2; // epoch time when the event occurred. See https://databricks.com/blog/2017/05/08/event-time-aggregation-watermarking-apache-sparks-structured-streaming.html
+    string status = 3;
+    Email data = 4;
+}
+message EmailHistoryItem {
+    string id = 1; // ID from which this data can be uniquely identified.
+    google.protobuf.Timestamp creation_time = 2; // epoch time when the event occurred. See https://databricks.com/blog/2017/05/08/event-time-aggregation-watermarking-apache-sparks-structured-streaming.html
+    google.protobuf.Timestamp update_time = 3; // epoch time when the event occurred. See https://databricks.com/blog/2017/05/08/event-time-aggregation-watermarking-apache-sparks-structured-streaming.html
+    string status = 4;
+    Email data = 5;
+}
+// [END java_declaration and messages]

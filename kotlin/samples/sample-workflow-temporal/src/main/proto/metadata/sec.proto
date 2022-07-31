@@ -1,0 +1,12 @@
+// Field options https://developers.google.com/protocol-buffers/docs/proto#customoptions
+syntax = "proto3";
+option java_multiple_files = true;
+
+package sec;
+option java_package = "com.github.frtu.sample.grpc.metadata.sec";
+
+import "google/protobuf/descriptor.proto";
+
+extend google.protobuf.FieldOptions {
+    bool secured_field = 50002;
+}
