@@ -51,6 +51,11 @@ dependencies {
     implementation("io.grpc:grpc-netty:${Versions.grpc}")
     implementation("net.devh:grpc-server-spring-boot-starter:${Versions.grpc_spring_boot_starter}")
 
+    // Kafka
+    implementation(Libs.kafka_reactor)
+    implementation("org.springframework.kafka:spring-kafka")
+    testImplementation("org.springframework.kafka:spring-kafka-test")
+
     // Serialization
     implementation(Libs.lib_serdes_protobuf)
     implementation(Libs.jackson_databind)
@@ -72,11 +77,13 @@ dependencies {
     implementation("io.opentelemetry:opentelemetry-exporter-jaeger")
     implementation("io.jaegertracing:jaeger-client:${Versions.jaeger}")
 
-    // Platform - Coroutine
+    // Platform - Coroutine and Async
     implementation(Libs.coroutines_core)
     implementation(Libs.coroutines_core_jvm)
     implementation(Libs.coroutines_reactive)
     implementation(Libs.coroutines_reactor)
+
+    testImplementation("org.awaitility:awaitility-kotlin:4.1.0")
 
     // Platform - Log
     implementation(Libs.logger_core)

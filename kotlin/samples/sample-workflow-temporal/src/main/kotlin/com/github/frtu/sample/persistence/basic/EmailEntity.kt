@@ -1,14 +1,11 @@
 package com.github.frtu.sample.persistence.basic
 
-import org.springframework.data.annotation.CreatedDate
+import com.github.frtu.sample.persistence.basic.EmailEntity.Companion.TABLE_NAME
 import org.springframework.data.annotation.Id
-import org.springframework.data.annotation.LastModifiedDate
 import org.springframework.data.relational.core.mapping.Column
 import org.springframework.data.relational.core.mapping.Table
-import java.time.LocalDateTime
-import java.util.*
 
-@Table("email")
+@Table(TABLE_NAME)
 data class EmailEntity(
     @Column("receiver")
     var receiver: String? = null,
@@ -40,5 +37,5 @@ data class EmailEntity(
 }
 
 enum class STATUS {
-    INIT, SENT, ERROR
+    INIT, SENT, ERROR, UNKNOWN
 }

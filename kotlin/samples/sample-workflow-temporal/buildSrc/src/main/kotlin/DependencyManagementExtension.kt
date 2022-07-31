@@ -23,6 +23,9 @@ object Versions {
     const val plugin_protobuf = "0.8.18"
     const val plugin_grpc_kotlin = "0.1.5"
 
+    const val kafka = "3.0.0"
+    const val kafka_reactor = "1.3.11"
+
     const val protobuf = "3.21.1" // 2022-05-28
     const val grpc = "1.46.0" // 2022-04-26
     const val grpc_kotlin = "1.3.0" // 2022-05-28
@@ -32,6 +35,9 @@ object Versions {
 }
 
 object Libs {
+    const val kafka_reactor = "io.projectreactor.kafka:reactor-kafka:${Versions.kafka_reactor}"
+    const val kafka_client = "org.apache.kafka:kafka-clients:${Versions.kafka}"
+
     //---------- Commons -----------
     const val jackson_databind = "com.fasterxml.jackson.core:jackson-databind"
     const val jackson_module_kotlin = "com.fasterxml.jackson.module:jackson-module-kotlin"
