@@ -32,6 +32,9 @@ fun ServerlessWorkflow.start(workflowStub: WorkflowStub, workflowInput: JsonNode
 
 fun ServerlessWorkflow.getState(): State? = WorkflowUtils.getStartingState(this)
 
+fun ServerlessWorkflow.getStateWithName(nextStateName: String): State? =
+    WorkflowUtils.getStateWithName(this, nextStateName)
+
 fun ServerlessWorkflow.assertValidity(): ServerlessWorkflow {
     val workflowValidator = WorkflowValidatorImpl().setWorkflow(this)
 

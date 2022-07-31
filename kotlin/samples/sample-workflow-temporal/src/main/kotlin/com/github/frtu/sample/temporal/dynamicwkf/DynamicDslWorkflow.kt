@@ -15,6 +15,7 @@ import io.serverlessworkflow.api.events.OnEvents
 import io.serverlessworkflow.api.functions.FunctionDefinition
 import io.serverlessworkflow.api.interfaces.State
 import io.serverlessworkflow.api.states.*
+import io.serverlessworkflow.api.transitions.Transition
 import io.serverlessworkflow.utils.WorkflowUtils
 import io.temporal.activity.ActivityOptions
 import io.temporal.common.RetryOptions
@@ -75,7 +76,10 @@ class DynamicDslWorkflow : DynamicWorkflow {
                         // no input just return workflow data
                         return@DynamicQueryHandler workflowContext.value
                     } else {
-                        return@DynamicQueryHandler JQFilter.instance?.evaluateExpression(queryInput, workflowContext.value)
+                        return@DynamicQueryHandler JQFilter.instance?.evaluateExpression(
+                            queryInput,
+                            workflowContext.value
+                        )
                     }
                 }
                 JQFilter.instance!!.evaluateExpression(
@@ -112,144 +116,130 @@ class DynamicDslWorkflow : DynamicWorkflow {
      * Executes the control flow logic for a dsl workflow state. Demo supports EventState,
      * OperationState, and SwitchState currently. More can be added.
      */
-    private fun executeStateAndReturnNext(dslWorkflowState: State): State? {
-        return if (dslWorkflowState is EventState) {
+    private fun executeStateAndReturnNext(dslWorkflowState: State): State? = when (dslWorkflowState) {
+        is EventState -> {
             val eventState = dslWorkflowState as EventState
             // currently this demo supports only the first onEvents
             if (eventState.onEvents != null && eventState.onEvents.size > 0) {
-                val eventStateActions = eventState.onEvents[0].actions
-                if (eventState.onEvents[0].actionMode != null
-                    && (eventState.onEvents[0].actionMode == OnEvents.ActionMode.PARALLEL)
-                ) {
-                    val eventPromises: MutableList<Promise<ActResult>> = ArrayList<Promise<ActResult>>()
-                    for (action in eventStateActions) {
-                        eventPromises.add(
+                val firstEvent = eventState.onEvents[0]
+
+                val eventStateActions = firstEvent.actions
+
+                when (firstEvent.actionMode) {
+                    // PARALLEL execution
+                    OnEvents.ActionMode.PARALLEL -> {
+                        val eventPromises = eventStateActions.map {
                             activities.executeAsync(
-                                action.functionRef.refName,
+                                it.functionRef.refName,
                                 ActResult::class.java,
                                 workflowContext.customer
                             )
-                        )
-                    }
-                    // Invoke all activities in parallel. Wait for all to complete
-                    Promise.allOf(eventPromises).get()
-                    for (promise in eventPromises) {
-                        workflowContext.addResults(promise.get())
-                    }
-                } else {
-                    for (action in eventStateActions) {
-                        if (action.sleep != null && action.sleep.before != null) {
-                            sleep(Duration.parse(action.sleep.before))
+                        }.toList()
+
+                        // Invoke all activities in parallel. Wait for all to complete
+                        Promise.allOf(eventPromises).get()
+                        for (promise in eventPromises) {
+                            workflowContext.addResults(promise.get())
                         }
-                        // execute the action as an activity and assign its results to workflowData
-                        workflowContext.addResults(
-                            activities.execute(
-                                action.functionRef.refName,
-                                ActResult::class.java,
-                                workflowContext.customer
+                    }
+                    // SEQUENTIAL execution
+                    else -> {
+                        for (action in eventStateActions) {
+                            if (action.sleep != null && action.sleep.before != null) {
+                                sleep(Duration.parse(action.sleep.before))
+                            }
+                            // execute the action as an activity and assign its results to workflowData
+                            workflowContext.addResults(
+                                activities.execute(
+                                    action.functionRef.refName,
+                                    ActResult::class.java,
+                                    workflowContext.customer
+                                )
                             )
-                        )
-                        if (action.sleep != null && action.sleep.after != null) {
-                            sleep(Duration.parse(action.sleep.after))
+                            if (action.sleep != null && action.sleep.after != null) {
+                                sleep(Duration.parse(action.sleep.after))
+                            }
                         }
                     }
                 }
             }
-            if (eventState.transition == null || eventState.transition.nextState == null) {
-                null
-            } else WorkflowUtils.getStateWithName(dslWorkflow, eventState.transition.nextState)
-        } else if (dslWorkflowState is OperationState) {
+            eventState.transition?.nextState
+                ?.let { dslWorkflow.getStateWithName(it) }
+                ?: null
+        }
+        is OperationState -> {
             val operationState = dslWorkflowState as OperationState
-            if (operationState.actions != null && operationState.actions.size > 0) {
-                // Check if actions should be executed sequentially or parallel
-                if (operationState.actionMode != null
-                    && operationState.actionMode == OperationState.ActionMode.PARALLEL
-                ) {
-                    val actionsPromises: MutableList<Promise<ActResult>> = ArrayList<Promise<ActResult>>()
-                    for (action in operationState.actions) {
-                        actionsPromises.add(
+            if (!operationState.actions.isNullOrEmpty()) {
+                when (operationState.actionMode) {
+                    // PARALLEL execution
+                    OperationState.ActionMode.PARALLEL -> {
+                        val actionsPromises = operationState.actions.map {
                             activities.executeAsync(
-                                action.functionRef.refName,
+                                it.functionRef.refName,
                                 ActResult::class.java,
                                 workflowContext.customer
                             )
-                        )
-                    }
-                    // Invoke all activities in parallel. Wait for all to complete
-                    Promise.allOf(actionsPromises).get()
-                    for (promise in actionsPromises) {
-                        workflowContext.addResults(promise.get())
-                    }
-                } else {
-                    for (action in operationState.actions) {
-                        if (action.sleep != null && action.sleep.before != null) {
-                            sleep(Duration.parse(action.sleep.before))
+                        }.toList()
+                        // Invoke all activities in parallel. Wait for all to complete
+                        Promise.allOf(actionsPromises).get()
+                        for (promise in actionsPromises) {
+                            workflowContext.addResults(promise.get())
                         }
-                        // execute the action as an activity and assign its results to workflowData
-                        workflowContext.addResults(
-                            activities.execute(
-                                action.functionRef.refName,
-                                ActResult::class.java,
-                                workflowContext.customer
+                    }
+                    // SEQUENTIAL execution
+                    else -> {
+                        for (action in operationState.actions) {
+                            if (action.sleep != null && action.sleep.before != null) {
+                                sleep(Duration.parse(action.sleep.before))
+                            }
+                            // execute the action as an activity and assign its results to workflowData
+                            workflowContext.addResults(
+                                activities.execute(
+                                    action.functionRef.refName,
+                                    ActResult::class.java,
+                                    workflowContext.customer
+                                )
                             )
-                        )
-                        if (action.sleep != null && action.sleep.after != null) {
-                            sleep(Duration.parse(action.sleep.after))
+                            if (action.sleep != null && action.sleep.after != null) {
+                                sleep(Duration.parse(action.sleep.after))
+                            }
                         }
                     }
                 }
             }
-            if (operationState.transition == null
-                || operationState.transition.nextState == null
-            ) {
-                null
-            } else WorkflowUtils.getStateWithName(
-                dslWorkflow, operationState.transition.nextState
-            )
-        } else if (dslWorkflowState is SwitchState) {
+            operationState.transition?.nextState
+                ?.let { dslWorkflow.getStateWithName(it) }
+                ?: null
+        }
+        is SwitchState -> {
             // Demo supports only data based switch
             val switchState = dslWorkflowState as SwitchState
-            if (switchState.dataConditions != null && switchState.dataConditions.size > 0) {
-                // evaluate each condition to see if its true. If none are true default to defaultCondition
-                for (dataCondition in switchState.dataConditions) {
-                    if (JQFilter.instance!!.evaluateBooleanExpression(dataCondition.condition, workflowContext.value)
-                    ) {
-                        return if (dataCondition.transition == null
-                            || dataCondition.transition.nextState == null
-                        ) {
-                            null
-                        } else WorkflowUtils.getStateWithName(
-                            dslWorkflow, dataCondition.transition.nextState
-                        )
-                    }
-                }
-                // no conditions evaluated to true, use default condition
-                if (switchState.defaultCondition.transition == null) {
-                    null
-                } else WorkflowUtils.getStateWithName(
-                    dslWorkflow, switchState.defaultCondition.transition.nextState
-                )
-            } else {
-                // no conditions use the transition/end of default condition
-                if (switchState.defaultCondition.transition == null) {
-                    null
-                } else WorkflowUtils.getStateWithName(
-                    dslWorkflow, switchState.defaultCondition.transition.nextState
-                )
-            }
-        } else if (dslWorkflowState is SleepState) {
+
+            val transition: Transition = switchState.dataConditions.firstOrNull {
+                JQFilter.instance!!.evaluateBooleanExpression(it.condition, workflowContext.value)
+            }?.let {
+                it.transition
+            } ?: switchState.defaultCondition.transition
+
+            transition.nextState
+                ?.let { dslWorkflow.getStateWithName(it) }
+                ?: null
+        }
+        is SleepState -> {
             val sleepState = dslWorkflowState as SleepState
-            if (sleepState.duration != null) {
-                sleep(Duration.parse(sleepState.duration))
+            sleepState.duration?.let {
+                sleep(Duration.parse(it))
             }
-            if (sleepState.transition == null || sleepState.transition.nextState == null) {
-                null
-            } else WorkflowUtils.getStateWithName(dslWorkflow, sleepState.transition.nextState)
-        } else if (dslWorkflowState is ForEachState) {
+            sleepState.transition?.nextState
+                ?.let { dslWorkflow.getStateWithName(it) }
+                ?: null
+        }
+        is ForEachState -> {
             val state = dslWorkflowState as ForEachState
             // List<Promise<JsonNode>> actionsPromises = new ArrayList<>();
-            val inputs: List<JsonNode> =
-                JQFilter.instance!!.evaluateArrayExpression(state.inputCollection, workflowContext.value)
+            val inputs: List<JsonNode> = JQFilter.instance!!
+                .evaluateArrayExpression(state.inputCollection, workflowContext.value)
+
             // TODO: update to exec all in parallel!
             for (ignored in inputs) {
                 for (action in state.actions) {
@@ -270,39 +260,30 @@ class DynamicDslWorkflow : DynamicWorkflow {
                     }
                 }
             }
-            if (state.transition == null || state.transition.nextState == null) {
-                null
-            } else WorkflowUtils.getStateWithName(dslWorkflow, state.transition.nextState)
-        } else if (dslWorkflowState is ParallelState) {
+            state.transition?.nextState
+                ?.let { dslWorkflow.getStateWithName(it) }
+                ?: null
+        }
+        is ParallelState -> {
             val parallelState = dslWorkflowState as ParallelState
 
             // this is just initial impl, still need to add things like timeouts etc
             // also this currently assumes the "allof" completion type (default)
-            if (parallelState.branches != null && parallelState.branches.size > 0) {
-                val branchAllOfPromises: MutableList<Promise<Void>> = ArrayList()
-                for (branch in parallelState.branches) {
-                    branchAllOfPromises.add(
-                        Async.procedure(
-                            { branch: Branch ->
-                                processBranchActions(
-                                    branch
-                                )
-                            }, branch
-                        )
+            if (!parallelState.branches.isNullOrEmpty()) {
+                val branchAllOfPromises: List<Promise<Void>> = parallelState.branches.map {
+                    Async.procedure(
+                        { branch: Branch -> processBranchActions(branch) }
+                        , it
                     )
-                }
-
+                }.toList()
                 // execute all branch actions in parallel..wait for all to complete
                 Promise.allOf(branchAllOfPromises).get()
             }
-            if (parallelState.transition == null
-                || parallelState.transition.nextState == null
-            ) {
-                null
-            } else WorkflowUtils.getStateWithName(
-                dslWorkflow, parallelState.transition.nextState
-            )
-        } else {
+            parallelState.transition?.nextState
+                ?.let { dslWorkflow.getStateWithName(it) }
+                ?: null
+        }
+        else -> {
             logger.error("Invalid or unsupported in demo dsl workflow state: $dslWorkflowState")
             null
         }

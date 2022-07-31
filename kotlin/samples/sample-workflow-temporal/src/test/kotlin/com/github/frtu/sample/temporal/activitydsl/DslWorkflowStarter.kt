@@ -16,7 +16,7 @@ fun main() {
     val workflowIdToDataInputMap: Map<String, String> = mapOf(
         "customerapplication" to "dsl/customerapplication/datainput.json",
     )
-    ServerlessWorkflowRegistry.register(IoHelper.getFileAsString("dsl/customerapplication/workflow.yml"))
+    ServerlessWorkflowRegistry.register(IoHelper.getFileAsString("dsl/customerapplication/workflow.json"))
 
     for ((workflowId, dataInputFileName) in workflowIdToDataInputMap) {
         dslWorkflow(client, workflowId, "1.0", dataInputFileName)

@@ -24,7 +24,7 @@ class WorkerConfig {
 
     @Bean
     fun serverlessWorkflow() =
-        ServerlessWorkflowRegistry.register(IoHelper.getFileAsString("dsl/customerapplication/workflow.yml"))
+        ServerlessWorkflowRegistry.register(IoHelper.getFileAsString("dsl/customerapplication/workflow.json"))
 
     /**
      * There should ONLY have one worker per application
