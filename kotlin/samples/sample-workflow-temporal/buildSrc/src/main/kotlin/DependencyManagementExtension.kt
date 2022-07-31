@@ -32,6 +32,8 @@ object Versions {
     const val grpc_spring_boot_starter = "2.13.1.RELEASE"
 
     const val temporal = "1.12.0"
+    const val serverlessworkflow = "4.0.3.Final"
+    const val jq = "1.0.0-preview.20220705"
 }
 
 object Libs {

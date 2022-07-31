@@ -29,6 +29,12 @@ dependencies {
     implementation("io.temporal:temporal-kotlin:${Versions.temporal}")
     implementation("io.temporal:temporal-opentracing:${Versions.temporal}")
 
+    implementation("io.serverlessworkflow:serverlessworkflow-api:${Versions.serverlessworkflow}")
+    implementation("io.serverlessworkflow:serverlessworkflow-validation:${Versions.serverlessworkflow}")
+    implementation("io.serverlessworkflow:serverlessworkflow-spi:${Versions.serverlessworkflow}")
+    implementation("io.serverlessworkflow:serverlessworkflow-util:${Versions.serverlessworkflow}")
+    implementation("net.thisptr:jackson-jq:${Versions.jq}")
+
     implementation("org.springframework.boot:spring-boot-starter")
 
     // Reactive database
