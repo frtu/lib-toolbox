@@ -52,12 +52,18 @@ dependencies {
     implementation("net.devh:grpc-server-spring-boot-starter:${Versions.grpc_spring_boot_starter}")
 
     // Kafka
+    implementation(Libs.kafka)
+    implementation(Libs.kafka_client)
     implementation(Libs.kafka_reactor)
     implementation("org.springframework.kafka:spring-kafka")
     testImplementation("org.springframework.kafka:spring-kafka-test")
+    testImplementation("${Libs.kafka_client}:test")
 
     // Serialization
     implementation(Libs.lib_serdes_protobuf)
+
+    implementation(Libs.jackson_core)
+    implementation(Libs.jackson_yaml)
     implementation(Libs.jackson_databind)
     implementation(Libs.jackson_module_kotlin)
     implementation(Libs.jackson_datatype_jsr310)

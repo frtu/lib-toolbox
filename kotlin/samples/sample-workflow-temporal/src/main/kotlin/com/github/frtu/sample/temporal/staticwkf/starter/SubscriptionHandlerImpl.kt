@@ -1,5 +1,6 @@
 package com.github.frtu.sample.temporal.staticwkf.starter
 
+import com.github.frtu.logs.core.RpcLogger.requestBody
 import com.github.frtu.logs.core.StructuredLogger
 import com.github.frtu.logs.core.StructuredLogger.flowId
 import com.github.frtu.logs.core.StructuredLogger.key
@@ -18,6 +19,8 @@ class SubscriptionHandlerImpl(
 ) : SubscriptionHandler {
     override fun handle(subscriptionEvent: SubscriptionEvent): UUID {
         val id = UUID.randomUUID()
+
+        structuredLogger.info(flowId(id), requestBody(subscriptionEvent))
 
         val workflow: SubscriptionWorkflow = client.newWorkflowStub(
             SubscriptionWorkflow::class.java,

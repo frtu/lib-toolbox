@@ -21,6 +21,7 @@ class RouterConfig(
         val uriPath = "/v1/workflows"
         POST(uriPath) { serverRequest ->
             val subscriptionEvent = serverRequest.awaitBody<SubscriptionEvent>()
+            rpcLogger.info(uri(uriPath), requestBody(subscriptionEvent))
             val createdId = subscriptionHandler.handle(subscriptionEvent)
             rpcLogger.info(uri(uriPath), requestBody(subscriptionEvent), responseBody(createdId))
             created(URI.create("$uriPath/$createdId")).buildAndAwait()

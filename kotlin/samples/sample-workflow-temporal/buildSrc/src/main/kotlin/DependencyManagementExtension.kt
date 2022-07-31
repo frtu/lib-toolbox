@@ -35,10 +35,12 @@ object Versions {
 }
 
 object Libs {
-    const val kafka_reactor = "io.projectreactor.kafka:reactor-kafka:${Versions.kafka_reactor}"
+    const val kafka = "org.apache.kafka:kafka_2.13:${Versions.kafka}"
     const val kafka_client = "org.apache.kafka:kafka-clients:${Versions.kafka}"
+    const val kafka_reactor = "io.projectreactor.kafka:reactor-kafka:${Versions.kafka_reactor}"
 
     //---------- Commons -----------
+    const val jackson_core = "com.fasterxml.jackson.core:jackson-core"
     const val jackson_databind = "com.fasterxml.jackson.core:jackson-databind"
     const val jackson_module_kotlin = "com.fasterxml.jackson.module:jackson-module-kotlin"
     const val jackson_datatype_jsr310 = "com.fasterxml.jackson.datatype:jackson-datatype-jsr310"
