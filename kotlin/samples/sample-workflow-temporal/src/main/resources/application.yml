@@ -5,6 +5,11 @@ application:
   name: sample-workflow-temporal
   persistence:
     url: r2dbc:h2:mem:///test?options=DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+  topic:
+    # Where domain request is consumed : ATTENTION please put between double quote to avoid ASCII check error
+    domain-source: "email-source"
+    # Where domain result is published
+    domain-result: "email-result"
 
 # ======================================
 # Spring Boot
