@@ -2,7 +2,7 @@ object Versions {
     const val java = "11"
 
     // Allow to enable >1.4 syntax
-    const val language = "1.4"
+    const val language = "1.5"
     const val kotlin = "1.5.32"
     const val kotlinx = "1.5.2"
 
@@ -23,7 +23,7 @@ object Versions {
     const val plugin_protobuf = "0.8.18"
     const val plugin_grpc_kotlin = "0.1.5"
 
-    const val kafka = "3.0.0"
+    const val kafka = "2.6.0"
     const val kafka_reactor = "1.3.11"
 
     const val protobuf = "3.21.1" // 2022-05-28

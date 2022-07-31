@@ -8,6 +8,7 @@ import com.github.frtu.sample.persistence.basic.STATUS
 import com.github.frtu.sample.sink.EmailDetail
 import com.github.frtu.sample.temporal.activity.EmailSinkActivity
 import com.github.frtu.sample.temporal.activity.TASK_QUEUE_EMAIL
+import com.github.frtu.sample.temporal.dynamicwkf.DynamicDslWorkflow
 import com.github.frtu.sample.temporal.staticwkf.SubscriptionEvent
 import io.temporal.activity.ActivityOptions
 import io.temporal.api.enums.v1.ParentClosePolicy
@@ -58,8 +59,8 @@ class SubscriptionWorkflowImpl : SubscriptionWorkflow {
         .map { UUID.randomUUID() }
         .toCollection(mutableListOf())
 
-    private val logger = Workflow.getLogger(this::class.java)
-    private val structuredLogger = StructuredLogger.create(logger)
+    private val logger = Workflow.getLogger(SubscriptionWorkflowImpl::class.java)
+    private val structuredLogger = StructuredLogger.create(this::class.java)
 
     companion object {
         private const val SUBSCRIPTION = "Subscription"
