@@ -9,6 +9,16 @@ This is using [serverlessworkflow](https://serverlessworkflow.github.io/) as a D
 * Has [Java SDK](https://github.com/serverlessworkflow/sdk-java) for parsing & build workflow definitions
 * Has [Visual editor](https://serverlessworkflow.github.io/editor.html)
 
+
+## DSL
+
+Workflow DSL leverage [serverlessworkflow.io](https://serverlessworkflow.io/) for :
+
+* Parsing
+* Fluent API
+* Validation
+* Diagram generation
+
 ## Modules
 
 ### HTTP
