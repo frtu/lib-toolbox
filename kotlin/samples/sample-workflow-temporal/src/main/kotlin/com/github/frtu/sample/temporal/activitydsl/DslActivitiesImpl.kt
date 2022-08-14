@@ -2,8 +2,13 @@ package com.github.frtu.sample.temporal.activitydsl
 
 import com.github.frtu.sample.temporal.activitydsl.model.ActResult
 import com.github.frtu.sample.temporal.activitydsl.model.Customer
+import com.github.frtu.sample.temporal.dynamicwkf.TASK_QUEUE_DSL
+import com.github.frtu.workflow.temporal.annotation.ActivityImplementation
 import io.temporal.activity.Activity
+import org.springframework.stereotype.Service
 
+@Service
+@ActivityImplementation(taskQueue = TASK_QUEUE_DSL)
 class DslActivitiesImpl : DslActivities {
     override fun checkCustomerInfo(customer: Customer): ActResult? {
         return try {
