@@ -12,7 +12,7 @@ object Versions {
     const val micrometer = "1.9.0"
     const val springdoc = "1.5.4"
     const val frtu_base = "1.2.4"
-    const val frtu_libs = "1.2.2"
+    const val frtu_libs = "1.2.3-SNAPSHOT"
     const val frtu_logs = "1.1.4"
     const val opentelemetry = "1.15.0"
     const val jaeger = "1.8.0"

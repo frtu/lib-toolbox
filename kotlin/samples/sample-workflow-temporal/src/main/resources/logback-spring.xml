@@ -18,6 +18,7 @@
     <!--Local start up-->
     <springProfile name="default">
         <!--Current application-->
+        <logger name="com.github.frtu.workflow" level="TRACE" additivity="true"/>
         <logger name="com.github.frtu.sample" level="TRACE" additivity="true"/>
 
         <root level="INFO">
