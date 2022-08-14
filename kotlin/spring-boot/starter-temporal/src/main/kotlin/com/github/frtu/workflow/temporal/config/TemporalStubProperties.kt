@@ -11,21 +11,21 @@ import java.time.Duration
  */
 @ConfigurationProperties(prefix = "temporal.stub")
 class TemporalStubProperties(
-    val identity: String? = null,
-    val namespace: String = "default",
-    val binaryChecksum: String? = null,
+    var identity: String? = null,
+    var namespace: String = "default",
+    var binaryChecksum: String? = null,
 
-    val target: String = "localhost:7233",
-    val enableHttps: Boolean = false,
+    var target: String = "localhost:7233",
+    var enableHttps: Boolean = false,
 
-    val enableKeepAlive: Boolean = false,
-    val keepAliveTime: Duration? = null,
-    val keepAliveTimeout: Duration? = null,
-    val keepAlivePermitWithoutStream: Boolean = false,
-    val connectionBackoffResetFrequency: Duration? = null,
-    val grpcReconnectFrequency: Duration? = null,
+    var enableKeepAlive: Boolean = false,
+    var keepAliveTime: Duration? = null,
+    var keepAliveTimeout: Duration? = null,
+    var keepAlivePermitWithoutStream: Boolean = false,
+    var connectionBackoffResetFrequency: Duration? = null,
+    var grpcReconnectFrequency: Duration? = null,
 
-    val rpcQueryTimeout: Duration? = null,
-    val rpcTimeout: Duration? = null,
-    val rpcLongPollTimeout: Duration? = null,
+    var rpcQueryTimeout: Duration? = null,
+    var rpcTimeout: Duration? = null,
+    var rpcLongPollTimeout: Duration? = null,
 )

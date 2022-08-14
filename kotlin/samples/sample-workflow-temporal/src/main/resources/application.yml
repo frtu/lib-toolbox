@@ -11,6 +11,22 @@ application:
     # Where domain result is published
     domain-result: "email-result"
 
+temporal.stub:
+  identity: ${application.name}
+  namespace: "default"
+  target: "localhost:7233"
+  enableHttps: false
+
+  enableKeepAlive: false
+  keepAliveTime: "PT5S"
+  keepAliveTimeout: "PT5S"
+  keepAlivePermitWithoutStream: false
+  connectionBackoffResetFrequency: "PT5S"
+  grpcReconnectFrequency: "PT5S"
+  rpcQueryTimeout: "PT5S"
+  rpcTimeout: "PT5S"
+  rpcLongPollTimeout: "PT5S"
+
 # ======================================
 # Spring Boot
 # ======================================
