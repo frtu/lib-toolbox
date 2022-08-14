@@ -6,8 +6,12 @@ import io.grpc.ClientInterceptor
 import io.grpc.ManagedChannelBuilder
 import io.grpc.Metadata
 import io.grpc.netty.shaded.io.netty.handler.ssl.SslContext
+import io.temporal.api.enums.v1.QueryRejectCondition
 import io.temporal.client.WorkflowClient
 import io.temporal.client.WorkflowClientOptions
+import io.temporal.common.context.ContextPropagator
+import io.temporal.common.converter.DefaultDataConverter
+import io.temporal.common.converter.PayloadConverter
 import io.temporal.common.interceptors.WorkerInterceptor
 import io.temporal.common.interceptors.WorkflowClientInterceptor
 import io.temporal.serviceclient.GrpcMetadataProvider
@@ -72,11 +76,26 @@ class TemporalConfig {
     @Bean
     fun workflowClient(
         service: WorkflowServiceStubs,
-        workflowClientInterceptors: List<WorkflowClientInterceptor>
+        temporalStubProperties: TemporalStubProperties,
+        workflowClientInterceptors: List<WorkflowClientInterceptor>,
+        payloadConverters: List<PayloadConverter>?,
+        contextPropagators: List<ContextPropagator>?,
+        queryRejectCondition: QueryRejectCondition?,
     ): WorkflowClient =
         WorkflowClient.newInstance(service, WorkflowClientOptions {
-            structuredLogger.info(message("Setting workflowClientInterceptors[${workflowClientInterceptors.size}]"))
+            val identity = temporalStubProperties.identity
+            structuredLogger.info(message("Setting identity[$identity] namespace[${temporalStubProperties.namespace}] workflowClientInterceptors[${workflowClientInterceptors.size}] workflowClientInterceptors[${workflowClientInterceptors.size}]"))
+            identity?.let { setIdentity(identity) }
+            setNamespace(temporalStubProperties.namespace)
             setInterceptors(*workflowClientInterceptors.toTypedArray())
+            temporalStubProperties.binaryChecksum?.let { setBinaryChecksum(temporalStubProperties.binaryChecksum) }
+            if (!payloadConverters.isNullOrEmpty()) {
+                setDataConverter(DefaultDataConverter(*payloadConverters.toTypedArray()))
+            }
+            if (!contextPropagators.isNullOrEmpty()) {
+                setContextPropagators(contextPropagators)
+            }
+            queryRejectCondition?.let { setQueryRejectCondition(queryRejectCondition) }
         })
 
     @Bean

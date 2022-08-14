@@ -11,6 +11,10 @@ import java.time.Duration
  */
 @ConfigurationProperties(prefix = "temporal.stub")
 class TemporalStubProperties(
+    val identity: String? = null,
+    val namespace: String = "default",
+    val binaryChecksum: String? = null,
+
     val target: String = "localhost:7233",
     val enableHttps: Boolean = false,
 
