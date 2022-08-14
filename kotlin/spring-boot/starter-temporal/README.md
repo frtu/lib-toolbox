@@ -2,7 +2,41 @@
 
 ## About
 
-Provide spring boot starter to bootstrap connection to Temporal 
+Provide spring boot starter to bootstrap connection to Temporal. 
+
+## Usage
+
+In your activity add `@ActivityImplementation` to register your **spring bean** into your `Worker`. 
+ 
+```kotlin
+@ActivityImplementation(taskQueue = "TASK_QUEUE_XXX")
+```
+
+In your workflow add `@WorkflowImplementation` to register this **class** into your `Worker`. 
+ 
+```kotlin
+@WorkflowImplementation(taskQueue = "TASK_QUEUE_XXX")
+```
+
+Configure any properties in your application.yml :
+
+```yaml
+temporal.stub:
+  identity: ${application.name}
+  namespace: "default"
+  target: "localhost:7233"
+  enableHttps: false
+
+  enableKeepAlive: false
+  keepAliveTime: "PT5S"
+  keepAliveTimeout: "PT5S"
+  keepAlivePermitWithoutStream: false
+  connectionBackoffResetFrequency: "PT5S"
+  grpcReconnectFrequency: "PT5S"
+  rpcQueryTimeout: "PT5S"
+  rpcTimeout: "PT5S"
+  rpcLongPollTimeout: "PT5S"
+```
 
 ## Import
 
@@ -109,6 +143,18 @@ jaeger:
 ```
 
 ## Release notes
+
+### 1.2.3
+
+* Allow to register workflow & activity : `@WorkflowImplementation` `@ActivityImplementation`
+* Finalize `TemporalStubProperties` & `TemporalConfig` : Allows configuring all kinds of timeout
+* `samples/sample-workflow-temporal` : demonstrate `com.github.frtu.libs:starter-temporal`
+* Adding DSL `serverlessworkflow`
+
+### 1.2.2
+
+* `ObservabilityJaegerConfig` & `ObservabilityMetricsConfig` : Allows configuring Observability 
+* Bump `temporal.version` [1.13.0]
 
 ### 1.2.1
 
