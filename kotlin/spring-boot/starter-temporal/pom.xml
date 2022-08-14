@@ -12,9 +12,16 @@
     <properties>
         <jaeger.version>1.8.0</jaeger.version>
         <opentelemetry.version>1.14.0</opentelemetry.version>
+        <reflections.version>0.9.11</reflections.version>
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>org.reflections</groupId>
+            <artifactId>reflections</artifactId>
+            <version>${reflections.version}</version>
+        </dependency>
+
         <!-- Temporal -->
         <dependency>
             <groupId>io.temporal</groupId>

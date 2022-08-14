@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component
 
 @Component
 class WorkerRegistrationConfig(private val applicationContext: ApplicationContext) {
-    private val temporalConnectivity: TemporalConnectivity = TemporalConnectivity()
+    private val temporalConnectivity: TemporalConnectivity = TemporalConnectivity("com")
 
     @EventListener(ContextRefreshedEvent::class)
     fun handleContextRefresh() {
