@@ -95,8 +95,6 @@ dependencies {
     implementation(Libs.coroutines_reactive)
     implementation(Libs.coroutines_reactor)
 
-    testImplementation("org.awaitility:awaitility-kotlin:4.1.0")
-
     // Platform - Log
     implementation(Libs.logger_core)
     implementation(Libs.log_impl)
@@ -105,6 +103,10 @@ dependencies {
 
     // Test
     testImplementation(Libs.junit)
+    testImplementation(Libs.kotest)
+    testImplementation(Libs.kotest_json)
+    testImplementation(Libs.kotest_property)
+    testImplementation(Libs.awaitility)
     testImplementation(Libs.mock)
     testImplementation(Libs.assertions)
     testImplementation(kotlin("test"))
@@ -112,6 +114,7 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 
     // Platform - BOMs
+    testImplementation(platform(Libs.bom_kotest))
     implementation(platform(kotlin("bom")))
     implementation(kotlin("stdlib"))
     implementation(kotlin("stdlib-jdk8"))

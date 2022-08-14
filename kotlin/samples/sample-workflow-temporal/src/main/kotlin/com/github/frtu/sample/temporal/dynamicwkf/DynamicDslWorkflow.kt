@@ -10,13 +10,13 @@ import com.github.frtu.sample.temporal.dynamicwkf.activity.TASK_QUEUE_REGISTRY
 import com.github.frtu.sample.temporal.dynamicwkf.serverless.*
 import com.github.frtu.sample.temporal.dynamicwkf.utils.JQFilter
 import com.github.frtu.sample.temporal.staticwkf.SubscriptionEvent
+import com.github.frtu.workflow.temporal.annotation.WorkflowImplementation
 import io.serverlessworkflow.api.branches.Branch
 import io.serverlessworkflow.api.events.OnEvents
 import io.serverlessworkflow.api.functions.FunctionDefinition
 import io.serverlessworkflow.api.interfaces.State
 import io.serverlessworkflow.api.states.*
 import io.serverlessworkflow.api.transitions.Transition
-import io.serverlessworkflow.utils.WorkflowUtils
 import io.temporal.activity.ActivityOptions
 import io.temporal.common.RetryOptions
 import io.temporal.common.converter.EncodedValues
@@ -28,6 +28,7 @@ import io.serverlessworkflow.api.Workflow as ServerlessWorkflow
 
 const val TASK_QUEUE_DSL = "TASK_QUEUE_DSL"
 
+@WorkflowImplementation(taskQueue = TASK_QUEUE_DSL)
 class DynamicDslWorkflow : DynamicWorkflow {
     lateinit var dslWorkflow: ServerlessWorkflow
     lateinit var activities: ActivityStub

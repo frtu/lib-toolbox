@@ -10,6 +10,7 @@ import com.github.frtu.sample.temporal.activity.EmailSinkActivity
 import com.github.frtu.sample.temporal.activity.TASK_QUEUE_EMAIL
 import com.github.frtu.sample.temporal.dynamicwkf.DynamicDslWorkflow
 import com.github.frtu.sample.temporal.staticwkf.SubscriptionEvent
+import com.github.frtu.workflow.temporal.annotation.WorkflowImplementation
 import io.temporal.activity.ActivityOptions
 import io.temporal.api.enums.v1.ParentClosePolicy
 import io.temporal.api.enums.v1.WorkflowIdReusePolicy
@@ -20,6 +21,7 @@ import io.temporal.workflow.Workflow
 import java.time.Duration
 import java.util.*
 
+@WorkflowImplementation(taskQueue = TASK_QUEUE_SUBSCRIPTION)
 class SubscriptionWorkflowImpl : SubscriptionWorkflow {
     override fun start(subscriptionEvent: SubscriptionEvent) {
         structuredLogger.info(flowId(subscriptionEvent.id), phase("STARTING_ACTIVITY"), requestBody(subscriptionEvent))

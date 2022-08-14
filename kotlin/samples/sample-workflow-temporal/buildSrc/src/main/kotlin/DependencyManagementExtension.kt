@@ -14,7 +14,9 @@ object Versions {
     const val frtu_base = "1.2.4"
     const val frtu_libs = "1.2.3-SNAPSHOT"
     const val frtu_logs = "1.1.4"
-    const val opentelemetry = "1.15.0"
+    const val awaitility = "4.2.0" // 2022-03-04
+    const val kotest = "5.4.2" // 2022-08-10
+    const val opentelemetry = "1.15.0" // 2022-06-25
     const val jaeger = "1.8.0"
     const val prometheus = "0.16.0"
 
@@ -72,7 +74,14 @@ object Libs {
     const val bom_opentelemetry_alpha = "io.opentelemetry:opentelemetry-bom-alpha:${Versions.opentelemetry}-alpha"
 
     //---------- TESTS -----------
+    const val bom_kotest = "io.kotest:kotest-bom:${Versions.kotest}"
+
+    const val kotest = "io.kotest:kotest-assertions-core"
+    const val kotest_json = "io.kotest:kotest-assertions-json"
+    const val kotest_property = "io.kotest:kotest-property"
+
     const val junit = "org.junit.jupiter:junit-jupiter"
+    const val awaitility = "org.awaitility:awaitility-kotlin:${Versions.awaitility}"
 
     // Mock lib mockk or mockito
     const val mock = "io.mockk:mockk"
