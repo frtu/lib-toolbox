@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Import
  * @since 1.2.1
  */
 @Configuration
-@Import(TemporalConfig::class, ObservabilityJaegerConfig::class)
+@Import(TemporalConfig::class, WorkerRegistrationConfig::class, ObservabilityJaegerConfig::class)
 @EnableConfigurationProperties(TemporalStubProperties::class)
 @ConditionalOnClass(WorkflowClient::class)
 class AutoConfigs

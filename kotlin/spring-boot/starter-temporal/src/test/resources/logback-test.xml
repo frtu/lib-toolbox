@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- https://logback.qos.ch/manual/configuration.html -->
+<!-- https://logback.qos.ch/manual/appenders.html#FileAppender -->
+<configuration>
+    <!-- Stop output INFO at start -->
+    <!--<statusListener class="ch.qos.logback.core.status.NopStatusListener" />-->
+
+    <include resource="logback-core.xml"/>
+
+    <!--Current application-->
+    <logger name="com.github.frtu.workflow" level="TRACE" additivity="true"/>
+    <logger name="com.github.frtu.sample" level="TRACE" additivity="true"/>
+
+    <!-- Kafka -->
+    <logger name="org.apache.kafka.clients" level="INFO" additivity="true"/>
+
+    <logger name="state" level="WARN" additivity="true"/>
+
+    <logger name="kafka" level="WARN" additivity="true"/>
+    <logger name="org.apache.zookeeper" level="WARN" additivity="true"/>
+    <logger name="org.apache.kafka.clients.admin" level="WARN" additivity="true"/>
+    <logger name="org.apache.kafka.common.utils" level="WARN" additivity="true"/>
+
+    <logger name="kafka.network" level="WARN" additivity="true"/>
+    <logger name="kafka.server.KafkaConfig" level="WARN" additivity="true"/>
+    <logger name="org.apache.kafka.clients.producer.ProducerConfig" level="WARN" additivity="true"/>
+    <logger name="org.apache.kafka.clients.consumer.ConsumerConfig" level="WARN" additivity="true"/>
+
+    <!--ONLY NEEDED WHEN YOU NEED BELOW WARN-->
+    <root level="INFO">
+        <appender-ref ref="STDOUT"/>
+    </root>
+</configuration>
