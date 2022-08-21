@@ -1,0 +1,16 @@
+{
+  "greetings": {
+    "hello": {
+      "english": "Hello",
+      "spanish": "Hola",
+      "german": "Hallo",
+      "russian": "Здравствуйте"
+    },
+    "goodbye": {
+      "english": "Goodbye",
+      "spanish": "Adiós",
+      "german": "Auf Wiedersehen",
+      "russian": "Прощай"
+    }
+  }
+}

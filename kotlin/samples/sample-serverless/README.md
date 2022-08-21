@@ -14,6 +14,10 @@ For gRPC sample defined by Google, see :
 * https://cloud.google.com/functions/docs/writing/write-event-driven-functions
 * https://github.com/googleapis/google-cloudevents
 
+### Serverless Workflow
+
+* https://github.com/cncf/wg-serverless/tree/master/whitepapers/serverless-overview
+
 ## API
 
 ### Async with WebFlux

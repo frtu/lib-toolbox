@@ -1,0 +1,7 @@
+{
+  "customer": {
+    "name": "John Michaels",
+    "address": "111 Some Street, SomeCity, SomeCountry",
+    "age": 40
+  }
+}

@@ -47,6 +47,7 @@
         <!--===========================-->
         <!-- from https://github.com/cncf/wg-serverless -->
         <cloudevents.version>2.3.0</cloudevents.version>
+        <serverlessworkflow.version>4.0.3.Final</serverlessworkflow.version>
     </properties>
 
     <dependencies>
@@ -70,6 +71,23 @@
             <groupId>io.cloudevents</groupId>
             <artifactId>cloudevents-kafka</artifactId>
             <version>${cloudevents.version}</version>
+        </dependency>
+
+        <!--  Serverless Workflow -->
+        <dependency>
+            <groupId>io.serverlessworkflow</groupId>
+            <artifactId>serverlessworkflow-spi</artifactId>
+            <version>${serverlessworkflow.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.serverlessworkflow</groupId>
+            <artifactId>serverlessworkflow-util</artifactId>
+            <version>${serverlessworkflow.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.serverlessworkflow</groupId>
+            <artifactId>serverlessworkflow-validation</artifactId>
+            <version>${serverlessworkflow.version}</version>
         </dependency>
 
         <!--===========================-->
