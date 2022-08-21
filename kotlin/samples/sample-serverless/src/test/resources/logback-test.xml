@@ -8,7 +8,7 @@
     <include resource="logback-core.xml"/>
 
     <!--Current application-->
-    <logger name="com.github.frtu.sample.cloudevents" level="TRACE" additivity="true"/>
+    <logger name="com.github.frtu.sample.serverless" level="TRACE" additivity="true"/>
 
     <!--ONLY NEEDED WHEN YOU NEED BELOW WARN-->
     <root level="INFO">
