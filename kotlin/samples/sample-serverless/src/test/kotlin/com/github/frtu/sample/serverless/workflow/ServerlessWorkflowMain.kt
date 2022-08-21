@@ -9,6 +9,8 @@ import io.serverlessworkflow.api.states.OperationState
 import io.serverlessworkflow.api.states.SleepState
 import io.serverlessworkflow.api.states.SwitchState
 import io.serverlessworkflow.api.transitions.Transition
+import io.serverlessworkflow.diagram.WorkflowDiagramImpl
+import java.io.File
 import java.time.Duration
 import io.serverlessworkflow.api.Workflow as ServerlessWorkflow
 
@@ -21,6 +23,9 @@ fun main() {
     val serverlessWorkflow = ServerlessWorkflow.fromSource(definition)
     serverlessWorkflow.assertValidity()
     printJson(serverlessWorkflow)
+
+    val file = File("${serverlessWorkflow.name}.svg")
+    file.writeText(generateSvg(serverlessWorkflow))
 
     traverseState(serverlessWorkflow.getState(), serverlessWorkflow)
 }
@@ -109,4 +114,10 @@ fun sleep(duration: Duration) {
 
 private fun printJson(bean: Any) {
     println(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(bean))
+}
+
+private fun generateSvg(serverlessWorkflow: ServerlessWorkflow): String {
+    val workflowDiagramImpl = WorkflowDiagramImpl()
+    workflowDiagramImpl.setWorkflow(serverlessWorkflow)
+    return workflowDiagramImpl.svgDiagram
 }
