@@ -8,12 +8,12 @@
         <version>2.4.1</version>
     </parent>
 
-    <groupId>com.github.frtu.sample.cloudevents</groupId>
-    <artifactId>sample-cloudevents</artifactId>
+    <groupId>com.github.frtu.sample.serverless</groupId>
+    <artifactId>sample-serverless</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
     <properties>
-        <start-class>com.github.frtu.sample.cloudevents.ApplicationKt</start-class>
+        <start-class>com.github.frtu.sample.serverless.ApplicationKt</start-class>
         <!--===========================-->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -44,11 +44,13 @@
         <!-- https://github.com/eclipse/jkube/tree/master/quickstarts/maven/docker-file-simple -->
         <jkube.version>1.5.1</jkube.version>
         <jkube.enricher.jkube-service.type>NodePort</jkube.enricher.jkube-service.type>
-
+        <!--===========================-->
+        <!-- from https://github.com/cncf/wg-serverless -->
         <cloudevents.version>2.3.0</cloudevents.version>
     </properties>
 
     <dependencies>
+        <!--  CloudEvents -->
         <dependency>
             <groupId>io.cloudevents</groupId>
             <artifactId>cloudevents-spring</artifactId>

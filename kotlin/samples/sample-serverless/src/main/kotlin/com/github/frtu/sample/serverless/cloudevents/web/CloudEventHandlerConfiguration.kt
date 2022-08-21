@@ -1,4 +1,4 @@
-package com.github.frtu.sample.cloudevents.web
+package com.github.frtu.sample.serverless.cloudevents.web
 
 import io.cloudevents.spring.webflux.CloudEventHttpMessageReader
 import io.cloudevents.spring.webflux.CloudEventHttpMessageWriter

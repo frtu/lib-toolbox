@@ -1,4 +1,4 @@
-package com.github.frtu.sample.cloudevents
+package com.github.frtu.sample.serverless
 
 import io.cloudevents.CloudEvent
 import io.cloudevents.core.builder.CloudEventBuilder
@@ -30,6 +30,31 @@ class IntegrationTests(@Autowired val rest: WebTestClient) {
             .expectHeader().valueEquals("ce-type", "io.spring.event.Foo") //
             .expectHeader().valueEquals("ce-source", "https://spring.io/foos") //
             .expectBody(String::class.java)
+//        expectBody.isEqualTo("{\"value\":\"Dave\"}")
+    }
+
+    @Test
+    fun structuredRequestResponseEvents() {
+        val expectBody: WebTestClient.BodySpec<String, *> = rest.post().uri("/event") //
+            .contentType(MediaType("application", "cloudevents+json")) //
+            .bodyValue(
+                "{" //
+                        + "\"id\":\"12345\"," //
+                        + "\"specversion\":\"1.0\"," //
+                        + "\"type\":\"io.spring.event\"," //
+                        + "\"source\":\"https://spring.io/events\"," //
+                        + "\"data\":{\"value\":\"Dave\"}}"
+            ) //
+            .exchange() //
+            .expectStatus().isOk //
+            .expectHeader().exists("ce-id") //
+            .expectHeader().exists("ce-source") //
+            .expectHeader().exists("ce-type") //
+            .expectHeader().value("ce-id") { value: String -> check(value != "12345") } //
+            .expectHeader().valueEquals("ce-type", "io.spring.event.Foo") //
+            .expectHeader().valueEquals("ce-source", "https://spring.io/foos") //
+            .expectBody(String::class.java)
+//        expectBody.isEqualTo("{\"value\":\"Dave\"}")
     }
 
     @Test
@@ -52,6 +77,7 @@ class IntegrationTests(@Autowired val rest: WebTestClient) {
             .expectHeader().valueEquals("ce-type", "io.spring.event.Foo") //
             .expectHeader().valueEquals("ce-source", "https://spring.io/foos") //
             .expectBody(String::class.java)
+//        expectBody.isEqualTo("{\"value\":\"Dave\"}")
     }
 
     @Test
@@ -75,5 +101,29 @@ class IntegrationTests(@Autowired val rest: WebTestClient) {
             .expectHeader().valueEquals("ce-type", "io.spring.event.Foo") //
             .expectHeader().valueEquals("ce-source", "https://spring.io/foos") //
             .expectBody(CloudEvent::class.java)
+
+//        expectBody.value<CloudEvent>(Consumer<CloudEvent> { event: CloudEvent ->
+//            assertThat(String(event.data!!.toBytes())).isEqualTo("{\"value\":\"Dave\"}")
+//        })
+    }
+
+    @Test
+    fun requestResponseEvents() {
+        val expectBody: WebTestClient.BodySpec<String, *> = rest.post().uri("/event").header("ce-id", "12345") //
+            .header("ce-specversion", "1.0") //
+            .header("ce-type", "io.spring.event") //
+            .header("ce-source", "https://spring.io/events") //
+            .contentType(MediaType.APPLICATION_JSON) //
+            .bodyValue("{\"value\":\"Dave\"}") //
+            .exchange() //
+            .expectStatus().isOk //
+            .expectHeader().exists("ce-id") //
+            .expectHeader().exists("ce-source") //
+            .expectHeader().exists("ce-type") //
+            .expectHeader().value("ce-id") { value: String -> check(value != "12345") } //
+            .expectHeader().valueEquals("ce-type", "io.spring.event.Foo") //
+            .expectHeader().valueEquals("ce-source", "https://spring.io/foos") //
+            .expectBody(String::class.java)
+//        expectBody.isEqualTo("{\"value\":\"Dave\"}")
     }
 }

@@ -1,4 +1,4 @@
-package com.github.frtu.sample.cloudevents
+package com.github.frtu.sample.serverless.cloudevents
 
 import io.cloudevents.CloudEvent
 import io.cloudevents.core.builder.CloudEventBuilder

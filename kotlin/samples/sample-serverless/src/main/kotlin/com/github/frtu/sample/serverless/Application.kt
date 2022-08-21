@@ -1,4 +1,4 @@
-package com.github.frtu.sample.cloudevents
+package com.github.frtu.sample.serverless
 
 import org.slf4j.LoggerFactory
 import org.springframework.boot.CommandLineRunner
