@@ -14,7 +14,7 @@ class WorkflowSpecificConfig {
 
     @Bean
     fun serverlessWorkflow() =
-        ServerlessWorkflowRegistry.register(IoHelper.getFileAsString("dsl/customerapplication/workflow.json"))
+        ServerlessWorkflowRegistry.register(IoHelper.getFileAsString("dsl/customerapplication/workflow.sw.json"))
 
 //    --- PayloadConverter already exists in DefaultDataConverter#DEFAULT_PAYLOAD_CONVERTERS ---
 //    => Uncomment to specialize it
