@@ -10,7 +10,7 @@
 
     <groupId>com.github.frtu.sample.broker</groupId>
     <artifactId>sample-broker-pom</artifactId>
-    <version>1.2.2-SNAPSHOT</version>
+    <version>1.2.4-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <properties>

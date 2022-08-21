@@ -9,7 +9,7 @@
 
     <groupId>com.github.frtu.samples</groupId>
     <artifactId>sample-r2dbc</artifactId>
-    <version>1.2.2-SNAPSHOT</version>
+    <version>1.2.4-SNAPSHOT</version>
 
     <properties>
         <start-class>com.github.frtu.persistence.MainKt</start-class>
