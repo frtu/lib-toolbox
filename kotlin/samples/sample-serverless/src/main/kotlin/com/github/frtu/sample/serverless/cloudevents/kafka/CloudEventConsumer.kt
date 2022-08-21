@@ -1,4 +1,4 @@
-package com.github.frtu.sample.serverless.cloudevents
+package com.github.frtu.sample.serverless.cloudevents.kafka
 
 import io.cloudevents.CloudEvent
 import io.cloudevents.kafka.CloudEventDeserializer
@@ -9,7 +9,6 @@ import org.apache.kafka.common.serialization.StringDeserializer
 import java.time.Duration
 import java.util.*
 import java.util.function.Consumer
-
 
 object CloudEventConsumer {
     @JvmStatic

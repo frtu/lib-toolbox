@@ -1,4 +1,4 @@
-package com.github.frtu.sample.serverless.cloudevents
+package com.github.frtu.sample.serverless.cloudevents.kafka
 
 import io.cloudevents.CloudEvent
 import io.cloudevents.core.builder.CloudEventBuilder
