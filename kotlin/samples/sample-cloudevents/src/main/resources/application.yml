@@ -1,0 +1,37 @@
+# ======================================
+# TOPOLOGY and EXTERNAL DEPENDENCIES
+# ======================================
+application:
+  name: sample-cloudevents
+
+prefix:
+  key1: value1
+
+# ======================================
+# Spring Boot
+# ======================================
+spring:
+  application:
+    name: ${application.name}
+
+# ======================================
+# Management
+# ======================================
+server:
+  port: 8080
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - metrics
+          - health
+          - info
+  endpoint:
+    metrics.enabled: true
+    health.show-details: ALWAYS
+info:
+  app:
+    name: ${application.name}
+    port: ${server.port}
