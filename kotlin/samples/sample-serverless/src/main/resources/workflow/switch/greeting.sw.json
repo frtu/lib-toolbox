@@ -8,6 +8,7 @@
   "functions": [
     {
       "name": "getGreetingFunction",
+      "type": "custom",
       "operation": "international-greeting-service.yml#getGreeting"
     }
   ],
