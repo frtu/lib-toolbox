@@ -2,7 +2,6 @@ package com.github.frtu.sample.serverless.workflow
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import com.github.frtu.kotlin.utils.io.ResourceHelper
 import io.serverlessworkflow.api.actions.Action
 import io.serverlessworkflow.api.interfaces.State
 import io.serverlessworkflow.api.states.EventState
@@ -18,16 +17,15 @@ private val mapper: ObjectMapper = jacksonObjectMapper()
 
 fun main() {
 //    val definition = ResourceHelper().readFromFile("workflow/event/event-driven.sw.json")
-    val definition = ResourceHelper().readFromFile("workflow/switch/greeting.sw.json")
+    val definition = WorkflowFileLoader.loadWorkflowDSLSwitch()
 
-    val serverlessWorkflow = ServerlessWorkflow.fromSource(definition)
-    serverlessWorkflow.assertValidity()
+    val serverlessWorkflow = ServerlessWorkflowParser.parse(definition)
     printJson(serverlessWorkflow)
 
 //    val file = File("${serverlessWorkflow.name}.svg")
 //    file.writeText(generateSvg(serverlessWorkflow))
 
-    traverseState(serverlessWorkflow.getState(), serverlessWorkflow)
+    traverseState(serverlessWorkflow.getStartingState(), serverlessWorkflow)
 }
 
 fun traverseState(workflowState: State?, serverlessWorkflow: ServerlessWorkflow) {
