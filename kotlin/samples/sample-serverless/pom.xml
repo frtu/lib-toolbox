@@ -45,6 +45,7 @@
         <jkube.version>1.5.1</jkube.version>
         <jkube.enricher.jkube-service.type>NodePort</jkube.enricher.jkube-service.type>
         <!--===========================-->
+        <frtu-libs.version>1.2.3</frtu-libs.version>
         <!-- from https://github.com/cncf/wg-serverless -->
         <cloudevents.version>2.3.0</cloudevents.version>
         <serverlessworkflow.version>4.0.3.Final</serverlessworkflow.version>
@@ -255,7 +256,7 @@
             <groupId>com.github.frtu.libs</groupId>
             <artifactId>lib-utils</artifactId>
             <scope>test</scope>
-            <version>1.2.3</version>
+            <version>${frtu-libs.version}</version>
         </dependency>
     </dependencies>
 

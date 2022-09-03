@@ -1,5 +1,6 @@
 package com.github.frtu.sample.serverless.workflow
 
+import com.github.frtu.sample.TestResourceLoader
 import io.kotlintest.matchers.string.contain
 import io.kotlintest.matchers.types.shouldNotBeNull
 import io.kotlintest.should
@@ -19,7 +20,7 @@ internal class ServerlessWorkflowParserTest {
         // --------------------------------------
         // 1. Init
         // --------------------------------------
-        val definition = WorkflowFileLoader.loadWorkflowDSLSwitch()
+        val definition = TestResourceLoader.loadWorkflowDSLSwitch()
 
         // --------------------------------------
         // 2. Execution
@@ -38,7 +39,7 @@ internal class ServerlessWorkflowParserTest {
         // --------------------------------------
         // 1. Init
         // --------------------------------------
-        val definition = WorkflowFileLoader.loadWorkflowDSLSwitch(false)
+        val definition = TestResourceLoader.loadWorkflowDSLSwitch(false)
 
         // --------------------------------------
         // 2. Execution & validate Exception

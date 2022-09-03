@@ -18,7 +18,7 @@
     <!--Local start up-->
     <springProfile name="default">
         <!--Current application-->
-        <logger name="com.github.frtu.sample.cloudevents" level="TRACE" additivity="true"/>
+        <logger name="com.github.frtu.sample" level="TRACE" additivity="true"/>
 
         <root level="INFO">
             <appender-ref ref="STDOUT"/>
@@ -27,7 +27,7 @@
 
     <!--Use for Staging env with fluentd -->
     <springProfile name="stage">
-        <logger name="com.github.frtu.sample.cloudevents" level="INFO" additivity="true"/>
+        <logger name="com.github.frtu.sample" level="INFO" additivity="true"/>
 
         <!-- Deactivate 'Span reported' logs-->
         <logger name="io.jaegertracing.internal.reporters" level="WARN" additivity="true"/>
@@ -40,7 +40,7 @@
 
     <!--Use for Production env -->
     <springProfile name="prod">
-        <logger name="com.github.frtu.sample.cloudevents" level="INFO" additivity="true"/>
+        <logger name="com.github.frtu.sample" level="INFO" additivity="true"/>
 
         <!-- Deactivate 'Span reported' logs-->
         <logger name="io.jaegertracing.internal.reporters" level="WARN" additivity="true"/>
