@@ -49,6 +49,7 @@
         <!-- from https://github.com/cncf/wg-serverless -->
         <cloudevents.version>2.3.0</cloudevents.version>
         <serverlessworkflow.version>4.0.3.Final</serverlessworkflow.version>
+        <jq.version>1.0.0-preview.20220705</jq.version>
     </properties>
 
     <dependencies>
@@ -94,6 +95,13 @@
             <groupId>io.serverlessworkflow</groupId>
             <artifactId>serverlessworkflow-validation</artifactId>
             <version>${serverlessworkflow.version}</version>
+        </dependency>
+
+        <!--  Expression language -->
+        <dependency>
+            <groupId>net.thisptr</groupId>
+            <artifactId>jackson-jq</artifactId>
+            <version>${jq.version}</version>
         </dependency>
 
         <!--===========================-->

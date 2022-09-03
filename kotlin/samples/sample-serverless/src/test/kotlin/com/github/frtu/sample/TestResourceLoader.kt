@@ -9,4 +9,7 @@ object TestResourceLoader {
 
     fun loadWorkflowDSLEvent() =
         ResourceHelper().readFromFile("classpath:workflows/event/event-driven.sw.json")!!
+
+    fun loadData() =
+        ResourceHelper().readFromFile("classpath:workflows/event/greeting.json")!!
 }
