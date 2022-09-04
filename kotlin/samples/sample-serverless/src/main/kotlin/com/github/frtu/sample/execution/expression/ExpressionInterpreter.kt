@@ -10,7 +10,7 @@ interface ExpressionInterpreter<T> {
     /**
      * Evaluate an expression returning a Boolean
      */
-    fun evaluateBooleanExpression(expression: String, data: T): Boolean
+    fun evaluateBooleanExpression(expression: String, data: T): Boolean?
 
     /**
      * Evaluate an expression returning an object
