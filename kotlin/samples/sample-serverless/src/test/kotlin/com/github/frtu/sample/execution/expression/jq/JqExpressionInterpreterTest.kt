@@ -2,7 +2,7 @@ package com.github.frtu.sample.execution.expression.jq
 
 import com.github.frtu.kotlin.utils.io.toJsonNode
 import com.github.frtu.sample.TestResourceLoader
-import com.github.frtu.sample.execution.expression.ExpressionInterpreter
+import com.github.frtu.sample.execution.expression.JsonNodeExpressionInterpreter
 import io.kotlintest.shouldBe
 import io.mockk.junit5.MockKExtension
 import org.junit.jupiter.api.DisplayName
@@ -12,9 +12,9 @@ import org.slf4j.LoggerFactory
 
 @DisplayName("JQFilter tests")
 @ExtendWith(MockKExtension::class)
-internal class JQFilterTest {
+internal class JqExpressionInterpreterTest {
     // Test subject
-    private var expressionInterpreter: ExpressionInterpreter = JQFilter()
+    private var expressionInterpreter: JsonNodeExpressionInterpreter = JqExpressionInterpreter()
 
     @Test
     fun `Positive test cases - evaluateExpression`() {
@@ -33,7 +33,7 @@ internal class JQFilterTest {
         //--------------------------------------
         // 3. Validate
         //--------------------------------------
-        result.textValue() shouldBe "Hola"
+        result?.textValue() shouldBe "Hola"
     }
 
     @Test
@@ -53,7 +53,7 @@ internal class JQFilterTest {
         //--------------------------------------
         // 3. Validate
         //--------------------------------------
-        result.isNull shouldBe true
+        result?.isNull shouldBe true
     }
 
     @Test

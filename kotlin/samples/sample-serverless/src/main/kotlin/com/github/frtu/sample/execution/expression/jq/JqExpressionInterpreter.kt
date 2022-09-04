@@ -4,17 +4,19 @@ import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.node.ArrayNode
 import com.fasterxml.jackson.databind.node.BooleanNode
 import com.fasterxml.jackson.databind.node.NullNode
-import com.github.frtu.sample.execution.expression.ExpressionInterpreter
+import com.github.frtu.kotlin.patterns.AbstractRegistry
+import com.github.frtu.kotlin.patterns.UnrecognizedElementException
+import com.github.frtu.sample.execution.expression.JsonNodeExpressionInterpreter
 import net.thisptr.jackson.jq.*
 import net.thisptr.jackson.jq.module.loaders.BuiltinModuleLoader
 import java.util.*
 import java.util.function.Consumer
 
-class JQFilter(
+class JqExpressionInterpreter(
     private val rootScope: Scope = Scope.newEmptyScope(),
     jqVersion: Version = Versions.JQ_1_6,
-    private val expressionCache: MutableMap<String, JsonQuery> = HashMap<String, JsonQuery>(),
-) : ExpressionInterpreter {
+    registry: MutableMap<String, JsonQuery> = mutableMapOf(),
+) : JsonNodeExpressionInterpreter, AbstractRegistry<String, JsonQuery>("jq-expression", registry) {
 
     init {
         BuiltinFunctionLoader.getInstance().loadFunctions(jqVersion, rootScope)
@@ -26,11 +28,13 @@ class JQFilter(
             val childScope: Scope = Scope.newChildScope(rootScope)
             val result: MutableList<JsonNode> = ArrayList()
             val toEvalExpression = expression.replace("\${", "").replace("}$".toRegex(), "")
-            if (!expressionCache.containsKey(toEvalExpression)) {
-                expressionCache[toEvalExpression] =
-                    JsonQuery.compile(toEvalExpression, Versions.JQ_1_6)
+            val jsonQuery = try {
+                this[toEvalExpression]
+            } catch (e: UnrecognizedElementException) {
+                JsonQuery.compile(toEvalExpression, Versions.JQ_1_6).apply {
+                    register(toEvalExpression, this)
+                }
             }
-            val jsonQuery = expressionCache[toEvalExpression]!!
             jsonQuery.apply(childScope, data, result::add)
             result[0]
         } catch (e: Exception) {

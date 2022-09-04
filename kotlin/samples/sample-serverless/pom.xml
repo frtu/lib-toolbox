@@ -10,7 +10,7 @@
 
     <groupId>com.github.frtu.sample.serverless</groupId>
     <artifactId>sample-serverless</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.2.3</version>
 
     <properties>
         <start-class>com.github.frtu.sample.serverless.ApplicationKt</start-class>
@@ -45,7 +45,7 @@
         <jkube.version>1.5.1</jkube.version>
         <jkube.enricher.jkube-service.type>NodePort</jkube.enricher.jkube-service.type>
         <!--===========================-->
-        <frtu-libs.version>1.2.3</frtu-libs.version>
+        <frtu-libs.version>${project.version}</frtu-libs.version>
         <!-- from https://github.com/cncf/wg-serverless -->
         <cloudevents.version>2.3.0</cloudevents.version>
         <serverlessworkflow.version>4.0.3.Final</serverlessworkflow.version>
@@ -103,6 +103,12 @@
             <artifactId>jackson-jq</artifactId>
             <version>${jq.version}</version>
         </dependency>
+        <!--  Commons -->
+        <dependency>
+            <groupId>com.github.frtu.libs</groupId>
+            <artifactId>lib-workflow</artifactId>
+        </dependency>
+
 
         <!--===========================-->
         <!-- ASYNCHRONOUS-->
@@ -264,7 +270,6 @@
             <groupId>com.github.frtu.libs</groupId>
             <artifactId>lib-utils</artifactId>
             <scope>test</scope>
-            <version>${frtu-libs.version}</version>
         </dependency>
     </dependencies>
 
@@ -651,6 +656,13 @@
                 <scope>import</scope>
             </dependency>
             <!-- Internal domain dependencies -->
+            <dependency>
+                <groupId>com.github.frtu.libs</groupId>
+                <artifactId>lib-kotlin-bom</artifactId>
+                <version>${frtu-libs.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
             <dependency>
                 <groupId>com.github.frtu.archetype</groupId>
                 <artifactId>kotlin-base-pom</artifactId>

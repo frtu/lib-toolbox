@@ -1,9 +1,24 @@
 package com.github.frtu.sample.execution.expression
 
-import com.fasterxml.jackson.databind.JsonNode
+/**
+ * Interpreter allowing to evaluate an expression & returning boolean or object
+ *
+ * @author frtu
+ * @param <T> a structure representing an object
+ */
+interface ExpressionInterpreter<T> {
+    /**
+     * Evaluate an expression returning a Boolean
+     */
+    fun evaluateBooleanExpression(expression: String, data: T): Boolean
 
-interface ExpressionInterpreter {
-    fun evaluateExpression(expression: String, data: JsonNode): JsonNode
-    fun evaluateBooleanExpression(expression: String, data: JsonNode): Boolean
-    fun evaluateArrayExpression(expression: String, data: JsonNode): List<JsonNode>
+    /**
+     * Evaluate an expression returning an object
+     */
+    fun evaluateExpression(expression: String, data: T): T?
+
+    /**
+     * Evaluate an expression returning a list of objects
+     */
+    fun evaluateArrayExpression(expression: String, data: T): List<T>
 }
