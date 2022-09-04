@@ -3,6 +3,7 @@
   "name": "Greet Customers when they arrive",
   "version": "1.0",
   "specVersion": "0.8",
+  "expressionLang": "spel",
   "events": [
     {
       "name": "CustomerArrivesEvent",
@@ -21,22 +22,22 @@
             "CustomerArrivesEvent"
           ],
           "eventDataFilter": {
-            "data": "${ .customer }",
-            "toStateData": "${ .customerInfo }"
+            "data": "${ customer }",
+            "toStateData": "${ customerInfo }"
           },
           "actions": [
             {
               "functionRef": {
                 "refName": "greetingFunction",
                 "arguments": {
-                  "greeting": "${ .hello.spanish } ",
-                  "customerName": "${ .customerInfo.name } "
+                  "greeting": "${ hello.spanish } ",
+                  "customerName": "${ customerInfo.name } "
                 }
               },
               "actionDataFilter": {
                 "fromStateData": "${ { hello, customerInfo } }",
-                "results": "${ .greetingMessageResult }",
-                "toStateData": "${ .finalCustomerGreeting }"
+                "results": "${ greetingMessageResult }",
+                "toStateData": "${ finalCustomerGreeting }"
               }
             }
           ]

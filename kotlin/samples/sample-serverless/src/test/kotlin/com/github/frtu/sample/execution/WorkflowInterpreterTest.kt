@@ -1,5 +1,6 @@
 package com.github.frtu.sample.execution
 
+import com.github.frtu.kotlin.utils.io.toJsonNode
 import com.github.frtu.sample.TestResourceLoader
 import com.github.frtu.sample.serverless.workflow.ServerlessWorkflowParser
 import io.mockk.junit5.MockKExtension
@@ -19,12 +20,13 @@ internal class WorkflowInterpreterTest {
         val serverlessWorkflow = ServerlessWorkflowParser.parse(
             TestResourceLoader.loadWorkflowDSLSwitch()
         )
+        val dataNode = TestResourceLoader.loadData().toJsonNode()["greetings"]
 
         // --------------------------------------
         // 2. Execution
         // --------------------------------------
         val workflowInterpreter = WorkflowInterpreter(serverlessWorkflow)
-        workflowInterpreter.start()
+        workflowInterpreter.start(dataNode)
 //        logger.debug("result:{}", result.toJson())
 
         // --------------------------------------

@@ -4,6 +4,7 @@
   "specVersion": "0.8",
   "name": "Greeting workflow",
   "description": "JSON based greeting workflow",
+  "expressionLang": "spel",
   "start": "ChooseOnCountry",
   "functions": [
     {
@@ -18,15 +19,15 @@
       "type": "switch",
       "dataConditions": [
         {
-          "condition": "${ .country == \"United States\" }",
+          "condition": "${ country == \"United States\" }",
           "transition": "GetGreeting"
         },
         {
-          "condition": "${ .country == \"Spain\" }",
+          "condition": "${ country == \"Spain\" }",
           "transition": "GetGreeting"
         },
         {
-          "condition": "${ .country == \"Brazil\" }",
+          "condition": "${ country == \"Brazil\" }",
           "transition": "GetGreeting"
         }
       ],
@@ -67,14 +68,14 @@
           "functionRef": {
             "refName": "getGreetingFunction",
             "arguments": {
-              "name": "${ .name }",
-              "language": "${ .language }"
+              "name": "${ name }",
+              "language": "${ language }"
             }
           }
         }
       ],
       "stateDataFilter": {
-        "output": "${ {greeting: .greeting} }"
+        "output": "${ {greeting: greeting} }"
       },
       "end": true
     }

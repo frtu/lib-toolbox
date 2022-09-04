@@ -2,6 +2,7 @@ package com.github.frtu.sample.execution
 
 import com.fasterxml.jackson.databind.JsonNode
 import com.github.frtu.sample.execution.expression.JsonNodeExpressionInterpreter
+import com.github.frtu.sample.execution.expression.jq.JqExpressionInterpreter
 import com.github.frtu.sample.execution.expression.spel.SpelExpressionInterpreter
 import com.github.frtu.sample.serverless.workflow.getStartingState
 import com.github.frtu.sample.serverless.workflow.getStateWithName
@@ -24,13 +25,23 @@ import io.serverlessworkflow.api.Workflow as ServerlessWorkflow
 open class WorkflowInterpreter(
     private val serverlessWorkflow: ServerlessWorkflow,
     private val workflowContext: WorkflowContext = WorkflowContext(),
-    private val expressionInterpreter: JsonNodeExpressionInterpreter = SpelExpressionInterpreter(),
 ) {
+    lateinit var expressionInterpreter: JsonNodeExpressionInterpreter
+
     /**
      * Trigger workflow start
      */
     fun start(data: JsonNode) {
+        // Initialize
         workflowContext.append(WorkflowData(data))
+        expressionInterpreter = when (serverlessWorkflow.expressionLang) {
+            "jq" -> JqExpressionInterpreter()
+            "spel" -> SpelExpressionInterpreter()
+            else -> SpelExpressionInterpreter()
+        }
+        logger.debug("Starting traversal using expressionInterpreter:${expressionInterpreter.javaClass}")
+
+        // Start
         traverseState(serverlessWorkflow.getStartingState(), serverlessWorkflow)
     }
 
@@ -73,8 +84,9 @@ open class WorkflowInterpreter(
 
                 val transition: Transition = switchState.dataConditions.firstOrNull {
                     val condition = it.condition
-                    logger.debug("filter($condition)")
-                    false
+                    val data = workflowContext.get().value
+                    logger.debug("filter($condition) with data:[$data]")
+                    expressionInterpreter.evaluateBooleanExpression(condition, data) ?: false
                 }?.let {
                     it.transition
                 } ?: switchState.defaultCondition.transition

@@ -103,6 +103,15 @@
             <artifactId>jackson-jq</artifactId>
             <version>${jq.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-expression</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.integration</groupId>
+            <artifactId>spring-integration-core</artifactId>
+        </dependency>
+
         <!--  Commons -->
         <dependency>
             <groupId>com.github.frtu.libs</groupId>
