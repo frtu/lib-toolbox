@@ -55,11 +55,12 @@ fun ServerlessWorkflow.getFunctionDefinitionsWithType(type: FunctionDefinition.T
     else this.functions.functionDefs.filter { fd -> fd.type.equals(type) }
 
 
-fun ServerlessWorkflow.toActivityOptions(): ActivityOptions =
-    toActivityOptionsBuilder().build()
+fun ServerlessWorkflow.toActivityOptions(nonRetryableErrors: Array<String>): ActivityOptions =
+    toActivityOptionsBuilder(nonRetryableErrors = nonRetryableErrors).build()
 
 fun ServerlessWorkflow.toActivityOptionsBuilder(
     backoffCoefficient: Double = 1.0,
+    nonRetryableErrors: Array<String>,
 ): ActivityOptions.Builder {
     val dslActivityOptionsBuilder = ActivityOptions.newBuilder()
     this?.timeouts?.actionExecTimeout?.let {
@@ -71,6 +72,7 @@ fun ServerlessWorkflow.toActivityOptionsBuilder(
     this?.retries?.retryDefs?.firstOrNull()?.let {
         val retryDefinition: RetryDefinition = it
         val dslRetryOptionsBuilder = RetryOptions.newBuilder()
+        dslRetryOptionsBuilder.setDoNotRetry(*nonRetryableErrors)
         dslRetryOptionsBuilder.setBackoffCoefficient(backoffCoefficient)
         retryDefinition.maxAttempts?.let {
             dslRetryOptionsBuilder.setMaximumAttempts(it.toInt())

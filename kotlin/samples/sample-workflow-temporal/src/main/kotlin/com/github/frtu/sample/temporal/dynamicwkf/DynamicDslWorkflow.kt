@@ -90,7 +90,9 @@ class DynamicDslWorkflow : DynamicWorkflow {
             })
 
         // Get the activity options that are set from properties in dsl
-        val activityOptions: ActivityOptions = dslWorkflow.toActivityOptions()
+        val activityOptions: ActivityOptions = dslWorkflow.toActivityOptions(
+            arrayOf(IllegalArgumentException::class.qualifiedName!!)
+        )
         // Create a dynamic activities stub to be used for all actions in dsl
         activities = newUntypedActivityStub(activityOptions)
 
