@@ -12,8 +12,8 @@ object Versions {
     const val micrometer = "1.9.0"
     const val springdoc = "1.5.4"
     const val frtu_base = "1.2.4"
-    const val frtu_libs = "1.2.4-SNAPSHOT"
-    const val frtu_logs = "1.1.4"
+    const val frtu_libs = "1.2.3"
+    const val frtu_logs = "1.1.5"
     const val awaitility = "4.2.0" // 2022-03-04
     const val kotest = "5.4.2" // 2022-08-10
     const val opentelemetry = "1.15.0" // 2022-06-25
@@ -33,7 +33,7 @@ object Versions {
     const val grpc_kotlin = "1.3.0" // 2022-05-28
     const val grpc_spring_boot_starter = "2.13.1.RELEASE"
 
-    const val temporal = "1.12.0"
+    const val temporal = "1.17.0"
     const val serverlessworkflow = "4.0.3.Final"
     const val jq = "1.0.0-preview.20220705"
 }
