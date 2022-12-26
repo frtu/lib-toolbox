@@ -12,6 +12,9 @@ class EmailSinkActivityImpl(
     private val emailSink: EmailSink,
 ) : EmailSinkActivity {
     override fun emit(emailDetail: EmailDetail) = runBlocking {
+        if (emailDetail.content?.contains("ERROR") ?: false) {
+            throw IllegalArgumentException("Exception requested by caller !")
+        }
         emailSink.emit(emailDetail)
     }
 }

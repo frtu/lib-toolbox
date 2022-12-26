@@ -3,13 +3,10 @@ package com.github.frtu.sample
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import com.github.frtu.sample.persistence.basic.EmailEntity
 import com.github.frtu.sample.persistence.basic.IEmailRepository
-import com.github.frtu.sample.persistence.basic.STATUS
 import com.github.frtu.sample.temporal.staticwkf.SubscriptionEvent
 import com.github.frtu.sample.temporal.staticwkf.starter.SubscriptionHandler
 import io.r2dbc.spi.ConnectionFactory
-import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
 import org.slf4j.LoggerFactory
 import org.springframework.boot.CommandLineRunner
@@ -32,6 +29,10 @@ class Application {
         val subscriptionEvent = SubscriptionEvent("""{"key":"value"}""", "event.type")
         logger.debug(objectMapper.writeValueAsString(subscriptionEvent))
         subscriptionHandler.handle(subscriptionEvent)
+        logger.debug("======================================")
+        val subscriptionEventError = SubscriptionEvent("""{"key":"ERROR"}""", "event.type")
+        logger.debug(objectMapper.writeValueAsString(subscriptionEventError))
+        subscriptionHandler.handle(subscriptionEventError)
     }
 
     @Bean

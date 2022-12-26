@@ -7,8 +7,10 @@ import com.github.frtu.logs.core.StructuredLogger.key
 import com.github.frtu.sample.temporal.staticwkf.SubscriptionEvent
 import com.github.frtu.sample.temporal.staticwkf.workflow.SubscriptionWorkflow
 import com.github.frtu.sample.temporal.staticwkf.workflow.TASK_QUEUE_SUBSCRIPTION
+import io.temporal.api.enums.v1.WorkflowIdReusePolicy
 import io.temporal.client.WorkflowClient
 import io.temporal.client.WorkflowOptions
+import io.temporal.client.setRetryOptions
 import org.springframework.stereotype.Service
 import java.time.Duration
 import java.util.*
@@ -27,6 +29,7 @@ class SubscriptionHandlerImpl(
             WorkflowOptions.newBuilder()
                 .setTaskQueue(TASK_QUEUE_SUBSCRIPTION)
                 .setWorkflowId("SubscriptionWorkflow-$id")
+                .setWorkflowIdReusePolicy(WorkflowIdReusePolicy.WORKFLOW_ID_REUSE_POLICY_ALLOW_DUPLICATE_FAILED_ONLY)
                 .setWorkflowRunTimeout(Duration.ofMinutes(5))
                 .build()
         )

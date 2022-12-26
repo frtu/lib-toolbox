@@ -45,6 +45,9 @@ class SubscriptionWorkflowImpl : SubscriptionWorkflow {
             // Temporal retries failures by default, this is simply an example.
             setRetryOptions(// RetryOptions specify how to automatically handle retries when Activities fail.
                 RetryOptions {
+                    setDoNotRetry(
+                        IllegalArgumentException::class.qualifiedName,
+                    )
                     setInitialInterval(Duration.ofMillis(100))
                     setMaximumInterval(Duration.ofSeconds(10))
                     setBackoffCoefficient(2.0)
