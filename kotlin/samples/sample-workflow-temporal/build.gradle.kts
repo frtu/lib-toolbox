@@ -81,6 +81,9 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("io.micrometer:micrometer-core:${Versions.micrometer}")
 //    implementation("io.micrometer:micrometer-registry-prometheus:${Versions.micrometer}")
+    // AOP
+    implementation("org.springframework:spring-aop")
+    implementation("org.aspectj:aspectjweaver")
 
     implementation("io.opentelemetry:opentelemetry-sdk")
     implementation("io.opentelemetry:opentelemetry-semconv")

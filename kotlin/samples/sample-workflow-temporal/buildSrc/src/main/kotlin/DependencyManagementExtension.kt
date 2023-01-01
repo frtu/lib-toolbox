@@ -12,7 +12,7 @@ object Versions {
     const val micrometer = "1.9.0"
     const val springdoc = "1.5.4"
     const val frtu_base = "1.2.4"
-    const val frtu_libs = "1.2.3"
+    const val frtu_libs = "1.2.4-SNAPSHOT"
     const val frtu_logs = "1.1.5"
     const val awaitility = "4.2.0" // 2022-03-04
     const val kotest = "5.4.2" // 2022-08-10
