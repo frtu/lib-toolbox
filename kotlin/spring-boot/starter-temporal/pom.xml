@@ -22,6 +22,24 @@
             <version>${reflections.version}</version>
         </dependency>
 
+        <!-- Spring -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <!-- NEEDED IF including class com.github.frtu.workflow.temporal.bootstrap.ActivityAspect -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-aop</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
         <!-- Temporal -->
         <dependency>
             <groupId>io.temporal</groupId>
