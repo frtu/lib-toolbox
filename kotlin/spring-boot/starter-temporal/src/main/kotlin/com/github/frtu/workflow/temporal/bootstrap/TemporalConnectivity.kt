@@ -12,12 +12,16 @@ import org.reflections.scanners.TypeAnnotationsScanner
 import org.springframework.aop.framework.Advised
 import org.springframework.aop.support.AopUtils
 
-class TemporalConnectivity(private val basePackage: String = "") {
+class TemporalConnectivity(
+    private val basePackage: String = "",
+    private val aopHelper: AopHelper,
+) {
     fun workerRegistration(factory: WorkerFactory, activities: List<Any>) {
         structuredLogger.info(message("Starting factory with activities[${activities.size}]"))
         activities.map {
             val activityTaskQueue = getActivityTaskQueue(it)
-            factory.newWorker(activityTaskQueue).registerActivitiesImplementations(it)
+            val activityImplementation = aopHelper.wrap(it)
+            factory.newWorker(activityTaskQueue).registerActivitiesImplementations(activityImplementation)
         }
         scanClasspathForWorkflow().map {
             val workflowTaskQueue = getWorkflowTaskQueue(it)

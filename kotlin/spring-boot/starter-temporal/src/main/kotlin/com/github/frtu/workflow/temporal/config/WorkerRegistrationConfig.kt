@@ -5,6 +5,8 @@ import com.github.frtu.logs.core.RpcLogger.responseBody
 import com.github.frtu.logs.core.StructuredLogger
 import com.github.frtu.logs.core.StructuredLogger.message
 import com.github.frtu.workflow.temporal.bootstrap.ANNOTATION_FOR_ACTIVITY
+import com.github.frtu.workflow.temporal.bootstrap.ActivityAspect
+import com.github.frtu.workflow.temporal.bootstrap.AopHelper
 import com.github.frtu.workflow.temporal.bootstrap.TemporalConnectivity
 import io.temporal.worker.WorkerFactory
 import org.springframework.context.ApplicationContext
@@ -15,7 +17,8 @@ import org.springframework.stereotype.Component
 
 @Component
 class WorkerRegistrationConfig(private val applicationContext: ApplicationContext) {
-    private val temporalConnectivity: TemporalConnectivity = TemporalConnectivity("com")
+    private val temporalConnectivity: TemporalConnectivity =
+        TemporalConnectivity("com", AopHelper(ActivityAspect::class.java))
 
     @EventListener(ContextRefreshedEvent::class)
     fun handleContextRefresh() {
