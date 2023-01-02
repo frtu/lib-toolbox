@@ -142,6 +142,10 @@ jaeger:
 <dependencies>
 ```
 
+## See also
+
+* https://docs.spring.io/spring-framework/docs/current/reference/html/core.html#aop-api
+
 ## Release notes
 
 ### 1.2.3
@@ -160,3 +164,7 @@ jaeger:
 
 * Bootstrap Temporal server stubs
 * Add interceptors for Jaeger
+
+### 1.2.4
+
+* Adding AOP around Activity
