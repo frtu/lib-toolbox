@@ -1,12 +1,15 @@
 package com.github.frtu.workflow.temporal.config
 
+import com.github.frtu.logs.tracing.core.OpenTelemetryHelper
 import com.uber.m3.tally.RootScopeBuilder
 import com.uber.m3.util.Duration
 import io.micrometer.core.instrument.MeterRegistry
+import io.opentelemetry.api.GlobalOpenTelemetry
 import io.temporal.common.reporter.MicrometerClientStatsReporter
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass
 import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.ComponentScan
 import org.springframework.context.annotation.Configuration
 import com.uber.m3.tally.Scope as MetricScope
 
@@ -18,6 +21,7 @@ import com.uber.m3.tally.Scope as MetricScope
  */
 @Configuration
 @ConditionalOnClass(MetricScope::class)
+@ComponentScan("com.github.frtu.logs.tracing.annotation")
 class ObservabilityMetricsConfig {
     @Bean
     fun metricScope(
@@ -27,4 +31,7 @@ class ObservabilityMetricsConfig {
     ): MetricScope = RootScopeBuilder()
         .reporter(MicrometerClientStatsReporter(meterRegistry))
         .reportEvery(Duration.ofSeconds(reportEverySec))
+
+    @Bean
+    fun openTelemetryHelper() = OpenTelemetryHelper(GlobalOpenTelemetry.getTracerProvider().get("default"))
 }

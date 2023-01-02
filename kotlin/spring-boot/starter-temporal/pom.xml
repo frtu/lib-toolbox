@@ -139,6 +139,10 @@
             <groupId>com.github.frtu.logs</groupId>
             <artifactId>logger-core</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.github.frtu.logs</groupId>
+            <artifactId>logger-opentelemetry</artifactId>
+        </dependency>
         <!-- Logging -->
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -164,6 +168,13 @@
                 <groupId>com.github.frtu.libs</groupId>
                 <artifactId>temporal-bom</artifactId>
                 <version>${project.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.github.frtu.logs</groupId>
+                <artifactId>logger-bom</artifactId>
+                <version>${frtu.logger.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
