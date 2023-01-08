@@ -5,11 +5,11 @@ import org.junit.jupiter.api.Test
 import org.slf4j.LoggerFactory
 
 internal class JsonBeanHelperTest {
-    private val beanManager = JsonBeanHelper<Any>()
+    private val jsonBeanHelper = JsonBeanHelper<Any>()
 
     @Test
     fun `Testing beanManager toBean`() {
-        val dummyBean = beanManager.toBean("classpath:dummy-bean.json", DummyBean::class.java)!!
+        val dummyBean = jsonBeanHelper.toBean("classpath:dummy-bean.json", DummyBean::class.java)!!
         //--------------------------------------
         // Validate
         //--------------------------------------

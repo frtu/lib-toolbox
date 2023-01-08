@@ -167,4 +167,4 @@ jaeger:
 
 ### 1.2.4
 
-* Adding AOP around Activity
+* Adding [AOP](https://docs.spring.io/spring-framework/docs/current/reference/html/core.html#aop-api) around Activity
