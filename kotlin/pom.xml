@@ -21,6 +21,7 @@
         <module>lib-kotlin-bom</module>
         <module>temporal-bom</module>
         <module>spring-boot</module>
+        <module>test-containers</module>
     </modules>
 
     <properties>
