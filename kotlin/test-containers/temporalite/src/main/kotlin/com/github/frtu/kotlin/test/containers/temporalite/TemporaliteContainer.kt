@@ -1,6 +1,8 @@
 package com.github.frtu.kotlin.test.containers.temporalite
 
+import org.slf4j.LoggerFactory
 import org.testcontainers.containers.GenericContainer
+import org.testcontainers.containers.output.Slf4jLogConsumer
 import org.testcontainers.utility.DockerImageName
 
 /**
@@ -12,11 +14,20 @@ class TemporaliteContainer(dockerImageName: DockerImageName) :
 
     init {
         dockerImageName.assertCompatibleWith(*arrayOf(DEFAULT_IMAGE_NAME))
-        withExposedPorts(7233, 8233)
+        withExposedPorts(TEMPORAL_PORT, ADMIN_UI_PORT)
+        withLogConsumer(Slf4jLogConsumer(logger));
     }
+
+    val mappedPortTemporal: Int
+        get() = getMappedPort(TEMPORAL_PORT)
 
     companion object {
         private val DEFAULT_IMAGE_NAME = DockerImageName.parse("slamdev/temporalite")
-        private const val DEFAULT_TAG = "0.3.0"
+        const val DEFAULT_TAG = "0.3.0"
+
+        const val TEMPORAL_PORT = 7233
+        const val ADMIN_UI_PORT = 8233
+
+        private val logger = LoggerFactory.getLogger(this::class.java)
     }
 }
