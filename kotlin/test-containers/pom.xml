@@ -12,9 +12,26 @@
     <artifactId>test-containers</artifactId>
     <packaging>pom</packaging>
 
+    <modules>
+        <module>temporalite</module>
+    </modules>
+
     <properties>
         <testcontainers.version>1.17.6</testcontainers.version>
+        <testcontainers-junit4-mock.version>0.1.0</testcontainers-junit4-mock.version>
     </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>junit-jupiter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.kappadrive.testcontainers</groupId>
+            <artifactId>testcontainers-junit4-mock</artifactId>
+            <version>${testcontainers-junit4-mock.version}</version>
+        </dependency>
+    </dependencies>
 
     <dependencyManagement>
         <dependencies>
