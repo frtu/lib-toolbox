@@ -31,14 +31,12 @@ class ActivityAspect(
 
         val operationName: String? = extractOperationName(joinPoint.signature)
         structuredLogger.debug("Activity start : $operationName")
-
         return try {
             joinPoint.proceed()
+            structuredLogger.debug("Activity end : $operationName took ${Instant.now().toEpochMilli() - startTime} ms")
         } catch (e: Exception) {
             structuredLogger.error(e, "Activity end : $operationName took ${Instant.now().toEpochMilli() - startTime} ms")
             throw e
-        } finally {
-            structuredLogger.debug("Activity end : $operationName took ${Instant.now().toEpochMilli() - startTime} ms")
         }
     }
 

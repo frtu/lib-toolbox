@@ -6,7 +6,8 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 internal class TemporalConnectivityTest {
-    private val temporalConnectivity: TemporalConnectivity = TemporalConnectivity("com.github.frtu.sample.temporal")
+    private val temporalConnectivity: TemporalConnectivity =
+        TemporalConnectivity("com.github.frtu.sample.temporal", AopHelper())
 
     @Test
     fun scanClasspathForWorkflow() {
