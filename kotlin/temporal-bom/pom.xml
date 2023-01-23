@@ -11,7 +11,7 @@
     <packaging>pom</packaging>
 
     <properties>
-        <temporal.version>1.13.0</temporal.version> <!-- 2022-06-29 -->
+        <temporal.version>1.17.0</temporal.version> <!-- 2022-10-26 -->
     </properties>
 
     <dependencyManagement>
