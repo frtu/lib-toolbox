@@ -148,6 +148,11 @@ jaeger:
 
 ## Release notes
 
+### 1.2.4 - Current version
+
+* Adding [ActivityAspect using AOP](#124)
+* Bump temporal.version -> 1.17.0 <!-- 2022-10-26 -->
+
 ### 1.2.3
 
 * Allow to register workflow & activity : `@WorkflowImplementation` `@ActivityImplementation`

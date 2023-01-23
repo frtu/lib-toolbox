@@ -22,6 +22,7 @@ All libraries for [kotlin](kotlin)
 
 * Adding [ActivityAspect using AOP](kotlin/spring-boot/starter-temporal#124)
 * Adding [Testcontainers for Temporalite](kotlin/test-containers/temporalite)
+* Bump temporal.version -> 1.17.0 <!-- 2022-10-26 -->
 
 ### 1.2.0
 

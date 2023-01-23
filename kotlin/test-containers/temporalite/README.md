@@ -18,11 +18,20 @@ You can use the already [built image](https://hub.docker.com/r/slamdev/temporali
 
 Make sure Docker is started before running tests !
 
-After starting test, you will be able to have :
+After starting test, you will be able to have internally :
 
 * temporal : port ```7233``` namespace ```default```
 * admin UI : port ```8233``` at [http://localhost:8233/](http://localhost:8233/)
 
 ### Connection URLs
 
-Connect to postgres using port ```7233```
+Create a `WorkflowClient` using :
+
+```kotlin
+val temporaliteContainer = TemporaliteContainer()
+temporaliteContainer.start()
+logger.debug("Started Temporal at port ${temporaliteContainer.mappedPortTemporal}")
+val client = temporaliteContainer.buildWorkflowClient()
+    ...
+temporaliteContainer.stop()
+```
