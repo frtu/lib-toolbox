@@ -9,7 +9,7 @@ import java.net.Socket
 @Testcontainers
 class TemporaliteContainerTest {
     @Test
-    fun `test`() {
+    fun `Simple test TemporaliteContainer port open`() {
         //--------------------------------------
         // 1. Init
         //--------------------------------------
@@ -19,6 +19,7 @@ class TemporaliteContainerTest {
         //--------------------------------------
         temporaliteContainer.start()
         logger.debug("Started Temporal at port ${temporaliteContainer.mappedPortTemporal}")
+
         //--------------------------------------
         // 3. Validate
         //--------------------------------------

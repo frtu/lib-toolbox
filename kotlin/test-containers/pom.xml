@@ -17,6 +17,7 @@
     </modules>
 
     <properties>
+        <!-- ATTENTION : make sure to use Testcontainers >1.15.3 for M1 -->
         <testcontainers.version>1.17.6</testcontainers.version>
         <testcontainers-junit4-mock.version>0.1.0</testcontainers-junit4-mock.version>
         <!--=========================== -->
