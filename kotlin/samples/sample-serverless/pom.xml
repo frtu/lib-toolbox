@@ -10,7 +10,7 @@
 
     <groupId>com.github.frtu.sample.serverless</groupId>
     <artifactId>sample-serverless</artifactId>
-    <version>1.2.3</version>
+    <version>1.2.4</version>
 
     <properties>
         <start-class>com.github.frtu.sample.serverless.ApplicationKt</start-class>

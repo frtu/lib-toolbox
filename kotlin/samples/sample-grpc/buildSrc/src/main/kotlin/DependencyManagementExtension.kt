@@ -12,8 +12,8 @@ object Versions {
     const val spring_cloud_sleuth_otel = "1.1.0-M6"
     const val springdoc = "1.5.4"
     const val frtu_base = "1.2.4"
-    const val frtu_libs = "1.2.4-SNAPSHOT"
-    const val frtu_logs = "1.1.4"
+    const val frtu_libs = "1.2.4"
+    const val frtu_logs = "1.1.5"
 
     const val plugin_jacoco = "0.8.8" // 2022-04-05
     const val plugin_google_format = "0.9" // 2020-06-09
