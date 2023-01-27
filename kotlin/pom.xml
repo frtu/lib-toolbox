@@ -19,8 +19,7 @@
         <module>lib-grpc</module>
         <module>lib-workflow</module>
         <module>lib-kotlin-bom</module>
-        <module>temporal-bom</module>
-        <module>spring-boot</module>
+        <module>temporal</module>
         <module>test-containers</module>
     </modules>
 
