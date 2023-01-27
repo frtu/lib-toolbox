@@ -8,7 +8,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>temporal</artifactId>
+    <artifactId>workflows</artifactId>
     <packaging>pom</packaging>
 
     <modules>
