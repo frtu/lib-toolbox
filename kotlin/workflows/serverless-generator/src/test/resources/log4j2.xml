@@ -15,7 +15,7 @@
     <Loggers>
         <!-- https://logging.apache.org/log4j/2.x/manual/async.html-->
         <!-- SET TO info or debug TO SEE application LOGS -->
-        <Logger name="com.github.frtu.kotlin" level="debug" includeLocation="true" additivity="true"/>
+        <Logger name="com.github.frtu.workflow.serverlessworkflow" level="trace" includeLocation="true" additivity="true"/>
 
         <Root level="INFO">
             <AppenderRef ref="ASYNC"/>

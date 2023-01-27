@@ -12,6 +12,8 @@
     <properties>
         <log4j2.version>2.17.1</log4j2.version> <!-- 2021-12-28 -->
         <slf4j.version>1.7.25</slf4j.version>
+        <!-- Make sure to import your own version of spring -->
+        <spring.version>5.3.5</spring.version> <!-- related to spring-boot:2.4.4 -->
     </properties>
 
     <dependencies>
@@ -30,6 +32,18 @@
             <artifactId>jackson-module-kotlin</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.github.frtu.libs</groupId>
+            <artifactId>lib-utils</artifactId>
+        </dependency>
+        <!-- Spring Context Support -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+            <scope>provided</scope>
+            <version>${spring.version}</version>
+        </dependency>
+
         <!--===========================-->
         <!--Test -->
         <!--===========================-->
@@ -43,12 +57,6 @@
         <dependency>
             <groupId>io.mockk</groupId>
             <artifactId>mockk</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <!-- https://assertj.github.io/doc/ -->
-        <dependency>
-            <groupId>org.assertj</groupId>
-            <artifactId>assertj-core</artifactId>
             <scope>test</scope>
         </dependency>
 
@@ -132,6 +140,13 @@
             <dependency>
                 <groupId>com.github.frtu.libs</groupId>
                 <artifactId>serverless-bom</artifactId>
+                <version>${project.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.github.frtu.libs</groupId>
+                <artifactId>lib-kotlin-bom</artifactId>
                 <version>${project.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
