@@ -14,5 +14,7 @@
     <modules>
         <module>temporal-bom</module>
         <module>starter-temporal</module>
+        <module>serverless-bom</module>
+        <module>serverless-generator</module>
     </modules>
 </project>

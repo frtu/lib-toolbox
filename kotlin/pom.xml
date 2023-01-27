@@ -19,7 +19,7 @@
         <module>lib-grpc</module>
         <module>lib-workflow</module>
         <module>lib-kotlin-bom</module>
-        <module>temporal</module>
+        <module>workflows</module>
         <module>test-containers</module>
     </modules>
 

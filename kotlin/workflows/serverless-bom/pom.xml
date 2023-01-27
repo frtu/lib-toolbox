@@ -1,0 +1,46 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.github.frtu.libs</groupId>
+        <artifactId>workflows</artifactId>
+        <version>1.2.5-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>serverless-bom</artifactId>
+    <packaging>pom</packaging>
+
+    <properties>
+        <serverlessworkflow.version>4.0.3.Final</serverlessworkflow.version> <!-- 2022-04-07 -->
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>io.serverlessworkflow</groupId>
+                <artifactId>serverlessworkflow-api</artifactId>
+                <version>${serverlessworkflow.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.serverlessworkflow</groupId>
+                <artifactId>serverlessworkflow-spi</artifactId>
+                <version>${serverlessworkflow.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.serverlessworkflow</groupId>
+                <artifactId>serverlessworkflow-validation</artifactId>
+                <version>${serverlessworkflow.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.serverlessworkflow</groupId>
+                <artifactId>serverlessworkflow-util</artifactId>
+                <version>${serverlessworkflow.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.serverlessworkflow</groupId>
+                <artifactId>serverlessworkflow-diagram</artifactId>
+                <version>${serverlessworkflow.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+</project>
