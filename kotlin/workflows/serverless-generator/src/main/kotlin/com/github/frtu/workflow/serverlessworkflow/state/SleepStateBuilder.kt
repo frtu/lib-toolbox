@@ -20,3 +20,8 @@ class SleepStateBuilder(
             state.withDuration(value)
         }
 }
+
+fun sleep(stateName: String? = null, duration: String? = null, options: SleepStateBuilder.() -> Unit = {}): SleepState =
+    SleepStateBuilder(stateName).apply {
+        duration?.let { this.duration = duration }
+    }.apply(options).build()
