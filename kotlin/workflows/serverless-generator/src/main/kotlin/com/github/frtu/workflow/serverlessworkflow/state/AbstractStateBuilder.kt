@@ -18,7 +18,7 @@ abstract class AbstractStateBuilder<STATE : DefaultState>(
 ) {
     init {
         state.withType(type)
-        stateName?.let { assignStateName(it) }
+        assignStateName(stateName)
     }
 
     var stateName: String
@@ -27,9 +27,7 @@ abstract class AbstractStateBuilder<STATE : DefaultState>(
             assignStateName(value)
         }
 
-    private fun assignStateName(value: String) {
-        state.withName(value)
-    }
+    private fun assignStateName(value: String?) = value?.let { state.withName(value) }
 
     fun assignTransition(value: String) {
         state.withTransition(Transition(value))

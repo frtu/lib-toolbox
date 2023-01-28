@@ -7,9 +7,9 @@ import io.kotlintest.shouldBe
 import io.mockk.junit5.MockKExtension
 import io.serverlessworkflow.api.states.DefaultState
 import io.serverlessworkflow.api.states.SleepState
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.DisplayName
-import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.slf4j.LoggerFactory
 
@@ -21,6 +21,8 @@ internal class OrchestrationDslBuilderKtTest {
         //--------------------------------------
         // 1. Constructor only call once
         //--------------------------------------
+        val workflowName = "Email_79dbd650-d901-409e-b148-78ae680fbd53"
+
         val sleepStateName = "DelayForUserToTakeAction"
         val sleepDuration = "PT5S"
 
@@ -28,6 +30,7 @@ internal class OrchestrationDslBuilderKtTest {
         // 2. Execute
         //--------------------------------------
         val result = workflow {
+            name = workflowName
             states {
                 +sleep(stateName = sleepStateName) {
                     duration = sleepDuration
@@ -39,6 +42,7 @@ internal class OrchestrationDslBuilderKtTest {
         //--------------------------------------
         // 3. Validate
         //--------------------------------------
+        result.name shouldBe workflowName
         result.states.size shouldBeGreaterThanOrEqual 1
         with(result.states[0]) {
             type shouldBe DefaultState.Type.SLEEP
