@@ -13,7 +13,7 @@ import io.serverlessworkflow.api.Workflow as ServerlessWorkflow
  * @since 1.2.5
  */
 open class WorkflowBuilder(
-    workflowName: String? = null,
+    name: String? = null,
 ) {
     private val workflow: ServerlessWorkflow = ServerlessWorkflow()
         .withId(UUID.randomUUID().toString())
@@ -21,16 +21,16 @@ open class WorkflowBuilder(
         .withExpressionLang("spel")
 
     init {
-        assignWorkflowName(workflowName)
+        assignName(name)
     }
 
     var name: String?
         get() = workflow.name
         set(value) {
-            assignWorkflowName(value)
+            assignName(value)
         }
 
-    private fun assignWorkflowName(value: String?) = value?.let { workflow.withName(value) }
+    private fun assignName(value: String?) = value?.let { workflow.withName(value) }
 
     private val statesList = mutableListOf<DefaultState>()
 

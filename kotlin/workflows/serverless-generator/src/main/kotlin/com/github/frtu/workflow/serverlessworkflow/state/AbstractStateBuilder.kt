@@ -14,24 +14,28 @@ import org.slf4j.LoggerFactory
 abstract class AbstractStateBuilder<STATE : DefaultState>(
     protected val state: STATE,
     type: DefaultState.Type,
-    stateName: String? = null,
+    name: String? = null,
 ) {
     init {
         state.withType(type)
-        assignStateName(stateName)
+        assignName(name)
     }
 
-    var stateName: String
+    var name: String
         get() = state.name
         set(value) {
-            assignStateName(value)
+            assignName(value)
         }
 
-    private fun assignStateName(value: String?) = value?.let { state.withName(value) }
+    private fun assignName(value: String?) = value?.let { state.withName(it) }
 
-    fun assignTransition(value: String) {
-        state.withTransition(Transition(value))
-    }
+    var transition: String?
+        get() = state.transition.nextState
+        set(value) {
+            assignTransition(value)
+        }
+
+    private fun assignTransition(value: String?) = value?.let { state.withTransition(Transition(it)) }
 
     open fun build(): STATE = state
 

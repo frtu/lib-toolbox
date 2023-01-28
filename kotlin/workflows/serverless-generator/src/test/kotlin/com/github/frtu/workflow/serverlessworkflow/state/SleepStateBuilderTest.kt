@@ -23,7 +23,7 @@ internal class SleepStateBuilderTest {
         //--------------------------------------
         // 2. Execute
         //--------------------------------------
-        val result = sleep(stateName = stateName, duration = duration)
+        val result = sleep(name = stateName, duration = duration)
         logger.debug("result:${result.toJsonString()}")
 
         //--------------------------------------
@@ -45,7 +45,7 @@ internal class SleepStateBuilderTest {
         // 2. Execute
         //--------------------------------------
         val result = sleep {
-            this.stateName = stateName
+            this.name = stateName
             this.duration = duration
         }
         logger.debug("result:${result.toJsonString()}")

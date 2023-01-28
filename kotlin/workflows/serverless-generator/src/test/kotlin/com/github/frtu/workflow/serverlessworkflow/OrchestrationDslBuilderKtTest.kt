@@ -32,7 +32,7 @@ internal class OrchestrationDslBuilderKtTest {
         val result = workflow {
             name = workflowName
             states {
-                +sleep(stateName = sleepStateName) {
+                +sleep(name = sleepStateName) {
                     duration = sleepDuration
                 }
             }
