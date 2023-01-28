@@ -4,6 +4,7 @@ import com.github.frtu.kotlin.utils.io.toJsonString
 import io.kotlintest.matchers.string.shouldContain
 import io.kotlintest.shouldBe
 import io.mockk.junit5.MockKExtension
+import io.serverlessworkflow.api.states.DefaultState
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
@@ -94,7 +95,8 @@ internal class SwitchStateBuilderTest {
         // 3. Validate
         //--------------------------------------
         result.name shouldBe stateName
-        result.dataConditions.size shouldBe 2
+        result.type shouldBe DefaultState.Type.SWITCH
+        result.dataConditions.size shouldBe conditions.size
         (0..1).forEach { index ->
             with(result.dataConditions[index]) {
                 name shouldBe conditions[index].first

@@ -9,9 +9,9 @@ import io.mockk.junit5.MockKExtension
 import io.serverlessworkflow.api.states.DefaultState
 import io.serverlessworkflow.api.states.SleepState
 import io.serverlessworkflow.api.states.SwitchState
-import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.DisplayName
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.slf4j.LoggerFactory
 
@@ -37,7 +37,8 @@ internal class OrchestrationDslBuilderKtTest {
             name = workflowName
             states {
                 +sleep(name = sleepStateName) {
-                    duration = sleepDuration
+                    this.duration = sleepDuration
+                    this.transition = switchStateName
                 }
                 +switch(switchStateName) {
                     +case("\${ #event.type = 'account.created' }", name = "account.created") {
@@ -60,6 +61,7 @@ internal class OrchestrationDslBuilderKtTest {
         with(result.states[0]) {
             type shouldBe DefaultState.Type.SLEEP
             name shouldBe sleepStateName
+            transition?.nextState shouldBe switchStateName
             val sleepState = this as SleepState
             sleepState.duration shouldBe sleepDuration
         }

@@ -3,6 +3,7 @@ package com.github.frtu.workflow.serverlessworkflow.state
 import com.github.frtu.kotlin.utils.io.toJsonString
 import io.kotlintest.shouldBe
 import io.mockk.junit5.MockKExtension
+import io.serverlessworkflow.api.states.DefaultState
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
@@ -30,6 +31,7 @@ internal class SleepStateBuilderTest {
         // 3. Validate
         //--------------------------------------
         result.name shouldBe stateName
+        result.type shouldBe DefaultState.Type.SLEEP
         result.duration shouldBe duration
     }
 
