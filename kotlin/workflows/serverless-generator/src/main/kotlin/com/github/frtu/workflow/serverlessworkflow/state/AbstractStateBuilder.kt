@@ -2,8 +2,6 @@ package com.github.frtu.workflow.serverlessworkflow.state
 
 import io.serverlessworkflow.api.states.DefaultState
 import io.serverlessworkflow.api.transitions.Transition
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
 
 /**
  * Base class for Builder state
@@ -12,32 +10,27 @@ import org.slf4j.LoggerFactory
  * @since 1.2.5
  */
 abstract class AbstractStateBuilder<STATE : DefaultState>(
-    protected val state: STATE,
+    state: STATE,
     type: DefaultState.Type,
     name: String? = null,
-) {
+) : AbstractBuilder<STATE>(state, name) {
     init {
-        state.withType(type)
-        assignName(name)
+        model.withType(type)
     }
 
-    var name: String
-        get() = state.name
-        set(value) {
-            assignName(value)
-        }
+    override var name: String
+        get() = model.name
+        set(value) { assignName(value) }
 
-    private fun assignName(value: String?) = value?.let { state.withName(it) }
+    override fun assignName(value: String?) {
+        value?.let { model.withName(it) }
+    }
 
-    var transition: String?
-        get() = state.transition.nextState
-        set(value) {
-            assignTransition(value)
-        }
+    override var transition: String?
+        get() = model.transition?.nextState
+        set(value) { assignTransition(value) }
 
-    private fun assignTransition(value: String?) = value?.let { state.withTransition(Transition(it)) }
-
-    open fun build(): STATE = state
-
-    protected val logger: Logger = LoggerFactory.getLogger(this::class.java)
+    override fun assignTransition(value: String?) {
+        value?.let { model.withTransition(Transition(it)) }
+    }
 }

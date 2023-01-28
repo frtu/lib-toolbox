@@ -14,10 +14,10 @@ class SleepStateBuilder(
 ) : AbstractStateBuilder<SleepState>(SleepState(), SLEEP, name) {
 
     var duration: String?
-        get() = state.duration
+        get() = model.duration
         set(value) {
             logger.trace("Sleep: duration={}", value)
-            state.withDuration(value)
+            model.withDuration(value)
         }
 }
 
