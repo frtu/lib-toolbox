@@ -3,9 +3,12 @@ package com.github.frtu.workflow.serverlessworkflow.workflow
 import com.github.frtu.workflow.serverlessworkflow.DslBuilder
 import com.github.frtu.workflow.serverlessworkflow.state.AllStatesBuilder
 import com.github.frtu.workflow.serverlessworkflow.state.OperationStateBuilder
+import com.github.frtu.workflow.serverlessworkflow.trigger.EventTriggerBuilder
+import com.github.frtu.workflow.serverlessworkflow.trigger.Trigger
 import io.serverlessworkflow.api.end.End
 import io.serverlessworkflow.api.states.DefaultState
 import io.serverlessworkflow.api.validation.ValidationError
+import io.serverlessworkflow.api.workflow.Events
 import io.serverlessworkflow.api.workflow.Functions
 import io.serverlessworkflow.validation.WorkflowValidatorImpl
 import org.slf4j.LoggerFactory
@@ -27,6 +30,8 @@ open class WorkflowBuilder(
         .withVersion("0.1.0")
         .withExpressionLang("spel")
 
+    private val triggers = mutableListOf<Trigger>()
+
     init {
         assignName(name)
     }
@@ -37,6 +42,12 @@ open class WorkflowBuilder(
         set(value) {
             assignName(value)
         }
+
+    @DslBuilder
+    operator fun Trigger.unaryPlus() {
+        logger.trace("trigger: type={}", this.category)
+        triggers += this
+    }
 
     private fun assignName(value: String?) = value?.let { workflow.withName(value) }
 
@@ -49,9 +60,9 @@ open class WorkflowBuilder(
         stateBuilder.apply(options)
 
         // Apply
-        val defaultStates = stateBuilder.build()
-        logger.debug("build states: size=${defaultStates.size}")
-        statesList.addAll(defaultStates)
+        val allStates = stateBuilder.build()
+        logger.debug("build states: size=${allStates.size}")
+        statesList.addAll(allStates)
     }
 
     open fun build(): ServerlessWorkflow = workflow.apply {
@@ -65,6 +76,11 @@ open class WorkflowBuilder(
                 states.flatMap { state ->
                     OperationStateBuilder.buildFunctionDefinition(state)
                 }.distinctBy { it.name }
+            ))
+            this.withEvents(Events(
+                states.flatMap { state ->
+                    EventTriggerBuilder.getEventDefinition(state)
+                }.distinctBy { it.type }
             ))
         }
 

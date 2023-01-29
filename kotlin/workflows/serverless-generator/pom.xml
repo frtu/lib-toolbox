@@ -35,6 +35,7 @@
         <dependency>
             <groupId>com.github.frtu.libs</groupId>
             <artifactId>lib-utils</artifactId>
+            <version>${project.version}</version>
         </dependency>
         <!-- Spring Context Support -->
         <dependency>

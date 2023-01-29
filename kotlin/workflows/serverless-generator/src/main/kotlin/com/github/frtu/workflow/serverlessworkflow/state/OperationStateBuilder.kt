@@ -68,9 +68,11 @@ infix fun Call.using(options: ArgumentsBuilder.() -> Unit): Action =
     Action().withName(name)
         .withFunctionRef(
             FunctionRef()
-                .withRefName(this.function.name)
+                .withRefName(generateFunctionName())
                 .withArguments(ArgumentsBuilder().apply(options).build())
         )
+
+private fun Call.generateFunctionName() = this.function.name
 
 @DslBuilder
 class ArgumentsBuilder {

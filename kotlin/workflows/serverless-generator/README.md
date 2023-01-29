@@ -37,6 +37,28 @@ workflow {
 }
 ```
 
+## Import
+
+Import using :
+
+```XML
+<dependency>
+  <groupId>com.github.frtu.libs</groupId>
+  <artifactId>serverless-generator</artifactId>
+  <version>${frtu-libs.version}</version>
+</dependency>
+```
+
+or
+
+```
+implementation("com.github.frtu.libs:serverless-generator:${Versions.frtu_libs}")
+```
+
+Check the latest version (clickable) :
+
+[<img src="https://img.shields.io/maven-central/v/com.github.frtu.libs/serverless-generator.svg?label=latest%20release%20:%20serverless-generator"/>](https://search.maven.org/#search%7Cga%7C1%7Ca%3A%22serverless-generator%22+g%3A%22com.github.frtu.libs%22)
+
 ## Release notes
 
 ### 1.2.5 - Current version
