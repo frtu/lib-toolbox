@@ -5,9 +5,12 @@ import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import io.serverlessworkflow.api.actions.Action
+import io.serverlessworkflow.api.functions.FunctionDefinition
 import io.serverlessworkflow.api.functions.FunctionRef
+import io.serverlessworkflow.api.interfaces.State
 import io.serverlessworkflow.api.states.DefaultState.Type.OPERATION
 import io.serverlessworkflow.api.states.OperationState
+import org.slf4j.LoggerFactory
 import kotlin.reflect.KFunction
 import kotlin.reflect.KProperty
 
@@ -29,6 +32,23 @@ class OperationStateBuilder(
 
     override fun build(): OperationState =
         model.withActions(actions)
+
+    companion object {
+        fun buildFunctionDefinition(state: State): List<FunctionDefinition> =
+            if (state is OperationState && state.actions.isNotEmpty()) {
+                state.actions.map {
+                    val refName = it.functionRef.refName
+                    logger.trace("{}: name={}", "Function", refName)
+                    FunctionDefinition()
+                        .withName(refName)
+                        .withType(FunctionDefinition.Type.CUSTOM)
+                }
+            } else {
+                emptyList()
+            }
+
+        private val logger = LoggerFactory.getLogger(this::class.java)
+    }
 }
 
 fun operation(name: String? = null, options: OperationStateBuilder.() -> Unit = {}): OperationState =
