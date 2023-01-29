@@ -1,8 +1,15 @@
 package com.github.frtu.workflow.serverlessworkflow.state
 
+import com.fasterxml.jackson.annotation.JsonInclude
+import com.fasterxml.jackson.databind.JsonNode
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import io.serverlessworkflow.api.actions.Action
+import io.serverlessworkflow.api.functions.FunctionRef
 import io.serverlessworkflow.api.states.DefaultState.Type.OPERATION
 import io.serverlessworkflow.api.states.OperationState
+import kotlin.reflect.KFunction
+import kotlin.reflect.KProperty
 
 /**
  * Builder for operation state
@@ -27,25 +34,30 @@ class OperationStateBuilder(
 fun operation(name: String? = null, options: OperationStateBuilder.() -> Unit = {}): OperationState =
     OperationStateBuilder(name).apply(options).build()
 
-class ActionBuilder(name: String? = null) {
-    private val model: Action = Action()
+data class Call(val function: KFunction<*>, val name: String? = null)
 
-    init {
-        assignName(name)
+fun call(function: KFunction<*>, name: String? = null): Call = Call(function, name)
+
+infix fun Call.using(options: ArgumentsBuilder.() -> Unit): Action =
+    Action().withName(name)
+        .withFunctionRef(
+            FunctionRef()
+                .withRefName(this.function.name)
+                .withArguments(ArgumentsBuilder().apply(options).build())
+        )
+
+class ArgumentsBuilder {
+    private val arguments = mutableMapOf<String, String>()
+
+    infix fun KProperty<*>.with(expression: String) {
+        arguments[this.name] = expression
     }
 
-    var name: String
-        get() = model.name
-        set(value) {
-            assignName(value)
+    fun build(): JsonNode = objectMapper.createObjectNode().apply {
+        arguments.map { (key, value) ->
+            this.put(key, value)
         }
-
-    private fun assignName(value: String?) {
-        value?.let { model.withName(value) }
     }
-
-    fun build(): Action = model
 }
 
-fun action(name: String? = null, options: ActionBuilder.() -> Unit = {}): Action =
-    ActionBuilder(name).apply(options).build()
+val objectMapper: ObjectMapper = jacksonObjectMapper().setSerializationInclusion(JsonInclude.Include.NON_NULL)

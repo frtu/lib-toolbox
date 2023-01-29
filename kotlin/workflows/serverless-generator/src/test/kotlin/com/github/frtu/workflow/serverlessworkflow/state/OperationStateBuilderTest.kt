@@ -3,7 +3,7 @@ package com.github.frtu.workflow.serverlessworkflow.state
 import com.github.frtu.kotlin.utils.io.toJsonString
 import io.kotlintest.shouldBe
 import io.mockk.junit5.MockKExtension
-import io.mockk.mockk
+import io.serverlessworkflow.api.actions.Action
 import io.serverlessworkflow.api.states.DefaultState
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.DisplayName
@@ -18,51 +18,40 @@ import java.util.*
 @ExtendWith(MockKExtension::class)
 internal class OperationStateBuilderTest {
     @Test
-    fun `Call short builder for Action DSL`() {
+    fun `Call builder for Action DSL`() {
         //--------------------------------------
         // 1. Init vars
         //--------------------------------------
-        val actionName = "action name"
+        val optionalActionName = "action name"
+        val parameters = listOf(
+            UUID.randomUUID().toString(),
+            "\${ variable.name }",
+        )
 
         //--------------------------------------
         // 2. Execute
         //--------------------------------------
-        val result = action(actionName) {
+        val result = call(ServiceCall::query, name = optionalActionName) using {
+            ServiceRequest::id with parameters[0]
+            ServiceRequest::name with parameters[1]
         }
         logger.debug("result:${result.toJsonString()}")
 
         //--------------------------------------
         // 3. Validate
         //--------------------------------------
-        result.name shouldBe actionName
-    }
-
-    @Test
-    fun `Call bracket builder for Action DSL`() {
-        //--------------------------------------
-        // 1. Init vars
-        //--------------------------------------
-        val actionName = "action name"
-
-        //--------------------------------------
-        // 2. Execute
-        //--------------------------------------
-        val result = action(actionName) {
-            call(ServiceCall::query) using arrayOf(
-                ServiceRequest::id.name to UUID.randomUUID().toString()
-            )
-        }
-        logger.debug("result:${result.toJsonString()}")
-
-        //--------------------------------------
-        // 3. Validate
-        //--------------------------------------
-        result.name shouldBe actionName
+        result.name shouldBe optionalActionName
+        result.javaClass shouldBe Action::class.java
         with(result.functionRef) {
-            refName shouldBe "query"
-            arguments.size() shouldBe 1
-            println(arguments[0])
-            with(arguments[0]) {
+            refName shouldBe ServiceCall::query.name
+            arguments.size() shouldBe parameters.size
+            with(arguments.get(ServiceRequest::id.name)) {
+                isValueNode shouldBe true
+                asText() shouldBe parameters[0]
+            }
+            with(arguments.get(ServiceRequest::name.name)) {
+                isValueNode shouldBe true
+                asText() shouldBe parameters[1]
             }
         }
     }
@@ -75,17 +64,21 @@ internal class OperationStateBuilderTest {
         val stateName = "Operation state name"
         val transition = "DefaultState"
         val actions = listOf(
-            "action1" to "AccountCreatedState",
-            "action2" to "AccountActivatedState",
+            "action1" to UUID.randomUUID().toString(),
+            "action2" to "\${ variable.name }",
         )
+
         //--------------------------------------
         // 2. Execute
         //--------------------------------------
         val result = operation(stateName) {
-            +action(name = actions[0].first) {
-            }
-            +action(name = actions[1].first) {
-            }
+            +(call(ServiceCall::query, name = actions[0].first) using {
+                ServiceRequest::id with actions[0].second
+            })
+            +(call(ServiceCall::query, name = actions[1].first) using {
+                ServiceRequest::id with actions[0].second
+                ServiceRequest::name with actions[1].second
+            })
             this.transition = transition
         }
         logger.debug("result:${result.toJsonString()}")
@@ -99,6 +92,19 @@ internal class OperationStateBuilderTest {
         (0..1).forEach { index ->
             with(result.actions[index]) {
                 name shouldBe actions[index].first
+                with(functionRef) {
+                    refName shouldBe ServiceCall::query.name
+                    with(arguments.get(ServiceRequest::id.name)) {
+                        isValueNode shouldBe true
+                        asText() shouldBe actions[0].second
+                    }
+                }
+            }
+        }
+        with(result.actions[1].functionRef) {
+            with(arguments.get(ServiceRequest::name.name)) {
+                isValueNode shouldBe true
+                asText() shouldBe actions[1].second
             }
         }
         result.transition?.nextState shouldBe transition
@@ -106,4 +112,3 @@ internal class OperationStateBuilderTest {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
 }
-

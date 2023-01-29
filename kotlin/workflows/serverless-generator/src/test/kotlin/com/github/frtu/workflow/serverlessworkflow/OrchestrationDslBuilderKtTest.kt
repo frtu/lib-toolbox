@@ -5,7 +5,8 @@ import com.github.frtu.workflow.serverlessworkflow.state.case
 import com.github.frtu.workflow.serverlessworkflow.state.sleep
 import com.github.frtu.workflow.serverlessworkflow.state.switch
 import com.github.frtu.workflow.serverlessworkflow.state.operation
-import com.github.frtu.workflow.serverlessworkflow.state.action
+import com.github.frtu.workflow.serverlessworkflow.state.call
+import com.github.frtu.workflow.serverlessworkflow.state.using
 import io.kotlintest.shouldBe
 import io.mockk.junit5.MockKExtension
 import io.serverlessworkflow.api.states.DefaultState
@@ -17,6 +18,9 @@ import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.slf4j.LoggerFactory
+import sample.ServiceCall
+import sample.ServiceRequest
+import java.util.UUID
 
 @DisplayName("OrchestrationDslBuilder tests")
 @ExtendWith(MockKExtension::class)
@@ -32,7 +36,10 @@ internal class OrchestrationDslBuilderKtTest {
         val sleepDuration = "PT5S"
 
         val switchStateName = "ConditionEventType"
+
         val operationStateName = "OperationState"
+        val parameterValueId = UUID.randomUUID().toString()
+        val parameterValueName = "\${ variable.name }"
 
         //--------------------------------------
         // 2. Execute
@@ -45,10 +52,13 @@ internal class OrchestrationDslBuilderKtTest {
                     this.transition = operationStateName
                 }
                 +operation(operationStateName) {
-                    +action(name = "action1") {
-                    }
-                    +action(name = "action2") {
-                    }
+                    +(call(ServiceCall::query) using {
+                        ServiceRequest::id with parameterValueId
+                    })
+                    +(call(ServiceCall::query) using {
+                        ServiceRequest::id with parameterValueId
+                        ServiceRequest::name with parameterValueName
+                    })
                     this.transition = switchStateName
                 }
                 +switch(switchStateName) {
@@ -81,6 +91,26 @@ internal class OrchestrationDslBuilderKtTest {
             name shouldBe operationStateName
             val operationState = this as OperationState
             operationState.actions.size shouldBe 2
+            with(operationState.actions[0].functionRef) {
+                refName shouldBe ServiceCall::query.name
+                arguments.size() shouldBe 1
+                with(arguments.get(ServiceRequest::id.name)) {
+                    isValueNode shouldBe true
+                    asText() shouldBe parameterValueId
+                }
+            }
+            with(operationState.actions[1].functionRef) {
+                refName shouldBe ServiceCall::query.name
+                arguments.size() shouldBe 2
+                with(arguments.get(ServiceRequest::id.name)) {
+                    isValueNode shouldBe true
+                    asText() shouldBe parameterValueId
+                }
+                with(arguments.get(ServiceRequest::name.name)) {
+                    isValueNode shouldBe true
+                    asText() shouldBe parameterValueName
+                }
+            }
         }
         with(result.states[2]) {
             type shouldBe DefaultState.Type.SWITCH
@@ -90,7 +120,8 @@ internal class OrchestrationDslBuilderKtTest {
         }
     }
 
-    private fun jsonPrettyPrint(result: Any): String = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(result)
+    private fun jsonPrettyPrint(result: Any): String =
+        objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(result)
 
     private val objectMapper = jacksonObjectMapper()
     private val logger = LoggerFactory.getLogger(this::class.java)
