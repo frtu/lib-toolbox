@@ -37,8 +37,8 @@ class OperationStateBuilder(
         model.withActions(actions)
 
     companion object {
-        fun buildFunctionDefinition(state: State): List<FunctionDefinition> =
-            if (state is OperationState && state.actions.isNotEmpty()) {
+        fun buildFunctionDefinition(state: OperationState): List<FunctionDefinition> =
+            if (state.actions.isNotEmpty()) {
                 state.actions.map {
                     val refName = it.functionRef.refName
                     logger.trace("{}: name={}", "Function", refName)

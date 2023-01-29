@@ -8,7 +8,10 @@ import com.github.frtu.workflow.serverlessworkflow.trigger.EventTriggerBuilder
 import com.github.frtu.workflow.serverlessworkflow.trigger.Trigger
 import io.serverlessworkflow.api.end.End
 import io.serverlessworkflow.api.interfaces.State
+import io.serverlessworkflow.api.start.Start
 import io.serverlessworkflow.api.states.DefaultState
+import io.serverlessworkflow.api.states.EventState
+import io.serverlessworkflow.api.states.OperationState
 import io.serverlessworkflow.api.validation.ValidationError
 import io.serverlessworkflow.api.workflow.Events
 import io.serverlessworkflow.api.workflow.Functions
@@ -53,6 +56,15 @@ open class WorkflowBuilder(
     fun append(moreStates: List<State>) = statesList.addAll(moreStates)
 
     @DslBuilder
+    var start: String?
+        get() = workflow.start.stateName
+        set(value) {
+            assignStart(value)
+        }
+
+    private fun assignStart(value: String?) = value?.let { workflow.withStart(Start().withStateName(value)) }
+
+    @DslBuilder
     fun triggered(options: AllTriggersBuilder.() -> Unit) {
         // Init
         val triggerBuilder = AllTriggersBuilder()
@@ -61,7 +73,11 @@ open class WorkflowBuilder(
         // Apply
         val allTriggers = triggerBuilder.build()
         logger.debug("build triggers: size=${allTriggers.size}")
-        append(allTriggers.mapNotNull { it.toState() })
+        val triggerStates = allTriggers.mapNotNull { it.toState() }
+        if (triggerStates.size > 1) {
+            assignStart(triggerStates[0].name)
+        }
+        append(triggerStates)
     }
 
     @DslBuilder
@@ -78,6 +94,7 @@ open class WorkflowBuilder(
 
     open fun build(): ServerlessWorkflow = workflow.apply {
         // Post construct
+        val stateValidationErrors = mutableListOf<ValidationError>()
         if (defaultStatesList.isNotEmpty()) {
             // Allow to fix state using DefaultState
             val lastState = defaultStatesList.last()
@@ -88,16 +105,27 @@ open class WorkflowBuilder(
         }
         if (statesList.isNotEmpty()) {
             this.withStates(statesList.toList())
-            this.withFunctions(Functions(
-                states.flatMap { state ->
-                    OperationStateBuilder.buildFunctionDefinition(state)
-                }.distinctBy { it.name }
-            ))
-            this.withEvents(Events(
-                states.flatMap { state ->
-                    EventTriggerBuilder.getEventDefinition(state)
-                }.distinctBy { it.type }
-            ))
+
+            val operationStates = states.filterIsInstance<OperationState>()
+            if (operationStates.isNotEmpty()) {
+                this.withFunctions(Functions(
+                    operationStates.flatMap { state ->
+                        OperationStateBuilder.buildFunctionDefinition(state)
+                    }.distinctBy { it.name }
+                ))
+            }
+
+            val eventStates = states.filterIsInstance<EventState>()
+            if (eventStates.isNotEmpty()) {
+                this.withEvents(Events(
+                    eventStates.flatMap { state ->
+                        EventTriggerBuilder.getEventDefinition(state)
+                    }.distinctBy { it.type }
+                ))
+            }
+            if (eventStates.size > 1) {
+                stateValidationErrors.add(schemaValidationError(" trigger by multiple events not supported yet"))
+            }
         }
 
         // Validation
@@ -106,6 +134,7 @@ open class WorkflowBuilder(
         if (workflow.name.isNullOrBlank()) {
             validationErrors.add(0, schemaValidationError(" workflow.name should not be blank"))
         }
+        validationErrors.addAll(stateValidationErrors)
         if (validationErrors.isNotEmpty()) {
             throw IllegalArgumentException(validationErrors.joinToString("\n"))
         }

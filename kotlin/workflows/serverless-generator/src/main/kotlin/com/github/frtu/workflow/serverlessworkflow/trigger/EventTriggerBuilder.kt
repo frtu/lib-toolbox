@@ -2,6 +2,7 @@ package com.github.frtu.workflow.serverlessworkflow.trigger
 
 import com.github.frtu.workflow.serverlessworkflow.DslBuilder
 import com.github.frtu.workflow.serverlessworkflow.state.AbstractStateBuilder
+import com.github.frtu.workflow.serverlessworkflow.trigger.EventTriggerBuilder.Companion.EVENT_TRIGGER_DEFAULT_NAME
 import io.serverlessworkflow.api.events.EventDefinition
 import io.serverlessworkflow.api.events.OnEvents
 import io.serverlessworkflow.api.interfaces.State
@@ -17,7 +18,7 @@ import org.slf4j.LoggerFactory
  */
 @DslBuilder
 class EventTriggerBuilder(
-    name: String?,
+    name: String = EVENT_TRIGGER_DEFAULT_NAME,
 ) : AbstractStateBuilder<EventState>(EventState(), EVENT, name) {
     private var eventType: String? = null
 
@@ -31,18 +32,16 @@ class EventTriggerBuilder(
         }
 
     companion object {
-        fun getEventDefinition(state: State): List<EventDefinition> =
-            if (state is EventState) {
-                state.onEvents.map {
-                    val eventType = it.eventRefs?.first()
-                    logger.trace("{}: name={}", "Event", eventType)
-                    EventDefinition()
-                        .withName(eventType).withType(eventType)
-                        .withKind(EventDefinition.Kind.CONSUMED)
-                        .withDataOnly(false)
-                }
-            } else {
-                emptyList()
+        const val EVENT_TRIGGER_DEFAULT_NAME = "EventTrigger"
+
+        fun getEventDefinition(state: EventState): List<EventDefinition> =
+            state.onEvents.map {
+                val eventType = it.eventRefs?.first()
+                logger.trace("{}: name={}", "Event", eventType)
+                EventDefinition()
+                    .withName(eventType).withType(eventType)
+                    .withKind(EventDefinition.Kind.CONSUMED)
+                    .withDataOnly(false)
             }
 
         private val logger = LoggerFactory.getLogger(this::class.java)
@@ -50,7 +49,11 @@ class EventTriggerBuilder(
 }
 
 @DslBuilder
-fun byEvent(type: String, name: String? = null, options: EventTriggerBuilder.() -> Unit = {}): EventTrigger =
+fun byEvent(
+    type: String,
+    name: String = EVENT_TRIGGER_DEFAULT_NAME,
+    options: EventTriggerBuilder.() -> Unit = {}
+): EventTrigger =
     EventTrigger(
         EventTriggerBuilder(name).apply {
             this.type = type
