@@ -1,11 +1,11 @@
 package com.github.frtu.workflow.serverlessworkflow.workflow
 
+import com.github.frtu.kotlin.utils.io.toJsonString
 import com.github.frtu.workflow.serverlessworkflow.DslBuilder
 import com.github.frtu.workflow.serverlessworkflow.state.AllStatesBuilder
 import com.github.frtu.workflow.serverlessworkflow.state.OperationStateBuilder
 import com.github.frtu.workflow.serverlessworkflow.trigger.AllTriggersBuilder
 import com.github.frtu.workflow.serverlessworkflow.trigger.EventTriggerBuilder
-import com.github.frtu.workflow.serverlessworkflow.trigger.Trigger
 import io.serverlessworkflow.api.end.End
 import io.serverlessworkflow.api.interfaces.State
 import io.serverlessworkflow.api.start.Start
@@ -48,10 +48,8 @@ open class WorkflowBuilder(
 
     private fun assignName(value: String?) = value?.let { workflow.withName(value) }
 
-    private val statesList = mutableListOf<State>()
-    private val defaultStatesList = mutableListOf<DefaultState>()
-
-    fun append(moreStates: List<State>) = statesList.addAll(moreStates)
+    private val aggregatedStates = mutableListOf<State>()
+    private val aggregatedDefaultStates = mutableListOf<DefaultState>()
 
     @DslBuilder
     var start: String?
@@ -75,36 +73,39 @@ open class WorkflowBuilder(
         if (triggerStates.isNotEmpty()) {
             assignStart(triggerStates[0].name)
         }
-        append(triggerStates)
+        aggregatedStates.addAll(triggerStates)
     }
 
     @DslBuilder
     fun states(options: AllStatesBuilder.() -> Unit) {
         // Init
-        val stateBuilder = AllStatesBuilder()
-        stateBuilder.apply(options)
-
+        val stateBuilder = AllStatesBuilder().apply(options)
         // Apply
-        val allStates = stateBuilder.build()
-        logger.debug("build states: size=${allStates.size}")
-        defaultStatesList.addAll(allStates)
+        with(stateBuilder.states) {
+            logger.debug("merge states from builder: size=$size")
+            aggregatedStates.addAll(this)
+        }
+        with(stateBuilder.defaultStates) {
+            logger.debug("merge defaultStates from builder: size=$size")
+            aggregatedDefaultStates.addAll(this)
+        }
     }
 
     open fun build(): ServerlessWorkflow = workflow.apply {
         // Post construct
         val stateValidationErrors = mutableListOf<ValidationError>()
-        if (defaultStatesList.isNotEmpty()) {
+        if (aggregatedDefaultStates.isNotEmpty()) {
             // Allow to fix state using DefaultState
-            val lastState = defaultStatesList.last()
+            val lastState = aggregatedDefaultStates.last()
             lastState.withEnd(End().withTerminate(true))
 
             // Append to the final list
-            statesList.addAll(defaultStatesList)
+            aggregatedStates.addAll(aggregatedDefaultStates)
         }
-        if (statesList.isNotEmpty()) {
-            this.withStates(statesList.toList())
+        if (aggregatedStates.isNotEmpty()) {
+            this.withStates(aggregatedStates.toList())
 
-            val operationStates = states.filterIsInstance<OperationState>()
+            val operationStates = aggregatedStates.filterIsInstance<OperationState>()
             if (operationStates.isNotEmpty()) {
                 this.withFunctions(Functions(
                     operationStates.flatMap { state ->
@@ -113,7 +114,7 @@ open class WorkflowBuilder(
                 ))
             }
 
-            val eventStates = states.filterIsInstance<EventState>()
+            val eventStates = aggregatedStates.filterIsInstance<EventState>()
             if (eventStates.isNotEmpty()) {
                 this.withEvents(Events(
                     eventStates.flatMap { state ->
@@ -127,7 +128,7 @@ open class WorkflowBuilder(
         }
 
         // Validation
-        logger.trace("Generate ${workflow}")
+        logger.trace("Generate ${workflow.toJsonString()}")
         val validationErrors = WorkflowValidatorImpl().setWorkflow(workflow).validate().toMutableList()
         if (workflow.name.isNullOrBlank()) {
             validationErrors.add(0, schemaValidationError(" workflow.name should not be blank"))

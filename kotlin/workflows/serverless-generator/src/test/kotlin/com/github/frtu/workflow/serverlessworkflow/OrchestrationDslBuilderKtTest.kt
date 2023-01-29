@@ -11,6 +11,7 @@ import com.github.frtu.workflow.serverlessworkflow.trigger.byEvent
 import io.kotlintest.matchers.types.shouldBeInstanceOf
 import io.kotlintest.shouldBe
 import io.mockk.junit5.MockKExtension
+import io.serverlessworkflow.api.interfaces.State
 import io.serverlessworkflow.api.states.DefaultState
 import io.serverlessworkflow.api.states.OperationState
 import io.serverlessworkflow.api.states.SleepState
@@ -66,6 +67,11 @@ internal class OrchestrationDslBuilderKtTest {
         val parameterValueId = UUID.randomUUID().toString()
         val parameterValueName = "\${ variable.name }"
 
+        val externalBuiltStates = listOf(sleep("${sleepStateName}1") {
+            duration = sleepDuration
+            transition = operationStateName
+        })
+
         //--------------------------------------
         // 2. Execute
         //--------------------------------------
@@ -100,6 +106,7 @@ internal class OrchestrationDslBuilderKtTest {
                     }
                     default(transition = "DefaultState")
                 }
+                append(externalBuiltStates)
             }
         }
         logger.debug("result:${jsonPrettyPrint(result)}")
@@ -108,56 +115,64 @@ internal class OrchestrationDslBuilderKtTest {
         // 3. Validate
         //--------------------------------------
         result.name shouldBe workflowName
-        result.states.size shouldBe 4
+        result.states.size shouldBe 5
         result.start?.stateName shouldBe triggerName
-        with(result.states[0]) {
-            type shouldBe DefaultState.Type.EVENT
-            name shouldBe triggerName
-            transition?.nextState shouldBe sleepStateName
-            shouldBeInstanceOf<EventState> { eventState ->
-                eventState.onEvents.first().eventRefs?.first() shouldBe eventType
-            }
-        }
-        with(result.states[1]) {
-            type shouldBe DefaultState.Type.SLEEP
-            name shouldBe sleepStateName
-            transition?.nextState shouldBe operationStateName
-            shouldBeInstanceOf<SleepState> { sleepState ->
-                sleepState.duration shouldBe sleepDuration
-            }
-        }
-        with(result.states[2]) {
-            type shouldBe DefaultState.Type.OPERATION
-            name shouldBe operationStateName
-            shouldBeInstanceOf<OperationState> { operationState ->
-                operationState.actions.size shouldBe 2
-                with(operationState.actions[0].functionRef) {
-                    refName shouldBe ServiceCall::query.name
-                    arguments.size() shouldBe 1
-                    with(arguments.get(ServiceRequest::id.name)) {
-                        isValueNode shouldBe true
-                        asText() shouldBe parameterValueId
-                    }
-                }
-                with(operationState.actions[1].functionRef) {
-                    refName shouldBe ServiceCall::query.name
-                    arguments.size() shouldBe 2
-                    with(arguments.get(ServiceRequest::id.name)) {
-                        isValueNode shouldBe true
-                        asText() shouldBe parameterValueId
-                    }
-                    with(arguments.get(ServiceRequest::name.name)) {
-                        isValueNode shouldBe true
-                        asText() shouldBe parameterValueName
-                    }
+        with(result.states.filterIsInstance<EventState>()[0]) {
+            with(this) {
+                type shouldBe DefaultState.Type.EVENT
+                name shouldBe triggerName
+                transition?.nextState shouldBe sleepStateName
+                shouldBeInstanceOf<EventState> { eventState ->
+                    eventState.onEvents.first().eventRefs?.first() shouldBe eventType
                 }
             }
         }
-        with(result.states[3]) {
-            type shouldBe DefaultState.Type.SWITCH
-            name shouldBe switchStateName
-            shouldBeInstanceOf<SwitchState> { switchState ->
-                switchState.dataConditions.size shouldBe 2
+        with(result.states.filterIsInstance<SleepState>()[1]) {
+            with(this) {
+                type shouldBe DefaultState.Type.SLEEP
+                name shouldBe sleepStateName
+                transition?.nextState shouldBe operationStateName
+                shouldBeInstanceOf<SleepState> { sleepState ->
+                    sleepState.duration shouldBe sleepDuration
+                }
+            }
+        }
+        with(result.states.filterIsInstance<OperationState>()[0]) {
+            with(this) {
+                type shouldBe DefaultState.Type.OPERATION
+                name shouldBe operationStateName
+                shouldBeInstanceOf<OperationState> { operationState ->
+                    operationState.actions.size shouldBe 2
+                    with(operationState.actions[0].functionRef) {
+                        refName shouldBe ServiceCall::query.name
+                        arguments.size() shouldBe 1
+                        with(arguments.get(ServiceRequest::id.name)) {
+                            isValueNode shouldBe true
+                            asText() shouldBe parameterValueId
+                        }
+                    }
+                    with(operationState.actions[1].functionRef) {
+                        refName shouldBe ServiceCall::query.name
+                        arguments.size() shouldBe 2
+                        with(arguments.get(ServiceRequest::id.name)) {
+                            isValueNode shouldBe true
+                            asText() shouldBe parameterValueId
+                        }
+                        with(arguments.get(ServiceRequest::name.name)) {
+                            isValueNode shouldBe true
+                            asText() shouldBe parameterValueName
+                        }
+                    }
+                }
+            }
+        }
+        with(result.states.filterIsInstance<SwitchState>()[0]) {
+            with(this) {
+                type shouldBe DefaultState.Type.SWITCH
+                name shouldBe switchStateName
+                shouldBeInstanceOf<SwitchState> { switchState ->
+                    switchState.dataConditions.size shouldBe 2
+                }
             }
         }
     }

@@ -1,6 +1,7 @@
 package com.github.frtu.workflow.serverlessworkflow.state
 
 import com.github.frtu.workflow.serverlessworkflow.DslBuilder
+import io.serverlessworkflow.api.interfaces.State
 import io.serverlessworkflow.api.states.DefaultState
 import io.serverlessworkflow.api.states.SleepState
 
@@ -11,13 +12,15 @@ import io.serverlessworkflow.api.states.SleepState
  * @since 1.2.5
  */
 @DslBuilder
-class AllStatesBuilder {
-    private val states = mutableListOf<DefaultState>()
+class AllStatesBuilder(
+    val states: MutableList<State> = mutableListOf(),
+    val defaultStates: MutableList<DefaultState> = mutableListOf()
+) {
 
     @DslBuilder
     operator fun DefaultState.unaryPlus() {
-        states += this
+        defaultStates += this
     }
 
-    fun build(): MutableList<DefaultState> = states
+    fun append(moreStates: List<State>) = states.addAll(moreStates)
 }
