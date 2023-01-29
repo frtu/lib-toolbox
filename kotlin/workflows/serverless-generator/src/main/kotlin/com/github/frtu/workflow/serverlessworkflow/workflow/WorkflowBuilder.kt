@@ -35,8 +35,6 @@ open class WorkflowBuilder(
         .withVersion("0.1.0")
         .withExpressionLang("spel")
 
-    private val triggers = mutableListOf<Trigger>()
-
     init {
         assignName(name)
     }
@@ -74,7 +72,7 @@ open class WorkflowBuilder(
         val allTriggers = triggerBuilder.build()
         logger.debug("build triggers: size=${allTriggers.size}")
         val triggerStates = allTriggers.mapNotNull { it.toState() }
-        if (triggerStates.size > 1) {
+        if (triggerStates.isNotEmpty()) {
             assignStart(triggerStates[0].name)
         }
         append(triggerStates)

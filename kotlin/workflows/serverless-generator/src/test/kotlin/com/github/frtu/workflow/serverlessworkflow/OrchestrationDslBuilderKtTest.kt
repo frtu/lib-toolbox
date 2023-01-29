@@ -54,7 +54,7 @@ internal class OrchestrationDslBuilderKtTest {
         //--------------------------------------
         val workflowName = "Workflow_${UUID.randomUUID()}"
 
-        val triggerName = "trigger name"
+        val triggerName = "TriggerName"
         val eventType = "validation.init"
 
         val sleepStateName = "Delay"
@@ -109,6 +109,7 @@ internal class OrchestrationDslBuilderKtTest {
         //--------------------------------------
         result.name shouldBe workflowName
         result.states.size shouldBe 4
+        result.start?.stateName shouldBe triggerName
         with(result.states[0]) {
             type shouldBe DefaultState.Type.EVENT
             name shouldBe triggerName
