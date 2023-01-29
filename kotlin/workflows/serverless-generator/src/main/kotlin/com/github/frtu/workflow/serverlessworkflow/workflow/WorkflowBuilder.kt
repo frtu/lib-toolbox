@@ -6,6 +6,7 @@ import com.github.frtu.workflow.serverlessworkflow.state.OperationStateBuilder
 import com.github.frtu.workflow.serverlessworkflow.trigger.EventTriggerBuilder
 import com.github.frtu.workflow.serverlessworkflow.trigger.Trigger
 import io.serverlessworkflow.api.end.End
+import io.serverlessworkflow.api.interfaces.State
 import io.serverlessworkflow.api.states.DefaultState
 import io.serverlessworkflow.api.validation.ValidationError
 import io.serverlessworkflow.api.workflow.Events
@@ -51,7 +52,11 @@ open class WorkflowBuilder(
 
     private fun assignName(value: String?) = value?.let { workflow.withName(value) }
 
-    private val statesList = mutableListOf<DefaultState>()
+    private val statesList = mutableListOf<State>()
+    private val defaultStatesList = mutableListOf<DefaultState>()
+
+    fun append(moreStates: List<State>) = statesList.addAll(moreStates)
+
 
     @DslBuilder
     fun states(options: AllStatesBuilder.() -> Unit) {
@@ -62,15 +67,20 @@ open class WorkflowBuilder(
         // Apply
         val allStates = stateBuilder.build()
         logger.debug("build states: size=${allStates.size}")
-        statesList.addAll(allStates)
+        defaultStatesList.addAll(allStates)
     }
 
     open fun build(): ServerlessWorkflow = workflow.apply {
         // Post construct
-        if (statesList.isNotEmpty()) {
-            val lastState = statesList.last()
+        if (defaultStatesList.isNotEmpty()) {
+            // Allow to fix state using DefaultState
+            val lastState = defaultStatesList.last()
             lastState.withEnd(End().withTerminate(true))
 
+            // Append to the final list
+            statesList.addAll(defaultStatesList)
+        }
+        if (statesList.isNotEmpty()) {
             this.withStates(statesList.toList())
             this.withFunctions(Functions(
                 states.flatMap { state ->
