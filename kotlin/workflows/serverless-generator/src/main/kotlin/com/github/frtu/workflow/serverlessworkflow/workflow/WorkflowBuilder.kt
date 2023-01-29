@@ -1,5 +1,6 @@
 package com.github.frtu.workflow.serverlessworkflow.workflow
 
+import com.github.frtu.workflow.serverlessworkflow.DslBuilder
 import com.github.frtu.workflow.serverlessworkflow.state.AllStatesBuilder
 import com.github.frtu.workflow.serverlessworkflow.state.OperationStateBuilder
 import io.serverlessworkflow.api.end.End
@@ -17,6 +18,7 @@ import io.serverlessworkflow.api.Workflow as ServerlessWorkflow
  * @author frtu
  * @since 1.2.5
  */
+@DslBuilder
 open class WorkflowBuilder(
     name: String? = null,
 ) {
@@ -29,6 +31,7 @@ open class WorkflowBuilder(
         assignName(name)
     }
 
+    @DslBuilder
     var name: String?
         get() = workflow.name
         set(value) {
@@ -39,6 +42,7 @@ open class WorkflowBuilder(
 
     private val statesList = mutableListOf<DefaultState>()
 
+    @DslBuilder
     fun states(options: AllStatesBuilder.() -> Unit) {
         // Init
         val stateBuilder = AllStatesBuilder()

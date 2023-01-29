@@ -1,5 +1,6 @@
 package com.github.frtu.workflow.serverlessworkflow.state
 
+import com.github.frtu.workflow.serverlessworkflow.DslBuilder
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -9,6 +10,7 @@ import org.slf4j.LoggerFactory
  * @author frtu
  * @since 1.2.5
  */
+@DslBuilder
 abstract class AbstractBuilder<MODEL>(
     protected val model: MODEL,
     name: String?,
@@ -19,12 +21,14 @@ abstract class AbstractBuilder<MODEL>(
         assignTransition(transition)
     }
 
+    @DslBuilder
     open var name: String
         get() { TODO() }
         set(value) { assignName(value) }
 
     abstract fun assignName(value: String?): Unit
 
+    @DslBuilder
     open var transition: String?
         get() { TODO() }
         set(value) { assignTransition(value) }

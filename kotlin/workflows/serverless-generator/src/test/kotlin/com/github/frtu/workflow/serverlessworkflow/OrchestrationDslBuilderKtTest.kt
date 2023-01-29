@@ -30,7 +30,7 @@ internal class OrchestrationDslBuilderKtTest {
         //--------------------------------------
         // 1. Constructor only call once
         //--------------------------------------
-        val workflowName = "Email_79dbd650-d901-409e-b148-78ae680fbd53"
+        val workflowName = "Workflow_${UUID.randomUUID()}"
 
         val sleepStateName = "DelayForUserToTakeAction"
         val sleepDuration = "PT5S"
@@ -47,9 +47,9 @@ internal class OrchestrationDslBuilderKtTest {
         val result = workflow {
             name = workflowName
             states {
-                +sleep(name = sleepStateName) {
-                    this.duration = sleepDuration
-                    this.transition = operationStateName
+                +sleep(sleepStateName) {
+                    duration = sleepDuration
+                    transition = operationStateName
                 }
                 +operation(operationStateName) {
                     +(call(ServiceCall::query) using {
@@ -59,14 +59,14 @@ internal class OrchestrationDslBuilderKtTest {
                         ServiceRequest::id with parameterValueId
                         ServiceRequest::name with parameterValueName
                     })
-                    this.transition = switchStateName
+                    transition = switchStateName
                 }
                 +switch(switchStateName) {
-                    +case("\${ #event.type = 'account.created' }", name = "account.created") {
-                        this.transition = "AccountCreatedState"
+                    +case("\${ #event.type = 'validation.init' }", name = "validation.init") {
+                        transition = "ValidationInitialized"
                     }
-                    +case("\${ #event.type = 'account.activated' }", name = "account.activated") {
-                        this.transition = "AccountActivatedState"
+                    +case("\${ #event.type = 'validation.approved' }", name = "validation.approved") {
+                        transition = "ValidationApproved"
                     }
                     default(transition = "DefaultState")
                 }

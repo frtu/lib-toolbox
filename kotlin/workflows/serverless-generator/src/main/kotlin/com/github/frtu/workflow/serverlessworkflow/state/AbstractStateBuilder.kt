@@ -1,5 +1,6 @@
 package com.github.frtu.workflow.serverlessworkflow.state
 
+import com.github.frtu.workflow.serverlessworkflow.DslBuilder
 import io.serverlessworkflow.api.states.DefaultState
 import io.serverlessworkflow.api.transitions.Transition
 
@@ -9,6 +10,7 @@ import io.serverlessworkflow.api.transitions.Transition
  * @author frtu
  * @since 1.2.5
  */
+@DslBuilder
 abstract class AbstractStateBuilder<STATE : DefaultState>(
     state: STATE,
     type: DefaultState.Type,
@@ -18,6 +20,7 @@ abstract class AbstractStateBuilder<STATE : DefaultState>(
         model.withType(type)
     }
 
+    @DslBuilder
     override var name: String
         get() = model.name
         set(value) { assignName(value) }
@@ -26,6 +29,7 @@ abstract class AbstractStateBuilder<STATE : DefaultState>(
         value?.let { model.withName(it) }
     }
 
+    @DslBuilder
     override var transition: String?
         get() = model.transition?.nextState
         set(value) { assignTransition(value) }

@@ -22,7 +22,7 @@ internal class SwitchStateBuilderTest {
         // 1. Init vars
         //--------------------------------------
         val dataConditionName = "condition name"
-        val condition = "\${ #event.type = 'account.created' }"
+        val condition = "\${ #event.type = 'validation.approved' }"
         val transition = "NextState"
 
         //--------------------------------------
@@ -48,7 +48,7 @@ internal class SwitchStateBuilderTest {
         // 1. Init vars
         //--------------------------------------
         val dataConditionName = "condition name"
-        val condition = "\${ #event.type = 'account.created' }"
+        val condition = "\${ #event.type = 'validation.approved' }"
         val transition = "NextState"
 
         //--------------------------------------
@@ -76,8 +76,8 @@ internal class SwitchStateBuilderTest {
         //--------------------------------------
         val stateName = "Switch state name"
         val conditions = listOf(
-            "account.created" to "AccountCreatedState",
-            "account.activated" to "AccountActivatedState",
+            "validation.init" to "ValidationInitialized",
+            "validation.approved" to "ValidationApproved",
         )
         val defaultTransition = "DefaultState"
 
@@ -85,10 +85,10 @@ internal class SwitchStateBuilderTest {
         // 2. Execute
         //--------------------------------------
         val result = switch(stateName) {
-            +case("\${ #event.type = 'account.created' }", name = conditions[0].first) {
+            +case("\${ #event.type = '${conditions[0].first}' }", name = conditions[0].first) {
                 this.transition = conditions[0].second
             }
-            +case("\${ #event.type = 'account.activated' }", name = conditions[1].first) {
+            +case("\${ #event.type = '${conditions[1].first}' }", name = conditions[1].first) {
                 this.transition = conditions[1].second
             }
             default(transition = defaultTransition)

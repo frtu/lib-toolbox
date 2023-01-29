@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.github.frtu.workflow.serverlessworkflow.DslBuilder
 import io.serverlessworkflow.api.actions.Action
 import io.serverlessworkflow.api.functions.FunctionDefinition
 import io.serverlessworkflow.api.functions.FunctionRef
@@ -20,11 +21,13 @@ import kotlin.reflect.KProperty
  * @author frtu
  * @since 1.2.5
  */
+@DslBuilder
 class OperationStateBuilder(
     name: String? = null,
 ) : AbstractStateBuilder<OperationState>(OperationState(), OPERATION, name) {
     private val actions = mutableListOf<Action>()
 
+    @DslBuilder
     operator fun Action.unaryPlus() {
         logger.trace("action: name={}", this.name)
         actions += this
@@ -51,13 +54,16 @@ class OperationStateBuilder(
     }
 }
 
+@DslBuilder
 fun operation(name: String? = null, options: OperationStateBuilder.() -> Unit = {}): OperationState =
     OperationStateBuilder(name).apply(options).build()
 
 data class Call(val function: KFunction<*>, val name: String? = null)
 
+@DslBuilder
 fun call(function: KFunction<*>, name: String? = null): Call = Call(function, name)
 
+@DslBuilder
 infix fun Call.using(options: ArgumentsBuilder.() -> Unit): Action =
     Action().withName(name)
         .withFunctionRef(
@@ -66,9 +72,11 @@ infix fun Call.using(options: ArgumentsBuilder.() -> Unit): Action =
                 .withArguments(ArgumentsBuilder().apply(options).build())
         )
 
+@DslBuilder
 class ArgumentsBuilder {
     private val arguments = mutableMapOf<String, String>()
 
+    @DslBuilder
     infix fun KProperty<*>.with(expression: String) {
         arguments[this.name] = expression
     }

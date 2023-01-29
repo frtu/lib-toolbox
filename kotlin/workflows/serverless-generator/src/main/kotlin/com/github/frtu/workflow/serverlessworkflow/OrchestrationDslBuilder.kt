@@ -9,6 +9,7 @@ import io.serverlessworkflow.api.Workflow as ServerlessWorkflow
  * @author frtu
  * @since 1.2.5
  */
+@DslBuilder
 fun workflow(options: WorkflowBuilder.() -> Unit): ServerlessWorkflow {
     val workflowBuilder = WorkflowBuilder()
     workflowBuilder.apply(options)
