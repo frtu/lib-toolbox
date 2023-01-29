@@ -26,9 +26,28 @@ import java.util.UUID
 @ExtendWith(MockKExtension::class)
 internal class OrchestrationDslBuilderKtTest {
     @Test
+    fun `Call short builder for workflow DSL`() {
+        //--------------------------------------
+        // 1. Init vars
+        //--------------------------------------
+        val workflowName = "Workflow_${UUID.randomUUID()}"
+
+        //--------------------------------------
+        // 2. Execute
+        //--------------------------------------
+        val result = workflow(workflowName) {}
+        logger.debug("result:${jsonPrettyPrint(result)}")
+
+        //--------------------------------------
+        // 3. Validate
+        //--------------------------------------
+        result.name shouldBe workflowName
+    }
+
+    @Test
     fun `Test valid workflow`() {
         //--------------------------------------
-        // 1. Constructor only call once
+        // 1. Init vars
         //--------------------------------------
         val workflowName = "Workflow_${UUID.randomUUID()}"
 
