@@ -35,12 +35,25 @@ class JsonBeanHelper<T>(
 }
 
 object JsonUtil {
+    private val objectMapper = jacksonObjectMapper().setSerializationInclusion(JsonInclude.Include.NON_NULL)
+    private val jsonBeanHelper = JsonBeanHelper<Any>(objectMapper)
+
     fun <T> jsonToBean(payload: String, clazz: Class<T>): T = jsonBeanHelper.jsonToBean(payload, clazz)
 
-    private val jsonBeanHelper =
-        JsonBeanHelper<Any>(jacksonObjectMapper().setSerializationInclusion(JsonInclude.Include.NON_NULL))
+    /**
+     * Write object into json string
+     * @since 1.2.5
+     */
+    fun toJsonString(obj: Any): String =
+        objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(obj)
 }
 
 fun String.toJsonNode() = toJsonObj(JsonNode::class.java)
 
 fun <T> String.toJsonObj(clazz: Class<T>) = jsonToBean(this, clazz)
+
+/**
+ * Allow to print json from any object
+ * @since 1.2.5
+ */
+fun Any.toJsonString() = JsonUtil.toJsonString(this)
