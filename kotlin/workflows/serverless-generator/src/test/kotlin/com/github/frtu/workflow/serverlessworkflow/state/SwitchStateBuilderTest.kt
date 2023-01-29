@@ -2,9 +2,11 @@ package com.github.frtu.workflow.serverlessworkflow.state
 
 import com.github.frtu.kotlin.utils.io.toJsonString
 import io.kotlintest.matchers.string.shouldContain
+import io.kotlintest.matchers.types.shouldBeInstanceOf
 import io.kotlintest.shouldBe
 import io.mockk.junit5.MockKExtension
 import io.serverlessworkflow.api.states.DefaultState
+import io.serverlessworkflow.api.states.SleepState
 import io.serverlessworkflow.api.states.SwitchState
 import io.serverlessworkflow.api.switchconditions.DataCondition
 import org.junit.jupiter.api.Assertions.*
@@ -37,7 +39,7 @@ internal class SwitchStateBuilderTest {
         // 3. Validate
         //--------------------------------------
         result.name shouldBe dataConditionName
-        result.javaClass shouldBe DataCondition::class.java
+        result.shouldBeInstanceOf<DataCondition>()
         result.condition shouldBe condition
         result.transition?.nextState shouldBe transition
     }
@@ -64,7 +66,7 @@ internal class SwitchStateBuilderTest {
         // 3. Validate
         //--------------------------------------
         result.name shouldBe dataConditionName
-        result.javaClass shouldBe DataCondition::class.java
+        result.shouldBeInstanceOf<DataCondition>()
         result.condition shouldBe condition
         result.transition?.nextState shouldBe transition
     }
@@ -99,7 +101,7 @@ internal class SwitchStateBuilderTest {
         // 3. Validate
         //--------------------------------------
         result.name shouldBe stateName
-        result.javaClass shouldBe SwitchState::class.java
+        result.shouldBeInstanceOf<SwitchState>()
         result.type shouldBe DefaultState.Type.SWITCH
         result.dataConditions.size shouldBe conditions.size
         (0..1).forEach { index ->

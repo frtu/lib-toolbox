@@ -57,10 +57,12 @@ fun byEvent(type: String, name: String? = null, options: EventTriggerBuilder.() 
         }.apply(options).build()
     )
 
-class EventTrigger(val model: EventState) : Trigger(TriggerCategory.BY_EVENT) {
+class EventTrigger(private val model: EventState) : Trigger(TriggerCategory.BY_EVENT) {
     var type: String?
         get() = model.onEvents.first().eventRefs?.first()
         set(value) {
             model.withOnEvents(listOf(OnEvents().withEventRefs(listOf(value))))
         }
+
+    override fun toState(): State? = model
 }

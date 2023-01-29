@@ -7,12 +7,15 @@ import com.github.frtu.workflow.serverlessworkflow.state.switch
 import com.github.frtu.workflow.serverlessworkflow.state.operation
 import com.github.frtu.workflow.serverlessworkflow.state.call
 import com.github.frtu.workflow.serverlessworkflow.state.using
+import com.github.frtu.workflow.serverlessworkflow.trigger.byEvent
+import io.kotlintest.matchers.types.shouldBeInstanceOf
 import io.kotlintest.shouldBe
 import io.mockk.junit5.MockKExtension
 import io.serverlessworkflow.api.states.DefaultState
 import io.serverlessworkflow.api.states.OperationState
 import io.serverlessworkflow.api.states.SleepState
 import io.serverlessworkflow.api.states.SwitchState
+import io.serverlessworkflow.api.states.EventState
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
@@ -51,7 +54,10 @@ internal class OrchestrationDslBuilderKtTest {
         //--------------------------------------
         val workflowName = "Workflow_${UUID.randomUUID()}"
 
-        val sleepStateName = "DelayForUserToTakeAction"
+        val triggerName = "trigger name"
+        val eventType = "validation.init"
+
+        val sleepStateName = "Delay"
         val sleepDuration = "PT5S"
 
         val switchStateName = "ConditionEventType"
@@ -65,6 +71,11 @@ internal class OrchestrationDslBuilderKtTest {
         //--------------------------------------
         val result = workflow {
             name = workflowName
+            triggered {
+                +byEvent(eventType, name = triggerName) {
+                    transition = sleepStateName
+                }
+            }
             states {
                 +sleep(sleepStateName) {
                     duration = sleepDuration
@@ -97,45 +108,56 @@ internal class OrchestrationDslBuilderKtTest {
         // 3. Validate
         //--------------------------------------
         result.name shouldBe workflowName
-        result.states.size shouldBe 3
+        result.states.size shouldBe 4
         with(result.states[0]) {
+            type shouldBe DefaultState.Type.EVENT
+            name shouldBe triggerName
+            transition?.nextState shouldBe sleepStateName
+            shouldBeInstanceOf<EventState> { eventState ->
+                eventState.onEvents.first().eventRefs?.first() shouldBe eventType
+            }
+        }
+        with(result.states[1]) {
             type shouldBe DefaultState.Type.SLEEP
             name shouldBe sleepStateName
             transition?.nextState shouldBe operationStateName
-            val sleepState = this as SleepState
-            sleepState.duration shouldBe sleepDuration
-        }
-        with(result.states[1]) {
-            type shouldBe DefaultState.Type.OPERATION
-            name shouldBe operationStateName
-            val operationState = this as OperationState
-            operationState.actions.size shouldBe 2
-            with(operationState.actions[0].functionRef) {
-                refName shouldBe ServiceCall::query.name
-                arguments.size() shouldBe 1
-                with(arguments.get(ServiceRequest::id.name)) {
-                    isValueNode shouldBe true
-                    asText() shouldBe parameterValueId
-                }
-            }
-            with(operationState.actions[1].functionRef) {
-                refName shouldBe ServiceCall::query.name
-                arguments.size() shouldBe 2
-                with(arguments.get(ServiceRequest::id.name)) {
-                    isValueNode shouldBe true
-                    asText() shouldBe parameterValueId
-                }
-                with(arguments.get(ServiceRequest::name.name)) {
-                    isValueNode shouldBe true
-                    asText() shouldBe parameterValueName
-                }
+            shouldBeInstanceOf<SleepState> { sleepState ->
+                sleepState.duration shouldBe sleepDuration
             }
         }
         with(result.states[2]) {
+            type shouldBe DefaultState.Type.OPERATION
+            name shouldBe operationStateName
+            shouldBeInstanceOf<OperationState> { operationState ->
+                operationState.actions.size shouldBe 2
+                with(operationState.actions[0].functionRef) {
+                    refName shouldBe ServiceCall::query.name
+                    arguments.size() shouldBe 1
+                    with(arguments.get(ServiceRequest::id.name)) {
+                        isValueNode shouldBe true
+                        asText() shouldBe parameterValueId
+                    }
+                }
+                with(operationState.actions[1].functionRef) {
+                    refName shouldBe ServiceCall::query.name
+                    arguments.size() shouldBe 2
+                    with(arguments.get(ServiceRequest::id.name)) {
+                        isValueNode shouldBe true
+                        asText() shouldBe parameterValueId
+                    }
+                    with(arguments.get(ServiceRequest::name.name)) {
+                        isValueNode shouldBe true
+                        asText() shouldBe parameterValueName
+                    }
+                }
+            }
+        }
+        with(result.states[3]) {
             type shouldBe DefaultState.Type.SWITCH
             name shouldBe switchStateName
-            val switchState = this as SwitchState
-            switchState.dataConditions.size shouldBe 2
+            shouldBeInstanceOf<SwitchState> { switchState ->
+                switchState.dataConditions.size shouldBe 2
+            }
         }
     }
 

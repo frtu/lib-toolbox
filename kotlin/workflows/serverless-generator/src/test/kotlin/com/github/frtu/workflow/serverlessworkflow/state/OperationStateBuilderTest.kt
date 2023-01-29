@@ -1,6 +1,7 @@
 package com.github.frtu.workflow.serverlessworkflow.state
 
 import com.github.frtu.kotlin.utils.io.toJsonString
+import io.kotlintest.matchers.types.shouldBeInstanceOf
 import io.kotlintest.shouldBe
 import io.mockk.junit5.MockKExtension
 import io.serverlessworkflow.api.actions.Action
@@ -41,7 +42,7 @@ internal class OperationStateBuilderTest {
         // 3. Validate
         //--------------------------------------
         result.name shouldBe optionalActionName
-        result.javaClass shouldBe Action::class.java
+        result.shouldBeInstanceOf<Action>()
         with(result.functionRef) {
             refName shouldBe ServiceCall::query.name
             arguments.size() shouldBe parameters.size

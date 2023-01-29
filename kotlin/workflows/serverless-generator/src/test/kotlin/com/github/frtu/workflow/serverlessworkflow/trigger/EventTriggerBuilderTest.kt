@@ -1,68 +1,75 @@
-package com.github.frtu.workflow.serverlessworkflow.state
+package com.github.frtu.workflow.serverlessworkflow.trigger
 
 import com.github.frtu.kotlin.utils.io.toJsonString
 import io.kotlintest.matchers.types.shouldBeInstanceOf
 import io.kotlintest.shouldBe
 import io.mockk.junit5.MockKExtension
-import io.serverlessworkflow.api.actions.Action
-import io.serverlessworkflow.api.states.DefaultState
-import io.serverlessworkflow.api.states.SleepState
+import io.serverlessworkflow.api.states.EventState
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.slf4j.LoggerFactory
 
-@DisplayName("SleepStateBuilder tests")
+@DisplayName("EventTriggerBuilder tests")
 @ExtendWith(MockKExtension::class)
-internal class SleepStateBuilderTest {
+internal class EventTriggerBuilderTest {
     @Test
-    fun `Call short builder for Sleep State DSL`() {
+    fun `Call short builder for byEvent DSL`() {
         //--------------------------------------
         // 1. Init vars
         //--------------------------------------
-        val stateName = "state name"
-        val duration = "PT5S"
+        val triggerName = "trigger name"
+        val type = "validation.init"
+        val transition = "NextState"
 
         //--------------------------------------
         // 2. Execute
         //--------------------------------------
-        val result = sleep(name = stateName, duration = duration)
+        val result = byEvent(type, name = triggerName) {
+            this.transition = transition
+        }
         logger.debug("result:${result.toJsonString()}")
 
         //--------------------------------------
         // 3. Validate
         //--------------------------------------
-        result.name shouldBe stateName
-        result.type shouldBe DefaultState.Type.SLEEP
-        result.shouldBeInstanceOf<SleepState>() {
-            it.duration shouldBe duration
+        with(result.toState()) {
+            this?.name shouldBe triggerName
+            this?.transition?.nextState shouldBe transition
+            this.shouldBeInstanceOf<EventState> { eventState ->
+                eventState.onEvents.first().eventRefs?.first() shouldBe type
+            }
         }
     }
 
     @Test
-    fun `Call bracket builder for Sleep State DSL`() {
+    fun `Call bracket builder for byEvent DSL`() {
         //--------------------------------------
         // 1. Init vars
         //--------------------------------------
-        val stateName = "state name"
-        val duration = "PT5S"
+        val triggerName = "trigger name"
+        val type = "validation.init"
+        val transition = "NextState"
 
         //--------------------------------------
         // 2. Execute
         //--------------------------------------
-        val result = sleep {
-            this.name = stateName
-            this.duration = duration
+        val result = byEvent(type) {
+            this.name = triggerName
+            this.transition = transition
         }
         logger.debug("result:${result.toJsonString()}")
 
         //--------------------------------------
         // 3. Validate
         //--------------------------------------
-        result.name shouldBe stateName
-        result.shouldBeInstanceOf<SleepState>{
-            it.duration shouldBe duration
+        with(result.toState()) {
+            this?.name shouldBe triggerName
+            this?.transition?.nextState shouldBe transition
+            this.shouldBeInstanceOf<EventState> { eventState ->
+                eventState.onEvents.first().eventRefs?.first() shouldBe type
+            }
         }
     }
 

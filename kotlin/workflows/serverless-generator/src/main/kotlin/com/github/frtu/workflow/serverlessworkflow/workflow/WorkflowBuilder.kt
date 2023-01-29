@@ -3,6 +3,7 @@ package com.github.frtu.workflow.serverlessworkflow.workflow
 import com.github.frtu.workflow.serverlessworkflow.DslBuilder
 import com.github.frtu.workflow.serverlessworkflow.state.AllStatesBuilder
 import com.github.frtu.workflow.serverlessworkflow.state.OperationStateBuilder
+import com.github.frtu.workflow.serverlessworkflow.trigger.AllTriggersBuilder
 import com.github.frtu.workflow.serverlessworkflow.trigger.EventTriggerBuilder
 import com.github.frtu.workflow.serverlessworkflow.trigger.Trigger
 import io.serverlessworkflow.api.end.End
@@ -44,12 +45,6 @@ open class WorkflowBuilder(
             assignName(value)
         }
 
-    @DslBuilder
-    operator fun Trigger.unaryPlus() {
-        logger.trace("trigger: type={}", this.category)
-        triggers += this
-    }
-
     private fun assignName(value: String?) = value?.let { workflow.withName(value) }
 
     private val statesList = mutableListOf<State>()
@@ -57,6 +52,17 @@ open class WorkflowBuilder(
 
     fun append(moreStates: List<State>) = statesList.addAll(moreStates)
 
+    @DslBuilder
+    fun triggered(options: AllTriggersBuilder.() -> Unit) {
+        // Init
+        val triggerBuilder = AllTriggersBuilder()
+        triggerBuilder.apply(options)
+
+        // Apply
+        val allTriggers = triggerBuilder.build()
+        logger.debug("build triggers: size=${allTriggers.size}")
+        append(allTriggers.mapNotNull { it.toState() })
+    }
 
     @DslBuilder
     fun states(options: AllStatesBuilder.() -> Unit) {
