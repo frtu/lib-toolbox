@@ -3,10 +3,10 @@ package com.github.frtu.workflow.serverlessworkflow.state
 import com.github.frtu.kotlin.utils.io.toJsonString
 import io.kotlintest.matchers.string.shouldContain
 import io.kotlintest.matchers.types.shouldBeInstanceOf
+import io.kotlintest.matchers.types.shouldBeNull
 import io.kotlintest.shouldBe
 import io.mockk.junit5.MockKExtension
 import io.serverlessworkflow.api.states.DefaultState
-import io.serverlessworkflow.api.states.SleepState
 import io.serverlessworkflow.api.states.SwitchState
 import io.serverlessworkflow.api.switchconditions.DataCondition
 import org.junit.jupiter.api.Assertions.*
@@ -72,6 +72,33 @@ internal class SwitchStateBuilderTest {
     }
 
     @Test
+    fun `Call bracket builder for Case DSL with termination`() {
+        //--------------------------------------
+        // 1. Init vars
+        //--------------------------------------
+        val dataConditionName = "condition name"
+        val condition = "\${ #event.type = 'validation.approved' }"
+
+        //--------------------------------------
+        // 2. Execute
+        //--------------------------------------
+        val result = case(condition) {
+            this.name = dataConditionName
+            this.termination = true
+        }
+        logger.debug("result:${result.toJsonString()}")
+
+        //--------------------------------------
+        // 3. Validate
+        //--------------------------------------
+        result.name shouldBe dataConditionName
+        result.shouldBeInstanceOf<DataCondition>()
+        result.condition shouldBe condition
+        result.transition.shouldBeNull()
+        result.end.isTerminate shouldBe true
+    }
+
+    @Test
     fun `Call short builder for Switch State DSL`() {
         //--------------------------------------
         // 1. Init vars
@@ -112,6 +139,38 @@ internal class SwitchStateBuilderTest {
             }
         }
         result.defaultCondition.transition?.nextState shouldBe defaultTransition
+    }
+
+    @Test
+    fun `Call short builder for Switch State DSL with termination`() {
+        //--------------------------------------
+        // 1. Init vars
+        //--------------------------------------
+        val stateName = "Switch state name"
+        val conditions = listOf(
+            "validation.init" to "ValidationInitialized",
+            "validation.approved" to "ValidationApproved",
+        )
+
+        //--------------------------------------
+        // 2. Execute
+        //--------------------------------------
+        val result = switch(stateName) {
+            +case("\${ #event.type = '${conditions[0].first}' }", name = conditions[0].first) {
+                this.transition = conditions[0].second
+            }
+            +case("\${ #event.type = '${conditions[1].first}' }", name = conditions[1].first) {
+                this.transition = conditions[1].second
+            }
+            default(isTermination = true)
+        }
+        logger.debug("result:${result.toJsonString()}")
+
+        //--------------------------------------
+        // 3. Validate
+        //--------------------------------------
+        result.transition.shouldBeNull()
+        result.defaultCondition.end?.isTerminate shouldBe true
     }
 
     private val logger = LoggerFactory.getLogger(this::class.java)

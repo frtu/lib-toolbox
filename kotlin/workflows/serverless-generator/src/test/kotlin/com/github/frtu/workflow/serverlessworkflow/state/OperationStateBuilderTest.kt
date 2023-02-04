@@ -2,6 +2,7 @@ package com.github.frtu.workflow.serverlessworkflow.state
 
 import com.github.frtu.kotlin.utils.io.toJsonString
 import io.kotlintest.matchers.types.shouldBeInstanceOf
+import io.kotlintest.matchers.types.shouldBeNull
 import io.kotlintest.shouldBe
 import io.mockk.junit5.MockKExtension
 import io.serverlessworkflow.api.actions.Action
@@ -133,6 +134,30 @@ internal class OperationStateBuilderTest {
             }
         }
         result.transition?.nextState shouldBe transition
+        result.end.shouldBeNull()
+    }
+
+    @Test
+    fun `Call builder for Operation State DSL with termination`() {
+        //--------------------------------------
+        // 1. Init vars
+        //--------------------------------------
+        val stateName = "Operation state name"
+
+        //--------------------------------------
+        // 2. Execute
+        //--------------------------------------
+        val result = operation(stateName) {
+            this.termination = true
+        }
+        logger.debug("result:${result.toJsonString()}")
+
+        //--------------------------------------
+        // 3. Validate
+        //--------------------------------------
+        result.name shouldBe stateName
+        result.transition.shouldBeNull()
+        result.end.isTerminate shouldBe true
     }
 
     private val logger = LoggerFactory.getLogger(this::class.java)

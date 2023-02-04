@@ -1,6 +1,7 @@
 package com.github.frtu.workflow.serverlessworkflow.state
 
 import com.github.frtu.workflow.serverlessworkflow.DslBuilder
+import io.serverlessworkflow.api.end.End
 import io.serverlessworkflow.api.states.DefaultState
 import io.serverlessworkflow.api.transitions.Transition
 
@@ -15,9 +16,11 @@ abstract class AbstractStateBuilder<STATE : DefaultState>(
     state: STATE,
     type: DefaultState.Type,
     name: String? = null,
+    isTermination: Boolean = false,
 ) : AbstractBuilder<STATE>(state, name) {
     init {
         model.withType(type)
+        assignTermination(isTermination)
     }
 
     @DslBuilder
@@ -36,5 +39,18 @@ abstract class AbstractStateBuilder<STATE : DefaultState>(
 
     override fun assignTransition(value: String?) {
         value?.let { model.withTransition(Transition(it)) }
+    }
+
+    @DslBuilder
+    open var termination: Boolean
+        get() = model.end?.isTerminate ?: false
+        set(value) {
+            assignTermination(value)
+        }
+
+    private fun assignTermination(value: Boolean) {
+        if (value) {
+            model.withEnd(End().withTerminate(true))
+        }
     }
 }

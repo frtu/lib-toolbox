@@ -226,7 +226,7 @@ internal class OrchestrationDslBuilderKtTest {
         }
     }
 
-    private fun jsonPrettyPrint(result: Any): String =
+    internal fun jsonPrettyPrint(result: Any): String =
         objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(result)
 
     private val objectMapper = jacksonObjectMapper()

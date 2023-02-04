@@ -2,6 +2,7 @@ package com.github.frtu.workflow.serverlessworkflow.state
 
 import com.github.frtu.kotlin.utils.io.toJsonString
 import io.kotlintest.matchers.types.shouldBeInstanceOf
+import io.kotlintest.matchers.types.shouldBeNull
 import io.kotlintest.shouldBe
 import io.mockk.junit5.MockKExtension
 import io.serverlessworkflow.api.actions.Action
@@ -47,6 +48,7 @@ internal class SleepStateBuilderTest {
         //--------------------------------------
         val stateName = "state name"
         val duration = "PT5S"
+        val transition = "DefaultState"
 
         //--------------------------------------
         // 2. Execute
@@ -54,6 +56,7 @@ internal class SleepStateBuilderTest {
         val result = sleep {
             this.name = stateName
             this.duration = duration
+            this.transition = transition
         }
         logger.debug("result:${result.toJsonString()}")
 
@@ -64,6 +67,33 @@ internal class SleepStateBuilderTest {
         result.shouldBeInstanceOf<SleepState>{
             it.duration shouldBe duration
         }
+        result.transition?.nextState shouldBe transition
+    }
+
+    @Test
+    fun `Call builder for Operation State DSL with termination`() {
+        //--------------------------------------
+        // 1. Init vars
+        //--------------------------------------
+        val stateName = "state name"
+        val duration = "PT5S"
+
+        //--------------------------------------
+        // 2. Execute
+        //--------------------------------------
+        val result = sleep {
+            this.name = stateName
+            this.duration = duration
+            this.termination = true
+        }
+        logger.debug("result:${result.toJsonString()}")
+
+        //--------------------------------------
+        // 3. Validate
+        //--------------------------------------
+        result.name shouldBe stateName
+        result.transition.shouldBeNull()
+        result.end.isTerminate shouldBe true
     }
 
     private val logger = LoggerFactory.getLogger(this::class.java)
