@@ -179,7 +179,7 @@ internal class OrchestrationDslBuilderKtTest {
                 }
             }
         }
-        with(result.states.filterIsInstance<SleepState>()[1]) {
+        with(result.states.filterIsInstance<SleepState>()[0]) {
             with(this) {
                 type shouldBe DefaultState.Type.SLEEP
                 name shouldBe sleepStateName

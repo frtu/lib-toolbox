@@ -7,11 +7,9 @@ import com.github.frtu.workflow.serverlessworkflow.state.OperationStateBuilder
 import com.github.frtu.workflow.serverlessworkflow.trigger.AllTriggersBuilder
 import com.github.frtu.workflow.serverlessworkflow.trigger.EventTriggerBuilder
 import com.github.frtu.workflow.serverlessworkflow.trigger.TimeTrigger
-import io.serverlessworkflow.api.end.End
 import io.serverlessworkflow.api.interfaces.State
 import io.serverlessworkflow.api.schedule.Schedule
 import io.serverlessworkflow.api.start.Start
-import io.serverlessworkflow.api.states.DefaultState
 import io.serverlessworkflow.api.states.EventState
 import io.serverlessworkflow.api.states.OperationState
 import io.serverlessworkflow.api.validation.ValidationError
@@ -51,7 +49,6 @@ open class WorkflowBuilder(
     private fun assignName(value: String?) = value?.let { workflow.withName(value) }
 
     private val aggregatedStates = mutableListOf<State>()
-    private val aggregatedDefaultStates = mutableListOf<DefaultState>()
 
     @DslBuilder
     var start: String?
@@ -111,23 +108,11 @@ open class WorkflowBuilder(
             logger.debug("merge states from builder: size=$size")
             aggregatedStates.addAll(this)
         }
-        with(stateBuilder.defaultStates) {
-            logger.debug("merge defaultStates from builder: size=$size")
-            aggregatedDefaultStates.addAll(this)
-        }
     }
 
     open fun build(): ServerlessWorkflow = workflow.apply {
         // Post construct
         val stateValidationErrors = mutableListOf<ValidationError>()
-        if (aggregatedDefaultStates.isNotEmpty()) {
-            // Allow to fix state using DefaultState
-            val lastState = aggregatedDefaultStates.last()
-            lastState.withEnd(End().withTerminate(true))
-
-            // Append to the final list
-            aggregatedStates.addAll(aggregatedDefaultStates)
-        }
         if (aggregatedStates.isNotEmpty()) {
             this.withStates(aggregatedStates.toList())
 
