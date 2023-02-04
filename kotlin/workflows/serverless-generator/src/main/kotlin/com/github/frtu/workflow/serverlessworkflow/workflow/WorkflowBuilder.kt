@@ -6,8 +6,10 @@ import com.github.frtu.workflow.serverlessworkflow.state.AllStatesBuilder
 import com.github.frtu.workflow.serverlessworkflow.state.OperationStateBuilder
 import com.github.frtu.workflow.serverlessworkflow.trigger.AllTriggersBuilder
 import com.github.frtu.workflow.serverlessworkflow.trigger.EventTriggerBuilder
+import com.github.frtu.workflow.serverlessworkflow.trigger.TimeTrigger
 import io.serverlessworkflow.api.end.End
 import io.serverlessworkflow.api.interfaces.State
+import io.serverlessworkflow.api.schedule.Schedule
 import io.serverlessworkflow.api.start.Start
 import io.serverlessworkflow.api.states.DefaultState
 import io.serverlessworkflow.api.states.EventState
@@ -58,20 +60,44 @@ open class WorkflowBuilder(
             assignStart(value)
         }
 
-    private fun assignStart(value: String?) = value?.let { workflow.withStart(Start().withStateName(value)) }
+    private fun assignStart(name: String?, schedule: Schedule? = null) {
+        val start = if (workflow.start == null) Start() else workflow.start
+        start.apply {
+            name?.let {
+                withStateName(it)
+            }
+            schedule?.let<Schedule, Unit> {
+                withSchedule(it)
+            }
+        }
+        workflow.withStart(start)
+    }
 
     @DslBuilder
     fun triggered(options: AllTriggersBuilder.() -> Unit) {
         // Init
-        val triggerBuilder = AllTriggersBuilder()
-        triggerBuilder.apply(options)
+        val allTriggers = AllTriggersBuilder().apply(options).build()
+        val triggerResults = allTriggers.flatMap { it.toResult() }
 
         // Apply
-        val allTriggers = triggerBuilder.build()
-        logger.debug("build triggers: size=${allTriggers.size}")
-        val triggerStates = allTriggers.flatMap { it.toResult() }
+        logger.debug("build triggers: size=${triggerResults.size} triggerResults:$triggerResults")
+
+        // Trigger with state
+        val triggerStates = triggerResults.filterIsInstance<State>()
         if (triggerStates.isNotEmpty()) {
-            assignStart(triggerStates[0].name)
+            val startTransition = triggerStates[0].transition.nextState
+            logger.debug("Start: transition=$startTransition")
+            assignStart(startTransition)
+        }
+
+        // TimeTrigger
+        val timeTriggers = triggerResults.filterIsInstance<TimeTrigger>()
+        if (timeTriggers.size == 1) {
+            val timeTrigger = timeTriggers[0]
+            logger.debug("Start: transition=${timeTrigger.transition} and schedule:${timeTrigger.schedule}")
+            assignStart(timeTrigger.transition, timeTrigger.schedule)
+        } else if (timeTriggers.size > 1) {
+            throw IllegalArgumentException("Should not have more than 1 triggers! triggers:$timeTriggers")
         }
         aggregatedStates.addAll(triggerStates)
     }

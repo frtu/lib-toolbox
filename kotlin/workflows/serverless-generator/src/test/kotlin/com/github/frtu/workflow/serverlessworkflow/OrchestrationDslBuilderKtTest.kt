@@ -7,8 +7,11 @@ import com.github.frtu.workflow.serverlessworkflow.state.switch
 import com.github.frtu.workflow.serverlessworkflow.state.operation
 import com.github.frtu.workflow.serverlessworkflow.state.call
 import com.github.frtu.workflow.serverlessworkflow.state.using
+import com.github.frtu.workflow.serverlessworkflow.trigger.TimeTriggerBuilder.Companion.UTC
 import com.github.frtu.workflow.serverlessworkflow.trigger.byEvent
+import com.github.frtu.workflow.serverlessworkflow.trigger.byTime
 import io.kotlintest.matchers.types.shouldBeInstanceOf
+import io.kotlintest.matchers.types.shouldNotBeNull
 import io.kotlintest.shouldBe
 import io.mockk.junit5.MockKExtension
 import io.serverlessworkflow.api.interfaces.State
@@ -35,13 +38,14 @@ internal class OrchestrationDslBuilderKtTest {
         // 1. Init vars
         //--------------------------------------
         val workflowName = "Workflow_${UUID.randomUUID()}"
+        val sleepStateName = "SleepState"
 
         //--------------------------------------
         // 2. Execute
         //--------------------------------------
         val result = workflow(workflowName) {
             states {
-                +sleep(duration = "PT1M") { }
+                +sleep(duration = "PT1M", name = sleepStateName) { }
             }
         }
         logger.debug("result:${jsonPrettyPrint(result)}")
@@ -53,13 +57,54 @@ internal class OrchestrationDslBuilderKtTest {
     }
 
     @Test
+    fun `Call workflow DSL with time trigger`() {
+        //--------------------------------------
+        // 1. Init vars
+        //--------------------------------------
+        val workflowName = "Workflow_${UUID.randomUUID()}"
+
+        val triggerName = "TimeTriggerName"
+        val sleepStateName = "SleepState"
+
+        val expression = "0 15,30,45 * ? * *"
+        val validUntil = "2021-11-05T08:15:30-05:00"
+
+        //--------------------------------------
+        // 2. Execute
+        //--------------------------------------
+        val result = workflow(workflowName) {
+            triggered {
+                +byTime(triggerName) {
+                    this.expression = expression
+                    this.validUntil = validUntil
+                    this.transition = sleepStateName
+                }
+            }
+            states {
+                +sleep(duration = "PT1M", name = sleepStateName) { }
+            }
+        }
+        logger.debug("result:${jsonPrettyPrint(result)}")
+
+        //--------------------------------------
+        // 3. Validate
+        //--------------------------------------
+        with(result?.start?.schedule) {
+            shouldNotBeNull()
+            this.cron?.expression shouldBe expression
+            this.cron?.validUntil shouldBe validUntil
+            this.timezone shouldBe UTC
+        }
+    }
+
+    @Test
     fun `Test valid workflow`() {
         //--------------------------------------
         // 1. Init vars
         //--------------------------------------
         val workflowName = "Workflow_${UUID.randomUUID()}"
 
-        val triggerName = "TriggerName"
+        val triggerName = "EventTriggerName"
         val eventType = "validation.init"
 
         val sleepStateName = "Delay"
@@ -120,7 +165,7 @@ internal class OrchestrationDslBuilderKtTest {
         //--------------------------------------
         result.name shouldBe workflowName
         result.states.size shouldBe 5
-        result.start?.stateName shouldBe triggerName
+        result.start?.stateName shouldBe sleepStateName
         with(result.states.filterIsInstance<EventState>()[0]) {
             with(this) {
                 type shouldBe DefaultState.Type.EVENT
