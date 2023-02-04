@@ -3,32 +3,28 @@
     <parent>
         <groupId>com.github.frtu.libs</groupId>
         <artifactId>kotlin</artifactId>
-        <version>1.2.5-SNAPSHOT</version>
+        <version>1.1.5-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>lib-utils</artifactId>
+    <artifactId>lib-serdes-avro</artifactId>
 
     <properties>
-        <log4j2.version>2.17.1</log4j2.version> <!-- 2021-12-28 -->
+        <!--=========================== -->
+        <avro.version>1.10.2</avro.version> <!-- 2021-03-10 -->
+        <!--=========================== -->
+        <log4j2.version>2.14.1</log4j2.version>
         <slf4j.version>1.7.25</slf4j.version>
-        <!-- Make sure to import your own version of spring -->
-        <spring.version>5.3.5</spring.version> <!-- related to spring-boot:2.4.4 -->
+        <!--https://kotlinlang.org/docs/reference/using-maven.html-->
+        <kotlin.version>1.5.32</kotlin.version> <!-- 2021-11-29 -->
     </properties>
 
     <dependencies>
-        <!-- Spring Context Support -->
+        <!-- Avro -->
         <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-core</artifactId>
-            <scope>provided</scope>
-            <version>${spring.version}</version>
-        </dependency>
-
-        <!-- JSON -->
-        <dependency>
-            <groupId>com.fasterxml.jackson.module</groupId>
-            <artifactId>jackson-module-kotlin</artifactId>
+            <groupId>org.apache.avro</groupId>
+            <artifactId>avro</artifactId>
+            <version>${avro.version}</version>
         </dependency>
 
         <!--===========================-->
@@ -50,6 +46,17 @@
         <dependency>
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <!-- Downgrade to junit 5.4.x version to avoid - No test found -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
             <scope>test</scope>
         </dependency>
 
@@ -96,24 +103,6 @@
                     </dependency>
                 </dependencies>
             </plugin>
-            <!--Avro serializer-->
-            <plugin>
-                <groupId>org.apache.avro</groupId>
-                <artifactId>avro-maven-plugin</artifactId>
-                <version>${avro.version}</version>
-                <executions>
-                    <execution>
-                        <phase>generate-test-sources</phase>
-                        <goals>
-                            <goal>schema</goal>
-                        </goals>
-                        <configuration>
-                            <sourceDirectory>${project.basedir}/src/test/avro/</sourceDirectory>
-                            <!--<outputDirectory>${basedir}/target/generated-test-sources/</outputDirectory>-->
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
         </plugins>
         <pluginManagement>
             <plugins>
@@ -145,16 +134,4 @@
             </plugins>
         </pluginManagement>
     </build>
-
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.apache.logging.log4j</groupId>
-                <artifactId>log4j-bom</artifactId>
-                <version>${log4j2.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
 </project>

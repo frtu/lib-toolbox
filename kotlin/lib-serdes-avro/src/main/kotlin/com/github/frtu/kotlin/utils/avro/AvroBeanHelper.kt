@@ -1,4 +1,4 @@
-package com.github.frtu.kotlin.utils.io
+package com.github.frtu.kotlin.utils.avro
 
 import org.apache.avro.Schema
 import org.apache.avro.io.DatumReader
