@@ -18,6 +18,8 @@
         <slf4j.version>1.7.25</slf4j.version>
         <!--https://kotlinlang.org/docs/reference/using-maven.html-->
         <kotlin.version>1.5.32</kotlin.version> <!-- 2021-11-29 -->
+        <!-- Make sure to import your own version of spring -->
+        <spring.version>5.3.5</spring.version> <!-- related to spring-boot:2.4.4 -->
     </properties>
 
     <dependencies>
@@ -32,6 +34,13 @@
             <groupId>com.github.frtu.libs</groupId>
             <artifactId>lib-utils</artifactId>
             <version>${project.version}</version>
+        </dependency>
+        <!-- Spring Context Support -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+            <scope>provided</scope>
+            <version>${spring.version}</version>
         </dependency>
 
         <!--===========================-->
