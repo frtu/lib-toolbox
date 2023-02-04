@@ -39,7 +39,11 @@ internal class OrchestrationDslBuilderKtTest {
         //--------------------------------------
         // 2. Execute
         //--------------------------------------
-        val result = workflow(workflowName) {}
+        val result = workflow(workflowName) {
+            states {
+                +sleep(duration = "PT1M") { }
+            }
+        }
         logger.debug("result:${jsonPrettyPrint(result)}")
 
         //--------------------------------------
