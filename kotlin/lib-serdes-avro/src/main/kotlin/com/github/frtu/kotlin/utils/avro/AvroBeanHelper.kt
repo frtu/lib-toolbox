@@ -1,16 +1,18 @@
 package com.github.frtu.kotlin.utils.avro
 
+import com.github.frtu.kotlin.utils.io.BeanHelper
 import org.apache.avro.Schema
 import org.apache.avro.io.DatumReader
 import org.apache.avro.io.Decoder
 import org.apache.avro.io.DecoderFactory
 import org.apache.avro.specific.SpecificDatumReader
+import org.slf4j.LoggerFactory
 
 /**
  * Allow to easily deserialize an Avro object from external source
  *
  * @author Frédéric TU
- * @since 1.1.4
+ * @since 1.2.5 (moved package from 1.1.4)
  */
 class AvroBeanHelper<T>(
     private val schema: Schema? = null,
@@ -42,4 +44,6 @@ class AvroBeanHelper<T>(
         logger.debug("Deserialize successful:${record.toString()}")
         return record
     }
+
+    internal val logger = LoggerFactory.getLogger(this::class.java)
 }
