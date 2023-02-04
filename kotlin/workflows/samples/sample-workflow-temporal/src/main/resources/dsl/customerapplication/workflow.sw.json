@@ -2,17 +2,11 @@
   "id": "customerapplication",
   "name": "Customer Application Workflow",
   "version": "1.0",
-  "timeouts": {
-    "workflowExecTimeout": {
-      "duration": "PT1M"
-    },
-    "actionExecTimeout": "PT10S"
-  },
-  "retries": [
+  "events": [
     {
-      "name": "WorkflowRetries",
-      "delay": "PT3S",
-      "maxAttempts": 10
+      "name": "NewApplicationEvent",
+      "type": "com.fasterxml.jackson.databind.JsonNode",
+      "source": "applicationsSource"
     }
   ],
   "states": [
@@ -109,11 +103,17 @@
       "operation": "${ .customer.age }"
     }
   ],
-  "events": [
+  "timeouts": {
+    "workflowExecTimeout": {
+      "duration": "PT1M"
+    },
+    "actionExecTimeout": "PT10S"
+  },
+  "retries": [
     {
-      "name": "NewApplicationEvent",
-      "type": "com.fasterxml.jackson.databind.JsonNode",
-      "source": "applicationsSource"
+      "name": "WorkflowRetries",
+      "delay": "PT3S",
+      "maxAttempts": 10
     }
   ]
 }

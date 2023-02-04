@@ -1,7 +1,7 @@
 {
   "id": "onboarding",
   "name": "Patient Onboarding Workflow",
-  "start": "LetsOnboard",
+  "version": "1.0",
   "events": [
     {
       "name": "NewPatientEvent",
@@ -9,15 +9,22 @@
       "source": "/hospital/entry"
     }
   ],
+  "start": "LetsOnboard",
   "states": [
     {
       "name": "LetsOnboard",
       "type": "event",
+      "exclusive": true, // In case of multiple events, only 1 triggers all
       "onEvents": [
         {
           "eventRefs": [ "NewPatientEvent" ],
           "actions": [
-            { "functionRef": "StoreNewPatient" },
+            {
+              "functionRef": "StoreNewPatient",
+              "retryableErrors": [
+                "java.lang.IllegalArgumentException"
+              ]
+            },
             {
               "functionRef": {
                 "refName": "AssignDoctorToPatient",
