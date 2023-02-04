@@ -2,12 +2,12 @@ object Versions {
     const val java = "11"
 
     // Allow to enable >1.4 syntax
-    const val language = "1.5"
-    const val kotlin = "1.5.32"
-    const val kotlinx = "1.5.2"
+    const val language = "1.7"
+    const val kotlin = "1.7.22"
+    const val kotlinx = "1.6.3"
 
     const val jackson = "2.13.2.1" // 2022-03-30
-    const val spring_boot = "2.7.1"
+    const val spring_boot = "2.4.1"
     const val spring_boot_dep_mgmt = "1.0.11.RELEASE"
     const val micrometer = "1.9.0"
     const val springdoc = "1.5.4"
