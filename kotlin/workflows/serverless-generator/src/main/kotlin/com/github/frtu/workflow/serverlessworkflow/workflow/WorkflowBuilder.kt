@@ -69,7 +69,7 @@ open class WorkflowBuilder(
         // Apply
         val allTriggers = triggerBuilder.build()
         logger.debug("build triggers: size=${allTriggers.size}")
-        val triggerStates = allTriggers.mapNotNull { it.toState() }
+        val triggerStates = allTriggers.flatMap { it.toResult() }
         if (triggerStates.isNotEmpty()) {
             assignStart(triggerStates[0].name)
         }

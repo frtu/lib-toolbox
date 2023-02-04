@@ -2,9 +2,8 @@ package com.github.frtu.workflow.serverlessworkflow.trigger
 
 import io.serverlessworkflow.api.interfaces.State
 
-abstract class Trigger(val category: TriggerCategory) {
-
-    open fun toState(): State? = null
+abstract class Trigger<ITEM>(val category: TriggerCategory) {
+    open fun toResult(): List<State> = emptyList()
 }
 
 enum class TriggerCategory {

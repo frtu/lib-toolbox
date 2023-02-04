@@ -10,12 +10,12 @@ import com.github.frtu.workflow.serverlessworkflow.DslBuilder
  */
 @DslBuilder
 class AllTriggersBuilder {
-    private val triggers = mutableListOf<Trigger>()
+    private val triggers = mutableListOf<Trigger<*>>()
 
     @DslBuilder
-    operator fun Trigger.unaryPlus() {
+    operator fun Trigger<*>.unaryPlus() {
         triggers += this
     }
 
-    fun build(): MutableList<Trigger> = triggers
+    fun build(): MutableList<Trigger<*>> = triggers
 }

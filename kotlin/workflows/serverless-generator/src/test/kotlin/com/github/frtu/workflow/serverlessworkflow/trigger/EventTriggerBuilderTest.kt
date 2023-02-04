@@ -2,6 +2,7 @@ package com.github.frtu.workflow.serverlessworkflow.trigger
 
 import com.github.frtu.kotlin.utils.io.toJsonString
 import com.github.frtu.workflow.serverlessworkflow.trigger.EventTriggerBuilder.Companion.EVENT_TRIGGER_DEFAULT_NAME
+import io.kotlintest.matchers.numerics.shouldBeGreaterThanOrEqual
 import io.kotlintest.matchers.types.shouldBeInstanceOf
 import io.kotlintest.shouldBe
 import io.mockk.junit5.MockKExtension
@@ -36,11 +37,14 @@ internal class EventTriggerBuilderTest {
         //--------------------------------------
         // 3. Validate
         //--------------------------------------
-        with(result.toState()) {
-            this?.name shouldBe triggerName
-            this?.transition?.nextState shouldBe transition
-            this.shouldBeInstanceOf<EventState> { eventState ->
-                eventState.onEvents.first().eventRefs?.first() shouldBe type
+        with(result.toResult()) {
+            size shouldBeGreaterThanOrEqual 1
+            with(this[0]) {
+                this?.name shouldBe triggerName
+                this?.transition?.nextState shouldBe transition
+                this.shouldBeInstanceOf<EventState> { eventState ->
+                    eventState.onEvents.first().eventRefs?.first() shouldBe type
+                }
             }
         }
     }
@@ -64,11 +68,14 @@ internal class EventTriggerBuilderTest {
         //--------------------------------------
         // 3. Validate
         //--------------------------------------
-        with(result.toState()) {
-            this?.name shouldBe EVENT_TRIGGER_DEFAULT_NAME
-            this?.transition?.nextState shouldBe transition
-            this.shouldBeInstanceOf<EventState> { eventState ->
-                eventState.onEvents.first().eventRefs?.first() shouldBe type
+        with(result.toResult()) {
+            size shouldBeGreaterThanOrEqual 1
+            with(this[0]) {
+                this?.name shouldBe EVENT_TRIGGER_DEFAULT_NAME
+                this?.transition?.nextState shouldBe transition
+                this.shouldBeInstanceOf<EventState> { eventState ->
+                    eventState.onEvents.first().eventRefs?.first() shouldBe type
+                }
             }
         }
     }
@@ -94,11 +101,14 @@ internal class EventTriggerBuilderTest {
         //--------------------------------------
         // 3. Validate
         //--------------------------------------
-        with(result.toState()) {
-            this?.name shouldBe triggerName
-            this?.transition?.nextState shouldBe transition
-            this.shouldBeInstanceOf<EventState> { eventState ->
-                eventState.onEvents.first().eventRefs?.first() shouldBe type
+        with(result.toResult()) {
+            size shouldBeGreaterThanOrEqual 1
+            with(this[0]) {
+                this?.name shouldBe triggerName
+                this?.transition?.nextState shouldBe transition
+                this.shouldBeInstanceOf<EventState> { eventState ->
+                    eventState.onEvents.first().eventRefs?.first() shouldBe type
+                }
             }
         }
     }
