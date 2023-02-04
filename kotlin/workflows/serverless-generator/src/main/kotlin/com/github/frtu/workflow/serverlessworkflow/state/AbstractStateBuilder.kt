@@ -16,11 +16,11 @@ abstract class AbstractStateBuilder<STATE : DefaultState>(
     state: STATE,
     type: DefaultState.Type,
     name: String? = null,
-    isTermination: Boolean = false,
+    terminate: Boolean = false,
 ) : AbstractBuilder<STATE>(state, name) {
     init {
         model.withType(type)
-        assignTermination(isTermination)
+        assignTerminate(terminate)
     }
 
     @DslBuilder
@@ -42,13 +42,13 @@ abstract class AbstractStateBuilder<STATE : DefaultState>(
     }
 
     @DslBuilder
-    open var termination: Boolean
+    open var terminate: Boolean
         get() = model.end?.isTerminate ?: false
         set(value) {
-            assignTermination(value)
+            assignTerminate(value)
         }
 
-    private fun assignTermination(value: Boolean) {
+    private fun assignTerminate(value: Boolean) {
         if (value) {
             model.withEnd(End().withTerminate(true))
         }

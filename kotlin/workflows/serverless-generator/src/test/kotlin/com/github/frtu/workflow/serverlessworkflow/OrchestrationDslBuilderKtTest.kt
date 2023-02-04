@@ -14,7 +14,6 @@ import io.kotlintest.matchers.types.shouldBeInstanceOf
 import io.kotlintest.matchers.types.shouldNotBeNull
 import io.kotlintest.shouldBe
 import io.mockk.junit5.MockKExtension
-import io.serverlessworkflow.api.interfaces.State
 import io.serverlessworkflow.api.states.DefaultState
 import io.serverlessworkflow.api.states.OperationState
 import io.serverlessworkflow.api.states.SleepState
@@ -45,7 +44,9 @@ internal class OrchestrationDslBuilderKtTest {
         //--------------------------------------
         val result = workflow(workflowName) {
             states {
-                +sleep(duration = "PT1M", name = sleepStateName) { }
+                +sleep(duration = "PT1M", name = sleepStateName) {
+                    this.terminate = true
+                }
             }
         }
         logger.debug("result:${jsonPrettyPrint(result)}")
@@ -81,7 +82,9 @@ internal class OrchestrationDslBuilderKtTest {
                 }
             }
             states {
-                +sleep(duration = "PT1M", name = sleepStateName) { }
+                +sleep(duration = "PT1M", name = sleepStateName) {
+                    this.terminate = true
+                }
             }
         }
         logger.debug("result:${jsonPrettyPrint(result)}")
@@ -128,10 +131,19 @@ internal class OrchestrationDslBuilderKtTest {
             name = workflowName
             triggered {
                 +byEvent(eventType, name = triggerName) {
-                    transition = sleepStateName
+                    transition = switchStateName
                 }
             }
             states {
+                +switch(switchStateName) {
+                    +case("\${ #event.type = 'validation.init' }", name = "validation.init") {
+                        transition = sleepStateName
+                    }
+                    +case("\${ #event.type = 'validation.approved' }", name = "validation.approved") {
+                        transition = operationStateName
+                    }
+                    default(transition = sleepStateName)
+                }
                 +sleep(sleepStateName) {
                     duration = sleepDuration
                     transition = operationStateName
@@ -144,16 +156,7 @@ internal class OrchestrationDslBuilderKtTest {
                         ServiceRequest::id with parameterValueId
                         ServiceRequest::name with parameterValueName
                     })
-                    transition = switchStateName
-                }
-                +switch(switchStateName) {
-                    +case("\${ #event.type = 'validation.init' }", name = "validation.init") {
-                        transition = "ValidationInitialized"
-                    }
-                    +case("\${ #event.type = 'validation.approved' }", name = "validation.approved") {
-                        transition = "ValidationApproved"
-                    }
-                    default(transition = "DefaultState")
+                    terminate = true
                 }
                 append(externalBuiltStates)
             }
@@ -165,12 +168,12 @@ internal class OrchestrationDslBuilderKtTest {
         //--------------------------------------
         result.name shouldBe workflowName
         result.states.size shouldBe 5
-        result.start?.stateName shouldBe sleepStateName
+        result.start?.stateName shouldBe switchStateName
         with(result.states.filterIsInstance<EventState>()[0]) {
             with(this) {
                 type shouldBe DefaultState.Type.EVENT
                 name shouldBe triggerName
-                transition?.nextState shouldBe sleepStateName
+                transition?.nextState shouldBe switchStateName
                 shouldBeInstanceOf<EventState> { eventState ->
                     eventState.onEvents.first().eventRefs?.first() shouldBe eventType
                 }

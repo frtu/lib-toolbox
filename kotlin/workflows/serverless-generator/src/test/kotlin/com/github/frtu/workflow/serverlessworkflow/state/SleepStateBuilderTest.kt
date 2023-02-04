@@ -5,7 +5,6 @@ import io.kotlintest.matchers.types.shouldBeInstanceOf
 import io.kotlintest.matchers.types.shouldBeNull
 import io.kotlintest.shouldBe
 import io.mockk.junit5.MockKExtension
-import io.serverlessworkflow.api.actions.Action
 import io.serverlessworkflow.api.states.DefaultState
 import io.serverlessworkflow.api.states.SleepState
 import org.junit.jupiter.api.Assertions.*
@@ -84,7 +83,7 @@ internal class SleepStateBuilderTest {
         val result = sleep {
             this.name = stateName
             this.duration = duration
-            this.termination = true
+            this.terminate = true
         }
         logger.debug("result:${result.toJsonString()}")
 

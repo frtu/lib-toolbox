@@ -27,20 +27,20 @@ class SwitchStateBuilder(
     }
 
     @DslBuilder
-    override var termination: Boolean
+    override var terminate: Boolean
         get() = throw IllegalArgumentException("'termination' should only be set on case() or default()")
         set(value) = throw IllegalArgumentException("'termination' should only be set on case() or default()")
 
     @DslBuilder
     fun default(
         transition: String? = null,
-        isTermination: Boolean = false,
+        terminate: Boolean = false,
     ): DefaultConditionDefinition {
         logger.trace("default: transition={}", transition)
         transition?.let {
             defaultCondition.withTransition(Transition(transition))
         }
-        if (isTermination) {
+        if (terminate) {
             defaultCondition.withEnd(End().withTerminate(true))
         }
         return defaultCondition
@@ -68,7 +68,7 @@ open class CaseBuilder(
     ) {
     init {
         assignTransition(transition)
-        assignTermination(isTermination)
+        assignTerminate(isTermination)
     }
 
     val condition: String = model.condition
@@ -96,13 +96,13 @@ open class CaseBuilder(
     }
 
     @DslBuilder
-    var termination: Boolean
+    var terminate: Boolean
         get() = model.end?.isTerminate ?: false
         set(value) {
-            assignTermination(value)
+            assignTerminate(value)
         }
 
-    private fun assignTermination(value: Boolean) {
+    private fun assignTerminate(value: Boolean) {
         if (value) {
             model.withEnd(End().withTerminate(true))
         }

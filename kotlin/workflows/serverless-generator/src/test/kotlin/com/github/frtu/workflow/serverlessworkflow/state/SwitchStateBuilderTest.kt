@@ -84,7 +84,7 @@ internal class SwitchStateBuilderTest {
         //--------------------------------------
         val result = case(condition) {
             this.name = dataConditionName
-            this.termination = true
+            this.terminate = true
         }
         logger.debug("result:${result.toJsonString()}")
 
@@ -162,7 +162,7 @@ internal class SwitchStateBuilderTest {
             +case("\${ #event.type = '${conditions[1].first}' }", name = conditions[1].first) {
                 this.transition = conditions[1].second
             }
-            default(isTermination = true)
+            default(terminate = true)
         }
         logger.debug("result:${result.toJsonString()}")
 

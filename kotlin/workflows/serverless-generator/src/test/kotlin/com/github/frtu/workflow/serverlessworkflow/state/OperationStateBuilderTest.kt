@@ -148,7 +148,7 @@ internal class OperationStateBuilderTest {
         // 2. Execute
         //--------------------------------------
         val result = operation(stateName) {
-            this.termination = true
+            this.terminate = true
         }
         logger.debug("result:${result.toJsonString()}")
 
