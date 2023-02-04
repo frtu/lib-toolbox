@@ -29,6 +29,7 @@ import io.serverlessworkflow.api.Workflow as ServerlessWorkflow
 @DslBuilder
 open class WorkflowBuilder(
     name: String? = null,
+    val treeBuilder: TreeBuilder = TreeBuilder(),
 ) {
     private val workflow: ServerlessWorkflow = ServerlessWorkflow()
         .withId(UUID.randomUUID().toString())
@@ -114,6 +115,10 @@ open class WorkflowBuilder(
         // Post construct
         val stateValidationErrors = mutableListOf<ValidationError>()
         if (aggregatedStates.isNotEmpty()) {
+            if (start == null) {
+                throw IllegalArgumentException("Workflow should have a start using 'triggered { byEvent or byTime }'")
+            }
+            treeBuilder.buildTree(startName = start.stateName, aggregatedStates)
             this.withStates(aggregatedStates.toList())
 
             val operationStates = aggregatedStates.filterIsInstance<OperationState>()

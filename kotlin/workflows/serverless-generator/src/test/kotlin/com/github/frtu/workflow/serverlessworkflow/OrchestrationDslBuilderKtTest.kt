@@ -10,9 +10,13 @@ import com.github.frtu.workflow.serverlessworkflow.state.using
 import com.github.frtu.workflow.serverlessworkflow.trigger.TimeTriggerBuilder.Companion.UTC
 import com.github.frtu.workflow.serverlessworkflow.trigger.byEvent
 import com.github.frtu.workflow.serverlessworkflow.trigger.byTime
+import io.kotlintest.matchers.string.contain
 import io.kotlintest.matchers.types.shouldBeInstanceOf
+import io.kotlintest.matchers.types.shouldBeTypeOf
 import io.kotlintest.matchers.types.shouldNotBeNull
+import io.kotlintest.should
 import io.kotlintest.shouldBe
+import io.kotlintest.shouldThrow
 import io.mockk.junit5.MockKExtension
 import io.serverlessworkflow.api.states.DefaultState
 import io.serverlessworkflow.api.states.OperationState
@@ -39,10 +43,18 @@ internal class OrchestrationDslBuilderKtTest {
         val workflowName = "Workflow_${UUID.randomUUID()}"
         val sleepStateName = "SleepState"
 
+        val triggerName = "EventTriggerName"
+        val eventType = "validation.init"
+
         //--------------------------------------
         // 2. Execute
         //--------------------------------------
         val result = workflow(workflowName) {
+            triggered {
+                +byEvent(eventType, name = triggerName) {
+                    transition = sleepStateName
+                }
+            }
             states {
                 +sleep(duration = "PT1M", name = sleepStateName) {
                     this.terminate = true
@@ -98,6 +110,29 @@ internal class OrchestrationDslBuilderKtTest {
             this.cron?.validUntil shouldBe validUntil
             this.timezone shouldBe UTC
         }
+    }
+
+    @Test
+    fun `Call workflow DSL without start state`() {
+        //--------------------------------------
+        // 1. Init vars
+        //--------------------------------------
+        val workflowName = "Workflow_${UUID.randomUUID()}"
+        val sleepStateName = "SleepState"
+
+        //--------------------------------------
+        // 2. Execute & Validate
+        //--------------------------------------
+        val exception = shouldThrow<IllegalArgumentException> {
+            workflow(workflowName) {
+                states {
+                    +sleep(duration = "PT1M", name = sleepStateName) {
+                        this.terminate = true
+                    }
+                }
+            }
+        }
+        exception.message should contain("triggered ")
     }
 
     @Test
@@ -226,6 +261,59 @@ internal class OrchestrationDslBuilderKtTest {
                     switchState.dataConditions.size shouldBe 2
                 }
             }
+        }
+    }
+
+    @Test
+    fun `Test invalid workflow but autofix`() {
+        //--------------------------------------
+        // 1. Init vars
+        //--------------------------------------
+        val workflowName = "Workflow_${UUID.randomUUID()}"
+
+        val triggerName = "EventTriggerName"
+        val eventType = "validation.init"
+
+        val sleepStateName = "Delay"
+        val sleepDuration = "PT5S"
+
+        val switchStateName = "ConditionEventType"
+
+        val operationStateName = "OperationState"
+        val parameterValueId = UUID.randomUUID().toString()
+        val parameterValueName = "\${ variable.name }"
+
+        //--------------------------------------
+        // 2. Execute
+        //--------------------------------------
+        val result = workflow {
+            name = workflowName
+            triggered {
+                +byEvent(eventType, name = triggerName) {
+                    transition = operationStateName
+                }
+            }
+            states {
+                +operation(operationStateName) {
+                    +(call(ServiceCall::query) using {
+                        ServiceRequest::id with parameterValueId
+                    })
+                    +(call(ServiceCall::query) using {
+                        ServiceRequest::id with parameterValueId
+                        ServiceRequest::name with parameterValueName
+                    })
+                }
+            }
+        }
+        logger.debug("result:${jsonPrettyPrint(result)}")
+
+        //--------------------------------------
+        // 3. Validate
+        //--------------------------------------
+        with(result.states.last()) {
+            shouldBeTypeOf<OperationState>()
+            name shouldBe operationStateName
+            end?.isTerminate shouldBe true
         }
     }
 
