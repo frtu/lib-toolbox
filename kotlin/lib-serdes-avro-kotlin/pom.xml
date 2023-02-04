@@ -8,7 +8,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>lib-serdes-avro</artifactId>
+    <artifactId>lib-serdes-avro-kotlin</artifactId>
 
     <properties>
         <!--=========================== -->
