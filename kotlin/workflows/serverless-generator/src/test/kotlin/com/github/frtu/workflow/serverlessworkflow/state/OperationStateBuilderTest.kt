@@ -58,6 +58,30 @@ internal class OperationStateBuilderTest {
     }
 
     @Test
+    fun `Call builder for Action DSL allowing functionRefName override`() {
+        //--------------------------------------
+        // 1. Init vars
+        //--------------------------------------
+        val optionalActionName = "action name"
+        val functionRefName = ServiceCall::query.name
+
+        //--------------------------------------
+        // 2. Execute
+        //--------------------------------------
+        val result = call(functionRefName, name = optionalActionName) using {}
+        logger.debug("result:${result.toJsonString()}")
+
+        //--------------------------------------
+        // 3. Validate
+        //--------------------------------------
+        result.name shouldBe optionalActionName
+        result.shouldBeInstanceOf<Action>()
+        with(result.functionRef) {
+            refName shouldBe functionRefName
+        }
+    }
+
+    @Test
     fun `Call short builder for Operation State DSL`() {
         //--------------------------------------
         // 1. Init vars

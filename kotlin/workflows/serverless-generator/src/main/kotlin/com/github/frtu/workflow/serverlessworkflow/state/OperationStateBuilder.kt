@@ -8,7 +8,6 @@ import com.github.frtu.workflow.serverlessworkflow.DslBuilder
 import io.serverlessworkflow.api.actions.Action
 import io.serverlessworkflow.api.functions.FunctionDefinition
 import io.serverlessworkflow.api.functions.FunctionRef
-import io.serverlessworkflow.api.interfaces.State
 import io.serverlessworkflow.api.states.DefaultState.Type.OPERATION
 import io.serverlessworkflow.api.states.OperationState
 import org.slf4j.LoggerFactory
@@ -58,21 +57,26 @@ class OperationStateBuilder(
 fun operation(name: String? = null, options: OperationStateBuilder.() -> Unit = {}): OperationState =
     OperationStateBuilder(name).apply(options).build()
 
-data class Call(val function: KFunction<*>, val name: String? = null)
+data class Call(val functionRefName: String, val name: String? = null) {
+    constructor(function: KFunction<*>, name: String? = null) : this(generateFunctionName(function), name)
+}
 
 @DslBuilder
 fun call(function: KFunction<*>, name: String? = null): Call = Call(function, name)
+
+@DslBuilder
+fun call(functionRefName: String, name: String? = null): Call = Call(functionRefName, name)
 
 @DslBuilder
 infix fun Call.using(options: ArgumentsBuilder.() -> Unit): Action =
     Action().withName(name)
         .withFunctionRef(
             FunctionRef()
-                .withRefName(generateFunctionName())
+                .withRefName(functionRefName)
                 .withArguments(ArgumentsBuilder().apply(options).build())
         )
 
-private fun Call.generateFunctionName() = this.function.name
+private fun generateFunctionName(function: KFunction<*>) = function.name
 
 @DslBuilder
 class ArgumentsBuilder {
