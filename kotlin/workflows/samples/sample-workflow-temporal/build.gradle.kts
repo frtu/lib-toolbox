@@ -151,11 +151,20 @@ sourceSets {
     }
 }
 protobuf {
-    protoc { artifact = "com.google.protobuf:protoc:${Versions.protobuf}" }
-    plugins {
-        id("grpc") { artifact = "io.grpc:protoc-gen-grpc-java:${Versions.grpc}" }
-        id("grpckt") { artifact = "io.grpc:protoc-gen-grpc-kotlin:${Versions.plugin_grpc_kotlin}" }
+    if (osdetector.os == "osx") {
+        protoc { artifact = "com.google.protobuf:protoc:${Versions.protobuf}:osx-x86_64" }
+        plugins {
+            id("grpc") { artifact = "io.grpc:protoc-gen-grpc-java:${Versions.grpc}:osx-x86_64" }
+            id("grpckt") { artifact = "io.grpc:protoc-gen-grpc-kotlin:${Versions.plugin_grpc_kotlin}:osx-x86_64" }
+        }
+    } else {
+        protoc { artifact = "com.google.protobuf:protoc:${Versions.protobuf}" }
+        plugins {
+            id("grpc") { artifact = "io.grpc:protoc-gen-grpc-java:${Versions.grpc}" }
+            id("grpckt") { artifact = "io.grpc:protoc-gen-grpc-kotlin:${Versions.plugin_grpc_kotlin}" }
+        }
     }
+
     // generatedFilesBaseDir = "$projectDir/generated"
     generateProtoTasks {
         all().forEach {
