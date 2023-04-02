@@ -7,8 +7,8 @@ object Versions {
     const val kotlinx = "1.6.3"
 
     const val jackson = "2.13.2.1" // 2022-03-30
-    const val spring_boot = "2.4.1"
-    const val spring_boot_dep_mgmt = "1.0.11.RELEASE"
+    const val spring_boot = "2.7.10" // 2023-03-23
+    const val spring_boot_dep_mgmt = "1.0.15.RELEASE" // 2023-03-23
     const val micrometer = "1.9.0"
     const val springdoc = "1.5.4"
     const val frtu_base = "1.2.4"
