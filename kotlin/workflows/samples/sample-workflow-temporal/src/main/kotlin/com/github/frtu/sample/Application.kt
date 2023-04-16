@@ -7,7 +7,6 @@ import com.github.frtu.sample.persistence.basic.IEmailRepository
 import com.github.frtu.sample.temporal.staticwkf.SubscriptionEvent
 import com.github.frtu.sample.temporal.staticwkf.starter.SubscriptionHandler
 import io.r2dbc.spi.ConnectionFactory
-import kotlinx.coroutines.runBlocking
 import org.slf4j.LoggerFactory
 import org.springframework.boot.CommandLineRunner
 import org.springframework.boot.autoconfigure.SpringBootApplication
@@ -39,9 +38,11 @@ class Application {
     fun databaseInitializer(connectionFactory: ConnectionFactory): ConnectionFactoryInitializer =
         ConnectionFactoryInitializer().apply {
             setConnectionFactory(connectionFactory)
-            setDatabasePopulator(CompositeDatabasePopulator().apply {
-                addPopulators(ResourceDatabasePopulator(ClassPathResource("db/migration/V0_1_0__h2-table-email.sql")))
-            })
+            setDatabasePopulator(
+                CompositeDatabasePopulator().apply {
+                    addPopulators(ResourceDatabasePopulator(ClassPathResource("db/migration/V0_1_0__h2-table-email.sql")))
+                }
+            )
         }
 
     private val objectMapper: ObjectMapper =

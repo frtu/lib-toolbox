@@ -7,7 +7,6 @@ import com.github.frtu.sample.temporal.activitydsl.model.ActResult
 import com.github.frtu.sample.temporal.activitydsl.model.WorkflowContext
 import com.github.frtu.sample.temporal.dynamicwkf.activity.ServerlessWorkflowActivity
 import com.github.frtu.sample.temporal.dynamicwkf.activity.TASK_QUEUE_REGISTRY
-import com.github.frtu.sample.temporal.dynamicwkf.serverless.*
 import com.github.frtu.sample.temporal.dynamicwkf.utils.JQFilter
 import com.github.frtu.sample.temporal.staticwkf.SubscriptionEvent
 import com.github.frtu.workflow.temporal.annotation.WorkflowImplementation
@@ -61,7 +60,8 @@ class DynamicDslWorkflow : DynamicWorkflow {
                     workflowContext = WorkflowContext()
                 }
                 workflowContext.value = encodedArgs.get(0, JsonNode::class.java) as ObjectNode
-            })
+            }
+        )
 
         // Get all expression type functions to be used for queries
         queryFunctions = dslWorkflow.getFunctionDefinitionsWithType(FunctionDefinition.Type.EXPRESSION)
@@ -87,7 +87,8 @@ class DynamicDslWorkflow : DynamicWorkflow {
                     dslWorkflow.getFunctionDefinitionWithName(queryType)!!.operation,
                     workflowContext.value
                 )
-            })
+            }
+        )
 
         // Get the activity options that are set from properties in dsl
         val activityOptions: ActivityOptions = dslWorkflow.toActivityOptions(
@@ -275,8 +276,7 @@ class DynamicDslWorkflow : DynamicWorkflow {
             if (!parallelState.branches.isNullOrEmpty()) {
                 val branchAllOfPromises: List<Promise<Void>> = parallelState.branches.map {
                     Async.procedure(
-                        { branch: Branch -> processBranchActions(branch) }
-                        , it
+                        { branch: Branch -> processBranchActions(branch) }, it
                     )
                 }.toList()
                 // execute all branch actions in parallel..wait for all to complete
@@ -319,13 +319,14 @@ class DynamicDslWorkflow : DynamicWorkflow {
             setTaskQueue(TASK_QUEUE_REGISTRY)
             setStartToCloseTimeout(Duration.ofSeconds(5)) // Timeout options specify when to automatically timeout Activities if the process is taking too long.
             // Temporal retries failures by default, this is simply an example.
-            setRetryOptions(// RetryOptions specify how to automatically handle retries when Activities fail.
+            setRetryOptions( // RetryOptions specify how to automatically handle retries when Activities fail.
                 RetryOptions {
                     setInitialInterval(Duration.ofMillis(100))
                     setMaximumInterval(Duration.ofSeconds(10))
                     setBackoffCoefficient(2.0)
                     setMaximumAttempts(10)
-                })
+                }
+            )
         },
         // ActivityStubs enable calls to methods as if the Activity object is local, but actually perform an RPC.
         mapOf(

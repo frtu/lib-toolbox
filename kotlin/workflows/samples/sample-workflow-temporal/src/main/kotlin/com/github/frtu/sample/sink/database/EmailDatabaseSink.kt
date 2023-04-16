@@ -24,14 +24,13 @@ class EmailDatabaseSink(
 fun EmailDetail.toEntity(): EmailEntity = EmailEntity(
     receiver = this.receiver,
     subject = this.subject ?: "empty_subject",
-    content = this.content  ?: "empty_content",
+    content = this.content ?: "empty_content",
     status = this.status.toStatus(),
 )
 
-fun String?.toStatus(): STATUS = when(this) {
+fun String?.toStatus(): STATUS = when (this) {
     "INIT" -> STATUS.INIT
     "SENT" -> STATUS.SENT
     "ERROR" -> STATUS.ERROR
     else -> STATUS.UNKNOWN
 }
-

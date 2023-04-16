@@ -2,7 +2,8 @@ package com.github.frtu.sample.temporal.activitydsl
 
 import com.fasterxml.jackson.databind.JsonNode
 import com.github.frtu.sample.temporal.dynamicwkf.TASK_QUEUE_DSL
-import com.github.frtu.sample.temporal.dynamicwkf.serverless.*
+import com.github.frtu.sample.temporal.dynamicwkf.serverless.ServerlessValidationException
+import com.github.frtu.sample.temporal.dynamicwkf.serverless.ServerlessWorkflowRegistry
 import com.github.frtu.sample.temporal.dynamicwkf.utils.IoHelper
 import com.github.frtu.sample.temporal.dynamicwkf.utils.IoHelper.getSampleWorkflowInput
 import io.temporal.client.WorkflowClient

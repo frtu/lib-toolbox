@@ -3,14 +3,14 @@ package com.github.frtu.sample.temporal.dynamicwkf.utils
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.node.ArrayNode
 import com.fasterxml.jackson.databind.node.BooleanNode
-import java.util.ArrayList
-import java.util.HashMap
-import java.util.function.Consumer
 import net.thisptr.jackson.jq.BuiltinFunctionLoader
 import net.thisptr.jackson.jq.JsonQuery
 import net.thisptr.jackson.jq.Scope
 import net.thisptr.jackson.jq.Versions
 import net.thisptr.jackson.jq.module.loaders.BuiltinModuleLoader
+import java.util.ArrayList
+import java.util.HashMap
+import java.util.function.Consumer
 
 class JQFilter private constructor() {
     fun evaluateExpression(expression: String, data: JsonNode?): JsonNode {
@@ -37,11 +37,13 @@ class JQFilter private constructor() {
     fun evaluateArrayExpression(expression: String, data: JsonNode?): List<JsonNode> {
         val result = evaluateExpression(expression, data) as ArrayNode
         val resultList: MutableList<JsonNode> = ArrayList(result.size())
-        result.forEach(Consumer { jsonNode: JsonNode ->
-            resultList.add(
-                jsonNode
-            )
-        })
+        result.forEach(
+            Consumer { jsonNode: JsonNode ->
+                resultList.add(
+                    jsonNode
+                )
+            }
+        )
         return resultList
     }
 

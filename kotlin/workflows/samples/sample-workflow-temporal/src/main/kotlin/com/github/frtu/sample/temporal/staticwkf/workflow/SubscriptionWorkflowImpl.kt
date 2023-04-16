@@ -1,22 +1,16 @@
 package com.github.frtu.sample.temporal.staticwkf.workflow
 
 import com.github.frtu.logs.core.RpcLogger.requestBody
-import com.github.frtu.logs.core.RpcLogger.responseBody
 import com.github.frtu.logs.core.StructuredLogger
 import com.github.frtu.logs.core.StructuredLogger.*
 import com.github.frtu.sample.persistence.basic.STATUS
 import com.github.frtu.sample.sink.EmailDetail
 import com.github.frtu.sample.temporal.activity.EmailSinkActivity
 import com.github.frtu.sample.temporal.activity.TASK_QUEUE_EMAIL
-import com.github.frtu.sample.temporal.dynamicwkf.DynamicDslWorkflow
 import com.github.frtu.sample.temporal.staticwkf.SubscriptionEvent
 import com.github.frtu.workflow.temporal.annotation.WorkflowImplementation
 import io.temporal.activity.ActivityOptions
-import io.temporal.api.enums.v1.ParentClosePolicy
-import io.temporal.api.enums.v1.WorkflowIdReusePolicy
 import io.temporal.common.RetryOptions
-import io.temporal.workflow.Async
-import io.temporal.workflow.ChildWorkflowOptions
 import io.temporal.workflow.Workflow
 import java.time.Duration
 import java.util.*
@@ -43,7 +37,7 @@ class SubscriptionWorkflowImpl : SubscriptionWorkflow {
             setTaskQueue(TASK_QUEUE_EMAIL)
             setStartToCloseTimeout(Duration.ofSeconds(5)) // Timeout options specify when to automatically timeout Activities if the process is taking too long.
             // Temporal retries failures by default, this is simply an example.
-            setRetryOptions(// RetryOptions specify how to automatically handle retries when Activities fail.
+            setRetryOptions( // RetryOptions specify how to automatically handle retries when Activities fail.
                 RetryOptions {
                     setDoNotRetry(
                         IllegalArgumentException::class.qualifiedName,
@@ -52,7 +46,8 @@ class SubscriptionWorkflowImpl : SubscriptionWorkflow {
                     setMaximumInterval(Duration.ofSeconds(10))
                     setBackoffCoefficient(2.0)
                     setMaximumAttempts(10)
-                })
+                }
+            )
         },
         // ActivityStubs enable calls to methods as if the Activity object is local, but actually perform an RPC.
         mapOf(

@@ -10,7 +10,6 @@ import com.github.frtu.sample.temporal.staticwkf.workflow.TASK_QUEUE_SUBSCRIPTIO
 import io.temporal.api.enums.v1.WorkflowIdReusePolicy
 import io.temporal.client.WorkflowClient
 import io.temporal.client.WorkflowOptions
-import io.temporal.client.setRetryOptions
 import org.springframework.stereotype.Service
 import java.time.Duration
 import java.util.*

@@ -1,6 +1,5 @@
 package com.github.frtu.sample.rpc.grpc
 
-import com.github.frtu.kotlin.protobuf.utils.toTimestamp
 import com.github.frtu.sample.grpc.Email
 import com.github.frtu.sample.grpc.EmailHistoryItem
 import com.github.frtu.sample.persistence.basic.EmailEntity

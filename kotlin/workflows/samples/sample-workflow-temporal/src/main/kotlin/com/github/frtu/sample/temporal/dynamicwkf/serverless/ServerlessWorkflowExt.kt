@@ -54,7 +54,6 @@ fun ServerlessWorkflow.getFunctionDefinitionsWithType(type: FunctionDefinition.T
     if (!WorkflowUtils.hasFunctionDefs(this)) null
     else this.functions.functionDefs.filter { fd -> fd.type.equals(type) }
 
-
 fun ServerlessWorkflow.toActivityOptions(nonRetryableErrors: Array<String>): ActivityOptions =
     toActivityOptionsBuilder(nonRetryableErrors = nonRetryableErrors).build()
 

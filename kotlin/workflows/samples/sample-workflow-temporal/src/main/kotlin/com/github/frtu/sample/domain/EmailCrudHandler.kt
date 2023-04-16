@@ -12,7 +12,7 @@ class EmailCrudHandler(
     private val coroutineRepository: IEmailRepository,
 ) {
     suspend fun queryOne(id: String): EmailEntity? {
-        logger.info("queryOne(ById[${id}])")
+        logger.info("queryOne(ById[$id])")
         return coroutineRepository.findById(id)
     }
 

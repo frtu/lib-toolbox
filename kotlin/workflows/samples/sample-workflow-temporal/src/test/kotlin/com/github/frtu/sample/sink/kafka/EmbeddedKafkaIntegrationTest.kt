@@ -60,9 +60,9 @@ class EmbeddedKafkaIntegrationTest {
     @Test
     @Timeout(value = 60, unit = TimeUnit.SECONDS)
     fun givenEmbeddedKafkaBroker_checkMesssageReceivedInApprovalExecutionRequestKafkaConsumer() = runBlocking {
-        //--------------------------------------
+        // --------------------------------------
         // 1. Prepare server data & Init client
-        //--------------------------------------
+        // --------------------------------------
         val event = EmailDetail(
             "rndfred@gmail.com", "Mail subject",
             "Lorem ipsum dolor sit amet.", "SENT"
@@ -70,9 +70,9 @@ class EmbeddedKafkaIntegrationTest {
 
         eventCapture.reset()
 
-        //--------------------------------------
+        // --------------------------------------
         // 2. Execute
-        //--------------------------------------
+        // --------------------------------------
         emailKafkaSink.emit(event)
 
         await atMost Duration.ofMinutes(1) until {
@@ -80,9 +80,9 @@ class EmbeddedKafkaIntegrationTest {
         }
         logger.debug("result:${eventCapture.capturedList}")
 
-        //--------------------------------------
+        // --------------------------------------
         // 3. Validate
-        //--------------------------------------
+        // --------------------------------------
         assertThat(eventCapture.capturedList.size).isGreaterThan(0)
         eventCapture.reset()
     }

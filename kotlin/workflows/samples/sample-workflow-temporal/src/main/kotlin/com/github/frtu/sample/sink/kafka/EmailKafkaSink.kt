@@ -14,7 +14,7 @@ import org.springframework.kafka.core.reactive.ReactiveKafkaProducerTemplate
 class EmailKafkaSink(
     var outputSource: String,
     var kafkaTemplate: ReactiveKafkaProducerTemplate<String, EmailDetail>,
-): EmailSink {
+) : EmailSink {
     override suspend fun emit(emailDetail: EmailDetail) {
         structuredLogger.info(key("topic", outputSource), message("Sending event:$emailDetail"))
         kafkaTemplate.send(outputSource, emailDetail).awaitFirstOrNull()
