@@ -2,7 +2,11 @@ package com.github.frtu.sample.rpc.grpc
 
 import com.github.frtu.logs.core.RpcLogger
 import com.github.frtu.sample.domain.EmailCrudHandler
-import com.github.frtu.sample.grpc.*
+import com.github.frtu.sample.grpc.EmailHistoryItem
+import com.github.frtu.sample.grpc.emails.By
+import com.github.frtu.sample.grpc.emails.ById
+import com.github.frtu.sample.grpc.emails.EmailRepositoryServiceGrpcKt
+import com.github.frtu.sample.grpc.emails.Id
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import net.devh.boot.grpc.server.service.GrpcService

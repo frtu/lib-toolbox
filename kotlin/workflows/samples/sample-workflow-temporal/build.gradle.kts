@@ -1,20 +1,36 @@
 import org.gradle.api.tasks.diagnostics.internal.dependencies.AsciiDependencyReportRenderer
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import com.google.protobuf.gradle.*
 
 object Versions {
+    // Workflow
+    const val TEMPORAL_VERSION = "1.18.1"
+    const val SERVERLESS_WORKFLOW_VERSION = "4.0.3.Final"
+    const val JQ = "1.0.0-preview.20220705"
+
+    // Commons
+    const val JACKSON_VERSION = "2.13.4"
+
+    // frtu
     const val FRTU_LIBS = "1.2.5"
     const val FRTU_LOGS = "1.1.5"
 
-    const val JACKSON_VERSION = "2.13.4"
+    // gRPC
+    const val PROTOBUF = "3.21.1" // 2022-05-28
+    const val GRPC = "1.46.0" // 2022-04-26
+    const val GRPC_KOTLIN = "1.3.0" // 2022-05-28
+    const val GRPC_SPRING_BOOT_STARTER = "2.13.1.RELEASE"
+    const val PLUGIN_GRPC_KOTLIN = "0.1.5"
 
+    // Spring platform
     const val SPRING_BOOT_STARTER = "2.7.10"
     const val SPRING_DOC = "1.6.9" // 2022-05-27
-    const val R2DBC = "Arabba-SR13"  // 2022-03-18
+    const val R2DBC = "Arabba-SR13" // 2022-03-18
 
     val JVM_TARGET = JavaVersion.VERSION_11.toString()
 
     // Allow to enable >1.4 syntax
-    const val LANGUAGE_VERSION = "1.5"
+    const val LANGUAGE_VERSION = "1.7"
     const val KOTLIN = "1.7.20"
     const val KOTLINX = "1.6.3"
     const val JUNIT = "5.8.2"
@@ -32,27 +48,30 @@ plugins {
     val kotlin = "1.7.20"
     val springBoot = "2.7.10"
     val springDeptMgmt = "1.0.15.RELEASE"
+    val pluginProtobuf = "0.8.18"
     val ktlint = "11.0.0"
 
     // Core
     application
     kotlin("jvm")
+    // gRPC
+    id("com.google.protobuf") version pluginProtobuf
     // Spring
     kotlin("plugin.spring") version kotlin
     id("org.springframework.boot") version springBoot
     id("io.spring.dependency-management") version springDeptMgmt
     // SDLC
-    id("org.jlleitschuh.gradle.ktlint") version ktlint
+//    id("org.jlleitschuh.gradle.ktlint") version ktlint
     jacoco
     pmd
     idea
 }
 
-group = "com.github.frtu.sample.workflow.temporal"
+group = "com.github.frtu.sample"
 
 apply {
     plugin("io.spring.dependency-management")
-    plugin("org.jlleitschuh.gradle.ktlint")
+//    plugin("org.jlleitschuh.gradle.ktlint")
     plugin("project-report")
     plugin("jacoco")
     plugin("idea")
@@ -61,15 +80,43 @@ apply {
 configure<io.spring.gradle.dependencymanagement.dsl.DependencyManagementExtension> {
     dependencies {
         with(Versions) {
+            // Temporal
+            dependencySet("io.temporal:$TEMPORAL_VERSION") {
+                entry("temporal-sdk")
+                entry("temporal-kotlin")
+                entry("temporal-opentracing")
+                entry("temporal-serviceclient")
+                entry("temporal-remote-data-encoder")
+                entry("temporal-testing")
+            }
+            // Serverless workflow
+            dependencySet("io.serverlessworkflow:$SERVERLESS_WORKFLOW_VERSION") {
+                entry("serverlessworkflow-api")
+                entry("serverlessworkflow-validation")
+                entry("serverlessworkflow-spi")
+                entry("serverlessworkflow-util")
+                entry("serverlessworkflow-diagram")
+            }
+            dependency("net.thisptr:jackson-jq:$JQ")
+
+            dependency("com.google.protobuf:protobuf-kotlin:$PROTOBUF")
+            dependency("io.grpc:grpc-kotlin-stub:$GRPC_KOTLIN")
+            dependency("net.devh:grpc-server-spring-boot-starter:$GRPC_SPRING_BOOT_STARTER")
+
+            // Spring platform
             dependency("org.springdoc:springdoc-openapi-webflux-ui:$SPRING_DOC")
 
             // Common platform
             dependency("io.mockk:mockk:$MOCKK")
             dependency("org.awaitility:awaitility-kotlin:$AWAITILITY")
 
+            dependency("com.github.frtu.libs:starter-temporal:$FRTU_LIBS")
             imports {
                 mavenBom("com.github.frtu.libs:lib-kotlin-bom:$FRTU_LIBS")
                 mavenBom("com.github.frtu.logs:logger-bom:$FRTU_LOGS")
+
+                mavenBom("com.google.protobuf:protobuf-bom:$PROTOBUF")
+                mavenBom("io.grpc:grpc-bom:$GRPC")
 
                 mavenBom("io.r2dbc:r2dbc-bom:$R2DBC")
 
@@ -87,6 +134,25 @@ configure<io.spring.gradle.dependencymanagement.dsl.DependencyManagementExtensio
 }
 
 dependencies {
+    // Workfkow
+    implementation("com.github.frtu.libs:starter-temporal")
+
+    implementation("io.temporal:temporal-sdk")
+    implementation("io.temporal:temporal-kotlin")
+    implementation("io.temporal:temporal-opentracing")
+
+    implementation("io.serverlessworkflow:serverlessworkflow-api")
+    implementation("io.serverlessworkflow:serverlessworkflow-validation")
+    implementation("io.serverlessworkflow:serverlessworkflow-spi")
+    implementation("io.serverlessworkflow:serverlessworkflow-util")
+    implementation("net.thisptr:jackson-jq")
+
+    implementation("org.apache.kafka:kafka_2.13")
+    implementation("org.apache.kafka:kafka-clients")
+    implementation("io.projectreactor.kafka:reactor-kafka")
+    implementation("org.springframework.kafka:spring-kafka")
+    testImplementation("org.springframework.kafka:spring-kafka-test")
+
     // Spring Reactive
     implementation("org.springframework.boot:spring-boot-starter-webflux")
     implementation("org.springdoc:springdoc-openapi-webflux-ui")
@@ -104,6 +170,16 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-autoconfigure")
     implementation("org.springframework.boot:spring-boot-starter-aop")
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
+
+    // gRPC
+    implementation("com.google.protobuf:protobuf-java")
+    implementation("com.google.protobuf:protobuf-java-util")
+    implementation("com.google.protobuf:protobuf-kotlin")
+    implementation("io.grpc:grpc-protobuf")
+    implementation("io.grpc:grpc-kotlin-stub")
+    implementation("io.grpc:grpc-stub")
+    implementation("io.grpc:grpc-netty")
+    implementation("net.devh:grpc-server-spring-boot-starter")
 
     // DevTools and Monitoring
     implementation("org.springframework.boot:spring-boot-devtools")
@@ -230,6 +306,45 @@ tasks {
         module {
             isDownloadJavadoc = true
             isDownloadSources = true
+        }
+    }
+}
+
+sourceSets {
+    create("proto") {
+        proto {
+            srcDir("src/main/proto")
+        }
+    }
+}
+
+protobuf {
+    with(Versions) {
+        if (osdetector.os == "osx") {
+            protoc { artifact = "com.google.protobuf:protoc:$PROTOBUF:osx-x86_64" }
+            plugins {
+                id("grpc") { artifact = "io.grpc:protoc-gen-grpc-java:$GRPC:osx-x86_64" }
+                id("grpckt") { artifact = "io.grpc:protoc-gen-grpc-kotlin:$PLUGIN_GRPC_KOTLIN:osx-x86_64" }
+            }
+        } else {
+            protoc { artifact = "com.google.protobuf:protoc:$PROTOBUF" }
+            plugins {
+                id("grpc") { artifact = "io.grpc:protoc-gen-grpc-java:$GRPC" }
+                id("grpckt") { artifact = "io.grpc:protoc-gen-grpc-kotlin:$PLUGIN_GRPC_KOTLIN" }
+            }
+        }
+    }
+
+    // generatedFilesBaseDir = "$projectDir/generated"
+    generateProtoTasks {
+        all().forEach {
+            it.plugins {
+                id("grpc")
+                id("grpckt")
+            }
+            it.builtins {
+                id("kotlin")
+            }
         }
     }
 }
