@@ -1,12 +1,12 @@
 syntax = "proto3";
 option java_multiple_files = true;
 
-package sample.grpc;
-option java_package = "com.github.frtu.sample.grpc";
+package sample.grpc.emails;
+option java_package = "com.github.frtu.sample.grpc.emails";
 
 import "metadata/sec.proto";
 import "metadata/sla.proto";
-import "data/model.proto";
+import "emails/v1/model.proto";
 
 // Singular query
 message ById {

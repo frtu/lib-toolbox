@@ -1,6 +1,7 @@
 package com.github.frtu.sample.temporal.staticwkf.workflow
 
 import com.github.frtu.logs.core.RpcLogger.requestBody
+import com.github.frtu.logs.core.RpcLogger.responseBody
 import com.github.frtu.logs.core.StructuredLogger
 import com.github.frtu.logs.core.StructuredLogger.*
 import com.github.frtu.sample.persistence.basic.STATUS
@@ -17,17 +18,42 @@ import java.util.*
 
 @WorkflowImplementation(taskQueue = TASK_QUEUE_SUBSCRIPTION)
 class SubscriptionWorkflowImpl : SubscriptionWorkflow {
+    private lateinit var subscriptionState: SubscriptionState
+    private lateinit var entries: Array<MutableMap.MutableEntry<Any?, Any?>>
+
     override fun start(subscriptionEvent: SubscriptionEvent) {
-        structuredLogger.info(flowId(subscriptionEvent.id), phase("STARTING_ACTIVITY"), requestBody(subscriptionEvent))
-        sendEmailActivity.emit(
-            EmailDetail(
-                receiver = "receiver@domain.com",
-                subject = "Confirmation of Subscription ID : ${subscriptionEvent.id}",
-                content = "Subscription Type ${subscriptionEvent.type} with data : ${subscriptionEvent.data}",
-                status = STATUS.INIT.toString(),
-            )
+        init(subscriptionEvent)
+        structuredLogger.info(entries, phase("STARTING_ACTIVITY"), requestBody(subscriptionEvent))
+        Workflow.sleep(10000)
+        val emailDetail = EmailDetail(
+            receiver = "receiver@domain.com",
+            subject = "Confirmation of Subscription ID : ${subscriptionEvent.id}",
+            content = "Subscription Type ${subscriptionEvent.type} with data : ${subscriptionEvent.data}",
+            status = STATUS.INIT.toString(),
         )
-        structuredLogger.info(flowId(subscriptionEvent.id), phase("STARTED_ACTIVITY"))
+        subscriptionState.emailDetail = emailDetail
+        sendEmailActivity.emit(emailDetail)
+        structuredLogger.info(entries, phase("ENDED_ACTIVITY"))
+
+        structuredLogger.info(entries, phase("WAIT SIGNAL"))
+        Workflow.await { subscriptionState.status != Status.RUNNING }
+        structuredLogger.info(entries, phase("COMPLETED"))
+    }
+
+    private fun init(subscriptionEvent: SubscriptionEvent) {
+        subscriptionState = SubscriptionState(subscriptionEvent.id.toString())
+        entries = entries(flowId(subscriptionEvent.id))
+    }
+
+    override fun queryEmailDetail(): EmailDetail? {
+        val emailDetail = subscriptionState.emailDetail
+        structuredLogger.info(entries, phase("queryEmailDetail"), responseBody(emailDetail))
+        return emailDetail
+    }
+
+    override fun acknowledge(acknowledgeSignal: AcknowledgeSignal) {
+        structuredLogger.info(entries, phase("acknowledge"), requestBody(acknowledgeSignal))
+        subscriptionState.status = acknowledgeSignal.status
     }
 
     private val sendEmailActivity = Workflow.newActivityStub(

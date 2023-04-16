@@ -1,12 +1,14 @@
 package com.github.frtu.sample.temporal.staticwkf
 
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.github.frtu.sample.pattern.VO
 import java.time.Instant
 import java.util.*
 
+@VO
 class SubscriptionEvent(
-    @JsonProperty("data")
-    val data: String,
+    @JsonProperty("email")
+    val data: String?,
     @JsonProperty("type")
     val type: String = "subscription",
     @JsonProperty("id")

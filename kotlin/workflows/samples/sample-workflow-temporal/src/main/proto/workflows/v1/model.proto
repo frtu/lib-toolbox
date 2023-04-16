@@ -1,0 +1,30 @@
+// https://developers.google.com/protocol-buffers/docs/javatutorial
+
+// From https://github.com/protocolbuffers/protobuf/blob/v3.11.2/examples/addressbook.proto
+syntax = "proto3";
+option java_multiple_files = true;
+
+package sample.grpc;
+option java_package = "com.github.frtu.sample.grpc";
+
+// [START security_flag]
+import "metadata/sec.proto";
+import "metadata/sla.proto";
+// [START security_flag]
+
+// [START java_declaration and messages]
+import "google/protobuf/timestamp.proto";
+
+option java_outer_classname = "SubscriptionProtos";
+
+message SubscriptionEvent {
+    option (sla.data_sla) = RELIABLE;
+
+    string id = 1; // ID from which this data can be uniquely identified.
+    google.protobuf.Timestamp time_ms = 2; // epoch time when the event occurred. See https://databricks.com/blog/2017/05/08/event-time-aggregation-watermarking-apache-sparks-structured-streaming.html
+    string type = 3;
+
+    string data = 10 [(sec.secured_field) = true]; // A certain value this data contains.
+    string metadata = 11;
+}
+// [END java_declaration and messages]
