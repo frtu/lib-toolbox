@@ -118,7 +118,7 @@ open class SuspendableWebClient(
                             eventSignature,
                             phase("FAILURE"),
                             statusCode(statusCode.value()),
-                            errorMessage(statusCode.reasonPhrase)
+//                            errorMessage(statusCode.reasonPhrase)
                         )
                     }
                     // Response consumed, logged and cleaned up
@@ -163,25 +163,25 @@ open class SuspendableWebClient(
         }
     }
 
-    /**
-     * @param url full URL for the resource
-     * @param requestId unique ID for post idempotency
-     * @param requestBody post body object
-     * @param headerPopulator header populator
-     * @param responseConsumer response callback
-     */
-    suspend fun <T> post(
-        url: String, requestId: UUID,
-        requestBody: T,
-        headerPopulator: Consumer<HttpHeaders> = Consumer { _ -> run {} },
-        responseCallback: Consumer<WebClientResponse>? = null
-    ): WebClientResponse {
-        val eventSignature = entries(client(), uri(url), requestId(requestId.toString()))!!
-        rpcLogger.debug(eventSignature, phase("PREPARE TO SEND"), requestBody(requestBody, false))
-
-        val requestBodyInserters = BodyInserters.fromValue(requestBody)
-        return post(url, requestId, requestBodyInserters, headerPopulator, responseCallback, eventSignature)
-    }
+//    /**
+//     * @param url full URL for the resource
+//     * @param requestId unique ID for post idempotency
+//     * @param requestBody post body object
+//     * @param headerPopulator header populator
+//     * @param responseConsumer response callback
+//     */
+//    suspend fun <T> post(
+//        url: String, requestId: UUID,
+//        requestBody: T,
+//        headerPopulator: Consumer<HttpHeaders> = Consumer { _ -> run {} },
+//        responseCallback: Consumer<WebClientResponse>? = null
+//    ): WebClientResponse {
+//        val eventSignature = entries(client(), uri(url), requestId(requestId.toString()))!!
+//        rpcLogger.debug(eventSignature, phase("PREPARE TO SEND"), requestBody(requestBody, false))
+//
+//        val requestBodyInserters = BodyInserters.fromValue(requestBody)
+//        return post(url, requestId, requestBodyInserters, headerPopulator, responseCallback, eventSignature)
+//    }
 
     /**
      * @param url full URL for the resource
@@ -256,7 +256,7 @@ open class SuspendableWebClient(
                             eventSignature,
                             phase("FAILURE"),
                             statusCode(statusCode.value()),
-                            errorMessage(statusCode.reasonPhrase),
+//                            errorMessage(statusCode.reasonPhrase),
                             responseBody(body, false)
                         )
                     }

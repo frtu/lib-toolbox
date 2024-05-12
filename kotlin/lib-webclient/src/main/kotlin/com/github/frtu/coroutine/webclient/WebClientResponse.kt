@@ -1,6 +1,6 @@
 package com.github.frtu.coroutine.webclient
 
-import org.springframework.http.HttpStatus
+import org.springframework.http.HttpStatusCode
 
 /**
  * Response from {@link WebClient}
@@ -8,4 +8,4 @@ import org.springframework.http.HttpStatus
  * @author Frédéric TU
  * @since 1.1.1
  */
-class WebClientResponse(val statusCode: HttpStatus, val reponseBody: String?)
+class WebClientResponse(val statusCode: HttpStatusCode, val reponseBody: String?)

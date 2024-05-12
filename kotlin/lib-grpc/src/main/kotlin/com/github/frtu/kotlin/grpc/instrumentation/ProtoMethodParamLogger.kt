@@ -37,6 +37,7 @@ class ProtoMethodParamLogger {
     fun isLogEnabled(grpcEventEnum: GrpcEventEnum, methodName: String): Boolean {
         when (grpcEventEnum) {
             GrpcEventEnum.SERVER_REQUEST, GrpcEventEnum.SERVER_RESPONSE -> return logger.isInfoEnabled
+            else -> false
         }
         // Use DEBUG for the other case
         return logger.isDebugEnabled
