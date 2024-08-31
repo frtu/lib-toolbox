@@ -6,7 +6,7 @@ import com.google.protobuf.Descriptors
 class SecurityMetadataHelper : BaseFieldMetadataHelper<Boolean>(Sec.securedField) {
     fun isSecured(fieldDescriptor: Descriptors.FieldDescriptor?): Boolean {
         return if (hasExtension(fieldDescriptor)) {
-            getExtension(fieldDescriptor).get()
+            getExtension(fieldDescriptor)!!
         } else false
     }
 }

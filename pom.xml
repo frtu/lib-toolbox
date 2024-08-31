@@ -17,7 +17,7 @@
     <url>https://github.com/frtu/lib-toolbox/</url>
 
     <modules>
-        <module>java</module>
+        <!-- <module>java</module> -->
         <module>kotlin</module>
     </modules>
 

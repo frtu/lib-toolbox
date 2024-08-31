@@ -23,6 +23,7 @@ All libraries for [kotlin](kotlin)
 #### Module
 
 * Adding [lib-spring-boot-slack](kotlin%2Flib-spring-boot-slack)
+* Pause release for all `java` libs
 
 #### Lib versions
 

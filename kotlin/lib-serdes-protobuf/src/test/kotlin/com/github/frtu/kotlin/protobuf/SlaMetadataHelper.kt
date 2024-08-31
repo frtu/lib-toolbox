@@ -10,7 +10,7 @@ class SlaMetadataHelper : BaseMessageMetadataHelper<DataSLA>(Sla.dataSla) {
         return super.hasExtension(messageDescriptor)
     }
 
-    fun getSLA(messageDescriptor: Descriptors.Descriptor?): Optional<DataSLA> {
+    fun getSLA(messageDescriptor: Descriptors.Descriptor?): DataSLA? {
         return super.getExtension(messageDescriptor)
     }
 }

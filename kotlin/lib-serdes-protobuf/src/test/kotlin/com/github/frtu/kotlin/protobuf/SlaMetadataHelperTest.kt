@@ -22,7 +22,7 @@ internal class SlaMetadataHelperTest {
         // 2 & 3. Execute & Validate
         //--------------------------------------
         assertThat(slaMetadataHelper.hasSLA(personDescriptor)).isTrue
-        val dataSLA: DataSLA = slaMetadataHelper.getSLA(personDescriptor).get()
+        val dataSLA: DataSLA = slaMetadataHelper.getSLA(personDescriptor)!!
         logger.debug(dataSLA.toString())
         assertThat(dataSLA).isEqualTo(DataSLA.RELIABLE)
     }
