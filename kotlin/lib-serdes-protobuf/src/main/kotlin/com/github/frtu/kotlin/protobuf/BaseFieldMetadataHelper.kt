@@ -8,15 +8,15 @@ import java.util.*
 open class BaseFieldMetadataHelper<T>(
     private val fieldExtention: GeneratedMessage.GeneratedExtension<FieldOptions, T>,
 ) {
-    fun getExtension(fieldDescriptor: Descriptors.FieldDescriptor?): Optional<T> {
+    fun getExtension(fieldDescriptor: Descriptors.FieldDescriptor?): T? {
         if (fieldDescriptor == null) {
-            return Optional.empty()
+            return null
         }
         val options = fieldDescriptor.options
-        return Optional.of(options.getExtension(fieldExtention))
+        return options.getExtension(fieldExtention)
     }
 
     fun hasExtension(fieldDescriptor: Descriptors.FieldDescriptor?): Boolean {
-        return getExtension(fieldDescriptor).isPresent
+        return getExtension(fieldDescriptor) != null
     }
 }

@@ -18,7 +18,21 @@ All libraries for [kotlin](kotlin)
 
 ## Release notes
 
-### 1.2.4 - Current version
+### 2.0.1 - Current version
+
+#### Lib versions
+
+* Bump kotlin.version -> 1.9.23
+* Bump kotlinx.version -> 1.7.3
+
+### 2.0.0
+
+* Bump JDK -> 17
+* Bump spring-boot.version -> 3.2.5
+* Bump kotlin.version -> 1.7.22
+* Bump kotlinx.version -> 1.7.2
+
+### 1.2.4
 
 * Adding [ActivityAspect using AOP](kotlin/spring-boot/starter-temporal#124)
 * Adding [Testcontainers for Temporalite](kotlin/test-containers/temporalite)

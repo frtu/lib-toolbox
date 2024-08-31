@@ -8,15 +8,15 @@ import java.util.*
 open class BaseMessageMetadataHelper<T>(
     private val messageOptions: GeneratedMessage.GeneratedExtension<MessageOptions, T>,
 ) {
-    fun getExtension(messageDescriptor: Descriptors.Descriptor?): Optional<T> {
+    fun getExtension(messageDescriptor: Descriptors.Descriptor?): T? {
         if (messageDescriptor == null) {
-            return Optional.empty()
+            return null
         }
         val options = messageDescriptor.options
-        return Optional.of(options.getExtension(messageOptions))
+        return options.getExtension(messageOptions)
     }
 
     fun hasExtension(messageDescriptor: Descriptors.Descriptor?): Boolean {
-        return getExtension(messageDescriptor).isPresent
+        return getExtension(messageDescriptor) != null
     }
 }
