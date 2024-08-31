@@ -12,6 +12,7 @@
     <packaging>pom</packaging>
 
     <modules>
+        <module>lib-spring-boot-slack</module>
         <module>lib-webclient</module>
         <module>lib-r2dbc</module>
         <module>lib-utils</module>

@@ -20,6 +20,10 @@ All libraries for [kotlin](kotlin)
 
 ### 2.0.1 - Current version
 
+#### Module
+
+* Adding [lib-spring-boot-slack](kotlin%2Flib-spring-boot-slack)
+
 #### Lib versions
 
 * Bump kotlin.version -> 1.9.23
