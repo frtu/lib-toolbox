@@ -26,6 +26,7 @@ All libraries for [kotlin](kotlin)
 
 * Adding [lib-spring-boot-slack](kotlin%2Flib-spring-boot-slack)
 * Pause release for all `java` libs
+* Discontinue `temporalite`
 
 #### Lib versions
 
