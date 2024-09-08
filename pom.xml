@@ -173,7 +173,7 @@
                     <!--<arguments>-Dgpg.passphrase=${gpg.passphrase}</arguments>-->
                     <tagNameFormat>v@{project.version}</tagNameFormat>
                     <releaseProfiles>release-sign-artifacts</releaseProfiles>
-                    <preparationGoals>clean verify gpg:sign</preparationGoals>
+                    <preparationGoals>clean verify</preparationGoals>
                 </configuration>
             </plugin>
             <plugin>
