@@ -1,0 +1,59 @@
+# ======================================
+# TOPOLOGY and EXTERNAL DEPENDENCIES
+# ======================================
+application:
+  name: sample-spring-boot-slack
+  slack.app:
+    token: ${SLACK_APP_TOKEN:xapp-xxx}
+    signing-secret: ${SLACK_APP_SIGNING_SECRET:yyy}
+    bot-oauth-token: ${SLACK_APP_BOT_OAUTH_TOKEN:xoxb-zzz}
+
+# ======================================
+# Spring Boot
+# ======================================
+spring:
+  application:
+    name: ${application.name}
+
+  # Bootstrap DB
+  flyway:
+    url: jdbc:${application.persistence.url}
+    user: ${application.persistence.username}
+    password: ${application.persistence.password}
+    locations: "classpath:/db/migration"
+    enabled: true
+
+  # R2DBC
+  r2dbc:
+    url: r2dbc:${application.persistence.url}
+    username: ${application.persistence.username}
+    password: ${application.persistence.password}
+    initialization-mode: always
+
+logging:
+  level:
+    org.springframework.data.r2dbc: DEBUG
+    org.springframework.transaction: TRACE
+
+# ======================================
+# Management
+# ======================================
+server:
+  port: 8080
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - info
+          - health
+          - metrics
+#          - prometheus
+  endpoint:
+    metrics.enabled: true
+    health.show-details: ALWAYS
+info:
+  app:
+    name: ${application.name}
+    port: ${server.port}

@@ -114,6 +114,10 @@ Check the latest version (clickable) :
 
 [<img src="https://img.shields.io/maven-central/v/com.github.frtu.libs/lib-spring-boot-slack.svg?label=latest%20release%20:%20lib-spring-boot-slack"/>](https://search.maven.org/#search%7Cga%7C1%7Ca%3A%22lib-utils%22+g%3A%22com.github.frtu.libs%22)
 
+## See also
+
+* Sample application : [sample-spring-boot-slack](..%2Fsamples%2Fsample-spring-boot-slack)
+
 ## Release notes
 
 ### 2.0.3 - Current version
