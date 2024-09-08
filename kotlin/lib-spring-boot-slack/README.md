@@ -36,7 +36,20 @@ Settings > Features > [Slash commands](https://slack.dev/java-slack-sdk/guides/s
 
 ## Usage
 
-Import Spring Config `com.github.frtu.kotlin.spring.slack.config.SlackConfig` into your application.
+Import Spring Config `com.github.frtu.kotlin.spring.slack.config.SlackAutoConfigs` into your application.
+
+### Configuration
+
+Configure your application using :
+
+```yaml
+application:
+  name: sample-spring-boot-slack
+  slack.app:
+    token: ${SLACK_APP_TOKEN:xapp-xxx}
+    signing-secret: ${SLACK_APP_SIGNING_SECRET:yyy}
+    bot-oauth-token: ${SLACK_APP_BOT_OAUTH_TOKEN:xoxb-zzz}
+```
 
 ### Slack Event
 
@@ -104,6 +117,8 @@ Check the latest version (clickable) :
 ## Release notes
 
 ### 2.0.3 - Current version
+
+* Allow com.github.frtu.kotlin.spring.slack.config.SlackAutoConfigs to be auto loaded by Spring boot 2 & 3
 
 ### 2.0.2
 
