@@ -12,10 +12,9 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>temporal-bom</module>
         <module>starter-temporal</module>
         <module>serverless-bom</module>
         <!-- <module>serverless-generator</module>-->
-        <!-- <module>lib-workflow</module>-->
+        <module>lib-workflow</module>
     </modules>
 </project>
