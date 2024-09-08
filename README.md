@@ -20,6 +20,8 @@ All libraries for [kotlin](kotlin)
 
 ### 2.0.3 - Current version
 
+* Update [lib-kotlin-bom](kotlin%2Flib-kotlin-bom) with latest libs
+
 ### 2.0.2
 
 #### Module
