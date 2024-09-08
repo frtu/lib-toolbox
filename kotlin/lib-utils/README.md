@@ -2,7 +2,11 @@
 
 ## About
 
-Mini lib that provides common useful method to facilitate testing
+Mini lib that provides common useful method to facilitate testing :
+
+* Loading resources
+* Json utilities
+* Predicates for Stream
 
 ## Import
 

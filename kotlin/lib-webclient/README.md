@@ -2,7 +2,10 @@
 
 ## About
 
-Spring webflux webclient for coroutine
+Spring webflux webclient for coroutine :
+
+* `SuspendableWebClient` wrapper from webflux `Flux` to `Flow`
+* `BasicLogExchangeFilterFunction` basic logger using rpc logger
 
 ## Release notes
 

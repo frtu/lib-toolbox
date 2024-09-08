@@ -103,8 +103,8 @@ Check the latest version (clickable) :
 
 ## Release notes
 
-### 2.0.2 - Current version
+### 2.0.3 - Current version
 
-### 2.0.1
+### 2.0.2
 
 * Initial version

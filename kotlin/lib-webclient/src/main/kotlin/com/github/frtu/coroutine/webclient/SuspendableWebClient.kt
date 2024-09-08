@@ -29,8 +29,6 @@ import java.util.function.Consumer
  *
  * @author Frédéric TU
  * @since 1.1.1
- */
-/**
  * @param webClient built and configured
  */
 open class SuspendableWebClient(
