@@ -19,7 +19,6 @@
         <module>lib-serdes-protobuf</module>
         <!-- <module>lib-serdes-avro-kotlin</module>-->
         <module>lib-grpc</module>
-        <!-- <module>lib-workflow</module>-->
         <module>lib-kotlin-bom</module>
         <module>workflows</module>
         <!-- <module>test-containers</module>-->

@@ -16,5 +16,6 @@
         <module>starter-temporal</module>
         <module>serverless-bom</module>
         <!-- <module>serverless-generator</module>-->
+        <!-- <module>lib-workflow</module>-->
     </modules>
 </project>
