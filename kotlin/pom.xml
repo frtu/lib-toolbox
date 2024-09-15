@@ -13,6 +13,7 @@
 
     <modules>
         <module>lib-spring-boot-slack</module>
+        <module>lib-ai-os</module>
         <module>lib-webclient</module>
         <module>lib-r2dbc</module>
         <module>lib-utils</module>
