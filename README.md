@@ -20,6 +20,7 @@ All libraries for [kotlin](kotlin)
 
 ### 2.0.3 - Current version
 
+* Adding [lib-ai-os](kotlin%2Flib-ai-os)
 * Update [lib-kotlin-bom](kotlin%2Flib-kotlin-bom) with latest libs
 * Deprecate [temporal-bom](kotlin%2Fworkflows%2Ftemporal-bom) in favor of `io.temporal:temporal-bom`
 
