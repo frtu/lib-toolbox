@@ -92,11 +92,35 @@ class CommandFactory {
 }
 ```
 
+#### Long Running command
+
+If your task is taking more than >3 sec to terminate, you can extend command using `LongRunningSlashCommandHandler` :
+
+* Create an `ExecutorHandler` to map any `Exception` -> to `httpStatus: Int`
+* Use `defaultErrorMessage` to return a generic message to Slack user.
+
+```kotlin
+@Bean
+fun ask(
+): SlashCommandHandler = LongRunningSlashCommandHandler(
+        executorHandler = object : ExecutorHandler {
+            override suspend fun invoke(req: SlashCommandRequest, ctx: SlashCommandContext, logger: Logger): String? {
+                val commandArgText = req.payload.text
+                // Long running task before returning result
+            }
+        },
+        errorHandler = { 400 },
+        defaultStartingMessage = "Processing your request...",
+        defaultErrorMessage = "Sorry, an error occurred while processing your request.",
+    )
+```
+
 ## Import
 
 Import using :
 
 ```XML
+
 <dependency>
   <groupId>com.github.frtu.libs</groupId>
   <artifactId>lib-spring-boot-slack</artifactId>
@@ -121,6 +145,8 @@ Check the latest version (clickable) :
 ## Release notes
 
 ### 2.0.4 - Current version
+
+* Adding ability to run long-running command (>3s) using `LongRunningSlashCommandHandler`
 
 ### 2.0.3
 

@@ -22,6 +22,10 @@ All libraries for [kotlin](kotlin)
 
 * Adding [lib-spring-boot-llm-os](kotlin%2Flib-spring-boot-llm-os)
 
+#### lib-spring-boot-slack
+
+* Adding ability to run long-running command (>3s) using `LongRunningSlashCommandHandler`
+
 ### 2.0.3
 
 * Update [lib-kotlin-bom](kotlin%2Flib-kotlin-bom) with latest libs
