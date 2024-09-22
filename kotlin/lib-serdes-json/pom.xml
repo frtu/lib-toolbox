@@ -7,32 +7,21 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>lib-spring-boot-llm-os</artifactId>
+    <artifactId>lib-serdes-json</artifactId>
 
     <properties>
-        <aallam-openai.version>3.8.0</aallam-openai.version>
-        <!-- Make sure to import your own version of ktor -->
-        <ktor-client.version>2.3.2</ktor-client.version>
+        <kjetland-jsonschema>1.0.39</kjetland-jsonschema>
     </properties>
 
     <dependencies>
         <dependency>
-            <groupId>com.aallam.openai</groupId>
-            <artifactId>openai-client-jvm</artifactId>
-            <version>${aallam-openai.version}</version>
+            <groupId>com.fasterxml.jackson.module</groupId>
+            <artifactId>jackson-module-kotlin</artifactId>
         </dependency>
         <dependency>
-            <groupId>io.ktor</groupId>
-            <artifactId>ktor-client-okhttp-jvm</artifactId>
-            <version>${ktor-client.version}</version>
-            <scope>runtime</scope>
-        </dependency>
-
-        <!--Internal projects -->
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>lib-serdes-json</artifactId>
-            <version>${project.version}</version>
+            <groupId>com.kjetland</groupId>
+            <artifactId>mbknor-jackson-jsonschema_2.13</artifactId>
+            <version>${kjetland-jsonschema}</version>
         </dependency>
 
         <!--===========================-->

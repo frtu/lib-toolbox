@@ -32,6 +32,6 @@ Check the latest version (clickable) :
 
 ## Release notes
 
-### 2.0.3 - Current version
+### 2.0.4 - Current version
 
 * Initial version from [github.com/frtu/agents-os](https://github.com/frtu/agents-os)

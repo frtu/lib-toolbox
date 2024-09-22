@@ -120,7 +120,9 @@ Check the latest version (clickable) :
 
 ## Release notes
 
-### 2.0.3 - Current version
+### 2.0.4 - Current version
+
+### 2.0.3
 
 * Allow com.github.frtu.kotlin.spring.slack.config.SlackAutoConfigs to be auto loaded by Spring boot 2 & 3
 
