@@ -18,11 +18,15 @@ All libraries for [kotlin](kotlin)
 
 ## Release notes
 
-### 2.0.3 - Current version
+### 2.0.4 - Current version
 
-* Adding [lib-ai-os](kotlin%2Flib-ai-os)
+* Adding [lib-spring-boot-llm-os](kotlin%2Flib-spring-boot-llm-os)
+
+### 2.0.3
+
 * Update [lib-kotlin-bom](kotlin%2Flib-kotlin-bom) with latest libs
 * Deprecate [temporal-bom](kotlin%2Fworkflows%2Ftemporal-bom) in favor of `io.temporal:temporal-bom`
+* Removed [lib-workflow](kotlin%2Fworkflows%2Flib-workflow)
 
 ### 2.0.2
 
