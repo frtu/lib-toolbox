@@ -1,6 +1,7 @@
 package com.github.frtu.persistence.r2dbc.query
 
-import org.assertj.core.api.Assertions.assertThat
+import io.kotlintest.matchers.types.shouldBeNull
+import io.kotlintest.shouldBe
 import org.junit.jupiter.api.Test
 import org.slf4j.LoggerFactory
 import org.springframework.data.domain.PageRequest
@@ -14,14 +15,14 @@ internal class PostgresJsonbQueryBuilderTest {
         val query = PostgresJsonbQueryBuilder().query(Criteria.empty(), PageRequest.of(2, 2))
         logger.debug("offset=[${query.offset}] limit=[${query.limit}]")
         // Page 2, offset is equals to 4
-        assertThat(query.offset).isEqualTo(4)
-        assertThat(query.limit).isEqualTo(2)
+        query.offset shouldBe 4
+        query.limit shouldBe 2
     }
 
     @Test
     fun `Testing criteria mapping empty parameter`() {
         val criteria = PostgresJsonbQueryBuilder().criteria(mapOf())
-        assertThat(criteria).isEqualTo(Criteria.empty())
+        criteria shouldBe Criteria.empty()
     }
 
     @Test
@@ -34,13 +35,13 @@ internal class PostgresJsonbQueryBuilderTest {
         )
         val criteria1 = criteria.previous!!
         logger.debug("column=[${criteria1.column}] value=[${criteria1.value}]")
-        assertThat(criteria1.column.toString()).isEqualTo("data->>'key1'")
-        assertThat(criteria1.value).isEqualTo("value1")
+        criteria1.column.toString() shouldBe "data->>'key1'"
+        criteria1.value shouldBe "value1"
 
         val criteria2 = criteria.group[0]
         logger.debug("column=[${criteria2.column}] value=[${criteria2.value}]")
-        assertThat(criteria2.column.toString()).isEqualTo("data->>'key2'")
-        assertThat(criteria2.value).isEqualTo("value2")
+        criteria2.column.toString() shouldBe "data->>'key2'"
+        criteria2.value shouldBe "value2"
     }
 
     @Test
@@ -54,11 +55,11 @@ internal class PostgresJsonbQueryBuilderTest {
             )
         )
         logger.debug("column=[${criteria.column}] value=[${criteria.value}]")
-        assertThat(criteria.column.toString()).isEqualTo("data->>'allowed-key1'")
-        assertThat(criteria.value).isEqualTo("value1")
+        criteria.column.toString() shouldBe "data->>'allowed-key1'"
+        criteria.value shouldBe "value1"
 
         // There is ONLY one item left, since denied-key* should be removed
-        assertThat(criteria.previous).isNull()
+        criteria.previous.shouldBeNull()
     }
 
 
@@ -73,10 +74,10 @@ internal class PostgresJsonbQueryBuilderTest {
             )
         )
         logger.debug("column=[${criteria.column}] value=[${criteria.value}]")
-        assertThat(criteria.column.toString()).isEqualTo("data->>'allowed-key1'")
-        assertThat(criteria.value).isEqualTo("value1")
+        criteria.column.toString() shouldBe "data->>'allowed-key1'"
+        criteria.value shouldBe "value1"
 
         // There is ONLY one item left, since denied-key* should be removed
-        assertThat(criteria.previous).isNull()
+        criteria.previous.shouldBeNull()
     }
 }
