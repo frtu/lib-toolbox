@@ -9,7 +9,7 @@ Provide a platform for LLM :
 
 ## Import
 
-Import using :
+Import using Maven :
 
 ```XML
 <dependency>
@@ -19,10 +19,16 @@ Import using :
 </dependency>
 ```
 
-or
+or gradle
 
 ```
 implementation("com.github.frtu.libs:lib-spring-boot-llm-os:${Versions.frtu_libs}")
+```
+
+or TOML
+
+```
+spring-boot-slack = { group = "com.github.frtu.libs", name = "lib-spring-boot-slack", version.ref = "frtu-libs" }
 ```
 
 Check the latest version (clickable) :
@@ -32,6 +38,8 @@ Check the latest version (clickable) :
 
 ## Release notes
 
-### 2.0.4 - Current version
+### 2.0.5 - Current version
+
+### 2.0.4
 
 * Initial version from [github.com/frtu/agents-os](https://github.com/frtu/agents-os)

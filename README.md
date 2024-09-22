@@ -18,8 +18,11 @@ All libraries for [kotlin](kotlin)
 
 ## Release notes
 
-### 2.0.4 - Current version
+### 2.0.5 - Current version
 
+### 2.0.4
+
+* Adding [lib-serdes-json](kotlin%2Flib-serdes-json)
 * Adding [lib-spring-boot-llm-os](kotlin%2Flib-spring-boot-llm-os)
 
 #### lib-spring-boot-slack

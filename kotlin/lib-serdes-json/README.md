@@ -8,7 +8,7 @@ Provide all the lib to manipulate JSON :
 
 ## Import
 
-Import using :
+Import using Maven :
 
 ```XML
 <dependency>
@@ -18,10 +18,16 @@ Import using :
 </dependency>
 ```
 
-or
+or gradle
 
 ```
 implementation("com.github.frtu.libs:lib-serdes-json:${Versions.frtu_libs}")
+```
+
+or TOML
+
+```
+serdes-json = { group = "com.github.frtu.libs", name = "lib-serdes-json", version.ref = "frtu-libs" }
 ```
 
 Check the latest version (clickable) :
@@ -31,6 +37,8 @@ Check the latest version (clickable) :
 
 ## Release notes
 
-### 2.0.4 - Current version
+### 2.0.5 - Current version
+
+### 2.0.4
 
 * Initial version from [github.com/frtu/agents-os](https://github.com/frtu/agents-os)
