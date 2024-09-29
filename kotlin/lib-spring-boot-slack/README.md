@@ -154,6 +154,7 @@ Check the latest version (clickable) :
 
 * Adding ability to inject `App` & register my own beans
 * Allow to be injected `botId`
+* Adding `ThreadManager`
 
 ### 2.0.4
 
