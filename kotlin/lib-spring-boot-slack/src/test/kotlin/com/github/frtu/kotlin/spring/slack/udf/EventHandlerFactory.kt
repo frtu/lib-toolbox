@@ -1,11 +1,18 @@
 package com.github.frtu.kotlin.spring.slack.udf
 
 import com.github.frtu.kotlin.spring.slack.event.MessageEventHandler
+import com.github.frtu.logs.core.RpcLogger
+import com.github.frtu.logs.core.RpcLogger.kind
+import com.github.frtu.logs.core.RpcLogger.requestBody
+import com.github.frtu.logs.core.RpcLogger.requestId
 import com.slack.api.app_backend.events.payload.EventsApiPayload
 import com.slack.api.bolt.context.builtin.EventContext
 import com.slack.api.bolt.handler.BoltEventHandler
 import com.slack.api.model.event.AppMentionEvent
+import com.slack.api.model.event.MessageChannelJoinEvent
 import com.slack.api.model.event.MessageEvent
+import java.util.Map.entry
+import org.slf4j.LoggerFactory
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
@@ -34,4 +41,24 @@ class EventHandlerFactory {
 //                ctx.say("Hi there!")
 //            }
 //        }.toPair()
+
+    @Bean
+    fun newMember(): Pair<Class<MessageChannelJoinEvent>, BoltEventHandler<MessageChannelJoinEvent>> = Pair(
+        MessageChannelJoinEvent::class.java,
+        BoltEventHandler { req: EventsApiPayload<MessageChannelJoinEvent>, ctx: EventContext ->
+            with(req.event) {
+                // https://api.slack.com/apis/events-api#callback-field
+                // {"kind":"channel_join","request_id":"Ev07PJTKRGF4","user":"U07PC8X2N94","channel.id":"C06500SQJTA",
+                // "event.ts":"1727616269.059839","request":"<@U07PC8X2N94> has joined the channel"}
+                logger.debug(
+                    kind(subtype), requestId(req.eventId), entry("user", user),
+                    entry("channel.id", channel), entry("event.ts", eventTs), requestBody(text)
+                )
+                // NULLABLE : , entry("team", team), entry("inviter", inviter)
+            }
+            ctx.say("Hi user ID:[${req.event.user}]!")
+            ctx.ack()
+        })
+
+    private val logger = RpcLogger.create(LoggerFactory.getLogger(this::class.java))
 }
