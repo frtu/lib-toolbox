@@ -40,6 +40,8 @@ Check the latest version (clickable) :
 
 ### 2.0.5 - Current version
 
+* Bump to lib aallam-openai -> `3.8.0`
+
 ### 2.0.4
 
 * Initial version from [github.com/frtu/agents-os](https://github.com/frtu/agents-os)

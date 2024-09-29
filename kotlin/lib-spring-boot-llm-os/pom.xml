@@ -10,7 +10,7 @@
     <artifactId>lib-spring-boot-llm-os</artifactId>
 
     <properties>
-        <aallam-openai.version>3.5.1</aallam-openai.version>
+        <aallam-openai.version>3.8.0</aallam-openai.version>
         <!-- Make sure to import your own version of ktor -->
         <ktor-client.version>2.3.2</ktor-client.version>
     </properties>
