@@ -8,6 +8,7 @@ import com.github.frtu.logs.core.RpcLogger.requestId
 import com.slack.api.app_backend.events.payload.EventsApiPayload
 import com.slack.api.bolt.context.builtin.EventContext
 import com.slack.api.bolt.handler.BoltEventHandler
+import com.slack.api.methods.request.chat.ChatPostMessageRequest
 import com.slack.api.model.event.AppMentionEvent
 import com.slack.api.model.event.MessageChannelJoinEvent
 import com.slack.api.model.event.MessageEvent
@@ -30,8 +31,45 @@ class EventHandlerFactory {
     fun appMentionEventHandler(): Pair<Class<AppMentionEvent>, BoltEventHandler<AppMentionEvent>> = Pair(
         AppMentionEvent::class.java,
         BoltEventHandler { req: EventsApiPayload<AppMentionEvent>, ctx: EventContext ->
-            ctx.say("Hi there!")
-            ctx.ack()
+            val botId = ctx.botUserId
+            val appMentionEvent = req.event.also {
+                logger.debug(
+                    kind(it.type), requestId(req.eventId), entry("user", it.user),
+                    entry("channel.id", it.channel), entry("event.ts", it.eventTs), requestBody(it.text)
+                )
+            }
+
+            val channelId: String = appMentionEvent.channel
+            val threadTs: String = appMentionEvent.threadTs
+                .takeIf { it != null } ?: appMentionEvent.ts // timestamp of the message
+
+            val methodsClient = ctx.client()
+            // Add "eyes" reaction to the message
+            val reactionResponse = methodsClient.reactionsAdd { r ->
+                r.channel(channelId).timestamp(threadTs)
+                    .name("eyes") // Emoji name
+            }
+
+            // Retrieve the conversation thread using conversations.replies
+            val repliesResponse = methodsClient.conversationsReplies { r ->
+                r.channel(channelId).ts(threadTs)
+            } // Pass the thread's root timestamp (message timestamp)
+            val messages = repliesResponse.messages.filter { it.user != botId }
+
+            // Respond in the same thread
+            val postMessageResponse = methodsClient.chatPostMessage(
+                ChatPostMessageRequest.builder()
+                    .channel(channelId)
+                    .threadTs(threadTs) // Respond in the same thread
+                    .text("I see ${messages.size} previous non bot messages")
+                    .build()
+            )
+
+            if (reactionResponse.isOk) {
+                ctx.ack() // Acknowledge the event
+            } else {
+                ctx.ackWithJson("{\"error\":\"Failed to add reaction\"}")
+            }
         })
 
 //    @Bean

@@ -152,6 +152,9 @@ Check the latest version (clickable) :
 
 ### 2.0.5 - Current version
 
+* Adding ability to inject `App` & register my own beans
+* Allow to be injected `botId`
+
 ### 2.0.4
 
 * Adding ability to run long-running command (>3s) using `LongRunningSlashCommandHandler`
