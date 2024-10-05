@@ -1,24 +1,37 @@
 # lib-toolbox
 Library toolbox to provide specific capabilities
 
-## Java libs
+## Kotlin libs
+
+All libraries for [kotlin](kotlin)
+
+### Middleware & Spring Boot bootstrap
+
+* [lib-spring-boot-slack](kotlin/lib-spring-boot-slack) : Allow to start Slack connectivity along with spring boot lifecycle
+* [workflows](kotlin/workflows) : Temporal & Serverless workflow
+
+### Tests
+
+* [lib-utils](kotlin/lib-utils) : bean utils for class deserialization & Java -> Kotlin smart cast
+* [test-containers](kotlin/test-containers) : facilitators to integrate container bootstrap to unit tests
+
+### Persistence & communication protocol
+
+* [lib-r2dbc](kotlin/lib-r2dbc) : spring data R2DBC bootstrap for coroutine
+* [lib-webclient](kotlin/lib-webclient) : spring webflux webclient for coroutine
+* [lib-grpc](kotlin/lib-grpc) : Interceptors for gRPC
+* [lib-serdes-protobuf](kotlin/lib-serdes-protobuf) : protobuf utilities & metadata readers
+
+## Java libs (paused at the moment)
 
 All libraries for [java](java)
 
 * [lib-dot](java/lib-dot) : lib to generate dot files
 * [lib-mail](java/lib-mail) : lib to send email using SMTP
 
-## Kotlin libs
-
-All libraries for [kotlin](kotlin)
-
-* [lib-r2dbc](kotlin/lib-r2dbc) : spring data R2DBC for coroutine
-* [lib-webclient](kotlin/lib-webclient) : spring webflux webclient for coroutine
-* [lib-utils](kotlin/lib-utils) : bean utils for class deserialization & Java -> Kotlin smart cast
-
 ## Release notes
 
-### 2.0.5 - Current version
+Check latest release notes at https://github.com/frtu/lib-toolbox/releases
 
 ### 2.0.4
 

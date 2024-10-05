@@ -152,6 +152,7 @@ Check the latest version (clickable) :
 
 ### 2.0.5 - Current version
 
+* Decouple Bootstrap lifecycle & allow
 * Adding ability to inject `App` & register my own beans
 * Allow to be injected `botId`
 * Adding `ThreadManager`
