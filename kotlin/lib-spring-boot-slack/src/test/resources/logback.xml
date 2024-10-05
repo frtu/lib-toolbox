@@ -8,7 +8,7 @@
     <include resource="logback-core.xml"/>
 
     <!--Current application-->
-    <logger name="com.github.frtu.kotlin.spring.slack" level="DEBUG" additivity="true"/>
+    <logger name="com.github.frtu.kotlin.spring.slack" level="TRACE" additivity="true"/>
 
     <!--ONLY NEEDED WHEN YOU NEED BELOW WARN-->
     <root level="INFO">
