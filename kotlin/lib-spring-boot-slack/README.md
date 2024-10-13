@@ -150,12 +150,15 @@ Check the latest version (clickable) :
 
 ## Release notes
 
-### 2.0.5 - Current version
+### 2.0.6 - Current version
+
+### 2.0.5
 
 * Decouple Bootstrap lifecycle & allow
 * Adding ability to inject `App` & register my own beans
 * Allow to be injected `botId`
 * Adding `ThreadManager`
+* Adding `ConversationHandler` that abstract receiving and sending message to main Thread
 
 ### 2.0.4
 

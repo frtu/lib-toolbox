@@ -38,7 +38,9 @@ Check the latest version (clickable) :
 
 ## Release notes
 
-### 2.0.5 - Current version
+### 2.0.6 - Current version
+
+### 2.0.5
 
 * Bump to lib aallam-openai -> `3.8.0`
 
