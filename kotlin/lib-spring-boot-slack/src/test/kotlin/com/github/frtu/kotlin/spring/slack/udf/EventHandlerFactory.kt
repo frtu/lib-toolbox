@@ -2,7 +2,7 @@ package com.github.frtu.kotlin.spring.slack.udf
 
 import com.github.frtu.kotlin.spring.slack.event.AbstractEventHandler
 import com.github.frtu.kotlin.spring.slack.event.MessageEventHandler
-import com.github.frtu.kotlin.spring.slack.event.ThreadManager
+import com.github.frtu.kotlin.spring.slack.dialogue.ThreadManager
 import com.github.frtu.logs.core.RpcLogger
 import com.github.frtu.logs.core.RpcLogger.kind
 import com.github.frtu.logs.core.RpcLogger.requestBody
@@ -38,11 +38,12 @@ class EventHandlerFactory {
                         entry("channel.id", channel), entry("event.ts", eventTs), requestBody(text)
                     )
                 }
-                with(ThreadManager(ctx, appMentionEvent.threadTs
+                with(
+                    ThreadManager(ctx, appMentionEvent.threadTs
                     .takeIf { it != null } ?: appMentionEvent.ts)
                 ) {
                     val reactionResponse = this.addReaction("eyes")
-                    val messages = this.retrieveAllMessageNonBot()
+                    val messages = this.retrieveAllMessagesNonBot()
                     this.respond("I see ${messages.size} previous non bot messages")
                     this.removeReaction("eyes")
 
