@@ -1,6 +1,6 @@
 package com.github.frtu.kotlin.spring.slack.core
 
-import com.github.frtu.kotlin.spring.slack.config.SlackInitAppConfig.Companion.KEY_APP_TOKEN
+import com.github.frtu.kotlin.spring.slack.builder.SlackInitAppConfig.Companion.KEY_APP_TOKEN
 import com.slack.api.bolt.App
 import com.slack.api.bolt.socket_mode.SocketModeApp
 import com.slack.api.socket_mode.SocketModeClient

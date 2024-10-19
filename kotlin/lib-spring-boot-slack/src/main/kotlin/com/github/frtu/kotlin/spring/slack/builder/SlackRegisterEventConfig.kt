@@ -1,4 +1,4 @@
-package com.github.frtu.kotlin.spring.slack.config
+package com.github.frtu.kotlin.spring.slack.builder
 
 import com.github.frtu.kotlin.spring.slack.core.SlackEventHandlerRegistry
 import com.slack.api.bolt.App

@@ -1,4 +1,4 @@
-package com.github.frtu.kotlin.llm.spring.config
+package com.github.frtu.kotlin.llm.spring.builder
 
 import com.aallam.openai.api.chat.ChatChoice
 import com.github.frtu.kotlin.llm.os.llm.Chat
@@ -6,6 +6,7 @@ import com.github.frtu.kotlin.llm.os.llm.openai.OpenAiCompatibleChat
 import com.github.frtu.kotlin.llm.os.llm.openai.OpenAiCompatibleChat.Companion.LOCAL_MODEL
 import com.github.frtu.kotlin.llm.os.llm.openai.OpenAiCompatibleChat.Companion.LOCAL_URL
 import com.github.frtu.kotlin.llm.os.tool.FunctionRegistry
+import com.github.frtu.kotlin.llm.spring.config.ChatApiProperties
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean

@@ -1,5 +1,6 @@
-package com.github.frtu.kotlin.spring.slack.config
+package com.github.frtu.kotlin.spring.slack.builder
 
+import com.github.frtu.kotlin.spring.slack.config.SlackAppProperties
 import com.slack.api.bolt.App
 import com.slack.api.bolt.AppConfig
 import org.springframework.beans.factory.annotation.Qualifier
