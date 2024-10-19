@@ -8,7 +8,6 @@ import com.github.frtu.kotlin.llm.os.llm.openai.OpenAiCompatibleChat.Companion.L
 import com.github.frtu.kotlin.llm.os.tool.FunctionRegistry
 import com.github.frtu.kotlin.llm.spring.config.ChatApiProperties
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
-import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
@@ -16,7 +15,6 @@ import org.springframework.context.annotation.Configuration
  * Allow to bootstrap OpenAiCompatibleChat with OpenAI or Ollama
  */
 @Configuration
-@EnableConfigurationProperties(ChatApiProperties::class)
 class ChatApiConfigs {
     @Bean
     @ConditionalOnMissingBean

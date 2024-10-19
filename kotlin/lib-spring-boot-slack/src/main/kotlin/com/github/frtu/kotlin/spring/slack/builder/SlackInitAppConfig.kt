@@ -4,13 +4,11 @@ import com.github.frtu.kotlin.spring.slack.config.SlackAppProperties
 import com.slack.api.bolt.App
 import com.slack.api.bolt.AppConfig
 import org.springframework.beans.factory.annotation.Qualifier
-import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Lazy
 
 @Configuration
-@EnableConfigurationProperties(SlackAppProperties::class)
 class SlackInitAppConfig {
     @Bean
     fun appConfig(slackAppProperties: SlackAppProperties) = AppConfig.builder()

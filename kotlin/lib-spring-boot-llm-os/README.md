@@ -35,10 +35,45 @@ Check the latest version (clickable) :
 
 [<img src="https://img.shields.io/maven-central/v/com.github.frtu.libs/lib-spring-boot-llm-os.svg?label=latest%20release%20:%20lib-spring-boot-llm-os"/>](https://search.maven.org/#search%7Cga%7C1%7Ca%3A%22lib-utils%22+g%3A%22com.github.frtu.libs%22)
 
+## Compatibilities
+
+### Spring Boot 2.x
+
+Spring Boot 2.x requires Properties class to import version specific
+annotation `org.springframework.boot.context.properties.ConstructorBinding` that is different from Spring Boot 3.x.
+
+In order to enable properties loads from Spring Boot 2, create your own class that extends from `ChatApiProperties` :
+
+```kotlin
+import com.github.frtu.kotlin.llm.spring.config.ChatApiProperties
+import org.springframework.boot.context.properties.ConstructorBinding
+
+@ConstructorBinding
+class ChatApiPropertiesSpringBoot2(
+    apiKey: String? = null,
+    model: String = LOCAL_MODEL, // "mistral"
+    baseUrl: String = LOCAL_URL, // "http://localhost:11434/v1/"
+) : ChatApiProperties(
+    apiKey,
+    model,
+    baseUrl,
+)
+```
+
+You also need to copy your own version
+of [LlmOsAutoConfigs.kt](src%2Fmain%2Fkotlin%2Fcom%2Fgithub%2Ffrtu%2Fkotlin%2Fllm%2Fspring%2Fconfig%2FLlmOsAutoConfigs.kt)
+and exclude the current one :
+
+```yaml
+spring.autoconfigure.exclude:
+  - com.github.frtu.kotlin.llm.spring.config.LlmOsAutoConfigs
+```
 
 ## Release notes
 
 ### 2.0.6 - Current version
+
+* Enable to override and extends configs & properties for Spring Boot 2.x
 
 ### 2.0.5
 

@@ -148,9 +148,45 @@ Check the latest version (clickable) :
 
 * Sample application : [sample-spring-boot-slack](..%2Fsamples%2Fsample-spring-boot-slack)
 
+## Compatibilities
+
+### Spring Boot 2.x
+
+Spring Boot 2.x requires Properties class to import version specific
+annotation `org.springframework.boot.context.properties.ConstructorBinding` that is different from Spring Boot 3.x.
+
+In order to enable properties loads from Spring Boot 2, create your own class that extends from `SlackAppProperties` :
+
+```kotlin
+import com.github.frtu.kotlin.spring.slack.config.SlackAppProperties
+import org.springframework.boot.context.properties.ConstructorBinding
+
+@ConstructorBinding
+class SlackAppPropertiesSpringBoot2(
+    token: String,
+    signingSecret: String,
+    botOauthToken: String,
+) : SlackAppProperties(
+    token,
+    signingSecret,
+    botOauthToken,
+)
+```
+
+You also need to copy your own version
+of [SlackAutoConfigs.kt](src%2Fmain%2Fkotlin%2Fcom%2Fgithub%2Ffrtu%2Fkotlin%2Fspring%2Fslack%2Fconfig%2FSlackAutoConfigs.kt)
+and exclude the current one :
+
+```yaml
+spring.autoconfigure.exclude:
+  - com.github.frtu.kotlin.spring.slack.config.SlackAutoConfigs
+```
+
 ## Release notes
 
 ### 2.0.6 - Current version
+
+* Enable to override and extends configs & properties for Spring Boot 2.x
 
 ### 2.0.5
 
