@@ -47,24 +47,12 @@
             <plugin>
                 <groupId>org.jetbrains.kotlin</groupId>
                 <artifactId>kotlin-maven-plugin</artifactId>
-                <version>${kotlin.version}</version>
                 <!--https://kotlinlang.org/docs/reference/compiler-plugins.html-->
                 <configuration>
-                    <args>
-                        <arg>-Xjsr305=strict</arg>
-                    </args>
                     <compilerPlugins>
                         <plugin>spring</plugin>
                     </compilerPlugins>
-                    <jvmTarget>${java.version}</jvmTarget>
                 </configuration>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.jetbrains.kotlin</groupId>
-                        <artifactId>kotlin-maven-allopen</artifactId>
-                        <version>${kotlin.version}</version>
-                    </dependency>
-                </dependencies>
             </plugin>
         </plugins>
         <pluginManagement>
@@ -76,7 +64,9 @@
                     <configuration>
                         <jvmTarget>${java.version}</jvmTarget>
                         <javaParameters>true</javaParameters>
-                        <scanForAnnotations>false</scanForAnnotations>
+                        <args>
+                            <arg>-Xjsr305=strict</arg>
+                        </args>
                     </configuration>
                     <executions>
                         <execution>
@@ -94,6 +84,20 @@
                             </goals>
                         </execution>
                     </executions>
+                    <dependencies>
+                        <!-- https://kotlinlang.org/docs/no-arg-plugin.html -->
+                        <dependency>
+                            <groupId>org.jetbrains.kotlin</groupId>
+                            <artifactId>kotlin-maven-noarg</artifactId>
+                            <version>${kotlin.version}</version>
+                        </dependency>
+                        <!-- https://kotlinlang.org/docs/all-open-plugin.html -->
+                        <dependency>
+                            <groupId>org.jetbrains.kotlin</groupId>
+                            <artifactId>kotlin-maven-allopen</artifactId>
+                            <version>${kotlin.version}</version>
+                        </dependency>
+                    </dependencies>
                 </plugin>
             </plugins>
         </pluginManagement>

@@ -45,6 +45,13 @@
             <artifactId>kotlinx-coroutines-core</artifactId>
         </dependency>
 
+        <!--Internal projects -->
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>lib-utils</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
         <!--===========================-->
         <!-- SPRING BOOT -->
         <!--===========================-->
@@ -133,65 +140,21 @@
             <plugin>
                 <groupId>org.jetbrains.kotlin</groupId>
                 <artifactId>kotlin-maven-plugin</artifactId>
-                <version>${kotlin.version}</version>
                 <!--https://kotlinlang.org/docs/reference/compiler-plugins.html-->
                 <configuration>
-                    <args>
-                        <arg>-Xjsr305=strict</arg>
-                    </args>
                     <compilerPlugins>
                         <plugin>spring</plugin>
+                        <!-- https://kotlinlang.org/docs/no-arg-plugin.html -->
+                        <plugin>no-arg</plugin>
+                        <!-- https://kotlinlang.org/docs/all-open-plugin.html -->
+                        <plugin>all-open</plugin>
                     </compilerPlugins>
-                    <jvmTarget>${java.version}</jvmTarget>
-                </configuration>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.jetbrains.kotlin</groupId>
-                        <artifactId>kotlin-maven-allopen</artifactId>
-                        <version>${kotlin.version}</version>
-                    </dependency>
-                </dependencies>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.0</version>
-                <configuration>
-                    <compilerVersion>${java.version}</compilerVersion>
-                    <source>${java.version}</source>
-                    <target>${java.version}</target>
-                    <compilerArgument>-proc:none</compilerArgument>
+                    <pluginOptions>
+                        <option>no-arg:annotation=com.github.frtu.kotlin.utils.data.ValueObject</option>
+                        <option>all-open:annotation=com.github.frtu.kotlin.utils.data.ValueObject</option>
+                    </pluginOptions>
                 </configuration>
             </plugin>
         </plugins>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.jetbrains.kotlin</groupId>
-                    <artifactId>kotlin-maven-plugin</artifactId>
-                    <version>${kotlin.version}</version>
-                    <configuration>
-                        <jvmTarget>${java.version}</jvmTarget>
-                        <javaParameters>true</javaParameters>
-                    </configuration>
-                    <executions>
-                        <execution>
-                            <id>compile</id>
-                            <phase>compile</phase>
-                            <goals>
-                                <goal>compile</goal>
-                            </goals>
-                        </execution>
-                        <execution>
-                            <id>test-compile</id>
-                            <phase>test-compile</phase>
-                            <goals>
-                                <goal>test-compile</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                </plugin>
-            </plugins>
-        </pluginManagement>
     </build>
 </project>

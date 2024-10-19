@@ -31,6 +31,11 @@
         <!--Internal projects -->
         <dependency>
             <groupId>${project.groupId}</groupId>
+            <artifactId>lib-utils</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
             <artifactId>lib-serdes-json</artifactId>
             <version>${project.version}</version>
         </dependency>
@@ -79,4 +84,27 @@
             <scope>provided</scope>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.jetbrains.kotlin</groupId>
+                <artifactId>kotlin-maven-plugin</artifactId>
+                <!--https://kotlinlang.org/docs/reference/compiler-plugins.html-->
+                <configuration>
+                    <compilerPlugins>
+                        <plugin>spring</plugin>
+                        <!-- https://kotlinlang.org/docs/no-arg-plugin.html -->
+                        <plugin>no-arg</plugin>
+                        <!-- https://kotlinlang.org/docs/all-open-plugin.html -->
+                        <plugin>all-open</plugin>
+                    </compilerPlugins>
+                    <pluginOptions>
+                        <option>no-arg:annotation=com.github.frtu.kotlin.utils.data.ValueObject</option>
+                        <option>all-open:annotation=com.github.frtu.kotlin.utils.data.ValueObject</option>
+                    </pluginOptions>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>
