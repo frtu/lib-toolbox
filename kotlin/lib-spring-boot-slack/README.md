@@ -184,7 +184,7 @@ spring.autoconfigure.exclude:
 
 ## Release notes
 
-### 2.0.6 - Current version
+### 2.0.6
 
 * Enable to override and extends configs & properties for Spring Boot 2.x
 

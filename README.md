@@ -8,6 +8,8 @@ All libraries for [kotlin](kotlin)
 ### Middleware & Spring Boot bootstrap
 
 * [lib-spring-boot-slack](kotlin/lib-spring-boot-slack) : Allow to start Slack connectivity along with spring boot lifecycle
+* [lib-spring-boot-llm-os](kotlin%2Flib-spring-boot-llm-os) : Allow to bootstrap agent framework with OpenAI or local
+  Ollama
 * [workflows](kotlin/workflows) : Temporal & Serverless workflow
 
 ### Tests
@@ -37,10 +39,6 @@ Check latest release notes at https://github.com/frtu/lib-toolbox/releases
 
 * Adding [lib-serdes-json](kotlin%2Flib-serdes-json)
 * Adding [lib-spring-boot-llm-os](kotlin%2Flib-spring-boot-llm-os)
-
-#### lib-spring-boot-slack
-
-* Adding ability to run long-running command (>3s) using `LongRunningSlashCommandHandler`
 
 ### 2.0.3
 

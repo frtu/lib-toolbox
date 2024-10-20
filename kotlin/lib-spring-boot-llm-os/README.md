@@ -73,9 +73,11 @@ spring.autoconfigure.exclude:
 
 ## Release notes
 
-### 2.0.6 - Current version
+### 2.0.6
 
 * Adding `Tool` & `Executable` as function & agent abstraction
+* Adding `AbstractAgent` implementing tools & manage stateful conversation if needed
+* Adding `UnstructuredBaseAgent` providing ability to call simple Q&A with Text format
 * Refactor `Function`* into dedicate package `com.github.frtu.kotlin.llm.os.tool.function`
 * Enable to override and extends configs & properties for Spring Boot 2.x
 
