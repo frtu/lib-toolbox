@@ -5,7 +5,7 @@ import com.github.frtu.kotlin.llm.os.llm.MessageBuilder
 import com.github.frtu.kotlin.llm.os.llm.MessageBuilder.createMessage
 
 /**
- * Message class is a base unit from a Thread
+ * Short term memory - Ephemeral message class is a base unit from a Thread
  * @author frtu
  */
 data class Conversation(
