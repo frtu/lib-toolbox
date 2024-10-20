@@ -51,7 +51,7 @@ suspend fun main() {
     }
 }
 
-private fun chatOllama(
+fun chatOllama(
     functionRegistry: FunctionRegistry,
     model: String = "mistral",
     baseUrl: String = "http://localhost:11434/v1/",
@@ -63,7 +63,7 @@ private fun chatOllama(
     defaultEvaluator = { chatChoices -> chatChoices.first() }
 )
 
-private fun chatOpenAI(
+fun chatOpenAI(
     apiKey: String,
     functionRegistry: FunctionRegistry? = null,
     model: String = "gpt-4o",
@@ -74,7 +74,7 @@ private fun chatOpenAI(
     defaultEvaluator = { chatChoices -> chatChoices.first() }
 )
 
-private fun buildFunctionRegistry(): FunctionRegistry = registry {
+fun buildFunctionRegistry(): FunctionRegistry = registry {
     function(
         name = "get_current_weather", description = "Get the current weather in a given location",
         kFunction2 = ::currentWeather, parameterClass = WeatherInfo::class.java, String::class.java,

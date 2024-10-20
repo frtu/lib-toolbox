@@ -13,4 +13,6 @@ object SchemaGen {
     fun generateJsonSchema(parameterClass: Class<*>): String {
         return objectMapper.writeValueAsString(jsonSchemaGenerator.generateJsonSchema(parameterClass))
     }
+
+    val STRING_SCHEMA = generateJsonSchema(String::class.java)
 }
