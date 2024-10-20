@@ -7,6 +7,8 @@ Provide a platform for LLM :
 * Abstract OpenAI api using `OpenAiCompatibleChat` (can call [Ollama](https://ollama.com/))
 * Register tool with Function calls
 
+Generalisation an extracted from project [frtu/agents-os](https://github.com/frtu/agents-os)
+
 ## Import
 
 Import using Maven :
