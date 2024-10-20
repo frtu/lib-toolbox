@@ -1,4 +1,4 @@
-package com.github.frtu.kotlin.llm.os.tool
+package com.github.frtu.kotlin.llm.os.tool.function
 
 import com.aallam.openai.api.chat.ChatCompletionFunction
 import kotlin.reflect.KFunction2

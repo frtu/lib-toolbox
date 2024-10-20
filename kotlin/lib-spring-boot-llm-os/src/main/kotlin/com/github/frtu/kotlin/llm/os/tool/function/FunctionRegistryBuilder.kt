@@ -1,4 +1,4 @@
-package com.github.frtu.kotlin.llm.os.tool
+package com.github.frtu.kotlin.llm.os.tool.function
 
 import com.github.frtu.kotlin.llm.os.builder.BuilderMarker
 import kotlin.reflect.KFunction2

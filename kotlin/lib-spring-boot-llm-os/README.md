@@ -74,6 +74,7 @@ spring.autoconfigure.exclude:
 ### 2.0.6 - Current version
 
 * Enable to override and extends configs & properties for Spring Boot 2.x
+* Refactor `Function`* into dedicate package `com.github.frtu.kotlin.llm.os.tool.function`
 
 ### 2.0.5
 

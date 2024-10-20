@@ -1,4 +1,4 @@
-package com.github.frtu.kotlin.llm.os.tool
+package com.github.frtu.kotlin.llm.os.tool.function
 
 data class FunctionParameter(
     val name: String,
