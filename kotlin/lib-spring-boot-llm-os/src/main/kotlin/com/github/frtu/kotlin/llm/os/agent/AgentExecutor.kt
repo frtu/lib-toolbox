@@ -11,7 +11,7 @@ import com.github.frtu.kotlin.utils.io.toJsonNode
  * An agent implementation knowing how to execute tools
  *
  * @author Frédéric TU
- * @since 2.0.6
+ * @since 2.0.7
  */
 abstract class AgentExecutor(
     /** Name */
@@ -43,14 +43,15 @@ abstract class AgentExecutor(
     ): Answer {
         // Use by priority : parameter, else stateful, else create a new
         val conversation = conversationOverride ?: statefulConversation ?: Conversation(instructions)
-
         var intermediateAnswer = super.answer(request, conversation)
-        return if (intermediateAnswer.hasToolCall) {
+
+        val functionCall = intermediateAnswer.message.functionCall
+        return if (functionCall != null) {
+            // Maintain Conversation when tool call is needed
             with(conversation) {
                 val message = intermediateAnswer.message
                 this.addResponse(message)
 
-                val functionCall = message.functionCall!!
                 val functionName = functionCall.name
 
                 val functionToCall: Tool = toolRegistry!!.getFunction(functionName)
@@ -67,8 +68,12 @@ abstract class AgentExecutor(
                 logger.debug("2nd response:${secondResponse.message.content}")
                 secondResponse
             }
-        } else {
+        } else if (intermediateAnswer.content != null) {
             intermediateAnswer
+        } else {
+            throw IllegalStateException("answer.content is null but no function call detected!").also {
+                logger.error("Error with answer:$intermediateAnswer", it)
+            }
         }
     }
 }

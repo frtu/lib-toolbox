@@ -73,6 +73,10 @@ spring.autoconfigure.exclude:
 
 ## Release notes
 
+### 2.0.7 - Current version
+
+* Adding `AgentExecutor` providing ability to call Tools
+
 ### 2.0.6
 
 * Adding `Tool` & `Executable` as function & agent abstraction
