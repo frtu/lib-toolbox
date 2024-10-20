@@ -73,8 +73,9 @@ spring.autoconfigure.exclude:
 
 ### 2.0.6 - Current version
 
-* Enable to override and extends configs & properties for Spring Boot 2.x
+* Adding `Tool` & `Executable` as function & agent abstraction
 * Refactor `Function`* into dedicate package `com.github.frtu.kotlin.llm.os.tool.function`
+* Enable to override and extends configs & properties for Spring Boot 2.x
 
 ### 2.0.5
 

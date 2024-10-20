@@ -4,11 +4,12 @@ import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.github.frtu.kotlin.llm.os.llm.Chat
 import com.github.frtu.kotlin.llm.os.llm.openai.OpenAiCompatibleChat
 import com.github.frtu.kotlin.llm.os.memory.Conversation
+import com.github.frtu.kotlin.llm.os.tool.Tool
 import com.github.frtu.kotlin.llm.os.tool.function.FunctionRegistry
 import com.github.frtu.kotlin.llm.os.tool.function.registry
 import com.github.frtu.kotlin.llm.os.udf.WeatherInfo
 import com.github.frtu.kotlin.llm.os.udf.WeatherInfoMultiple
-import kotlinx.serialization.json.jsonPrimitive
+import com.github.frtu.kotlin.utils.io.toJsonNode
 
 suspend fun main() {
     val apiKey = "sk-xxx"
@@ -30,20 +31,22 @@ suspend fun main() {
         message.functionCall?.let { functionCall ->
             this.addResponse(message)
 
-            val functionToCall = functionRegistry.getFunction(functionCall.name).action
+            val functionToCall: Tool = functionRegistry.getFunction(functionCall.name)
 
-            val functionArgs = functionCall.argumentsAsJson()
-            val location = functionArgs.getValue("location").jsonPrimitive.content
-            val unit = functionArgs["unit"]?.jsonPrimitive?.content ?: "fahrenheit"
-            val numberOfDays = functionArgs.getValue("numberOfDays").jsonPrimitive.content
+            val functionArgs = functionCall.arguments.toJsonNode()
+            println("Request:${functionArgs.toPrettyString()}")
+            val result = functionToCall.execute(functionArgs)
+//            val location = functionArgs["location"].textValue()
+//            val unit = functionArgs["unit"]?.textValue() ?: "fahrenheit"
+//            val numberOfDays = functionArgs["numberOfDays"].textValue()
 
             val secondResponse = chat.sendMessage(
                 function(
                     functionName = functionCall.name,
-                    content = functionToCall(location, unit)
+                    content = result.textValue()
                 )
             )
-            println(secondResponse.message.content)
+            println("Response:${secondResponse.message.content}")
         } ?: println(message.content)
     }
 }
