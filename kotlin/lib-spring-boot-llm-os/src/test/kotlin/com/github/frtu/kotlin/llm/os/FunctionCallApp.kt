@@ -1,15 +1,14 @@
 package com.github.frtu.kotlin.llm.os
 
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.github.frtu.kotlin.llm.os.llm.Chat
 import com.github.frtu.kotlin.llm.os.llm.openai.OpenAiCompatibleChat
 import com.github.frtu.kotlin.llm.os.memory.Conversation
 import com.github.frtu.kotlin.llm.os.tool.Tool
 import com.github.frtu.kotlin.llm.os.tool.function.FunctionRegistry
 import com.github.frtu.kotlin.llm.os.tool.function.registry
-import com.github.frtu.kotlin.llm.os.udf.WeatherInfo
-import com.github.frtu.kotlin.llm.os.udf.WeatherInfoMultiple
 import com.github.frtu.kotlin.utils.io.toJsonNode
+import sample.tool.function.CurrentWeatherFunction
+import sample.tool.function.WeatherForecastFunction
 
 suspend fun main() {
     val apiKey = "sk-xxx"
@@ -75,17 +74,7 @@ fun chatOpenAI(
 )
 
 fun buildFunctionRegistry(): FunctionRegistry = registry {
-    function(
-        name = "get_current_weather", description = "Get the current weather in a given location",
-        kFunction2 = ::currentWeather, parameterClass = WeatherInfo::class.java, String::class.java,
-    )
-    function(
-        name = "get_n_day_weather_forecast", description = "Get an N-day weather forecast",
-        kFunction2 = ::currentWeather, parameterClass = WeatherInfoMultiple::class.java, String::class.java,
-    )
+    register(CurrentWeatherFunction())
+    register(WeatherForecastFunction())
 }
 
-fun currentWeather(location: String, unit: String): String {
-    val weatherInfo = WeatherInfo(location, unit, "72", listOf("sunny", "windy"))
-    return jacksonObjectMapper().writeValueAsString(weatherInfo)
-}

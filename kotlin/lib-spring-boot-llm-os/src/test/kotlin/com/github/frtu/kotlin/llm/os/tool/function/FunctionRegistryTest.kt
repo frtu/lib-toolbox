@@ -1,11 +1,10 @@
 package com.github.frtu.kotlin.llm.os.tool.function
 
-import com.github.frtu.kotlin.llm.os.currentWeather
-import com.github.frtu.kotlin.llm.os.udf.WeatherInfo
 import io.kotlintest.matchers.types.shouldNotBeNull
 import io.kotlintest.shouldBe
 import org.junit.jupiter.api.Test
 import org.slf4j.LoggerFactory
+import sample.tool.function.CurrentWeatherFunction
 
 class FunctionRegistryTest {
     @Test
@@ -13,15 +12,15 @@ class FunctionRegistryTest {
         //--------------------------------------
         // 1. Init
         //--------------------------------------
-        val functionName = "currentWeather"
-        val functionDescription = "Get the current weather in a given location"
-        val parameterClass = WeatherInfo::class.java
+        val function = CurrentWeatherFunction()
+        val functionName = function.name
+        val functionDescription = function.description
 
         val functionRegistry = FunctionRegistry()
         //--------------------------------------
         // 2. Execute
         //--------------------------------------
-        functionRegistry.registerFunction(functionName, functionDescription, ::currentWeather, parameterClass, String::class.java)
+        functionRegistry.registerFunction(function)
         val result = functionRegistry.getRegistry()
         logger.debug("result:$result")
 

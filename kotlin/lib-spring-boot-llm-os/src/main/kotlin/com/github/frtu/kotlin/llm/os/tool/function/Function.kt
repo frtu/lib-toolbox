@@ -11,12 +11,11 @@ import kotlin.reflect.KFunction2
 /**
  * Base class for callable function
  */
-class Function(
+abstract class Function(
     name: String,
     description: String,
     parameterJsonSchema: String,
     returnJsonSchema: String,
-    val action: KFunction2<String, String, String>,
 //    val parameters: List<Parameter>,
 ) : Tool(
     name = name,
@@ -24,37 +23,20 @@ class Function(
     parameterJsonSchema = parameterJsonSchema,
     returnJsonSchema = returnJsonSchema,
 ) {
-    override suspend fun execute(parameter: JsonNode): JsonNode {
-        val location = parameter["location"].textValue()
-        val unit = parameter["unit"]?.textValue() ?: "fahrenheit"
-        val result = action.invoke(location, unit)
-        return TextNode.valueOf(result)
-    }
+    constructor(
+        name: String,
+        description: String,
+        parameterClass: Class<*>,
+        returnClass: Class<*>,
+    ) : this(
+        name = name,
+        description = description,
+        parameterJsonSchema = SchemaGen.generateJsonSchema(parameterClass),
+        returnJsonSchema = SchemaGen.generateJsonSchema(returnClass),
+    )
 
     fun toChatCompletionFunction() = ChatCompletionFunction(
         name, description,
         Parameters.fromJsonString(parameterJsonSchema),
     )
 }
-
-fun function(
-    name: String,
-    description: String,
-    action: KFunction2<String, String, String>,
-    parameterJsonSchema: String,
-    returnJsonSchema: String,
-) = Function(name, description, parameterJsonSchema, returnJsonSchema, action)
-
-fun function(
-    name: String,
-    description: String,
-    action: KFunction2<String, String, String>,
-    parameterClass: Class<*>,
-    returnClass: Class<*>,
-) = Function(
-    name,
-    description,
-    SchemaGen.generateJsonSchema(parameterClass),
-    SchemaGen.generateJsonSchema(returnClass),
-    action,
-)
