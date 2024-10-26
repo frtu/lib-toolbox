@@ -1,5 +1,6 @@
 package com.github.frtu.kotlin.llm.os.tool.function
 
+import com.github.frtu.kotlin.llm.os.tool.ToolExecuter
 import com.github.frtu.kotlin.serdes.json.schema.SchemaGen
 
 /**
@@ -9,9 +10,9 @@ abstract class Function(
     name: String,
     description: String,
     parameterJsonSchema: String,
-    returnJsonSchema: String,
+    returnJsonSchema: String?,
 //    val parameters: List<Parameter>,
-) : Tool(
+) : ToolExecuter(
     name = name,
     description = description,
     parameterJsonSchema = parameterJsonSchema,

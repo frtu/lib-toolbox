@@ -12,7 +12,7 @@ import com.github.frtu.kotlin.utils.io.toJsonNode
  * @author Frédéric TU
  * @since 2.0.7
  */
-abstract class AgentExecutor(
+abstract class AgentExecuter(
     /** Name */
     name: String,
     /** Description */

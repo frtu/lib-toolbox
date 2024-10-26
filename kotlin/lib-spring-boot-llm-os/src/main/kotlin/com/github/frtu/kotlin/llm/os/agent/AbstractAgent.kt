@@ -4,6 +4,7 @@ import com.github.frtu.kotlin.llm.os.llm.Chat
 import com.github.frtu.kotlin.llm.os.llm.model.Answer
 import com.github.frtu.kotlin.llm.os.memory.Conversation
 import com.github.frtu.kotlin.llm.os.tool.Tool
+import com.github.frtu.kotlin.llm.os.tool.ToolExecuter
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -28,7 +29,7 @@ abstract class AbstractAgent(
     parameterJsonSchema: String,
     returnJsonSchema: String? = null,
     isStateful: Boolean = false,
-) : Tool(
+) : ToolExecuter(
     name = name,
     description = description,
     parameterJsonSchema = parameterJsonSchema,
