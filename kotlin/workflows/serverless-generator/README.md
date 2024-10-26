@@ -61,6 +61,10 @@ Check the latest version (clickable) :
 
 ## Release notes
 
-### 1.2.5 - Current version
+### 2.0.7
+
+* Reactivate `serverless-generator`
+
+### 1.2.5
 
 * Initial version

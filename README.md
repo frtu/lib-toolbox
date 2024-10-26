@@ -39,6 +39,7 @@ Check latest release notes at https://github.com/frtu/lib-toolbox/releases
 ### 2.0.7
 
 * Reactivate [lib-workflow](kotlin/workflows/lib-workflow)
+* Reactivate [serverless-generator](kotlin/workflows/serverless-generator)
 
 ### 2.0.4
 
