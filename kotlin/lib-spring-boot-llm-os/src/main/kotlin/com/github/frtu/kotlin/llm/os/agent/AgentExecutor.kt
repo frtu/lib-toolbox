@@ -4,6 +4,7 @@ import com.github.frtu.kotlin.llm.os.llm.Chat
 import com.github.frtu.kotlin.llm.os.llm.model.Answer
 import com.github.frtu.kotlin.llm.os.memory.Conversation
 import com.github.frtu.kotlin.llm.os.tool.Tool
+import com.github.frtu.kotlin.llm.os.tool.ToolRegistry
 import com.github.frtu.kotlin.llm.os.tool.function.FunctionRegistry
 import com.github.frtu.kotlin.utils.io.toJsonNode
 
@@ -26,7 +27,7 @@ abstract class AgentExecutor(
     returnJsonSchema: String? = null,
     isStateful: Boolean = false,
     /** For function / tool execution */
-    protected val toolRegistry: FunctionRegistry? = null,
+    protected val toolRegistry: ToolRegistry? = null,
 ) : AbstractAgent(
     name = name,
     description = description,
@@ -47,27 +48,30 @@ abstract class AgentExecutor(
 
         val functionCall = intermediateAnswer.message.functionCall
         return if (functionCall != null) {
-            // Maintain Conversation when tool call is needed
-            with(conversation) {
-                val message = intermediateAnswer.message
-                this.addResponse(message)
+            val functionName = functionCall.name
+            val functionArgs = functionCall.arguments.toJsonNode()
+            logger.debug("Function call request:${functionArgs.toPrettyString()}")
 
-                val functionName = functionCall.name
+            toolRegistry?.get(functionName)?.let { tool ->
+                // Maintain Conversation when tool call is needed
+                with(conversation) {
+                    val message = intermediateAnswer.message
+                    this.addResponse(message)
 
-                val functionToCall: Tool = toolRegistry!!.getFunction(functionName)
-                val functionArgs = functionCall.arguments.toJsonNode()
-                logger.debug("Request:${functionArgs.toPrettyString()}")
-
-                val result = functionToCall.execute(functionArgs)
-                val secondResponse = chat.sendMessage(
-                    function(
-                        functionName = functionName,
-                        content = result.textValue()
+                    val result = tool.execute(functionArgs)
+                    val secondResponse = chat.sendMessage(
+                        function(
+                            functionName = functionName,
+                            content = result.textValue()
+                        )
                     )
-                )
-                logger.debug("2nd response:${secondResponse.message.content}")
-                secondResponse
+                    logger.debug("2nd response:${secondResponse.message.content}")
+                    secondResponse
+                }
             }
+                ?: throw IllegalStateException("Requesting calling tool:$functionCall that doesn't exist using ${functionArgs.toPrettyString()}")
+        } else if (intermediateAnswer.hasToolCall) {
+            intermediateAnswer
         } else if (intermediateAnswer.content != null) {
             intermediateAnswer
         } else {

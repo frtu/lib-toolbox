@@ -10,10 +10,7 @@ suspend fun main() {
 
     val functionRegistry = buildFunctionRegistry()
     val toolRegistry = ToolRegistry(
-        mutableMapOf(
-            CurrentWeatherFunction.TOOL_NAME to CurrentWeatherFunction(),
-            WeatherForecastFunction.TOOL_NAME to WeatherForecastFunction(),
-        )
+        listOf(CurrentWeatherFunction(), WeatherForecastFunction())
     )
 
     // === Choose between OpenAI & open source ===
@@ -26,7 +23,7 @@ suspend fun main() {
         description = "You're an agent talking about weather",
         instructions = "Don't make assumptions about what values to plug into functions. Ask for clarification if a user request is ambiguous.",
         chat = chat,
-        toolRegistry = functionRegistry,
+        toolRegistry = toolRegistry,
         isStateful = true,
     )
     val response = weatherAgent.execute("What's the weather like in Glasgow, Scotland over the next 5 days?")

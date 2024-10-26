@@ -83,7 +83,7 @@ class OpenAiCompatibleChat(
             model = modelId
             messages = chatMessages
             toolRegistry?.let {
-                functions = toolRegistry.getAll().map { it.value.toChatCompletionFunction() }
+                functions = toolRegistry.getAll().map { it.toChatCompletionFunction() }
                 functionCall = FunctionMode.Auto
             }
         }

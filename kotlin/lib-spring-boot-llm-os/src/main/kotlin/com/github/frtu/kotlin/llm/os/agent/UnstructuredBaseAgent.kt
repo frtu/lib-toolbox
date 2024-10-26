@@ -3,6 +3,7 @@ package com.github.frtu.kotlin.llm.os.agent
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.node.TextNode
 import com.github.frtu.kotlin.llm.os.llm.Chat
+import com.github.frtu.kotlin.llm.os.tool.ToolRegistry
 import com.github.frtu.kotlin.llm.os.tool.function.FunctionRegistry
 import com.github.frtu.kotlin.serdes.json.schema.SchemaGen.STRING_SCHEMA
 
@@ -22,7 +23,7 @@ class UnstructuredBaseAgent(
     /** Engine containing model version */
     chat: Chat,
     /** For function / tool execution */
-    toolRegistry: FunctionRegistry? = null,
+    toolRegistry: ToolRegistry? = null,
     isStateful: Boolean = false,
 ) : AgentExecutor(
     name = name,
