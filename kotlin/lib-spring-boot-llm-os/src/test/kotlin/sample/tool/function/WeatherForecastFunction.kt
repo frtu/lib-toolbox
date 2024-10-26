@@ -9,7 +9,7 @@ import sample.tool.function.model.WeatherInfoMultiple
 class WeatherForecastFunction(
     private val action: KFunction2<String, String, String> = ::currentWeather,
 ): Function(
-    name = "get_n_day_weather_forecast",
+    name = TOOL_NAME,
     description = "Get an N-day weather forecast",
     parameterClass = WeatherInfoMultiple::class.java,
     String::class.java,
@@ -22,6 +22,6 @@ class WeatherForecastFunction(
     }
 
     companion object {
-        const val TOOL_NAME = "weatherForecastFunction"
+        const val TOOL_NAME = "get_n_day_weather_forecast"
     }
 }

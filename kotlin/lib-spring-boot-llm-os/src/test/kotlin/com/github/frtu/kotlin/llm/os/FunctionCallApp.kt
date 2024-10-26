@@ -16,10 +16,7 @@ suspend fun main() {
 
     val functionRegistry = buildFunctionRegistry()
     val toolRegistry = ToolRegistry(
-        mutableMapOf(
-            CurrentWeatherFunction.TOOL_NAME to CurrentWeatherFunction(),
-            WeatherForecastFunction.TOOL_NAME to WeatherForecastFunction(),
-        )
+        listOf(CurrentWeatherFunction(), WeatherForecastFunction())
     )
 
     // === Choose between OpenAI & open source ===

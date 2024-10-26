@@ -10,7 +10,7 @@ import kotlin.reflect.KFunction2
 class CurrentWeatherFunction(
     private val action: KFunction2<String, String, String> = ::currentWeather,
 ) : Function(
-    name = "get_current_weather",
+    name = TOOL_NAME,
     description = "Get the current weather in a given location",
     parameterClass = WeatherInfo::class.java,
     String::class.java,
@@ -23,7 +23,7 @@ class CurrentWeatherFunction(
     }
 
     companion object {
-        const val TOOL_NAME = "currentWeatherFunction"
+        const val TOOL_NAME = "get_current_weather"
     }
 }
 

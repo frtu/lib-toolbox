@@ -75,15 +75,16 @@ spring.autoconfigure.exclude:
 
 ### 2.0.7 - Current version
 
-* Adding `ToolRegistry` aggregating all `Tool` in the classpath
-* Adding `AgentExecutor` providing ability to call Tools
+* Adding `ToolRegistry` aggregating all `Tool` from the classpath & add `split` to create specific tools by agent  
+* Adding `AgentExecutor` providing ability to execute `Tool`
+* Refactor `Function` as an abstract class allowing to customize execution
 
 ### 2.0.6
 
 * Adding `Tool` & `Executable` as function & agent abstraction
 * Adding `AbstractAgent` implementing tools & manage stateful conversation if needed
 * Adding `UnstructuredBaseAgent` providing ability to call simple Q&A with Text format
-* Refactor `Function`* into dedicate package `com.github.frtu.kotlin.llm.os.tool.function`
+* Refactor `Function` into dedicate package `com.github.frtu.kotlin.llm.os.tool.function`
 * Enable to override and extends configs & properties for Spring Boot 2.x
 
 ### 2.0.5
