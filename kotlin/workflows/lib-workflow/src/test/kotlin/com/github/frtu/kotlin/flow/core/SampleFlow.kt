@@ -1,13 +1,13 @@
-package com.github.frtu.kotlin.flow.model
+package com.github.frtu.kotlin.flow.core
 
-import com.github.frtu.kotlin.flow.core.AbstractFlow
+import com.github.frtu.kotlin.flow.model.Event
 
 /**
  * A sample business flow defining : the Event, what is the ID and validation rules, how to execute request.
  * @author Frédéric TU
  * @since 1.1.4
  */
-open class SampleFlow(
+class SampleFlow(
     name: String,
     private val shouldSucceed: Boolean = true
 ) : AbstractFlow<Event, String>(name) {
@@ -20,5 +20,5 @@ open class SampleFlow(
     override fun doExecute(event: Event): String =
         if (shouldSucceed)
             "SUCCESS"
-        else throw IllegalStateException("Error in BusinessFlow[$name]")
+        else throw IllegalStateException("Error in BusinessFlow[$flowName]")
 }

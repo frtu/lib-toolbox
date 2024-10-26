@@ -13,8 +13,8 @@ import org.slf4j.LoggerFactory
  * @since 1.1.4
  */
 abstract class AbstractFlow<INPUT, OUTPUT>(
-    override val name: String,
-    protected val logger: Logger = LoggerFactory.getLogger("flow.$name"),
+    override val flowName: String,
+    protected val logger: Logger = LoggerFactory.getLogger("flow.$flowName"),
     private val errorHandler: ErrorHandler = LogErrorHandler(logger),
 ) : Flow<INPUT, OUTPUT> {
     override fun execute(input: INPUT): OUTPUT {
@@ -40,7 +40,7 @@ abstract class AbstractFlow<INPUT, OUTPUT>(
     protected abstract fun doExecute(input: INPUT): OUTPUT
 
     protected val structuredLogger = StructuredLogger.create(logger)
-    protected val logInterceptorFlow: LogInterceptorFlow = LogInterceptorFlow(structuredLogger, name)
+    protected val logInterceptorFlow: LogInterceptorFlow = LogInterceptorFlow(structuredLogger, flowName)
 
     // TODO Move to a dedicated Util class
     protected fun checkNotNull(paramValue: Any?, paramName: String) =

@@ -1,4 +1,4 @@
-package com.github.frtu.kotlin.flow.model
+package com.github.frtu.kotlin.flow.core
 
 import com.github.frtu.kotlin.patterns.AbstractRegistry
 import com.github.frtu.kotlin.patterns.UnrecognizedElementException
@@ -10,9 +10,9 @@ import com.github.frtu.kotlin.patterns.UnrecognizedElementException
  */
 class SampleFlowRegistry(defaultElement: SampleFlow) :
     AbstractRegistry<String, SampleFlow>(
-        "flow", mutableMapOf(defaultElement.name to defaultElement)
+        "flow", mutableMapOf(defaultElement.flowName to defaultElement)
     ) {
-    private val defaultKey = defaultElement.name
+    private val defaultKey = defaultElement.flowName
 
     public override fun register(name: String, element: SampleFlow) =
         super.register(name, element) as SampleFlowRegistry

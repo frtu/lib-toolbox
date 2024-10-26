@@ -11,6 +11,7 @@ All libraries for [kotlin](kotlin)
 * [lib-spring-boot-llm-os](kotlin%2Flib-spring-boot-llm-os) : Allow to bootstrap agent framework with OpenAI or local
   Ollama
 * [workflows](kotlin/workflows) : Temporal & Serverless workflow
+* [lib-workflow](kotlin/workflows/lib-workflow) : Lightweight workflow for `Tool`
 
 ### Tests
 
@@ -34,6 +35,10 @@ All libraries for [java](java)
 ## Release notes
 
 Check latest release notes at https://github.com/frtu/lib-toolbox/releases
+
+### 2.0.7
+
+* Reactivate [lib-workflow](kotlin/workflows/lib-workflow)
 
 ### 2.0.4
 

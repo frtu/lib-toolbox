@@ -1,11 +1,12 @@
 package com.github.frtu.kotlin.patterns
 
-import com.github.frtu.kotlin.flow.model.SampleFlow
-import com.github.frtu.kotlin.flow.model.SampleFlowRegistry
+import com.github.frtu.kotlin.flow.core.SampleFlow
+import com.github.frtu.kotlin.flow.core.SampleFlowRegistry
+import io.kotlintest.shouldBe
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
-internal class SamleFlowRegistryTest {
+internal class SampleFlowRegistryTest {
     @Test
     fun `Register and getElement`() {
         val namePattern = "flow-name"
@@ -21,8 +22,8 @@ internal class SamleFlowRegistryTest {
             .register("${namePattern}-1", businessFlow1)
             .register("${namePattern}-2", businessFlow2)
 
-        assertThat(eventRegistry[businessFlow.name]).isEqualTo(businessFlow)
-        assertThat(eventRegistry["${namePattern}-1"]).isEqualTo(businessFlow1)
-        assertThat(eventRegistry["${namePattern}-2"]).isEqualTo(businessFlow2)
+        eventRegistry[businessFlow.flowName] shouldBe businessFlow
+        eventRegistry["${namePattern}-1"] shouldBe businessFlow1
+        eventRegistry["${namePattern}-2"] shouldBe businessFlow2
     }
 }
