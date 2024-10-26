@@ -1,10 +1,8 @@
 package com.github.frtu.kotlin.patterns
 
-import com.github.frtu.kotlin.flow.model.Event
+import com.github.frtu.kotlin.patterns.spring.model.Event
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Test
-
-import org.junit.jupiter.api.Assertions.*
 
 internal class AbstractRegistryWithDefaultTest {
     @Test

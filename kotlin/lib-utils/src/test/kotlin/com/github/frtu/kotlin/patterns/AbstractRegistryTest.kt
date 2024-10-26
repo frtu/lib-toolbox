@@ -1,7 +1,7 @@
 package com.github.frtu.kotlin.patterns
 
-import com.github.frtu.kotlin.flow.model.Event
-import com.github.frtu.kotlin.flow.model.Event.Companion.event
+import com.github.frtu.kotlin.patterns.spring.model.Event
+import com.github.frtu.kotlin.patterns.spring.model.Event.Companion.event
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows

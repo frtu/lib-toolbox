@@ -33,7 +33,7 @@ Check the latest version (clickable) :
 
 ## Release notes
 
-### 1.1.5 - Current version
+### 1.1.5
 
 * `Any.toJsonString()` : allow to print JSON from any object using Jackson
 * Move AvroBeanHelper into dedicated module `lib-serdes-avro`

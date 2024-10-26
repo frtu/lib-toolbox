@@ -1,6 +1,6 @@
 package com.github.frtu.kotlin.patterns.spring
 
-import com.github.frtu.kotlin.flow.model.SampleFlow
+import com.github.frtu.kotlin.patterns.spring.model.SampleFlow
 import com.github.frtu.kotlin.patterns.AbstractRegistryStringKeys
 import org.springframework.stereotype.Component
 

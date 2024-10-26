@@ -1,6 +1,6 @@
 package com.github.frtu.kotlin.patterns
 
-import com.github.frtu.kotlin.flow.model.SampleFlow
+import com.github.frtu.kotlin.patterns.spring.model.SampleFlow
 import com.github.frtu.kotlin.patterns.spring.ErrorSampleFlow
 import com.github.frtu.kotlin.patterns.spring.GoodSampleFlow
 import com.github.frtu.kotlin.patterns.spring.SpringConfig
