@@ -18,7 +18,19 @@
         <dependency>
             <groupId>com.github.frtu.libs</groupId>
             <artifactId>lib-utils</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.frtu.libs</groupId>
+            <artifactId>lib-serdes-json</artifactId>
             <optional>true</optional>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.frtu.libs</groupId>
+            <artifactId>lib-spring-boot-llm-os</artifactId>
+            <optional>true</optional>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>
