@@ -75,6 +75,7 @@ spring.autoconfigure.exclude:
 
 ### 2.0.7 - Current version
 
+* Adding `ToolRegistry` aggregating all `Tool` in the classpath
 * Adding `AgentExecutor` providing ability to call Tools
 
 ### 2.0.6
