@@ -11,7 +11,6 @@
 
     <properties>
         <!-- Make sure to import your own version of spring -->
-        <spring.version>5.3.2</spring.version> <!-- related to spring-boot:2.4.1 -->
         <log4j2.version>2.17.1</log4j2.version> <!-- 2021-12-28 -->
     </properties>
 
@@ -68,7 +67,6 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
-            <version>${spring.version}</version>
             <scope>test</scope>
         </dependency>
 
