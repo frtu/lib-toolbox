@@ -1,4 +1,4 @@
-package sample.tool.function.model
+package sample.tool.model
 
 data class WeatherInfo(
     val location: String,

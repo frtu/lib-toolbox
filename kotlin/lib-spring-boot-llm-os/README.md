@@ -76,8 +76,10 @@ spring.autoconfigure.exclude:
 ### 2.0.7
 
 * Adding `ToolRegistry` aggregating all `Tool` from the classpath & add `split` to create specific tools by agent  
+* Adding structure & generic to `Tool` with `StructuredToolExecuter`
 * Adding `AgentExecutor` providing ability to execute `Tool`
 * Refactor `Function` as an abstract class allowing to customize execution
+* Adding structure & generic to `Function`
 
 ### 2.0.6
 

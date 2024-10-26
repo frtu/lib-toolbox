@@ -1,17 +1,17 @@
-package sample.tool.function.model
+package sample.tool.model
 
 data class WeatherInfoMultiple(
     val location: String,
     val unit: Unit,
     val numberOfDays: Int,
-    val temperature: String,
-    val forecast: List<String>,
+    val temperature: Int,
+    val forecast: List<Int>,
 ) {
     constructor(
         location: String,
         unit: String,
         numberOfDays: Int,
-        temperature: String,
-        forecast: List<String>,
+        temperature: Int,
+        forecast: List<Int>,
     ) : this(location, Unit.valueOf(unit), numberOfDays, temperature, forecast)
 }

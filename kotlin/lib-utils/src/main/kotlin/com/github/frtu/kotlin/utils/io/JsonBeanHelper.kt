@@ -57,3 +57,6 @@ fun <T> String.toJsonObj(clazz: Class<T>) = jsonToBean(this, clazz)
  * @since 1.2.5
  */
 fun Any.toJsonString() = JsonUtil.toJsonString(this)
+
+fun <T> JsonNode.toObject(clazz: Class<T>) = this.toString().toJsonObj(clazz)
+

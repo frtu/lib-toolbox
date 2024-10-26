@@ -6,7 +6,7 @@ import com.github.frtu.kotlin.serdes.json.schema.SchemaGen
 /**
  * Base class for callable function
  */
-abstract class Function(
+abstract class Function<INPUT, OUTPUT>(
     name: String,
     description: String,
     parameterJsonSchema: String,
@@ -21,12 +21,12 @@ abstract class Function(
     constructor(
         name: String,
         description: String,
-        parameterClass: Class<*>,
-        returnClass: Class<*>,
+        parameterClass: Class<INPUT>,
+        returnClass: Class<OUTPUT>?,
     ) : this(
         name = name,
         description = description,
         parameterJsonSchema = SchemaGen.generateJsonSchema(parameterClass),
-        returnJsonSchema = SchemaGen.generateJsonSchema(returnClass),
+        returnJsonSchema = returnClass?.let { SchemaGen.generateJsonSchema(returnClass) },
     )
 }
