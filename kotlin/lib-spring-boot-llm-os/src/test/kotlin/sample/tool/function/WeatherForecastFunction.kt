@@ -3,8 +3,8 @@ package sample.tool.function
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.node.TextNode
 import com.github.frtu.kotlin.llm.os.tool.function.Function
-import com.github.frtu.kotlin.llm.os.udf.WeatherInfoMultiple
 import kotlin.reflect.KFunction2
+import sample.tool.function.model.WeatherInfoMultiple
 
 class WeatherForecastFunction(
     private val action: KFunction2<String, String, String> = ::currentWeather,
@@ -21,4 +21,7 @@ class WeatherForecastFunction(
         return TextNode.valueOf(result)
     }
 
+    companion object {
+        const val TOOL_NAME = "weatherForecastFunction"
+    }
 }

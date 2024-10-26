@@ -1,4 +1,4 @@
-package com.github.frtu.kotlin.llm.os.udf
+package sample.tool.function.model
 
 data class WeatherInfoMultiple(
     val location: String,
