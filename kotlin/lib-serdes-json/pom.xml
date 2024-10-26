@@ -25,22 +25,6 @@
         </dependency>
 
         <!--===========================-->
-        <!--Test -->
-        <!--===========================-->
-        <!-- https://kotest.io/docs/quickstart -->
-        <dependency>
-            <groupId>io.kotlintest</groupId>
-            <artifactId>kotlintest-runner-junit5</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <!-- https://mockk.io/ -->
-        <dependency>
-            <groupId>io.mockk</groupId>
-            <artifactId>mockk</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-        <!--===========================-->
         <!-- Platform - Log -->
         <!--===========================-->
         <dependency>

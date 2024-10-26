@@ -75,19 +75,38 @@ spring.autoconfigure.exclude:
 
 ### 2.0.7
 
-* Adding `ToolRegistry` aggregating all `Tool` from the classpath & add `split` to create specific tools by agent  
+#### Tool framework
+
+* Split `Tool` into `Tool` interface & `ToolExecuter`
 * Adding structure & generic to `Tool` with `StructuredToolExecuter`
+* Adding `ToolRegistry` aggregating all `Tool` from the classpath & add `split` to create specific tools by agent
+* Replace `FunctionRegistry` with `ToolRegistry` for `OpenAiCompatibleChat` registration and during execution
+
+##### Agent
+
 * Adding `AgentExecutor` providing ability to execute `Tool`
+
+##### Function
+
 * Refactor `Function` as an abstract class allowing to customize execution
 * Adding structure & generic to `Function`
 
 ### 2.0.6
 
+* Enable to override and extends configs & properties for Spring Boot 2.x
+
+#### Tool framework
+
 * Adding `Tool` & `Executable` as function & agent abstraction
+
+##### Agent
+
 * Adding `AbstractAgent` implementing tools & manage stateful conversation if needed
 * Adding `UnstructuredBaseAgent` providing ability to call simple Q&A with Text format
+
+##### Function
+
 * Refactor `Function` into dedicate package `com.github.frtu.kotlin.llm.os.tool.function`
-* Enable to override and extends configs & properties for Spring Boot 2.x
 
 ### 2.0.5
 
