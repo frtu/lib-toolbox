@@ -1,7 +1,7 @@
 package com.github.frtu.kotlin.llm.os.tool.function
 
 import com.aallam.openai.api.chat.ChatCompletionFunction
-import kotlin.reflect.KFunction2
+import com.github.frtu.kotlin.llm.os.llm.openai.toChatCompletionFunction
 import org.slf4j.LoggerFactory
 
 /**

@@ -3,9 +3,7 @@ package com.github.frtu.kotlin.llm.os.agent
 import com.github.frtu.kotlin.llm.os.llm.Chat
 import com.github.frtu.kotlin.llm.os.llm.model.Answer
 import com.github.frtu.kotlin.llm.os.memory.Conversation
-import com.github.frtu.kotlin.llm.os.tool.Tool
 import com.github.frtu.kotlin.llm.os.tool.ToolRegistry
-import com.github.frtu.kotlin.llm.os.tool.function.FunctionRegistry
 import com.github.frtu.kotlin.utils.io.toJsonNode
 
 /**
