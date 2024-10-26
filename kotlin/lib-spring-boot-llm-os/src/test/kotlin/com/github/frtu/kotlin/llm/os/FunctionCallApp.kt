@@ -4,6 +4,7 @@ import com.github.frtu.kotlin.llm.os.llm.Chat
 import com.github.frtu.kotlin.llm.os.llm.openai.OpenAiCompatibleChat
 import com.github.frtu.kotlin.llm.os.memory.Conversation
 import com.github.frtu.kotlin.llm.os.tool.Tool
+import com.github.frtu.kotlin.llm.os.tool.ToolRegistry
 import com.github.frtu.kotlin.llm.os.tool.function.FunctionRegistry
 import com.github.frtu.kotlin.llm.os.tool.function.registry
 import com.github.frtu.kotlin.utils.io.toJsonNode
@@ -12,10 +13,17 @@ import sample.tool.function.WeatherForecastFunction
 
 suspend fun main() {
     val apiKey = "sk-xxx"
+
     val functionRegistry = buildFunctionRegistry()
+    val toolRegistry = ToolRegistry(
+        mutableMapOf(
+            CurrentWeatherFunction.TOOL_NAME to CurrentWeatherFunction(),
+            WeatherForecastFunction.TOOL_NAME to WeatherForecastFunction(),
+        )
+    )
 
     // === Choose between OpenAI & open source ===
-    val chat = chatOpenAI(apiKey, functionRegistry)
+    val chat = chatOpenAI(apiKey, toolRegistry)
 //    val chat = chatOllama(functionRegistry)
 
     // === Start conversation ===
@@ -51,25 +59,25 @@ suspend fun main() {
 }
 
 fun chatOllama(
-    functionRegistry: FunctionRegistry,
+    functionRegistry: ToolRegistry,
     model: String = "mistral",
     baseUrl: String = "http://localhost:11434/v1/",
 ): OpenAiCompatibleChat = OpenAiCompatibleChat(
     apiKey = "none",
     model = model,
     baseUrl = baseUrl,
-    functionRegistry = functionRegistry,
+    toolRegistry = functionRegistry,
     defaultEvaluator = { chatChoices -> chatChoices.first() }
 )
 
 fun chatOpenAI(
     apiKey: String,
-    functionRegistry: FunctionRegistry? = null,
+    functionRegistry: ToolRegistry? = null,
     model: String = "gpt-4o",
 ): Chat = OpenAiCompatibleChat(
     apiKey = apiKey,
     model = model,
-    functionRegistry = functionRegistry,
+    toolRegistry = functionRegistry,
     defaultEvaluator = { chatChoices -> chatChoices.first() }
 )
 

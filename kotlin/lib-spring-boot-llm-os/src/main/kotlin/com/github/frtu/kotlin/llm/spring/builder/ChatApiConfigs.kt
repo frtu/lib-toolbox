@@ -5,7 +5,7 @@ import com.github.frtu.kotlin.llm.os.llm.Chat
 import com.github.frtu.kotlin.llm.os.llm.openai.OpenAiCompatibleChat
 import com.github.frtu.kotlin.llm.os.llm.openai.OpenAiCompatibleChat.Companion.LOCAL_MODEL
 import com.github.frtu.kotlin.llm.os.llm.openai.OpenAiCompatibleChat.Companion.LOCAL_URL
-import com.github.frtu.kotlin.llm.os.tool.function.FunctionRegistry
+import com.github.frtu.kotlin.llm.os.tool.ToolRegistry
 import com.github.frtu.kotlin.llm.spring.config.ChatApiProperties
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.context.annotation.Bean
@@ -22,35 +22,35 @@ class ChatApiConfigs {
         // Config
         chatApiProperties: ChatApiProperties,
         // For registration
-        functionRegistry: FunctionRegistry? = null,
+        toolRegistry: ToolRegistry? = null,
         // Policy when to choose what ChatChoice
         evaluator: ((List<ChatChoice>) -> ChatChoice)? = null,
     ) = if (chatApiProperties.isOpenAI()) {
         if (!chatApiProperties.validateOpenAIKey()) {
             throw IllegalArgumentException("To use OpenAI model, please configure a correct 'apiKey' properties")
         }
-        chatOpenAI(chatApiProperties.apiKey!!, functionRegistry, evaluator)
+        chatOpenAI(chatApiProperties.apiKey!!, toolRegistry, evaluator)
     } else {
-        chatOllama(chatApiProperties.model, chatApiProperties.baseUrl, functionRegistry, evaluator)
+        chatOllama(chatApiProperties.model, chatApiProperties.baseUrl, toolRegistry, evaluator)
     }
 
     fun chatOpenAI(
         apiKey: String,
-        functionRegistry: FunctionRegistry? = null,
+        toolRegistry: ToolRegistry? = null,
         evaluator: ((List<ChatChoice>) -> ChatChoice)? = null,
     ): Chat = OpenAiCompatibleChat(
         apiKey = apiKey,
-        functionRegistry = functionRegistry,
+        toolRegistry = toolRegistry,
         defaultEvaluator = evaluator.takeUnless { it == null } ?: defaultEvaluator,
     )
 
     fun chatOllama(
         model: String = LOCAL_MODEL, // "mistral"
         baseUrl: String = LOCAL_URL, // "http://localhost:11434/v1/"
-        functionRegistry: FunctionRegistry? = null,
+        toolRegistry: ToolRegistry? = null,
         evaluator: ((List<ChatChoice>) -> ChatChoice)? = null,
     ): Chat = OpenAiCompatibleChat(
-        functionRegistry = functionRegistry,
+        toolRegistry = toolRegistry,
         model = model,
         baseUrl = baseUrl,
         defaultEvaluator = evaluator.takeUnless { it == null } ?: defaultEvaluator,

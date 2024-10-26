@@ -14,6 +14,7 @@ import com.aallam.openai.client.OpenAIHost
 import com.github.frtu.kotlin.llm.os.llm.Chat
 import com.github.frtu.kotlin.llm.os.llm.model.Answer
 import com.github.frtu.kotlin.llm.os.memory.Conversation
+import com.github.frtu.kotlin.llm.os.tool.ToolRegistry
 import com.github.frtu.kotlin.llm.os.tool.function.FunctionRegistry
 import kotlin.time.Duration.Companion.seconds
 
@@ -22,7 +23,7 @@ import kotlin.time.Duration.Companion.seconds
  */
 class OpenAiCompatibleChat(
     apiKey: String,
-    private val functionRegistry: FunctionRegistry? = null,
+    private val toolRegistry: ToolRegistry? = null,
     model: String = OPENAI_MODEL,
     baseUrl: String = OPENAI_URL,
     private val defaultEvaluator: ((List<ChatChoice>) -> ChatChoice)? = null,
@@ -31,13 +32,13 @@ class OpenAiCompatibleChat(
      * Constructor for Local server
      */
     constructor(
-        functionRegistry: FunctionRegistry? = null,
+        toolRegistry: ToolRegistry? = null,
         model: String = LOCAL_MODEL,
         baseUrl: String = LOCAL_URL,
         defaultEvaluator: ((List<ChatChoice>) -> ChatChoice)? = null,
     ) : this(
         apiKey = "none",
-        functionRegistry = functionRegistry,
+        toolRegistry = toolRegistry,
         model = model,
         baseUrl = baseUrl,
         defaultEvaluator = defaultEvaluator,
@@ -81,8 +82,8 @@ class OpenAiCompatibleChat(
         val request = chatCompletionRequest {
             model = modelId
             messages = chatMessages
-            functionRegistry?.let {
-                functions = functionRegistry.getRegistry()
+            toolRegistry?.let {
+                functions = toolRegistry.getAll().map { it.value.toChatCompletionFunction() }
                 functionCall = FunctionMode.Auto
             }
         }
