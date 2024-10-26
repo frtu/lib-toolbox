@@ -17,6 +17,8 @@ class ToolRegistry(
 
     fun getAll() = registry.entries
 
+    fun split(names: List<String>) = ToolRegistry(registry.filter { names.contains(it.key) }.toMutableMap())
+
     operator fun get(name: String) = registry[name]
 
     private val logger = LoggerFactory.getLogger(this::class.java)
