@@ -60,7 +60,7 @@ abstract class AbstractAgent(
         // Use by priority : parameter, else stateful, else create a new
         val conversation = conversationOverride ?: statefulConversation ?: Conversation(instructions)
         return with(conversation) {
-            logger.debug("Receiving request:$request on a conversation size;${conversation.countMessages()}")
+            logger.debug("Conversation - Receiving message:$request on history size:${conversation.countMessages()}")
             chat.sendMessage(user(request)).also { answer: Answer ->
                 logger.debug("Receiving response:$answer")
             }

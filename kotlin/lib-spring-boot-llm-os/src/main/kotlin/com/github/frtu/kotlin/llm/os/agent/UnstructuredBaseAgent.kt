@@ -13,7 +13,7 @@ import com.github.frtu.kotlin.serdes.json.schema.SchemaGen.STRING_SCHEMA
  * @author Frédéric TU
  * @since 2.0.6
  */
-class UnstructuredBaseAgent(
+open class UnstructuredBaseAgent(
     /** Id of the agent */
     id: ActionId,
     /** Description */
@@ -57,5 +57,5 @@ class UnstructuredBaseAgent(
         return TextNode(sendMessage.content)
     }
 
-    suspend fun execute(request: String): String = answer(request).content!!
+    open suspend fun execute(request: String): String = answer(request).content!!
 }
