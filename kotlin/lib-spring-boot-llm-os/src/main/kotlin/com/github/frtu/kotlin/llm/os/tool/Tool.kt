@@ -1,14 +1,17 @@
 package com.github.frtu.kotlin.llm.os.tool
 
-import com.fasterxml.jackson.databind.JsonNode
+import com.github.frtu.kotlin.action.execution.GenericAction
 
 /**
- * Tool is an abstraction for simple function and a complex agent.
+ * Tool is an abstraction for simple function and a complex agent containing
+ *
+ * - All the action metadata
+ * - An execution function to call
  *
  * @author Frédéric TU
  * @since 2.0.6
  */
-interface Tool : Executable {
+interface Tool : GenericAction {
     /** Name of the tool */
     val name: String
 
@@ -21,20 +24,4 @@ interface Tool : Executable {
     /** Return schema. `null` schema when returning `void` */
     val returnJsonSchema: String?
         get() = null
-
-    companion object {
-        fun create(
-            name: String,
-            description: String,
-            parameterJsonSchema: String,
-            returnJsonSchema: String? = null,
-            executer: (JsonNode) -> JsonNode
-        ): Tool = object : Tool {
-            override val name = name
-            override val description = description
-            override val parameterJsonSchema = parameterJsonSchema
-            override val returnJsonSchema = returnJsonSchema
-            override suspend fun execute(parameter: JsonNode): JsonNode = executer.invoke(parameter)
-        }
-    }
 }

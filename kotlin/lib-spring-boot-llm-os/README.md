@@ -30,7 +30,7 @@ implementation("com.github.frtu.libs:lib-spring-boot-llm-os:${Versions.frtu_libs
 or TOML
 
 ```
-spring-boot-slack = { group = "com.github.frtu.libs", name = "lib-spring-boot-slack", version.ref = "frtu-libs" }
+spring-boot-llm-os = { group = "com.github.frtu.libs", name = "lib-spring-boot-llm-os", version.ref = "frtu-libs" }
 ```
 
 Check the latest version (clickable) :

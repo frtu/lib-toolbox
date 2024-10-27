@@ -10,6 +10,7 @@ All libraries for [kotlin](kotlin)
 * [lib-spring-boot-slack](kotlin/lib-spring-boot-slack) : Allow to start Slack connectivity along with spring boot lifecycle
 * [lib-spring-boot-llm-os](kotlin%2Flib-spring-boot-llm-os) : Allow to bootstrap agent framework with OpenAI or local
   Ollama
+* [lib-action](kotlin/lib-action) : Base project for normalise action calls across projects
 * [workflows](kotlin/workflows) : Temporal & Serverless workflow
 * [lib-workflow](kotlin/workflows/lib-workflow) : Lightweight workflow for `Tool`
 
@@ -38,13 +39,14 @@ Check latest release notes at https://github.com/frtu/lib-toolbox/releases
 
 ### 2.0.7
 
+* Adding [lib-action](kotlin/lib-action)
 * Reactivate [lib-workflow](kotlin/workflows/lib-workflow)
 * Reactivate [serverless-generator](kotlin/workflows/serverless-generator)
 
 ### 2.0.4
 
-* Adding [lib-serdes-json](kotlin%2Flib-serdes-json)
-* Adding [lib-spring-boot-llm-os](kotlin%2Flib-spring-boot-llm-os)
+* Adding [lib-serdes-json](kotlin/lib-serdes-json)
+* Adding [lib-spring-boot-llm-os](kotlin/lib-spring-boot-llm-os)
 
 ### 2.0.3
 
