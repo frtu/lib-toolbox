@@ -13,7 +13,7 @@ class FunctionRegistryTest {
         // 1. Init
         //--------------------------------------
         val function = CurrentWeatherFunction()
-        val functionName = function.name
+        val functionCanonicalName = function.id.value
         val functionDescription = function.description
 
         val functionRegistry = FunctionRegistry()
@@ -31,7 +31,7 @@ class FunctionRegistryTest {
             shouldNotBeNull()
             size shouldBe 1
             with(result[0]) {
-                name shouldBe functionName
+                name shouldBe functionCanonicalName
                 description shouldBe functionDescription
                 parameters.shouldNotBeNull()
             }

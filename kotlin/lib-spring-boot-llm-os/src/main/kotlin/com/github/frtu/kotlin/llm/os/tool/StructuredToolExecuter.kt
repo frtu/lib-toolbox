@@ -1,6 +1,7 @@
 package com.github.frtu.kotlin.llm.os.tool
 
 import com.github.frtu.kotlin.action.execution.GenericAction
+import com.github.frtu.kotlin.action.management.ActionId
 import com.github.frtu.kotlin.serdes.json.schema.SchemaGen
 
 /**
@@ -10,8 +11,8 @@ import com.github.frtu.kotlin.serdes.json.schema.SchemaGen
  * @since 2.0.7
  */
 abstract class StructuredToolExecuter<INPUT, OUTPUT>(
-    /** Name of the tool */
-    name: String,
+    /** Id of the tool */
+    id: ActionId,
     /** Description that can be used by agent to decide which tool to use */
     description: String,
     /** Input parameter schema */
@@ -19,9 +20,20 @@ abstract class StructuredToolExecuter<INPUT, OUTPUT>(
     /** Return schema. `null` schema when returning `void` */
     private val returnClass: Class<OUTPUT>?,
 ) : ToolExecuter(
-    name = name,
+    id = id,
     description = description,
     parameterJsonSchema = SchemaGen.generateJsonSchema(parameterClass),
     returnJsonSchema = returnClass?.let { SchemaGen.generateJsonSchema(returnClass) },
 ), GenericAction {
+    constructor(
+        id: String,
+        description: String,
+        parameterClass: Class<INPUT>,
+        returnClass: Class<OUTPUT>?,
+    ) : this(
+        id = ActionId(id),
+        description = description,
+        parameterClass = parameterClass,
+        returnClass = returnClass,
+    )
 }

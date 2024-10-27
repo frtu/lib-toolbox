@@ -1,5 +1,6 @@
 package com.github.frtu.kotlin.llm.os.agent
 
+import com.github.frtu.kotlin.action.management.ActionId
 import com.github.frtu.kotlin.llm.os.llm.Chat
 import com.github.frtu.kotlin.llm.os.llm.model.Answer
 import com.github.frtu.kotlin.llm.os.memory.Conversation
@@ -13,8 +14,8 @@ import com.github.frtu.kotlin.utils.io.toJsonNode
  * @since 2.0.7
  */
 abstract class AgentExecuter(
-    /** Name */
-    name: String,
+    /** Id of the agent */
+    id: ActionId,
     /** Description */
     description: String,
     /** System instruction prompt */
@@ -27,7 +28,7 @@ abstract class AgentExecuter(
     /** For function / tool execution */
     protected val toolRegistry: ToolRegistry? = null,
 ) : AbstractAgent(
-    name = name,
+    id = id,
     description = description,
     instructions = instructions,
     chat = chat,

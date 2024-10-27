@@ -18,7 +18,7 @@ class StructuredToolExecuterTest {
     fun `Check flowName`() {
         val flowName = "Name1"
         val businessFlow = CurrentWeatherTool(flowName)
-        businessFlow.name shouldBe flowName
+        businessFlow.id.value shouldBe flowName
     }
 
     @Test

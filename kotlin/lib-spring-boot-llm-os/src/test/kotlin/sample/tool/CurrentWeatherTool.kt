@@ -11,9 +11,9 @@ import sample.tool.model.WeatherInfoMultiple
  * Sample tool returning JsonNode
  */
 class CurrentWeatherTool(
-    name: String = TOOL_NAME,
+    id: String = TOOL_NAME,
 ) : StructuredToolExecuter<WeatherForecastInputParameter, WeatherInfoMultiple>(
-    name = name,
+    id = id,
     description = "Get the current weather in a given location",
     parameterClass = WeatherForecastInputParameter::class.java,
     WeatherInfoMultiple::class.java,

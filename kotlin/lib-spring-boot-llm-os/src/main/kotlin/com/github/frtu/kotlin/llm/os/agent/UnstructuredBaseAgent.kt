@@ -2,6 +2,7 @@ package com.github.frtu.kotlin.llm.os.agent
 
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.node.TextNode
+import com.github.frtu.kotlin.action.management.ActionId
 import com.github.frtu.kotlin.llm.os.llm.Chat
 import com.github.frtu.kotlin.llm.os.tool.ToolRegistry
 import com.github.frtu.kotlin.serdes.json.schema.SchemaGen.STRING_SCHEMA
@@ -13,8 +14,8 @@ import com.github.frtu.kotlin.serdes.json.schema.SchemaGen.STRING_SCHEMA
  * @since 2.0.6
  */
 class UnstructuredBaseAgent(
-    /** Name */
-    name: String,
+    /** Id of the agent */
+    id: ActionId,
     /** Description */
     description: String,
     /** System instruction prompt */
@@ -25,7 +26,7 @@ class UnstructuredBaseAgent(
     toolRegistry: ToolRegistry? = null,
     isStateful: Boolean = false,
 ) : AgentExecuter(
-    name = name,
+    id = id,
     description = description,
     instructions = instructions,
     chat = chat,
@@ -34,6 +35,22 @@ class UnstructuredBaseAgent(
     returnJsonSchema = STRING_SCHEMA,
     isStateful = isStateful,
 ) {
+    constructor(
+        id: String,
+        description: String,
+        instructions: String,
+        chat: Chat,
+        toolRegistry: ToolRegistry? = null,
+        isStateful: Boolean = false,
+    ) : this(
+        id = ActionId(id),
+        description = description,
+        instructions = instructions,
+        chat = chat,
+        toolRegistry = toolRegistry,
+        isStateful = isStateful,
+    )
+
     override suspend fun execute(parameter: JsonNode): JsonNode {
         val request = parameter.asText()
         val sendMessage = answer(request)

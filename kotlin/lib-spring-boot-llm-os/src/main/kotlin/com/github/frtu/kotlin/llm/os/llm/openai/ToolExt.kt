@@ -7,6 +7,6 @@ import com.github.frtu.kotlin.llm.os.tool.Tool
 object ToolExt
 
 fun Tool.toChatCompletionFunction() = ChatCompletionFunction(
-    name, description,
+    id.value, description,
     Parameters.fromJsonString(parameterJsonSchema),
 )

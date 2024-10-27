@@ -4,6 +4,11 @@
 
 Generic framework to normalise actions & its metadata.
 
+## Action metadata
+
+* `ActionId` : Unique identifier for an action that human and LLM can recognise (can be a)
+* `ActionMetadata` : Id, description & method signature
+
 ## Action execution
 
 * `Action<INPUT, OUTPUT>` : marker interface to normalise what should come in & out

@@ -1,5 +1,6 @@
 package com.github.frtu.kotlin.llm.os.tool.function
 
+import com.github.frtu.kotlin.action.management.ActionId
 import com.github.frtu.kotlin.llm.os.tool.ToolExecuter
 import com.github.frtu.kotlin.serdes.json.schema.SchemaGen
 
@@ -7,24 +8,24 @@ import com.github.frtu.kotlin.serdes.json.schema.SchemaGen
  * Base class for callable function
  */
 abstract class Function<INPUT, OUTPUT>(
-    name: String,
+    id: ActionId,
     description: String,
     parameterJsonSchema: String,
     returnJsonSchema: String?,
 //    val parameters: List<Parameter>,
 ) : ToolExecuter(
-    name = name,
+    id = id,
     description = description,
     parameterJsonSchema = parameterJsonSchema,
     returnJsonSchema = returnJsonSchema,
 ) {
     constructor(
-        name: String,
+        id: String,
         description: String,
         parameterClass: Class<INPUT>,
         returnClass: Class<OUTPUT>?,
     ) : this(
-        name = name,
+        id = ActionId(id),
         description = description,
         parameterJsonSchema = SchemaGen.generateJsonSchema(parameterClass),
         returnJsonSchema = returnClass?.let { SchemaGen.generateJsonSchema(returnClass) },

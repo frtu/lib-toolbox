@@ -18,7 +18,7 @@ import com.github.frtu.kotlin.utils.io.toObject
  */
 abstract class ToolFlow<INPUT, OUTPUT>(
     /** Name of the tool */
-    override val name: String,
+    override val id: String,
     /** Description that can be used by agent to decide which tool to use */
     override val description: String,
 
@@ -31,14 +31,14 @@ abstract class ToolFlow<INPUT, OUTPUT>(
     val returnClass: Class<OUTPUT>?,
     /** Return schema. `null` schema when returning `void` */
     override val returnJsonSchema: String? = null,
-) : AbstractFlow<INPUT, OUTPUT>(name), Tool {
+) : AbstractFlow<INPUT, OUTPUT>(id), Tool {
     constructor(
         name: String,
         parameterClass: Class<INPUT>,
         returnClass: Class<OUTPUT>?,
         description: String? = null,
     ) : this(
-        name = name,
+        id = name,
         description = description ?: "Business flow:$name",
         parameterClass = parameterClass,
         parameterJsonSchema = SchemaGen.generateJsonSchema(parameterClass),

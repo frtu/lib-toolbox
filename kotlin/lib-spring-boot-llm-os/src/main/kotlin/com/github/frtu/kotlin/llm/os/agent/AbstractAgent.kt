@@ -1,5 +1,6 @@
 package com.github.frtu.kotlin.llm.os.agent
 
+import com.github.frtu.kotlin.action.management.ActionId
 import com.github.frtu.kotlin.llm.os.llm.Chat
 import com.github.frtu.kotlin.llm.os.llm.model.Answer
 import com.github.frtu.kotlin.llm.os.memory.Conversation
@@ -18,8 +19,8 @@ import org.slf4j.LoggerFactory
  * @since 2.0.6
  */
 abstract class AbstractAgent(
-    /** Name */
-    name: String,
+    /** Id of the agent */
+    id: ActionId,
     /** Description */
     description: String,
     /** System instruction prompt */
@@ -30,7 +31,7 @@ abstract class AbstractAgent(
     returnJsonSchema: String? = null,
     isStateful: Boolean = false,
 ) : ToolExecuter(
-    name = name,
+    id = id,
     description = description,
     parameterJsonSchema = parameterJsonSchema,
     returnJsonSchema = returnJsonSchema,

@@ -90,7 +90,7 @@ class UnstructuredBaseAgentTest {
         // 2. Execute
         //--------------------------------------
         val weatherAgent = UnstructuredBaseAgent(
-            name = "Weather Agent",
+            id = "Weather Agent",
             description = "You're an agent talking about weather",
             instructions = "Don't make assumptions about what values to plug into functions. Ask for clarification if a user request is ambiguous.",
             chat = chat,
