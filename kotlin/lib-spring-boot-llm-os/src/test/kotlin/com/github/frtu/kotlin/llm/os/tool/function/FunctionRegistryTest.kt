@@ -20,7 +20,7 @@ class FunctionRegistryTest {
         //--------------------------------------
         // 2. Execute
         //--------------------------------------
-        functionRegistry.registerFunction(function)
+        functionRegistry.register(function)
         val result = functionRegistry.getRegistry()
         logger.debug("result:$result")
 

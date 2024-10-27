@@ -5,6 +5,7 @@ import com.github.frtu.kotlin.llm.os.llm.openai.OpenAiCompatibleChat
 import com.github.frtu.kotlin.llm.os.memory.Conversation
 import com.github.frtu.kotlin.llm.os.tool.Tool
 import com.github.frtu.kotlin.llm.os.tool.ToolRegistry
+import com.github.frtu.kotlin.llm.os.tool.function.Function
 import com.github.frtu.kotlin.llm.os.tool.function.FunctionRegistry
 import com.github.frtu.kotlin.llm.os.tool.function.registry
 import com.github.frtu.kotlin.utils.io.toJsonNode
@@ -35,7 +36,7 @@ suspend fun main() {
         message.functionCall?.let { functionCall ->
             this.addResponse(message)
 
-            val functionToCall: Tool = functionRegistry.getFunction(functionCall.name)
+            val functionToCall: Function<*, *> = functionRegistry[functionCall.name]!!
 
             val functionArgs = functionCall.arguments.toJsonNode()
             println("Request:${functionArgs.toPrettyString()}")
