@@ -14,6 +14,11 @@ Generic framework to normalise actions & its metadata.
 * `Action<INPUT, OUTPUT>` : marker interface to normalise what should come in & out
 * `TypedAction` or `GenericAction` define if `execute()` function takes strongly typed or weakly typed.
 
+## Action transition
+
+* Check if `Action` return ot type `TypedAction` or `GenericAction` to execute next step
+* OR return type `ActionMetadata` to fetch `id` and do the rest
+
 ### Advices
 
 My recommendation is to keep the strongly type as much as possible in the "system boundaries" (when it comes IN or OUT
