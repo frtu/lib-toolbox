@@ -2,6 +2,8 @@ package com.github.frtu.kotlin.llm.os.tool
 
 import com.fasterxml.jackson.databind.JsonNode
 import com.github.frtu.kotlin.action.management.ActionId
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
 /**
  * ToolExecuter the default implementation and constructor for Tool
@@ -34,4 +36,6 @@ abstract class ToolExecuter(
             override suspend fun execute(parameter: JsonNode): JsonNode = executer.invoke(parameter)
         }
     }
+
+    protected val logger: Logger = LoggerFactory.getLogger(this::class.java)
 }

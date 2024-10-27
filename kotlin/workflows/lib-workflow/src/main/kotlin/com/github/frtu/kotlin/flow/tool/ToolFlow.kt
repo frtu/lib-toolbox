@@ -3,6 +3,7 @@ package com.github.frtu.kotlin.flow.tool
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.node.NullNode
 import com.fasterxml.jackson.databind.node.TextNode
+import com.github.frtu.kotlin.action.management.ActionId
 import com.github.frtu.kotlin.flow.core.AbstractFlow
 import com.github.frtu.kotlin.llm.os.tool.Tool
 import com.github.frtu.kotlin.serdes.json.schema.SchemaGen
@@ -18,7 +19,7 @@ import com.github.frtu.kotlin.utils.io.toObject
  */
 abstract class ToolFlow<INPUT, OUTPUT>(
     /** Name of the tool */
-    override val id: String,
+    override val id: ActionId,
     /** Description that can be used by agent to decide which tool to use */
     override val description: String,
 
@@ -31,15 +32,15 @@ abstract class ToolFlow<INPUT, OUTPUT>(
     val returnClass: Class<OUTPUT>?,
     /** Return schema. `null` schema when returning `void` */
     override val returnJsonSchema: String? = null,
-) : AbstractFlow<INPUT, OUTPUT>(id), Tool {
+) : AbstractFlow<INPUT, OUTPUT>(id.value), Tool {
     constructor(
-        name: String,
+        id: String,
         parameterClass: Class<INPUT>,
         returnClass: Class<OUTPUT>?,
         description: String? = null,
     ) : this(
-        id = name,
-        description = description ?: "Business flow:$name",
+        id = ActionId(id),
+        description = description ?: "Business flow:$id",
         parameterClass = parameterClass,
         parameterJsonSchema = SchemaGen.generateJsonSchema(parameterClass),
         returnClass = returnClass,

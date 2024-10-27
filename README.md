@@ -8,8 +8,9 @@ All libraries for [kotlin](kotlin)
 ### Middleware & Spring Boot bootstrap
 
 * [lib-spring-boot-slack](kotlin/lib-spring-boot-slack) : Allow to start Slack connectivity along with spring boot lifecycle
-* [lib-spring-boot-llm-os](kotlin%2Flib-spring-boot-llm-os) : Allow to bootstrap agent framework with OpenAI or local
-  Ollama
+* [lib-spring-boot-llm-os](kotlin/lib-spring-boot-llm-os) : Allow to bootstrap agent framework with OpenAI or local Ollama
+* [lib-durable-agent-framework](kotlin/workflows/lib-durable-agent-framework) : Allow to bootstrap durable agent
+  framework by using Temporal as execution storage
 * [lib-action](kotlin/lib-action) : Base project for normalise action calls across projects
 * [workflows](kotlin/workflows) : Temporal & Serverless workflow
 * [lib-workflow](kotlin/workflows/lib-workflow) : Lightweight workflow for `Tool`

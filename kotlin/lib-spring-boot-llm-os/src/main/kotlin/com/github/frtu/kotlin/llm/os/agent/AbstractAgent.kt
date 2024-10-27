@@ -74,5 +74,4 @@ abstract class AbstractAgent(
     }
 
     private var internalStatefulConversation: Conversation? = null
-    protected val logger: Logger = LoggerFactory.getLogger(this::class.java)
 }
