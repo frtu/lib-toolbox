@@ -4,7 +4,7 @@ package com.github.frtu.kotlin.action.management
  * ActionMetadata is a description for an action.
  *
  * @author Frédéric TU
- * @since 2.0.7
+ * @since 2.0.8
  */
 interface ActionMetadata {
     /** Id of the tool */

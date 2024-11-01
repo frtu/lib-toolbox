@@ -15,7 +15,7 @@ import com.github.frtu.kotlin.utils.io.toObject
  * Encapsulate lightweight Flow as `Tool`
  *
  * @author Frédéric TU
- * @since 2.0.7
+ * @since 2.0.8
  */
 abstract class ToolFlow<INPUT, OUTPUT>(
     /** Name of the tool */

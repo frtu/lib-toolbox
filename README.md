@@ -38,7 +38,7 @@ All libraries for [java](java)
 
 Check latest release notes at https://github.com/frtu/lib-toolbox/releases
 
-### 2.0.7
+### 2.0.8
 
 * Adding [lib-action](kotlin/lib-action)
 * Reactivate [lib-workflow](kotlin/workflows/lib-workflow)

@@ -8,7 +8,7 @@ import com.github.frtu.kotlin.serdes.json.schema.SchemaGen
  * StructuredToolExecuter is a `ToolExecuter` for a strongly typed Input & Output class
  *
  * @author Frédéric TU
- * @since 2.0.7
+ * @since 2.0.8
  */
 abstract class StructuredToolExecuter<INPUT, OUTPUT>(
     /** Id of the tool */

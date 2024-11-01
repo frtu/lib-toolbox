@@ -12,7 +12,7 @@ import io.temporal.workflow.Workflow
  * Activity call, eventually can be used as handoff
  *
  * @author Frédéric TU
- * @since 2.0.7
+ * @since 2.0.8
  */
 class ActivityCallAsTool<INPUT, OUTPUT>(
     /** Id of the activity */

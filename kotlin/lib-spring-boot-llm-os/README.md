@@ -73,7 +73,7 @@ spring.autoconfigure.exclude:
 
 ## Release notes
 
-### 2.0.7
+### 2.0.8
 
 #### Tool framework
 

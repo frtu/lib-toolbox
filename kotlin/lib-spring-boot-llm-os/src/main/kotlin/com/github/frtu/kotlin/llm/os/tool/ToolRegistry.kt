@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository
  * Registry of all `Tool` in the classpath
  *
  * @author Frédéric TU
- * @since 2.0.7
+ * @since 2.0.8
  */
 @Repository
 class ToolRegistry(

@@ -9,7 +9,7 @@ import kotlinx.coroutines.runBlocking
  * Encapsulate a Tool execution into an Activity
  *
  * @author Frédéric TU
- * @since 2.0.7
+ * @since 2.0.8
  */
 open class ToolAsActivityImpl(
     private val tool: Tool,

@@ -8,7 +8,7 @@ import io.temporal.activity.ActivityMethod
  * Encapsulate a Tool as an Activity
  *
  * @author Frédéric TU
- * @since 2.0.7
+ * @since 2.0.8
  */
 @ActivityInterface
 interface ToolAsActivity {

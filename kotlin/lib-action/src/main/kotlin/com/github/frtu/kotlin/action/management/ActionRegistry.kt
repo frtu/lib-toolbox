@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory
  * Registry of all `ActionMetadata` in the classpath
  *
  * @author Frédéric TU
- * @since 2.0.7
+ * @since 2.0.8
  */
 open class ActionRegistry<ACTION : ActionMetadata>(
     registry: List<ACTION> = listOf()

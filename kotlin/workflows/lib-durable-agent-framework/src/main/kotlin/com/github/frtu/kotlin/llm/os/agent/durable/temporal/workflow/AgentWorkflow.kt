@@ -8,7 +8,7 @@ import io.temporal.workflow.WorkflowMethod
  * Agent orchestration graph
  *
  * @author Frédéric TU
- * @since 2.0.7
+ * @since 2.0.8
  */
 @WorkflowInterface
 interface AgentWorkflow {

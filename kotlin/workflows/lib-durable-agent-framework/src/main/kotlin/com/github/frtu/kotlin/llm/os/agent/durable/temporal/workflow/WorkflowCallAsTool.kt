@@ -14,7 +14,7 @@ import java.util.concurrent.TimeoutException
  * Encapsulate workflow call as a Tool
  *
  * @author Frédéric TU
- * @since 2.0.7
+ * @since 2.0.8
  */
 class WorkflowCallAsTool<INPUT, OUTPUT>(
     /** Id of the workflow */

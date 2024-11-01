@@ -11,7 +11,7 @@ import com.github.frtu.kotlin.utils.io.toJsonNode
  * An agent implementation knowing how to execute tools
  *
  * @author Frédéric TU
- * @since 2.0.7
+ * @since 2.0.8
  */
 abstract class AgentExecuter(
     /** Id of the agent */
