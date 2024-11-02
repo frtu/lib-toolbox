@@ -20,15 +20,30 @@ application:
     api-key: ${AI_OS_OPENAI_API_KEY:sk-xxx}
 ```
 
+### Auto expose Tool endpoints
+
+Adding `spring-boot-starter-webflux` will enable Tool endpoints.
+
+* `application.ai.os.llm.endpoint.enabled` allow to enable `true` or `false`
+
+```yaml
+application:
+  ai.os.llm:
+    endpoint:
+      enabled: true
+      url-prefix: "/v1/tools"
+```
+
 ## Import
 
 Import using Maven :
 
 ```XML
+
 <dependency>
-  <groupId>com.github.frtu.libs</groupId>
-  <artifactId>lib-spring-boot-ai-os</artifactId>
-  <version>${frtu-libs.version}</version>
+    <groupId>com.github.frtu.libs</groupId>
+    <artifactId>lib-spring-boot-ai-os</artifactId>
+    <version>${frtu-libs.version}</version>
 </dependency>
 ```
 
