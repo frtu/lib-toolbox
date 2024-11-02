@@ -1,7 +1,7 @@
 package com.github.frtu.kotlin.ai.os
 
+import com.github.frtu.kotlin.action.tool.ToolRegistry
 import com.github.frtu.kotlin.ai.os.llm.agent.UnstructuredBaseAgent
-import com.github.frtu.kotlin.ai.os.tool.ToolRegistry
 import sample.tool.function.CurrentWeatherFunction
 import sample.tool.function.WeatherForecastFunction
 

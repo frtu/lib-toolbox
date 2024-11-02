@@ -3,10 +3,10 @@ package com.github.frtu.kotlin.ai.os
 import com.github.frtu.kotlin.ai.os.llm.Chat
 import com.github.frtu.kotlin.ai.os.llm.openai.OpenAiCompatibleChat
 import com.github.frtu.kotlin.ai.os.memory.Conversation
-import com.github.frtu.kotlin.ai.os.tool.ToolRegistry
-import com.github.frtu.kotlin.ai.os.tool.function.Function
-import com.github.frtu.kotlin.ai.os.tool.function.FunctionRegistry
-import com.github.frtu.kotlin.ai.os.tool.function.registry
+import com.github.frtu.kotlin.action.tool.ToolRegistry
+import com.github.frtu.kotlin.action.tool.function.Function
+import com.github.frtu.kotlin.action.tool.function.FunctionRegistry
+import com.github.frtu.kotlin.action.tool.function.registry
 import com.github.frtu.kotlin.utils.io.toJsonNode
 import sample.tool.function.CurrentWeatherFunction
 import sample.tool.function.WeatherForecastFunction

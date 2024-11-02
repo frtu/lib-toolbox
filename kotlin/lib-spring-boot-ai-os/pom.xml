@@ -32,7 +32,7 @@
         <!--Internal projects -->
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>lib-action</artifactId>
+            <artifactId>lib-action-tools</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
