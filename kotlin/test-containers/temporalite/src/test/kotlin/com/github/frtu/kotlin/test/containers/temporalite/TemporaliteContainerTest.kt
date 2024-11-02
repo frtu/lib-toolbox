@@ -1,8 +1,8 @@
 package com.github.frtu.kotlin.test.containers.temporalite
 
-import com.github.frtu.kotlin.test.containers.temporalite.workflow.AccountActivityImpl
-import com.github.frtu.kotlin.test.containers.temporalite.workflow.MoneyTransferWorkflow
-import com.github.frtu.kotlin.test.containers.temporalite.workflow.MoneyTransferWorkflowImpl
+import sample.activity.AccountActivityImpl
+import sample.workflow.MoneyTransferWorkflow
+import sample.workflow.MoneyTransferWorkflowImpl
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldNotBeBlank
 import io.temporal.client.WorkflowClient

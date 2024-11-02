@@ -1,4 +1,4 @@
-package com.github.frtu.kotlin.test.containers.temporalite.workflow
+package sample.activity
 
 class AccountActivityImpl : AccountActivity {
     override fun withdraw(accountId: String, referenceId: String, amount: Double) {

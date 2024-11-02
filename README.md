@@ -46,6 +46,7 @@ Check latest release notes at https://github.com/frtu/lib-toolbox/releases
 * Renaming [lib-spring-boot-ai-os](kotlin/lib-spring-boot-ai-os) to clearly separate what is AI and what is LLM
 * Reactivate [lib-workflow](kotlin/workflows/lib-workflow)
 * Reactivate [serverless-generator](kotlin/workflows/serverless-generator)
+* Reactivate [temporalite](kotlin/test-containers/temporalite)
 
 ### 2.0.4
 

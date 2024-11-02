@@ -1,4 +1,4 @@
-package com.github.frtu.kotlin.test.containers.temporalite.workflow
+package sample.activity
 
 import io.temporal.activity.ActivityInterface
 import io.temporal.activity.ActivityMethod

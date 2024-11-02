@@ -4,7 +4,7 @@
     <parent>
         <groupId>com.github.frtu.libs</groupId>
         <artifactId>kotlin</artifactId>
-        <version>2.0.1-SNAPSHOT</version>
+        <version>2.0.8-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -17,7 +17,7 @@
 
     <properties>
         <!-- ATTENTION : make sure to use Testcontainers >1.15.3 for M1 -->
-        <testcontainers.version>1.17.6</testcontainers.version>
+        <testcontainers.version>1.20.3</testcontainers.version>
         <testcontainers-junit4-mock.version>0.1.0</testcontainers-junit4-mock.version>
         <!--=========================== -->
         <kotest.version>5.5.4</kotest.version> <!-- 2022-11-04 -->

@@ -11,7 +11,7 @@ import org.testcontainers.utility.DockerImageName
 /**
  * Test containers for Temporalite
  */
-class TemporaliteContainer(dockerImageName: DockerImageName) :
+open class TemporaliteContainer(dockerImageName: DockerImageName) :
     GenericContainer<TemporaliteContainer>(dockerImageName) {
     constructor(tag: String = DEFAULT_TAG) : this(DEFAULT_IMAGE_NAME.withTag(tag))
 
@@ -24,17 +24,17 @@ class TemporaliteContainer(dockerImageName: DockerImageName) :
     val mappedPortTemporal: Int
         get() = getMappedPort(TEMPORAL_PORT)
 
-    fun buildWorkflowClient(): WorkflowClient =
+    fun buildWorkflowClient(enableHttps: Boolean = false): WorkflowClient =
         WorkflowClient.newInstance(WorkflowServiceStubs.newServiceStubs(WorkflowServiceStubsOptions {
             val targetEndpoint = "localhost:${mappedPortTemporal}"
             logger.debug("Creating client to $targetEndpoint")
             setTarget(targetEndpoint)
-            setEnableHttps(false)
+            setEnableHttps(enableHttps)
         }))
 
     companion object {
         private val DEFAULT_IMAGE_NAME = DockerImageName.parse("slamdev/temporalite")
-        const val DEFAULT_TAG = "0.3.0"
+        const val DEFAULT_TAG = "0.10.7"
 
         const val TEMPORAL_PORT = 7233
         const val ADMIN_UI_PORT = 8233

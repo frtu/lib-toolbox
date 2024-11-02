@@ -10,7 +10,7 @@ Can also use docker compose from https://github.com/frtu/vm/tree/master/docker/w
 
 Check [temporalite repo](https://github.com/temporalio/temporalite) for [latest version](https://github.com/temporalio/temporalite/releases).
 
-Repo [slamdev/temporalite](https://github.com/slamdev/temporalite-container-image) is having the latest 0.3.0 as of now (jan 1st 2023).
+Repo [slamdev/temporalite](https://github.com/slamdev/temporalite-container-image) is having the latest `0.10.7`
 
 You can use the already [built image](https://hub.docker.com/r/slamdev/temporalite/tags) or uncomment the docker-compose build to the latest version yourself.
 
