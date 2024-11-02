@@ -16,4 +16,7 @@ class SampleToolConfig {
 
     @Bean(WeatherForecastFunction.TOOL_NAME)
     fun weatherForecastFunction(): Tool = WeatherForecastFunction()
+
+    @Bean(IdentityTool.TOOL_NAME)
+    fun identity(): Tool = IdentityTool()
 }
