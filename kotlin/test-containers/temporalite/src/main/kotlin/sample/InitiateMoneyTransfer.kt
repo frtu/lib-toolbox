@@ -1,10 +1,11 @@
-package com.github.frtu.kotlin.test.containers.temporalite.workflow
+package sample
 
 import io.temporal.client.WorkflowClient
 import io.temporal.client.WorkflowOptions
 import io.temporal.serviceclient.WorkflowServiceStubs
-import java.util.*
+import java.util.UUID
 import kotlin.system.exitProcess
+import sample.workflow.MoneyTransferWorkflow
 
 fun main() {
     // WorkflowServiceStubs is a gRPC stubs wrapper that talks to the local Docker instance of the Temporal server.

@@ -1,9 +1,10 @@
-package com.github.frtu.kotlin.test.containers.temporalite.workflow
+package sample.workflow
 
 import io.temporal.activity.ActivityOptions
 import io.temporal.common.RetryOptions
 import io.temporal.workflow.Workflow
 import java.time.Duration
+import sample.activity.AccountActivity
 
 class MoneyTransferWorkflowImpl : MoneyTransferWorkflow {
     // RetryOptions specify how to automatically handle retries when Activities fail.
