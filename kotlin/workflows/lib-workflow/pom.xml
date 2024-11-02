@@ -28,7 +28,7 @@
         </dependency>
         <dependency>
             <groupId>com.github.frtu.libs</groupId>
-            <artifactId>lib-spring-boot-llm-os</artifactId>
+            <artifactId>lib-spring-boot-ai-os</artifactId>
             <optional>true</optional>
             <version>${project.version}</version>
         </dependency>

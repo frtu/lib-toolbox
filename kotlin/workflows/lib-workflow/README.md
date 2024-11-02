@@ -31,7 +31,7 @@ To use this project for `Tool` please import _optional_ packages :
 </dependency>
 <dependency>
     <groupId>com.github.frtu.libs</groupId>
-    <artifactId>lib-spring-boot-llm-os</artifactId>
+    <artifactId>lib-spring-boot-ai-os</artifactId>
     <version>${project.version}</version>
 </dependency>
 ```

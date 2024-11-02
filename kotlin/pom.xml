@@ -14,7 +14,7 @@
     <modules>
         <module>lib-action</module>
         <module>lib-spring-boot-slack</module>
-        <module>lib-spring-boot-llm-os</module>
+        <module>lib-spring-boot-ai-os</module>
         <module>lib-webclient</module>
         <module>lib-r2dbc</module>
         <module>lib-utils</module>
