@@ -1,9 +1,8 @@
 package sample.tool
 
 import com.fasterxml.jackson.databind.JsonNode
+import com.github.frtu.kotlin.serdes.json.ext.objToJsonNode
 import com.github.frtu.kotlin.tool.StructuredToolExecuter
-import com.github.frtu.kotlin.utils.io.toJsonNode
-import com.github.frtu.kotlin.utils.io.toJsonString
 import sample.tool.model.WeatherForecastInputParameter
 import sample.tool.model.WeatherInfoMultiple
 
@@ -28,7 +27,7 @@ class CurrentWeatherTool(
             numberOfDays = numberOfDays,
             temperature = 30,
             forecast = listOf(31, 33, 34, 29),
-        ).toJsonString().toJsonNode()
+        ).objToJsonNode()
     }
 
     companion object {
