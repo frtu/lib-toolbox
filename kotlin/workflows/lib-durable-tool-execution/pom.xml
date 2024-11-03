@@ -18,24 +18,13 @@
         <!--Internal projects -->
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>lib-spring-boot-ai-os</artifactId>
+            <artifactId>lib-action-tools</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>lib-serdes-json</artifactId>
             <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>starter-temporal</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>temporalite</artifactId>
-            <version>${project.version}</version>
-            <scope>test</scope>
         </dependency>
 
         <!-- Temporal -->
@@ -47,6 +36,12 @@
             <groupId>io.temporal</groupId>
             <artifactId>temporal-kotlin</artifactId>
         </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>temporalite</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
 
         <!--===========================-->
         <!-- SPRING BOOT -->
@@ -55,35 +50,12 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-autoconfigure</artifactId>
             <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-webflux</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-        <!--===========================-->
-        <!--Test -->
-        <!--===========================-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <!-- https://assertj.github.io/doc/ -->
-        <dependency>
-            <groupId>org.assertj</groupId>
-            <artifactId>assertj-core</artifactId>
-            <scope>test</scope>
+            <optional>true</optional>
         </dependency>
 
         <!--===========================-->
         <!-- Platform - Log -->
         <!--===========================-->
-        <dependency>
-            <groupId>com.github.frtu.logs</groupId>
-            <artifactId>logger-core</artifactId>
-        </dependency>
         <!-- Logging -->
         <dependency>
             <groupId>org.slf4j</groupId>

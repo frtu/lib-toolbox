@@ -5,7 +5,12 @@ import org.springframework.context.annotation.ComponentScan
 import org.springframework.context.annotation.Configuration
 
 /**
- * Allow to bootstrap AI OS configuration
+ * Allow to bootstrap Tool execution in Spring Boot.
+ *
+ * Note : NOT USED at the moment
+ *
+ * @author Frédéric TU
+ * @since 2.0.8
  */
 @Configuration
 @ComponentScan(basePackageClasses = [ToolTemporal::class])
