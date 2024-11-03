@@ -10,6 +10,10 @@
 
     <artifactId>lib-action-tools</artifactId>
 
+    <properties>
+        <springdoc.version>1.6.9</springdoc.version> <!-- 2022-05-27 -->
+    </properties>
+
     <dependencies>
         <!--Internal projects -->
         <dependency>
@@ -46,6 +50,12 @@
         <dependency>
             <groupId>org.jetbrains.kotlinx</groupId>
             <artifactId>kotlinx-coroutines-reactor</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-webflux-ui</artifactId>
+            <version>${springdoc.version}</version>
+            <scope>provided</scope>
         </dependency>
 
         <!-- Commons -->
