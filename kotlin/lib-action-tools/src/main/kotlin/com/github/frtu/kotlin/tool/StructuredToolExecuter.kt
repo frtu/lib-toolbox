@@ -1,4 +1,4 @@
-package com.github.frtu.kotlin.action.tool
+package com.github.frtu.kotlin.tool
 
 import com.github.frtu.kotlin.action.execution.GenericAction
 import com.github.frtu.kotlin.action.management.ActionId

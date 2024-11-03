@@ -1,8 +1,8 @@
-package com.github.frtu.kotlin.action.tool.transition
+package com.github.frtu.kotlin.tool.transition
 
 import com.github.frtu.kotlin.action.management.ActionId
-import com.github.frtu.kotlin.action.tool.Tool
-import com.github.frtu.kotlin.action.transition.HandoffImpl
+import com.github.frtu.kotlin.tool.Tool
+import com.github.frtu.kotlin.transition.HandoffImpl
 
 /**
  * Handoff input is a class that return an `ActionMetadata`

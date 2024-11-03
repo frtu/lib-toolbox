@@ -1,7 +1,7 @@
 package sample.tool
 
 import com.fasterxml.jackson.databind.JsonNode
-import com.github.frtu.kotlin.action.tool.StructuredToolExecuter
+import com.github.frtu.kotlin.tool.StructuredToolExecuter
 import com.github.frtu.kotlin.utils.io.toJsonNode
 import com.github.frtu.kotlin.utils.io.toJsonString
 import sample.tool.model.WeatherForecastInputParameter

@@ -1,7 +1,7 @@
 package sample.tool
 
-import com.github.frtu.kotlin.action.tool.Tool
-import com.github.frtu.kotlin.action.tool.ToolRegistry
+import com.github.frtu.kotlin.tool.Tool
+import com.github.frtu.kotlin.tool.ToolRegistry
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.ComponentScan
 import org.springframework.context.annotation.Configuration

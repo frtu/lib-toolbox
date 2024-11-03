@@ -6,7 +6,7 @@ import com.aallam.openai.api.chat.FunctionCall
 import com.aallam.openai.api.chat.TextContent
 import com.aallam.openai.api.core.FinishReason
 import com.aallam.openai.api.core.Role.Companion.Assistant
-import com.github.frtu.kotlin.action.tool.ToolRegistry
+import com.github.frtu.kotlin.tool.ToolRegistry
 import com.github.frtu.kotlin.ai.os.llm.Chat
 import com.github.frtu.kotlin.ai.os.llm.model.Answer
 import io.kotlintest.matchers.types.shouldNotBeNull

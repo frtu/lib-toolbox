@@ -1,6 +1,6 @@
-package com.github.frtu.kotlin.action.tool.function
+package com.github.frtu.kotlin.tool.function
 
-import com.github.frtu.kotlin.action.tool.function.FunctionRegistry
+import com.github.frtu.kotlin.tool.function.FunctionRegistry
 import io.kotlintest.matchers.types.shouldNotBeNull
 import io.kotlintest.shouldBe
 import org.junit.jupiter.api.Test

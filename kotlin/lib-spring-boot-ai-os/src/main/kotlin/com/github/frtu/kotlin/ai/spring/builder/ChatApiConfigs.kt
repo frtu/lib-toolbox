@@ -1,7 +1,7 @@
 package com.github.frtu.kotlin.ai.spring.builder
 
 import com.aallam.openai.api.chat.ChatChoice
-import com.github.frtu.kotlin.action.tool.ToolRegistry
+import com.github.frtu.kotlin.tool.ToolRegistry
 import com.github.frtu.kotlin.ai.os.llm.Chat
 import com.github.frtu.kotlin.ai.os.llm.openai.OpenAiCompatibleChat
 import com.github.frtu.kotlin.ai.os.llm.openai.OpenAiCompatibleChat.Companion.LOCAL_MODEL

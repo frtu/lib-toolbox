@@ -1,4 +1,4 @@
-package com.github.frtu.kotlin.action.transition
+package com.github.frtu.kotlin.transition
 
 import com.github.frtu.kotlin.action.execution.transition.ActionTransition
 import com.github.frtu.kotlin.action.management.ActionMetadata

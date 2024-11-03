@@ -1,7 +1,7 @@
 package com.github.frtu.kotlin.ai.os.llm.agent
 
 import com.github.frtu.kotlin.action.management.ActionId
-import com.github.frtu.kotlin.action.tool.ToolRegistry
+import com.github.frtu.kotlin.tool.ToolRegistry
 import com.github.frtu.kotlin.ai.os.llm.Chat
 import com.github.frtu.kotlin.ai.os.llm.model.Answer
 import com.github.frtu.kotlin.ai.os.memory.Conversation

@@ -1,4 +1,4 @@
-package com.github.frtu.kotlin.action.tool.function
+package com.github.frtu.kotlin.tool.function
 
 import com.github.frtu.kotlin.action.management.ActionRegistry
 

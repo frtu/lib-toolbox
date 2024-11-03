@@ -1,4 +1,4 @@
-package com.github.frtu.kotlin.action.tool.service.rpc
+package com.github.frtu.kotlin.tool.service.rpc
 
 import org.springframework.boot.WebApplicationType
 import org.springframework.boot.autoconfigure.SpringBootApplication

@@ -3,7 +3,7 @@ package com.github.frtu.kotlin.ai.os.llm.agent
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.node.TextNode
 import com.github.frtu.kotlin.action.management.ActionId
-import com.github.frtu.kotlin.action.tool.ToolRegistry
+import com.github.frtu.kotlin.tool.ToolRegistry
 import com.github.frtu.kotlin.ai.os.llm.Chat
 import com.github.frtu.kotlin.serdes.json.schema.SchemaGen.STRING_SCHEMA
 

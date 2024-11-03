@@ -1,7 +1,7 @@
-package com.github.frtu.kotlin.action.tool.function
+package com.github.frtu.kotlin.tool.function
 
 import com.github.frtu.kotlin.action.management.ActionId
-import com.github.frtu.kotlin.action.tool.ToolExecuter
+import com.github.frtu.kotlin.tool.ToolExecuter
 import com.github.frtu.kotlin.serdes.json.schema.SchemaGen
 
 /**

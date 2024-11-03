@@ -1,9 +1,9 @@
-package com.github.frtu.kotlin.action.tool.service.rpc
+package com.github.frtu.kotlin.tool.service.rpc
 
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import com.github.frtu.kotlin.action.tool.Tool
-import com.github.frtu.kotlin.action.tool.ToolRegistry
+import com.github.frtu.kotlin.tool.Tool
+import com.github.frtu.kotlin.tool.ToolRegistry
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value

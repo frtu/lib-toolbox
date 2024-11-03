@@ -1,8 +1,8 @@
-package com.github.frtu.kotlin.action.tool
+package com.github.frtu.kotlin.tool
 
 import com.fasterxml.jackson.databind.JsonNode
 import com.github.frtu.kotlin.action.management.ActionId
-import com.github.frtu.kotlin.action.tool.Tool
+import com.github.frtu.kotlin.tool.Tool
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 

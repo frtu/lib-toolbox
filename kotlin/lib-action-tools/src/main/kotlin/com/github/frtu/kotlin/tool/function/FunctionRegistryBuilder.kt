@@ -1,6 +1,6 @@
-package com.github.frtu.kotlin.action.tool.function
+package com.github.frtu.kotlin.tool.function
 
-import com.github.frtu.kotlin.action.tool.builder.BuilderMarker
+import com.github.frtu.kotlin.tool.builder.BuilderMarker
 
 class FunctionRegistryBuilder(
     private val functionRegistry: FunctionRegistry = FunctionRegistry()

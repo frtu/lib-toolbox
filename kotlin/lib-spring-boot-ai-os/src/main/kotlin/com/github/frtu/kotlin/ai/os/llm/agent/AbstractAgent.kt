@@ -4,7 +4,7 @@ import com.github.frtu.kotlin.action.management.ActionId
 import com.github.frtu.kotlin.ai.os.llm.Chat
 import com.github.frtu.kotlin.ai.os.llm.model.Answer
 import com.github.frtu.kotlin.ai.os.memory.Conversation
-import com.github.frtu.kotlin.action.tool.ToolExecuter
+import com.github.frtu.kotlin.tool.ToolExecuter
 
 /**
  * An independent entity with a `name`, `description` and have all the core engine `chat` and optionally `functionRegistry`

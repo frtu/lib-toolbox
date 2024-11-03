@@ -117,7 +117,7 @@ spring.autoconfigure.exclude:
 
 ##### Function
 
-* Refactor `Function` into dedicate package `com.github.frtu.kotlin.action.tool.function`
+* Refactor `Function` into dedicate package `com.github.frtu.kotlin.tool.function`
 
 ### 2.0.5
 

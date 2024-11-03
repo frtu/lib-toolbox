@@ -3,7 +3,7 @@ package sample.tool.function
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.node.TextNode
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import com.github.frtu.kotlin.action.tool.function.Function
+import com.github.frtu.kotlin.tool.function.Function
 import kotlin.reflect.KFunction2
 import org.slf4j.LoggerFactory
 import sample.tool.model.WeatherInfo

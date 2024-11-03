@@ -1,4 +1,4 @@
-package com.github.frtu.kotlin.action.tool.transition
+package com.github.frtu.kotlin.tool.transition
 
 import com.github.frtu.kotlin.action.execution.GenericAction
 import com.github.frtu.kotlin.action.execution.TypedAction

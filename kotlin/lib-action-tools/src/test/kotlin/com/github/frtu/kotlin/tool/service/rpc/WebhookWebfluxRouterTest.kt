@@ -1,7 +1,7 @@
-package com.github.frtu.kotlin.action.tool.service.rpc
+package com.github.frtu.kotlin.tool.service.rpc
 
-import com.github.frtu.kotlin.action.tool.Tool
-import com.github.frtu.kotlin.action.tool.ToolRegistry
+import com.github.frtu.kotlin.tool.Tool
+import com.github.frtu.kotlin.tool.ToolRegistry
 import com.github.frtu.kotlin.utils.io.toJsonString
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Disabled

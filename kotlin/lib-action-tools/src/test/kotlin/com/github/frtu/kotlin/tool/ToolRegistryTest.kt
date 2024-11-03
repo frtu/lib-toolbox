@@ -1,4 +1,4 @@
-package com.github.frtu.kotlin.action.tool
+package com.github.frtu.kotlin.tool
 
 import io.kotlintest.matchers.types.shouldBeNull
 import io.kotlintest.matchers.types.shouldNotBeNull
