@@ -24,6 +24,10 @@ class ToolCommandFactory {
         val commandArgText = req.payload.text
         val args = commandArgText.split(" ")
         val toolName = args[0]
+        if (toolName == "list") {
+            val text = toolRegistry.getAll().map { it.id.value }.joinToString { " | " }
+            return@SlashCommandHandler ctx.ack("List of all tool names [ $text ]")
+        }
 
         val text = if (toolName != null) {
             val tool: Tool? = toolRegistry[toolName]
