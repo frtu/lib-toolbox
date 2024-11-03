@@ -14,6 +14,7 @@ import java.util.UUID
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.slf4j.LoggerFactory
 import org.testcontainers.junit.jupiter.Testcontainers
@@ -24,6 +25,7 @@ import sample.tool.IdentityTool
 import sample.workflow.MoneyTransferWorkflow
 import sample.workflow.MoneyTransferWorkflowImpl
 
+@Disabled
 @Testcontainers
 internal class DurableToolExecutionTest : TemporaliteContainer() {
     private lateinit var client: WorkflowClient

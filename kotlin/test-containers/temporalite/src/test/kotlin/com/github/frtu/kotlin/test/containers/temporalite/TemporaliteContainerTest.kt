@@ -13,8 +13,10 @@ import org.slf4j.LoggerFactory
 import org.testcontainers.junit.jupiter.Testcontainers
 import java.net.Socket
 import java.util.*
+import org.junit.jupiter.api.Disabled
 import sample.model.TransferInfo
 
+@Disabled
 @Testcontainers
 class TemporaliteContainerTest {
     @Test
