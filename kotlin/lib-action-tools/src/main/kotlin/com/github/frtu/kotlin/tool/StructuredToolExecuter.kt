@@ -16,9 +16,9 @@ abstract class StructuredToolExecuter<INPUT, OUTPUT>(
     /** Description that can be used by agent to decide which tool to use */
     description: String,
     /** Input parameter schema */
-    private val parameterClass: Class<INPUT>,
+    val parameterClass: Class<INPUT>,
     /** Return schema. `null` schema when returning `void` */
-    private val returnClass: Class<OUTPUT>?,
+    val returnClass: Class<OUTPUT>?,
 ) : ToolExecuter(
     id = id,
     description = description,
