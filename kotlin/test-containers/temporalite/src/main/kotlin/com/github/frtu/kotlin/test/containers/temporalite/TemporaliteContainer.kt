@@ -11,9 +11,11 @@ import org.testcontainers.utility.DockerImageName
 /**
  * Test containers for Temporalite
  */
-open class TemporaliteContainer(dockerImageName: DockerImageName) :
-    GenericContainer<TemporaliteContainer>(dockerImageName) {
-    constructor(tag: String = DEFAULT_TAG) : this(DEFAULT_IMAGE_NAME.withTag(tag))
+open class TemporaliteContainer(
+    dockerImageName: DockerImageName,
+    private val endpoint: String? = null,
+) : GenericContainer<TemporaliteContainer>(dockerImageName) {
+    constructor(tag: String = DEFAULT_TAG, endpoint: String? = null) : this(DEFAULT_IMAGE_NAME.withTag(tag), endpoint)
 
     init {
         dockerImageName.assertCompatibleWith(*arrayOf(DEFAULT_IMAGE_NAME))
@@ -21,16 +23,35 @@ open class TemporaliteContainer(dockerImageName: DockerImageName) :
         withLogConsumer(Slf4jLogConsumer(logger));
     }
 
-    val mappedPortTemporal: Int
-        get() = getMappedPort(TEMPORAL_PORT)
+    fun isUsingTestContainer() = endpoint.isNullOrBlank() || !endpoint.contains(":")
 
-    fun buildWorkflowClient(enableHttps: Boolean = false): WorkflowClient =
-        WorkflowClient.newInstance(WorkflowServiceStubs.newServiceStubs(WorkflowServiceStubsOptions {
-            val targetEndpoint = "localhost:${mappedPortTemporal}"
+    override fun start() = if (isUsingTestContainer()) {
+        logger.info("Starting container $containerId")
+        super.start()
+    } else {
+        logger.info("Preparing to connect to $endpoint")
+    }
+
+    val mappedPortTemporal: Int
+        get() = if (isUsingTestContainer()) {
+            getMappedPort(TEMPORAL_PORT)
+        } else {
+            throw IllegalStateException("Cannot call mappedPortTemporal if endpoint=$endpoint configured!")
+        }
+
+    fun buildWorkflowClient(): WorkflowClient {
+        val targetEndpoint = if (isUsingTestContainer()) {
+            "localhost:${mappedPortTemporal}"
+        } else {
+            endpoint
+        }
+        val enableHttps = false
+        return WorkflowClient.newInstance(WorkflowServiceStubs.newServiceStubs(WorkflowServiceStubsOptions {
             logger.debug("Creating client to $targetEndpoint")
             setTarget(targetEndpoint)
             setEnableHttps(enableHttps)
         }))
+    }
 
     companion object {
         private val DEFAULT_IMAGE_NAME = DockerImageName.parse("slamdev/temporalite")

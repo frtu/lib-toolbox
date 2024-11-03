@@ -28,6 +28,30 @@ After starting test, you will be able to have internally :
 Create a `WorkflowClient` using :
 
 ```kotlin
+internal class XxxTest: TemporaliteContainer(endpoint = "localhost:7233") {
+    private lateinit var client: WorkflowClient
+
+    @Test
+    fun test() {
+        ...
+    }
+    
+    @BeforeAll
+    fun setup() {
+        start()
+        client = buildWorkflowClient()
+    }
+
+    @AfterAll
+    fun destroy() {
+        stop()
+    }
+}
+```
+
+Or use it as an utility :
+
+```kotlin
 val temporaliteContainer = TemporaliteContainer()
 temporaliteContainer.start()
 logger.debug("Started Temporal at port ${temporaliteContainer.mappedPortTemporal}")
@@ -35,3 +59,18 @@ val client = temporaliteContainer.buildWorkflowClient()
     ...
 temporaliteContainer.stop()
 ```
+
+### To transform your test to connect to remote Temporal
+
+By configuring `endpoint`, it allows to test using remote Temporal endpoint :
+
+```kotlin
+val temporaliteContainer = TemporaliteContainer(endpoint = "localhost:7233")
+```
+
+## Release notes
+
+### 2.0.8
+
+* Reactivate `test-containers/temporalite`
+* Adding ability to add `endpoint` & connect to remote Temporal for manual testing
