@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory
 import org.testcontainers.junit.jupiter.Testcontainers
 import java.net.Socket
 import java.util.*
+import sample.model.TransferInfo
 
 @Testcontainers
 class TemporaliteContainerTest {
@@ -67,14 +68,17 @@ class TemporaliteContainerTest {
             .build()
         // WorkflowStubs enable calls to methods as if the Workflow object is local, but actually perform an RPC.
         val workflow: MoneyTransferWorkflow = client.newWorkflowStub(MoneyTransferWorkflow::class.java, options)
-        val referenceId = UUID.randomUUID().toString()
-        val fromAccount = "001-001"
-        val toAccount = "002-002"
-        val amount = 18.74
+
+        val transferInfo = TransferInfo(
+            referenceId = UUID.randomUUID().toString(),
+            fromAccountId = "001-001",
+            toAccountId = "002-002",
+            amount = 18.74,
+        )
 
         // Asynchronous execution. This process will exit after making this call.
-        val we = WorkflowClient.start(workflow::transfer, fromAccount, toAccount, referenceId, amount)
-        logger.debug("\nTransfer of $amount from account $fromAccount to account $toAccount is processing\n")
+        val we = WorkflowClient.start(workflow::transfer, transferInfo)
+        logger.debug("\nTransfer of ${transferInfo.amount} from account ${transferInfo.fromAccountId} to account ${transferInfo.toAccountId} is processing\n")
         logger.debug("\nWorkflowID: ${we.workflowId} RunID: ${we.runId}")
 
         //--------------------------------------
