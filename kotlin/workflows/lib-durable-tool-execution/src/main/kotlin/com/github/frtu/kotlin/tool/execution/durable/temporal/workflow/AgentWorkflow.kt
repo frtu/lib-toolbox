@@ -1,4 +1,4 @@
-package com.github.frtu.kotlin.ai.os.llm.agent.durable.temporal.workflow
+package com.github.frtu.kotlin.tool.execution.durable.temporal.workflow
 
 import com.fasterxml.jackson.databind.JsonNode
 import io.temporal.workflow.WorkflowInterface

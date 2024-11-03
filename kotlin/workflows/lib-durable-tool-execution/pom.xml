@@ -8,7 +8,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>lib-durable-agent-framework</artifactId>
+    <artifactId>lib-durable-tool-execution</artifactId>
 
     <properties>
         <temporal.version>1.25.1</temporal.version> <!-- 2024-08-22 -->
@@ -30,6 +30,12 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>starter-temporal</artifactId>
             <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>temporalite</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
         </dependency>
 
         <!-- Temporal -->

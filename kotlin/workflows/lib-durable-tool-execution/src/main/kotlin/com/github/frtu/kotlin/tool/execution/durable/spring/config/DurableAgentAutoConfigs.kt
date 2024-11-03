@@ -1,5 +1,6 @@
-package com.github.frtu.kotlin.ai.os.llm.agent.durable.spring.config
+package com.github.frtu.kotlin.tool.execution.durable.spring.config
 
+import com.github.frtu.kotlin.tool.execution.durable.temporal.ToolTemporal
 import org.springframework.context.annotation.ComponentScan
 import org.springframework.context.annotation.Configuration
 
@@ -7,5 +8,5 @@ import org.springframework.context.annotation.Configuration
  * Allow to bootstrap AI OS configuration
  */
 @Configuration
-@ComponentScan("com.github.frtu.kotlin.llm.os.agent.durable")
+@ComponentScan(basePackageClasses = [ToolTemporal::class])
 class DurableAgentAutoConfigs

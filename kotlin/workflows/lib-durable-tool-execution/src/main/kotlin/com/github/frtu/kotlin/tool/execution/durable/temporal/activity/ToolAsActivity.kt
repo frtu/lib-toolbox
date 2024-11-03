@@ -1,4 +1,4 @@
-package com.github.frtu.kotlin.ai.os.llm.agent.durable.temporal.activity
+package com.github.frtu.kotlin.tool.execution.durable.temporal.activity
 
 import com.fasterxml.jackson.databind.JsonNode
 import io.temporal.activity.ActivityInterface

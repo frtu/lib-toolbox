@@ -11,7 +11,7 @@ All libraries for [kotlin](kotlin)
 * [lib-action-tools](kotlin/lib-action-tools) : Specialisation of Action framework dedicated to Tools & Functions
 * [lib-spring-boot-slack](kotlin/lib-spring-boot-slack) : Allow to start Slack connectivity along with spring boot lifecycle
 * [lib-spring-boot-ai-os](kotlin/lib-spring-boot-ai-os) : Allow to bootstrap agent framework with OpenAI or local Ollama
-* [lib-durable-agent-framework](kotlin/workflows/lib-durable-agent-framework) : Allow to bootstrap durable agent
+* [lib-durable-tool-execution](kotlin/workflows/lib-durable-tool-execution) : Allow to bootstrap durable agent
   framework by using Temporal as execution storage
 * [workflows](kotlin/workflows) : Temporal & Serverless workflow
 * [lib-workflow](kotlin/workflows/lib-workflow) : Lightweight workflow for `Tool`
