@@ -184,6 +184,10 @@ spring.autoconfigure.exclude:
 
 ## Release notes
 
+### 2.0.9
+
+* Allow to auto expose all Tools as Slack `/tool` command
+
 ### 2.0.6
 
 * Enable to override and extends configs & properties for Spring Boot 2.x

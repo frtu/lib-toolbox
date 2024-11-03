@@ -48,6 +48,12 @@
         <!--Internal projects -->
         <dependency>
             <groupId>${project.groupId}</groupId>
+            <artifactId>lib-action-tools</artifactId>
+            <version>${project.version}</version>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
             <artifactId>lib-utils</artifactId>
             <version>${project.version}</version>
         </dependency>
