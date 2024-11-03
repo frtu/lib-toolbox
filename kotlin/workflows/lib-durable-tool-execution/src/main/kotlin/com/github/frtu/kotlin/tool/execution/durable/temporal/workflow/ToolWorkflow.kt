@@ -5,13 +5,13 @@ import io.temporal.workflow.WorkflowInterface
 import io.temporal.workflow.WorkflowMethod
 
 /**
- * Agent orchestration graph
+ * `Workflow Type` for base Tool orchestration graph that you can extend and specialise
  *
  * @author Frédéric TU
  * @since 2.0.8
  */
 @WorkflowInterface
-interface AgentWorkflow {
+interface ToolWorkflow {
     @WorkflowMethod
     fun execute(parameter: JsonNode): JsonNode
 }

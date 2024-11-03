@@ -1,4 +1,4 @@
-package com.github.frtu.kotlin.tool.execution.durable.temporal.workflow
+package com.github.frtu.kotlin.tool.execution.durable.temporal.stub
 
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.node.NullNode
@@ -64,12 +64,14 @@ class WorkflowCallAsTool<INPUT, OUTPUT>(
             setWorkflowId(workflowInstanceId)
         })
         val workflowExecution = workflowStub.start(parameter)
-        logger.info("Started workflow execution id:[${workflowExecution.workflowId}] run id:[${workflowExecution.runId}]")
+        logger.info("Started workflow execution call id:[${workflowExecution.workflowId}] run id:[${workflowExecution.runId}]")
 
         return if (returnClass != null && returnClass != Void::javaClass) {
-            logger.info("Preparing to receive call from type:$returnClass")
+            logger.debug("Preparing to receive call from type:$returnClass")
             try {
-                workflowStub.getResult(timeoutInSec, TimeUnit.SECONDS, JsonNode::class.java)
+                workflowStub.getResult(timeoutInSec, TimeUnit.SECONDS, JsonNode::class.java).also {
+                    logger.info("Workflow execution call returned:$it")
+                }
             } catch (e: TimeoutException) {
                 logger.error("Workflow encounter timeout of $timeoutInSec sec. Error message:${e.message}", e)
                 NullNode.instance
