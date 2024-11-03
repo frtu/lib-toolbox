@@ -17,15 +17,19 @@ import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.slf4j.LoggerFactory
 import org.testcontainers.junit.jupiter.Testcontainers
+import sample.activity.AccountActivityImpl
 import sample.model.TransferInfo
+import sample.model.TransferResult
 import sample.tool.IdentityTool
+import sample.workflow.MoneyTransferWorkflow
+import sample.workflow.MoneyTransferWorkflowImpl
 
 @Testcontainers
-internal class DurableToolExecutionTest : TemporaliteContainer(endpoint = "localhost:7233") {
+internal class DurableToolExecutionTest : TemporaliteContainer() {
     private lateinit var client: WorkflowClient
 
     @Test
-    fun `Calling workflow as a Tool`(): Unit = runBlocking {
+    fun `Calling Tool as an Activity inside BasicToolWorkflowImpl`(): Unit = runBlocking {
         //--------------------------------------
         // 1. Init
         //--------------------------------------
@@ -85,6 +89,62 @@ internal class DurableToolExecutionTest : TemporaliteContainer(endpoint = "local
             this["fromAccountId"].textValue() shouldBe transferInfo.fromAccountId
             this["toAccountId"].textValue() shouldBe transferInfo.toAccountId
             this["amount"].doubleValue() shouldBe transferInfo.amount
+        }
+    }
+
+    @Test
+    fun `Calling workflow as a Tool`(): Unit = runBlocking {
+        //--------------------------------------
+        // 1. Init
+        //--------------------------------------
+        // Init workflow
+        val workflowId = MoneyTransferWorkflow::class.java.simpleName // Registered Workflow name in the [Worker]
+        val taskQueue = MoneyTransferWorkflow.TASK_QUEUE // Task Queue from the Workflow
+        val parameterClass = TransferInfo::class.java // Specific Input from method
+        val returnClass = TransferResult::class.java // Specific Output from method
+
+        // Init execution
+        val transferInfo = TransferInfo(
+            referenceId = UUID.randomUUID().toString(),
+            fromAccountId = "001-001",
+            toAccountId = "002-002",
+            amount = 18.74,
+        )
+        // Init service
+        // Worker factory is used to create Workers that poll specific Task Queues.
+        val factory = WorkerFactory.newInstance(client)
+        val worker = factory.newWorker(taskQueue)
+        // This Worker hosts both Workflow and Activity implementations.
+        // Workflows are stateful so a type is needed to create instances.
+        worker.registerWorkflowImplementationTypes(MoneyTransferWorkflowImpl::class.java)
+        // Activities are stateless and thread safe so a shared instance is used.
+        worker.registerActivitiesImplementations(
+            AccountActivityImpl(),
+        )
+        // Start listening to the Task Queue.
+        factory.start()
+
+        //--------------------------------------
+        // 2. Execute
+        //--------------------------------------
+        val workflowCallAsTool = WorkflowCallAsTool(
+            workflowId = workflowId,
+            description = "Calling Workflow as a Tool",
+            parameterClass = parameterClass,
+            returnClass = returnClass,
+            workflowClient = client,
+            taskQueue = taskQueue,
+        )
+
+        val result = workflowCallAsTool.execute(transferInfo.objToJsonNode())
+        logger.debug("result:${result.toPrettyString()}")
+
+        //--------------------------------------
+        // 3. Validate
+        //--------------------------------------
+        with(result["status"]) {
+            shouldNotBeNull()
+            textValue() shouldBe "OK"
         }
     }
 
