@@ -2,7 +2,7 @@ package sample.tool
 
 import com.fasterxml.jackson.databind.JsonNode
 import com.github.frtu.kotlin.action.management.ActionId
-import com.github.frtu.kotlin.ai.os.tool.ToolExecuter
+import com.github.frtu.kotlin.action.tool.ToolExecuter
 
 class IdentityTool : ToolExecuter(
     id = ActionId(TOOL_NAME),

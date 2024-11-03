@@ -3,7 +3,7 @@ package com.github.frtu.kotlin.ai.os.llm.agent.durable.temporal.activity
 import com.fasterxml.jackson.databind.JsonNode
 import com.github.frtu.kotlin.action.execution.GenericAction
 import com.github.frtu.kotlin.action.management.ActionId
-import com.github.frtu.kotlin.ai.os.tool.ToolExecuter
+import com.github.frtu.kotlin.action.tool.ToolExecuter
 import io.temporal.activity.ActivityOptions
 import io.temporal.failure.ActivityFailure
 import io.temporal.workflow.Workflow

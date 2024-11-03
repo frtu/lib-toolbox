@@ -4,8 +4,8 @@ import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.node.NullNode
 import com.fasterxml.jackson.databind.node.TextNode
 import com.github.frtu.kotlin.action.management.ActionId
+import com.github.frtu.kotlin.action.tool.Tool
 import com.github.frtu.kotlin.flow.core.AbstractFlow
-import com.github.frtu.kotlin.ai.os.tool.Tool
 import com.github.frtu.kotlin.serdes.json.schema.SchemaGen
 import com.github.frtu.kotlin.utils.io.toJsonNode
 import com.github.frtu.kotlin.utils.io.toJsonString

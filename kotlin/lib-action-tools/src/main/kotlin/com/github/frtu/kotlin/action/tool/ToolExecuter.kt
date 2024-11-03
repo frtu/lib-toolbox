@@ -1,4 +1,4 @@
-package com.github.frtu.kotlin.ai.os.tool
+package com.github.frtu.kotlin.action.tool
 
 import com.fasterxml.jackson.databind.JsonNode
 import com.github.frtu.kotlin.action.management.ActionId

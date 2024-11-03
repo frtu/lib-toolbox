@@ -19,4 +19,8 @@ class SampleToolConfig {
 
     @Bean(IdentityTool.TOOL_NAME)
     fun identity(): Tool = IdentityTool()
+
+    companion object {
+        const val NUMBER_OF_TOOLS: Int = 3
+    }
 }

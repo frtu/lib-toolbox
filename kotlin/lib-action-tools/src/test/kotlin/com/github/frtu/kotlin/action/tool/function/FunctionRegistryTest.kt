@@ -1,4 +1,4 @@
-package com.github.frtu.kotlin.ai.os.tool.function
+package com.github.frtu.kotlin.action.tool.function
 
 import com.github.frtu.kotlin.action.tool.function.FunctionRegistry
 import io.kotlintest.matchers.types.shouldNotBeNull

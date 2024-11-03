@@ -29,7 +29,7 @@ class ToolRegistryTest {
                 // 3. Validate
                 //--------------------------------------
                 val toolRegistry = context.getBean(ToolRegistry::class.java)
-                toolRegistry.getAll().size shouldBe 2
+                toolRegistry.getAll().size shouldBe SampleToolConfig.NUMBER_OF_TOOLS
                 toolRegistry[CurrentWeatherFunction.TOOL_NAME].shouldNotBeNull()
                 toolRegistry[WeatherForecastFunction.TOOL_NAME].shouldNotBeNull()
             }

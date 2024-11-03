@@ -2,7 +2,7 @@ package com.github.frtu.kotlin.ai.os.llm.agent.durable.temporal.activity
 
 import com.fasterxml.jackson.databind.JsonNode
 import com.github.frtu.kotlin.action.execution.GenericAction
-import com.github.frtu.kotlin.ai.os.tool.Tool
+import com.github.frtu.kotlin.action.tool.Tool
 import kotlinx.coroutines.runBlocking
 
 /**
