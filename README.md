@@ -47,6 +47,10 @@ Check latest release notes at https://github.com/frtu/lib-toolbox/releases
 * Reactivate [lib-workflow](kotlin/workflows/lib-workflow)
 * Reactivate [serverless-generator](kotlin/workflows/serverless-generator)
 * Reactivate [temporalite](kotlin/test-containers/temporalite)
+* Discontinue [lib-r2dbc](kotlin%2Flib-r2dbc)
+* Discontinue [lib-webclient](kotlin%2Flib-webclient)
+* Discontinue [lib-grpc](kotlin%2Flib-grpc)
+* Discontinue [lib-serdes-protobuf](kotlin%2Flib-serdes-protobuf)
 
 ### 2.0.4
 
