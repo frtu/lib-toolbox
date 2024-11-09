@@ -187,6 +187,7 @@ spring.autoconfigure.exclude:
 ### 2.0.9
 
 * Allow to auto expose all Tools as Slack `/tool` command
+* Allow to better @ComponentScan using Marker interface
 
 ### 2.0.6
 

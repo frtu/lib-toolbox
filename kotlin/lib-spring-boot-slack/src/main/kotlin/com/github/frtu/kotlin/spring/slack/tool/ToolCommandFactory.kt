@@ -28,11 +28,11 @@ class ToolCommandFactory {
         val args = commandArgText.split(" ")
         val toolName = args[0]
         if (toolName == "list") {
-            val text = toolRegistry.getAll().map { it.id.value }.joinToString { " | " }
+            val text = getToolNames(toolRegistry)
             return@SlashCommandHandler ctx.ack("List of all tool names [ $text ]")
         }
 
-        val text = if (toolName != null) {
+        val text = if (toolName != null && toolName.trim().isNotBlank()) {
             val tool: Tool? = toolRegistry[toolName]
             if (tool != null) {
                 ctx.logger.debug("Trying to call tool id:$toolName")
@@ -41,14 +41,18 @@ class ToolCommandFactory {
                 }
                 result.toJsonString()
             } else {
-                "Trying to call an tool name that doesn't exist : name=[$toolName]`"
+                "Trying to call an tool name that doesn't exist : name=[`$toolName`]. " +
+                        "Existing tool names [ ${getToolNames(toolRegistry)} ]"
             }
         } else {
-            "Usage: You need to call `/tool [tool-name] [args]`"
+            "Usage: You need to call `/tool [tool-name] [args]`. Existing tool names [ ${getToolNames(toolRegistry)} ]"
         }
         val channelId = req.payload.channelId
         val channelName = req.payload.channelName
         ctx.logger.debug("Command /tool called : [$text] at <#$channelId|$channelName>")
         ctx.ack(text)
     }
+
+    private fun getToolNames(toolRegistry: ToolRegistry) = toolRegistry.getAll()
+        .joinToString(" | ") { "`${it.id.value}`" }
 }

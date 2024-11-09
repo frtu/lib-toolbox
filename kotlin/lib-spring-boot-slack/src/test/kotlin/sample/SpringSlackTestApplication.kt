@@ -5,10 +5,14 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.builder.SpringApplicationBuilder
 
 @SpringBootApplication
-class TestApplication
+class SpringSlackTestApplication
 
 fun main(args: Array<String>) {
-    SpringApplicationBuilder(TestApplication::class.java)
-        .web(WebApplicationType.NONE)
-        .run(*args)
+    try {
+        SpringApplicationBuilder(SpringSlackTestApplication::class.java)
+            .web(WebApplicationType.NONE)
+            .run(*args)
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
 }

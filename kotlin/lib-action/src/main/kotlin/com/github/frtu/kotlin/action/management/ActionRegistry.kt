@@ -28,6 +28,7 @@ open class ActionRegistry<ACTION : ActionMetadata>(
     open operator fun get(key: String) = get(ActionId(key))
 
     open fun getAll() = registry.values
+    open fun getAllNames(separator: String = " | ") = registry.keys.joinToString(separator) { it.value }
 
     open fun register(action: ACTION) = set(key = action.id, action = action)
 
