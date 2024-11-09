@@ -51,6 +51,16 @@ application:
     bot-oauth-token: ${SLACK_APP_BOT_OAUTH_TOKEN:xoxb-zzz}
 ```
 
+### Tool with Slack
+
+Call `/tool` command by creating a Bean extending `com.github.frtu.kotlin.tool.Tool`.
+
+Ex : Create a tool with id `identity-function` and call with :
+
+```
+/tool identity-function `{"test":1234}`
+```
+
 ### Slack Event
 
 Register Slack events using :

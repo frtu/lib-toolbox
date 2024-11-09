@@ -26,7 +26,8 @@ class ToolCommandFactory {
         ctx.logger.debug("Command /tool called")
         val commandArgText = req.payload.text
         val args = commandArgText.split(" ")
-        val toolName = args[0]
+
+        val toolName = retrieveToolName(args)
         if (toolName == "list") {
             val text = getToolNames(toolRegistry)
             return@SlashCommandHandler ctx.ack("List of all tool names [ $text ]")
@@ -35,9 +36,10 @@ class ToolCommandFactory {
         val text = if (toolName != null && toolName.trim().isNotBlank()) {
             val tool: Tool? = toolRegistry[toolName]
             if (tool != null) {
-                ctx.logger.debug("Trying to call tool id:$toolName")
+                val request = retrieveParameters(args, toolName)
+                ctx.logger.info("Trying to call tool id:$toolName args[1]=$request")
                 val result = runBlocking {
-                    tool.execute(args[1].toJsonNode())
+                    tool.execute(request.toJsonNode())
                 }
                 result.toJsonString()
             } else {
@@ -55,4 +57,10 @@ class ToolCommandFactory {
 
     private fun getToolNames(toolRegistry: ToolRegistry) = toolRegistry.getAll()
         .joinToString(" | ") { "`${it.id.value}`" }
+
+    private fun retrieveToolName(args: List<String>): String = args[0]
+
+    private fun retrieveParameters(args: List<String>, toolName: String): String =
+        args.findLast { it.isNotBlank() }?.replace("`", "")
+            ?: throw IllegalArgumentException("Need to pass non empty parameters to name=[`$toolName`].")
 }
