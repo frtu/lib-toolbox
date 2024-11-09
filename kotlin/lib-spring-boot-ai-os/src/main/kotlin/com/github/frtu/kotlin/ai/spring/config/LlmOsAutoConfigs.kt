@@ -1,7 +1,8 @@
 package com.github.frtu.kotlin.ai.spring.config
 
-import com.github.frtu.kotlin.tool.service.rpc.WebhookWebfluxRouter
+import com.github.frtu.kotlin.ai.os.AiOS
 import com.github.frtu.kotlin.ai.spring.builder.ChatApiConfigs
+import com.github.frtu.kotlin.tool.service.rpc.WebhookWebfluxRouter
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.ComponentScan
 import org.springframework.context.annotation.Configuration
@@ -16,5 +17,5 @@ import org.springframework.context.annotation.Import
     WebhookWebfluxRouter::class,
 )
 @EnableConfigurationProperties(ChatApiProperties::class)
-@ComponentScan("com.github.frtu.kotlin.llm.os")
+@ComponentScan(basePackageClasses = [AiOS::class])
 class LlmOsAutoConfigs

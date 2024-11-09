@@ -84,6 +84,10 @@ spring.autoconfigure.exclude:
 
 ## Release notes
 
+### 2.0.9
+
+* Allow to better @ComponentScan using Marker interface
+
 ### 2.0.8
 
 #### Tool framework
