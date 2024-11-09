@@ -6,17 +6,20 @@ import com.github.frtu.kotlin.utils.io.toJsonNode
 import com.github.frtu.kotlin.utils.io.toJsonString
 import com.slack.api.bolt.handler.builtin.SlashCommandHandler
 import kotlinx.coroutines.runBlocking
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.ComponentScan
 import org.springframework.context.annotation.Configuration
 
 @Configuration
-@ConditionalOnBean(ToolRegistry::class)
 @ConditionalOnProperty(
     prefix = "application.tools.slack", name = ["enabled"],
     havingValue = "true", matchIfMissing = true,
 )
+// If class exist scan packages
+@ConditionalOnClass(ToolRegistry::class)
+@ComponentScan(basePackageClasses = [ToolRegistry::class])
 class ToolCommandFactory {
     @Bean
     fun tool(toolRegistry: ToolRegistry): SlashCommandHandler = SlashCommandHandler { req, ctx ->
