@@ -1,4 +1,4 @@
-package com.github.frtu.kotlin.spring.slack.udf
+package sample.udf
 
 import com.github.frtu.kotlin.spring.slack.event.AbstractEventHandler
 import com.github.frtu.kotlin.spring.slack.event.MessageEventHandler

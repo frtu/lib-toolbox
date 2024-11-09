@@ -1,4 +1,4 @@
-package com.github.frtu.kotlin.spring.slack
+package sample
 
 import org.springframework.boot.WebApplicationType
 import org.springframework.boot.autoconfigure.SpringBootApplication

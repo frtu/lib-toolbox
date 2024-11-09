@@ -1,4 +1,4 @@
-package com.github.frtu.kotlin.spring.slack.udf
+package sample.udf
 
 import com.slack.api.bolt.handler.builtin.SlashCommandHandler
 import org.springframework.context.annotation.Bean
