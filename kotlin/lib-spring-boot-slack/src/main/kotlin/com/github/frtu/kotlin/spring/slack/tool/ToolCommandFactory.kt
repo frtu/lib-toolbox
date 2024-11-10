@@ -12,16 +12,7 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.ComponentScan
 import org.springframework.context.annotation.Configuration
 
-@Configuration
-@ConditionalOnProperty(
-    prefix = "application.tools.slack", name = ["enabled"],
-    havingValue = "true", matchIfMissing = true,
-)
-// If class exist scan packages
-@ConditionalOnClass(ToolRegistry::class)
-@ComponentScan(basePackageClasses = [ToolRegistry::class])
 class ToolCommandFactory {
-    @Bean
     fun tool(toolRegistry: ToolRegistry): SlashCommandHandler = SlashCommandHandler { req, ctx ->
         ctx.logger.debug("Command /tool called")
         val commandArgText = req.payload.text
@@ -55,12 +46,12 @@ class ToolCommandFactory {
         ctx.ack(text)
     }
 
-    private fun getToolNames(toolRegistry: ToolRegistry) = toolRegistry.getAll()
+    fun getToolNames(toolRegistry: ToolRegistry) = toolRegistry.getAll()
         .joinToString(" | ") { "`${it.id.value}`" }
 
-    private fun retrieveToolName(args: List<String>): String = args[0]
+    fun retrieveToolName(args: List<String>): String = args[0]
 
-    private fun retrieveParameters(args: List<String>, toolName: String): String =
+    fun retrieveParameters(args: List<String>, toolName: String): String =
         args.findLast { it.isNotBlank() }?.replace("`", "")
             ?: throw IllegalArgumentException("Need to pass non empty parameters to name=[`$toolName`].")
 }
