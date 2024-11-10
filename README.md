@@ -9,12 +9,12 @@ All libraries for [kotlin](kotlin)
 
 * [lib-action](kotlin/lib-action) : Base project for normalise action calls across projects
 * [lib-action-tools](kotlin/lib-action-tools) : Specialisation of Action framework dedicated to Tools & Functions
-* [lib-spring-boot-tools](kotlin/lib-spring-boot-tools) : All tool facilitator for Spring 
+* [lib-spring-boot-tools](kotlin/lib-spring-boot-tools) : All tool facilitator for Spring for Webflux & Scanning @Tool 
 * [test-sample-tools](kotlin/test/test-sample-tools) : Sample tools for test
 
 ### Middleware & Spring Boot bootstrap
 
-* [lib-durable-tool-execution](kotlin/workflows/lib-durable-tool-execution) : Allow to bootstrap durable tool execution (ex: Agent, Workflow & Function)
+* [lib-durable-tool-execution](kotlin/workflows/lib-durable-tool-execution) : Allow to bootstrap durable tool execution with `Temporal` (ex: Agent, Workflow & Function)
 * [lib-spring-boot-slack](kotlin/lib-spring-boot-slack) : Allow to start Slack connectivity along with spring boot lifecycle
 * [lib-spring-boot-ai-os](kotlin/lib-spring-boot-ai-os) : Allow to bootstrap agent framework with OpenAI or local Ollama
   framework by using Temporal as execution storage
