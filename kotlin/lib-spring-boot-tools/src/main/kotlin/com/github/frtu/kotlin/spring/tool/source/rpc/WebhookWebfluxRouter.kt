@@ -18,6 +18,12 @@ import org.springframework.web.reactive.function.server.bodyValueAndAwait
 import org.springframework.web.reactive.function.server.coRouter
 import org.springframework.web.reactive.function.server.json
 
+/**
+ * Tool annotate an executable function
+ *
+ * @author Frédéric TU
+ * @since 2.0.9
+ */
 @Configuration
 @ConditionalOnClass(RouterFunction::class)
 @ConditionalOnProperty(

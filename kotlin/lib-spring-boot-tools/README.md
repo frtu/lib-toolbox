@@ -2,10 +2,12 @@
 
 ## About
 
-Provide Spring boot facilitator around Tool. 
+Provide Spring boot facilitator around Tool.
 
 * Auto expose Tool as HTTP endpoints
-* [TBD] Should provide annotation for Spring Bean
+* Provide @Annotation for Spring Bean
+
+## Features
 
 ### Auto expose Tool endpoints
 
@@ -22,6 +24,33 @@ application:
       deployment-mode: STATIC
       url-prefix: "/v1/tools"
 ```
+
+### Create Tool from annotated bean
+
+* `application.tools.scan.enabled` allow to enable `true` (default) or `false`
+
+```yaml
+application:
+  tools:
+    scan.enabled: true
+```
+
+Automatically create `Tool` from annotated method :
+
+```kotlin
+@ToolGroup
+class AnnotatedClass {
+    @Tool(
+        id = "tool-name",
+        description = "Tool description",
+    )
+    fun anyName(request: X): Y {
+        ...
+    }
+}
+```
+
+All your `@Tool` annotated methods will be encapsulated into a `Tool` bean
 
 ## Import
 
@@ -56,4 +85,5 @@ Check the latest version (clickable) :
 
 ### 2.0.9
 
-* Initial version
+* Allow `ToolAnnotationUtils` to build `StructuredTool<INPUT, OUTPUT>` from `java.lang.reflect.Method`
+* Allow `ToolBuilderFromAnnotationScanner` to build Tool from `@Tool` annotated method on `@ToolGroup` Bean
