@@ -35,6 +35,12 @@ Check the latest version (clickable) :
 
 ## Release notes
 
+### 2.0.9
+
+* Add `StructuredTool` to extend `Tool` & `TypedAction<INPUT, OUTPUT>` for strongly typed execution
+* Allow `StructuredToolExecuter` to extend `StructuredTool<INPUT, OUTPUT>` & provide internal generic to type mapping
+* Provide `StructuredToolExecuter.create()` to create lamba encapsulation as `StructuredTool`
+
 ### 2.0.8
 
 * Initial version

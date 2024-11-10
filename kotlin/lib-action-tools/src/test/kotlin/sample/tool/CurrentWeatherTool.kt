@@ -1,7 +1,5 @@
 package sample.tool
 
-import com.fasterxml.jackson.databind.JsonNode
-import com.github.frtu.kotlin.serdes.json.ext.objToJsonNode
 import com.github.frtu.kotlin.tool.StructuredToolExecuter
 import sample.tool.model.WeatherForecastInputParameter
 import sample.tool.model.WeatherInfoMultiple
@@ -13,24 +11,23 @@ class CurrentWeatherTool(
     id: String = TOOL_NAME,
 ) : StructuredToolExecuter<WeatherForecastInputParameter, WeatherInfoMultiple>(
     id = id,
-    description = "Get the current weather in a given location",
+    description = TOOL_DESCRIPTION,
     parameterClass = WeatherForecastInputParameter::class.java,
     WeatherInfoMultiple::class.java,
 ) {
-    override suspend fun execute(parameter: JsonNode): JsonNode {
-        val location = parameter["location"].textValue()
-        val unit: String = parameter["unit"]?.textValue() ?: "fahrenheit"
-        val numberOfDays = parameter["numberOfDays"].intValue()
-        return WeatherInfoMultiple(
-            location = location,
-            unit = unit,
-            numberOfDays = numberOfDays,
+    fun doExecute(parameter: WeatherForecastInputParameter): WeatherInfoMultiple =
+        WeatherInfoMultiple(
+            location = parameter.location,
+            unit = parameter.unit,
+            numberOfDays = parameter.numberOfDays,
             temperature = 30,
             forecast = listOf(31, 33, 34, 29),
-        ).objToJsonNode()
-    }
+        )
+
+    override suspend fun execute(parameter: WeatherForecastInputParameter): WeatherInfoMultiple = doExecute(parameter)
 
     companion object {
         const val TOOL_NAME = "get_current_weather"
+        const val TOOL_DESCRIPTION = "Get the current weather in a given location"
     }
 }

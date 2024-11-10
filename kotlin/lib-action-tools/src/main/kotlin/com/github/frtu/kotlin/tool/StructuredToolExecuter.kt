@@ -1,9 +1,13 @@
 package com.github.frtu.kotlin.tool
 
 import com.fasterxml.jackson.databind.JsonNode
-import com.github.frtu.kotlin.action.execution.GenericAction
+import com.fasterxml.jackson.databind.node.NullNode
+import com.github.frtu.kotlin.action.execution.TypedAction
 import com.github.frtu.kotlin.action.management.ActionId
+import com.github.frtu.kotlin.serdes.json.ext.objToJsonNode
+import com.github.frtu.kotlin.serdes.json.ext.toJsonObj
 import com.github.frtu.kotlin.serdes.json.schema.SchemaGen
+import java.lang.reflect.Method
 
 /**
  * StructuredToolExecuter is a `ToolExecuter` for a strongly typed Input & Output class
@@ -25,7 +29,7 @@ abstract class StructuredToolExecuter<INPUT, OUTPUT>(
     description = description,
     parameterJsonSchema = SchemaGen.generateJsonSchema(parameterClass),
     returnJsonSchema = returnClass?.let { SchemaGen.generateJsonSchema(returnClass) },
-), GenericAction {
+), StructuredTool<INPUT, OUTPUT> {
     constructor(
         id: String,
         description: String,
@@ -38,7 +42,34 @@ abstract class StructuredToolExecuter<INPUT, OUTPUT>(
         returnClass = returnClass,
     )
 
+    override suspend fun execute(parameter: JsonNode): JsonNode {
+        val requestObj = parameter.toJsonObj(parameterClass)
+        val result = execute(requestObj)
+        return result?.objToJsonNode() ?: NullNode.instance
+    }
+
     companion object {
+        /**
+         * ATTENTION : `executerMethod` - suspend fun are not supported for the moment
+         * Will raise `wrong number of arguments: x expected: x+1` that need Continuation arg
+         * @since 2.0.9
+         */
+        fun <INPUT, OUTPUT> create(
+            id: String,
+            description: String,
+            executerMethod: Method,
+            targetObject: Any,
+        ): StructuredTool<INPUT, OUTPUT> = object : StructuredToolExecuter<INPUT, OUTPUT>(
+            id = ActionId(id),
+            description = description,
+            parameterClass = executerMethod.parameterTypes[0] as Class<INPUT>,
+            returnClass = executerMethod.returnType as Class<OUTPUT>,
+        ) {
+            override suspend fun execute(parameter: INPUT): OUTPUT {
+                return executerMethod.invoke(targetObject, parameter) as OUTPUT
+            }
+        }
+
         /**
          * Allow to create a StructuredToolExecuter by passing only the execution
          * @since 2.0.9
@@ -48,14 +79,14 @@ abstract class StructuredToolExecuter<INPUT, OUTPUT>(
             description: String,
             parameterClass: Class<INPUT>,
             returnClass: Class<OUTPUT>?,
-            executer: (JsonNode) -> JsonNode,
-        ): Tool = object : StructuredToolExecuter<INPUT, OUTPUT>(
+            executer: (INPUT) -> OUTPUT,
+        ): StructuredTool<INPUT, OUTPUT> = object : StructuredToolExecuter<INPUT, OUTPUT>(
             id = id,
             description = description,
             parameterClass = parameterClass,
             returnClass = returnClass,
         ) {
-            override suspend fun execute(parameter: JsonNode): JsonNode = executer.invoke(parameter)
+            override suspend fun execute(parameter: INPUT): OUTPUT = executer.invoke(parameter)
         }
     }
 }
