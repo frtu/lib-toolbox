@@ -1,5 +1,6 @@
 package com.github.frtu.kotlin.tool
 
+import com.fasterxml.jackson.databind.JsonNode
 import com.github.frtu.kotlin.action.execution.GenericAction
 import com.github.frtu.kotlin.action.management.ActionId
 import com.github.frtu.kotlin.serdes.json.schema.SchemaGen
@@ -36,4 +37,25 @@ abstract class StructuredToolExecuter<INPUT, OUTPUT>(
         parameterClass = parameterClass,
         returnClass = returnClass,
     )
+
+    companion object {
+        /**
+         * Allow to create a StructuredToolExecuter by passing only the execution
+         * @since 2.0.9
+         */
+        fun <INPUT, OUTPUT> create(
+            id: String,
+            description: String,
+            parameterClass: Class<INPUT>,
+            returnClass: Class<OUTPUT>?,
+            executer: (JsonNode) -> JsonNode,
+        ): Tool = object : StructuredToolExecuter<INPUT, OUTPUT>(
+            id = id,
+            description = description,
+            parameterClass = parameterClass,
+            returnClass = returnClass,
+        ) {
+            override suspend fun execute(parameter: JsonNode): JsonNode = executer.invoke(parameter)
+        }
+    }
 }
