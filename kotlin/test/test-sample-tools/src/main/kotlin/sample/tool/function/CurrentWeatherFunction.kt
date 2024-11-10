@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.node.TextNode
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.github.frtu.kotlin.tool.function.Function
 import kotlin.reflect.KFunction2
+import org.slf4j.LoggerFactory
 import sample.tool.model.WeatherInfo
 
 class CurrentWeatherFunction(
@@ -19,6 +20,7 @@ class CurrentWeatherFunction(
         val location = parameter["location"].textValue()
         val unit = parameter["unit"]?.textValue() ?: "fahrenheit"
         val result = action.invoke(location, unit)
+        logger.info("Calling ${this::class} with parameter location:$location unit:$unit result:$result")
         return TextNode.valueOf(result)
     }
 

@@ -18,6 +18,7 @@ class WeatherForecastFunction(
         val location = parameter["location"].textValue()
         val unit = parameter["unit"]?.textValue() ?: "fahrenheit"
         val result = action.invoke(location, unit)
+        logger.info("Calling ${this::class} with parameter location:$location unit:$unit result:$result")
         return TextNode.valueOf(result)
     }
 

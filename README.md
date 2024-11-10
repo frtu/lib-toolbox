@@ -5,10 +5,15 @@ Library toolbox to provide specific capabilities
 
 All libraries for [kotlin](kotlin)
 
-### Middleware & Spring Boot bootstrap
+### Base action libs
 
 * [lib-action](kotlin/lib-action) : Base project for normalise action calls across projects
 * [lib-action-tools](kotlin/lib-action-tools) : Specialisation of Action framework dedicated to Tools & Functions
+* [lib-spring-boot-tools](kotlin/lib-spring-boot-tools) : All tool facilitator for Spring 
+* [test-sample-tools](kotlin/test/test-sample-tools) : Sample tools for test
+
+### Middleware & Spring Boot bootstrap
+
 * [lib-durable-tool-execution](kotlin/workflows/lib-durable-tool-execution) : Allow to bootstrap durable tool execution (ex: Agent, Workflow & Function)
 * [lib-spring-boot-slack](kotlin/lib-spring-boot-slack) : Allow to start Slack connectivity along with spring boot lifecycle
 * [lib-spring-boot-ai-os](kotlin/lib-spring-boot-ai-os) : Allow to bootstrap agent framework with OpenAI or local Ollama
@@ -42,6 +47,7 @@ Check latest release notes at https://github.com/frtu/lib-toolbox/releases
 ### 2.0.9
 
 * Adding [lib-spring-boot-tools](kotlin/lib-spring-boot-tools)
+* Adding [test-sample-tools](kotlin/test/test-sample-tools)
 
 ### 2.0.8
 
