@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode
 import com.github.frtu.kotlin.action.execution.GenericAction
 import com.github.frtu.kotlin.action.management.ActionId
 import com.github.frtu.kotlin.tool.StructuredToolExecuter
+import com.github.frtu.kotlin.tool.ToolExecuter
 import io.temporal.activity.ActivityOptions
 import io.temporal.failure.ActivityFailure
 import io.temporal.workflow.Workflow
@@ -16,7 +17,7 @@ import io.temporal.workflow.Workflow
  */
 open class ActivityCallAsTool<INPUT, OUTPUT>(
     /** Id of the activity */
-    activityId: ActionId,
+    activityId: String,
     /** Description that can be used by agent to decide which tool to use */
     description: String,
     /** Input parameter schema */
@@ -25,7 +26,7 @@ open class ActivityCallAsTool<INPUT, OUTPUT>(
     returnClass: Class<OUTPUT>?,
     /** Stub */
     private val defaultActivityOptions: ActivityOptions,
-) : StructuredToolExecuter<INPUT, OUTPUT>(
+) : ToolExecuter(
     id = activityId,
     description = description,
     parameterClass = parameterClass,
@@ -38,7 +39,7 @@ open class ActivityCallAsTool<INPUT, OUTPUT>(
         returnClass: Class<OUTPUT>?,
         taskQueue: String = activityId,
     ) : this(
-        activityId = ActionId(activityId),
+        activityId = activityId,
         description = description,
         parameterClass = parameterClass,
         returnClass = returnClass,

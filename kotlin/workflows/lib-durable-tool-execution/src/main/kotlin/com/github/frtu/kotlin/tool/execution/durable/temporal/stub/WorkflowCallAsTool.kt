@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.node.NullNode
 import com.github.frtu.kotlin.action.execution.GenericAction
 import com.github.frtu.kotlin.action.management.ActionId
 import com.github.frtu.kotlin.tool.StructuredToolExecuter
+import com.github.frtu.kotlin.tool.ToolExecuter
 import io.temporal.client.WorkflowClient
 import io.temporal.client.WorkflowOptions
 import io.temporal.client.copy
@@ -21,18 +22,18 @@ import java.util.concurrent.TimeoutException
  */
 class WorkflowCallAsTool<INPUT, OUTPUT>(
     /** Id of the workflow */
-    workflowId: ActionId,
+    workflowId: String,
     /** Description that can be used by agent to decide which tool to use */
     description: String,
     /** Input parameter schema */
-    parameterClass: Class<INPUT>,
+    private val parameterClass: Class<INPUT>,
     /** Return schema. `null` schema when returning `void` */
-    returnClass: Class<OUTPUT>?,
+    private val returnClass: Class<OUTPUT>?,
     /** Stub */
     private val workflowClient: WorkflowClient,
     private val defaultWorkflowOptions: WorkflowOptions,
     private val timeoutInSec: Long = 10L,
-) : StructuredToolExecuter<INPUT, OUTPUT>(
+) : ToolExecuter(
     id = workflowId,
     description = description,
     parameterClass = parameterClass,
@@ -46,7 +47,7 @@ class WorkflowCallAsTool<INPUT, OUTPUT>(
         workflowClient: WorkflowClient,
         taskQueue: String,
     ) : this(
-        workflowId = ActionId(workflowId),
+        workflowId = workflowId,
         description = description,
         parameterClass = parameterClass,
         returnClass = returnClass,

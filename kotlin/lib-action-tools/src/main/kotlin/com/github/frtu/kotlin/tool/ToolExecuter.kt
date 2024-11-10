@@ -2,6 +2,7 @@ package com.github.frtu.kotlin.tool
 
 import com.fasterxml.jackson.databind.JsonNode
 import com.github.frtu.kotlin.action.management.ActionId
+import com.github.frtu.kotlin.serdes.json.schema.SchemaGen
 import com.github.frtu.kotlin.tool.Tool
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -22,6 +23,18 @@ abstract class ToolExecuter(
     /** Return schema. `null` schema when returning `void` */
     override val returnJsonSchema: String? = null,
 ) : Tool {
+    constructor(
+        id: String,
+        description: String,
+        parameterClass: Class<*>,
+        returnClass: Class<*>?,
+    ) : this(
+        id = ActionId(id),
+        description = description,
+        parameterJsonSchema = SchemaGen.generateJsonSchema(parameterClass),
+        returnJsonSchema = returnClass?.let { SchemaGen.generateJsonSchema(returnClass) },
+    )
+
     companion object {
         fun create(
             id: String,
