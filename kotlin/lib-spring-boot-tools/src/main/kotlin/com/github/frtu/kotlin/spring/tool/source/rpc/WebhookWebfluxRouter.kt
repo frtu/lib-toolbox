@@ -1,4 +1,4 @@
-package com.github.frtu.kotlin.tool.service.rpc
+package com.github.frtu.kotlin.spring.tool.source.rpc
 
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
@@ -39,6 +39,13 @@ class WebhookWebfluxRouter(
 
     @Bean
     fun webhookRouter(): RouterFunction<ServerResponse> = coRouter {
+        GET(urlPrefix) { serverRequest ->
+            // Execution
+            val result = toolRegistry.getAll().joinToString("\n") { "${it.id.value}|${it.description}" }
+
+            // Result
+            ok().json().bodyValueAndAwait(result)
+        }
         when(mode) {
             DeploymentMode.STATIC -> {
                 toolRegistry.getAll().forEach { tool ->

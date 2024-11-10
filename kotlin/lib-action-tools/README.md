@@ -4,22 +4,6 @@
 
 Specialisation of Action framework dedicated to Tools & Functions.
 
-### Auto expose Tool endpoints
-
-Adding `spring-boot-starter-webflux` will enable Tool endpoints.
-
-* `application.tools.endpoint.enabled` allow to enable `true` (default) or `false`
-* `application.tools.endpoint.deployment-mode` configure endpoint `STATIC` (default) `DYNAMIC`
-
-```yaml
-application:
-  tools:
-    endpoint:
-      enabled: true
-      deployment-mode: STATIC
-      url-prefix: "/v1/tools"
-```
-
 ## Import
 
 Import using Maven :

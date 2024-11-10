@@ -1,4 +1,4 @@
-package com.github.frtu.kotlin.tool.service.rpc
+package com.github.frtu.kotlin.spring.tool.source.rpc
 
 import com.github.frtu.kotlin.tool.Tool
 import com.github.frtu.kotlin.tool.ToolRegistry
@@ -57,7 +57,7 @@ internal class WebhookWebfluxRouterTest(
         //--------------------------------------
         val result = client
             .post()
-            .uri("${WebhookWebfluxRouter.DEFAULT_URL_PREFIX}/${tool.id}")
+            .uri("${WebhookWebfluxRouter.DEFAULT_URL_PREFIX}/${tool.id.value}")
             .accept(MediaType.APPLICATION_JSON)
             .contentType(MediaType.APPLICATION_JSON)
             .bodyValue(parameter)

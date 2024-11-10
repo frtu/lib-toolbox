@@ -39,6 +39,10 @@ All libraries for [java](java)
 
 Check latest release notes at https://github.com/frtu/lib-toolbox/releases
 
+### 2.0.9
+
+* Adding [lib-spring-boot-tools](kotlin/lib-spring-boot-tools)
+
 ### 2.0.8
 
 * Adding [lib-action](kotlin/lib-action)
