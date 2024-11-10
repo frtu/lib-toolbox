@@ -1,7 +1,9 @@
 package com.github.frtu.kotlin.spring.slack.tool
 
+import com.fasterxml.jackson.databind.node.NullNode
 import com.github.frtu.kotlin.tool.Tool
 import com.github.frtu.kotlin.tool.ToolRegistry
+import com.github.frtu.kotlin.translate.TextToJsonNodeTranslator
 import com.github.frtu.kotlin.utils.io.toJsonNode
 import com.github.frtu.kotlin.utils.io.toJsonString
 import com.slack.api.bolt.handler.builtin.SlashCommandHandler
@@ -12,8 +14,11 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.ComponentScan
 import org.springframework.context.annotation.Configuration
 
-class ToolCommandFactory {
-    fun tool(toolRegistry: ToolRegistry): SlashCommandHandler = SlashCommandHandler { req, ctx ->
+class ToolCommandFactory(
+    private val toolRegistry: ToolRegistry,
+    private val textToJsonNodeTranslator: TextToJsonNodeTranslator,
+) {
+    fun tool(): SlashCommandHandler = SlashCommandHandler { req, ctx ->
         ctx.logger.debug("Command /tool called")
         val commandArgText = req.payload.text
         val args = commandArgText.split(" ")
@@ -27,12 +32,15 @@ class ToolCommandFactory {
         val text = if (toolName != null && toolName.trim().isNotBlank()) {
             val tool: Tool? = toolRegistry[toolName]
             if (tool != null) {
-                val request = retrieveParameters(args, toolName)
-                ctx.logger.info("Trying to call tool id:$toolName args[1]=$request")
-                val result = runBlocking {
-                    tool.execute(request.toJsonNode())
+                runBlocking {
+                    val request = textToJsonNodeTranslator.execute(commandArgText.substringAfter(" "))
+                    if (request is NullNode) {
+                        throw IllegalArgumentException("Need to pass non empty parameters to name=[`$toolName`].")
+                    } else {
+                        ctx.logger.info("Trying to call tool id:$toolName args=$request")
+                        tool.execute(request).toJsonString()
+                    }
                 }
-                result.toJsonString()
             } else {
                 "Trying to call an tool name that doesn't exist : name=[`$toolName`]. " +
                         "Existing tool names [ ${getToolNames(toolRegistry)} ]"
@@ -50,8 +58,4 @@ class ToolCommandFactory {
         .joinToString(" | ") { "`${it.id.value}`" }
 
     fun retrieveToolName(args: List<String>): String = args[0]
-
-    fun retrieveParameters(args: List<String>, toolName: String): String =
-        args.findLast { it.isNotBlank() }?.replace("`", "")
-            ?: throw IllegalArgumentException("Need to pass non empty parameters to name=[`$toolName`].")
 }
