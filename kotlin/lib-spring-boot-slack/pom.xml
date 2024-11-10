@@ -48,7 +48,7 @@
         <!--Internal projects -->
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>lib-spring-boot-tools</artifactId>
+            <artifactId>lib-action-tools</artifactId>
             <version>${project.version}</version>
             <optional>true</optional>
         </dependency>
@@ -56,6 +56,13 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>lib-utils</artifactId>
             <version>${project.version}</version>
+        </dependency>
+        <!-- Test -->
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>lib-spring-boot-tools</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>

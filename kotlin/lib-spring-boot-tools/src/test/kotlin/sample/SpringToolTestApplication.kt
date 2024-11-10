@@ -1,6 +1,6 @@
 package sample
 
-import com.github.frtu.kotlin.spring.tool.source.rpc.WebhookWebfluxRouter
+import com.github.frtu.kotlin.spring.tool.config.SpringToolAutoConfigs
 import org.springframework.boot.WebApplicationType
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.builder.SpringApplicationBuilder
@@ -8,7 +8,11 @@ import org.springframework.context.annotation.Import
 import sample.tool.SampleToolConfig
 
 @SpringBootApplication
-@Import(WebhookWebfluxRouter::class, SampleToolConfig::class)
+@Import(
+    SampleToolConfig::class,
+    // Should be auto loaded by META-INF
+    SpringToolAutoConfigs::class,
+)
 class SpringToolTestApplication
 
 fun main(args: Array<String>) {

@@ -2,7 +2,10 @@
 
 ## About
 
-Allow to create Tool based on annotated Spring Bean
+Provide Spring boot facilitator around Tool. 
+
+* Auto expose Tool as HTTP endpoints
+* [TBD] Should provide annotation for Spring Bean
 
 ### Auto expose Tool endpoints
 

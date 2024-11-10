@@ -18,6 +18,7 @@ When creating and installing your app, don't forget to
 * Configure the features (without setting Request URLs)
 
 * Install the app to receive bot/user tokens (bot: xoxb-, user: xoxp-)
+* Enable **Commands** & **Events** that are declared by your application
 
 ### Alternative
 
@@ -132,9 +133,9 @@ Import using Maven :
 ```XML
 
 <dependency>
-  <groupId>com.github.frtu.libs</groupId>
-  <artifactId>lib-spring-boot-slack</artifactId>
-  <version>${frtu-libs.version}</version>
+    <groupId>com.github.frtu.libs</groupId>
+    <artifactId>lib-spring-boot-slack</artifactId>
+    <version>${frtu-libs.version}</version>
 </dependency>
 ```
 
