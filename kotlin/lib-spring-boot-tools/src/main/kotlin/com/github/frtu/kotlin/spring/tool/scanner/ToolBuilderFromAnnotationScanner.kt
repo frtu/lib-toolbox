@@ -1,11 +1,14 @@
 package com.github.frtu.kotlin.spring.tool.scanner
 
 import com.github.frtu.kotlin.spring.tool.annotation.ToolGroup
+import com.github.frtu.kotlin.spring.tool.source.rpc.WebhookWebfluxRouter
 import com.github.frtu.kotlin.tool.Tool
 import com.github.frtu.kotlin.tool.ToolRegistry
 import org.slf4j.LoggerFactory
 import org.springframework.aop.framework.Advised
 import org.springframework.aop.support.AopUtils
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.context.ApplicationContext
 import org.springframework.context.annotation.Bean
@@ -18,22 +21,25 @@ import org.springframework.context.annotation.Configuration
  * @since 2.0.9
  */
 @Configuration
-@ConditionalOnProperty(
-    prefix = "application.tools.scan", name = ["enabled"],
-    havingValue = "true", matchIfMissing = true,
-)
 class ToolBuilderFromAnnotationScanner(
-    private val applicationContext: ApplicationContext,
-    private val toolRegistry: ToolRegistry,
+    @Value("\${application.tools.scan.enabled}")
+    private val scanEnabled: Boolean = true,
 ) {
+    @Autowired
+    private lateinit var applicationContext: ApplicationContext
+    @Autowired
+    private lateinit var toolRegistry: ToolRegistry
+
     @Bean
-    fun annotatedBeans(): List<Tool> = applicationContext
-        .getBeansWithAnnotation(ToolGroup::class.java)
-        .flatMap { buildToolFromAnnotatedMethod(it.value) }
-        .also { tools ->
-            logger.info("Built tools size:{} names:[{}]", tools.size, tools.joinToString("|") { it.id.value })
-            tools.forEach { toolRegistry.register(it) }
-        }
+    fun annotatedBeans(): List<Tool> = if (scanEnabled) {
+        applicationContext
+            .getBeansWithAnnotation(ToolGroup::class.java)
+            .flatMap { buildToolFromAnnotatedMethod(it.value) }
+            .also { tools ->
+                logger.info("Built tools size:{} names:[{}]", tools.size, tools.joinToString("|") { it.id.value })
+                tools.forEach { toolRegistry.register(it) }
+            }
+    } else emptyList()
 
     fun buildToolFromAnnotatedMethod(beansWithAnnotation: Any): List<Tool> {
         val target = (beansWithAnnotation.takeIf {

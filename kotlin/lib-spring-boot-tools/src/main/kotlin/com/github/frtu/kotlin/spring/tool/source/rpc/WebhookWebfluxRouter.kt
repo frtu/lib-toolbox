@@ -2,6 +2,7 @@ package com.github.frtu.kotlin.spring.tool.source.rpc
 
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.github.frtu.kotlin.spring.tool.scanner.ToolBuilderFromAnnotationScanner
 import com.github.frtu.kotlin.tool.Tool
 import com.github.frtu.kotlin.tool.ToolRegistry
 import org.slf4j.LoggerFactory
@@ -11,6 +12,8 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnClass
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.context.annotation.DependsOn
+import org.springframework.context.annotation.Import
 import org.springframework.web.reactive.function.server.RouterFunction
 import org.springframework.web.reactive.function.server.ServerResponse
 import org.springframework.web.reactive.function.server.awaitBody
@@ -30,6 +33,8 @@ import org.springframework.web.reactive.function.server.json
     prefix = "application.tools.endpoint", name = ["enabled"],
     havingValue = "true", matchIfMissing = true,
 )
+@Import(ToolBuilderFromAnnotationScanner::class)
+@DependsOn("annotatedBeans")
 class WebhookWebfluxRouter(
     @Value("\${application.tools.endpoint.deployment-mode}")
     private val mode: DeploymentMode = DeploymentMode.STATIC,
