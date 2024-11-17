@@ -3,7 +3,7 @@
     <parent>
         <groupId>com.github.frtu.libs</groupId>
         <artifactId>test-containers</artifactId>
-        <version>2.0.10-SNAPSHOT</version>
+        <version>2.0.10</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
