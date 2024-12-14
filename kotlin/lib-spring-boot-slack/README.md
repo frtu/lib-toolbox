@@ -52,6 +52,18 @@ application:
     bot-oauth-token: ${SLACK_APP_BOT_OAUTH_TOKEN:xoxb-zzz}
 ```
 
+#### Enablement
+
+By default, all features are enabled. To disable any feature, set `enabled: false`
+
+```yaml
+application:
+  slack:
+    events.enabled: false
+    commands.enabled: false
+    tools.enabled: false
+```
+
 ### Tool with Slack
 
 Call `/tool` command by creating a Bean extending `com.github.frtu.kotlin.tool.Tool`.

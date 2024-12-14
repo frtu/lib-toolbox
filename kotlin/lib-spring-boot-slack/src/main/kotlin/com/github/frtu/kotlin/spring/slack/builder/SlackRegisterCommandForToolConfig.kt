@@ -16,7 +16,7 @@ import org.springframework.context.annotation.ComponentScan
 import org.springframework.context.annotation.Configuration
 
 @ConditionalOnProperty(
-    prefix = "application.tools.slack", name = ["enabled"],
+    prefix = "application.slack.${SlackRegisterCommandForToolConfig.CONFIG_PREFIX}", name = ["enabled"],
     havingValue = "true", matchIfMissing = true,
 )
 // If class exist scan packages
@@ -49,5 +49,9 @@ class SlackRegisterCommandForToolConfig {
             )
         }
         return "OK"
+    }
+
+    companion object {
+        const val CONFIG_PREFIX = "tools"
     }
 }
