@@ -52,7 +52,7 @@ application:
     bot-oauth-token: ${SLACK_APP_BOT_OAUTH_TOKEN:xoxb-zzz}
 ```
 
-#### Enablement
+#### Feature Toggles
 
 By default, all features are enabled. To disable any feature, set `enabled: false`
 
@@ -207,9 +207,14 @@ spring.autoconfigure.exclude:
 
 ## Release notes
 
+### 2.0.11
+
+* Fix : using #startAsync() to not block initialisation thread
+* Adding [Feature Toggles](#feature-toggles)
+
 ### 2.0.9
 
-* Allow to auto expose all Tools as Slack `/tool` command
+* Allow to [auto expose all Tools](#tool-with-slack) as Slack `/tool` command
 * Allow to better @ComponentScan using Marker interface
 
 ### 2.0.6

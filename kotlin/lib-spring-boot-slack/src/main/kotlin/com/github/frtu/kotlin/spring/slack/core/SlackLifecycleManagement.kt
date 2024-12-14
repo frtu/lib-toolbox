@@ -29,9 +29,9 @@ class SlackLifecycleManagement(
             SocketModeClient.Backend.JavaWebSocket,
             app,
         )
-        // #start() method establishes a new WebSocket connection and then blocks the current thread.
-        // If you do not want to block this thread, use #startAsync() instead.
-        socketModeApp.start()
+        // Using #startAsync() to not block initialisation thread
+        socketModeApp.startAsync()
+        logger.info("== Started SocketModeApp ==")
     }
 
     @EventListener(ContextClosedEvent::class)
