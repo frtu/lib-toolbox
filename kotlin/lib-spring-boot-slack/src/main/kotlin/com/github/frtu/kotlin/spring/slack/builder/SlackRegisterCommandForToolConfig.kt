@@ -15,13 +15,13 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.ComponentScan
 import org.springframework.context.annotation.Configuration
 
-@Configuration
 @ConditionalOnProperty(
     prefix = "application.tools.slack", name = ["enabled"],
     havingValue = "true", matchIfMissing = true,
 )
 // If class exist scan packages
 @ConditionalOnClass(ToolRegistry::class)
+@Configuration
 @ComponentScan(basePackageClasses = [ToolRegistry::class])
 class SlackRegisterCommandForToolConfig {
     @Bean

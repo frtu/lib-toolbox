@@ -3,6 +3,7 @@ package com.github.frtu.kotlin.spring.slack.core
 import com.slack.api.bolt.handler.BoltEventHandler
 import jakarta.annotation.PostConstruct
 import org.slf4j.LoggerFactory
+import org.springframework.context.annotation.Lazy
 import org.springframework.stereotype.Repository
 
 /**
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Repository
  * @see <a href="https://api.slack.com/events/message">Event type</a>
  * @see <a href="https://oss.sonatype.org/service/local/repositories/releases/archive/com/slack/api/slack-api-model/1.42.0/slack-api-model-1.42.0-javadoc.jar/!/com/slack/api/model/event/Event.html">All Event types</a>
  */
+@Lazy
 @Repository
 class SlackEventHandlerRegistry(
     boltEventHandlers: List<Pair<Class<*>, BoltEventHandler<*>>> = emptyList()

@@ -7,8 +7,10 @@ import com.slack.api.model.event.Event
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.context.annotation.Import
 
 @Configuration
+@Import(SlackEventHandlerRegistry::class)
 class SlackRegisterEventConfig {
     @Bean
     @Qualifier("SlackEventHandlerRegistryRegistration")
