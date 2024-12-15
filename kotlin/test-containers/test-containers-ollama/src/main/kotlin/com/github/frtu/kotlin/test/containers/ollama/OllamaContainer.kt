@@ -31,11 +31,20 @@ open class OllamaContainer(
         logger.info("Preparing to connect to $endpoint")
     }
 
+    fun run(model: String = "phi3:mini") = if (isUsingTestContainer()) {
+        logger.info("Loading model $model")
+        execInContainer("ollama", "run", model)
+    } else {
+        logger.warn("In host mode, model:$model MUST BE LOADED MANUALLY!")
+    }
+
+    fun getBaseUrl() = "http://localhost:$mappedPortTemporal/v1/"
+
     val mappedPortTemporal: Int
         get() = if (isUsingTestContainer()) {
             getMappedPort(API_PORT)
         } else {
-            throw IllegalStateException("Cannot call mappedPortTemporal if endpoint=$endpoint configured!")
+            API_PORT
         }
 
     companion object {
