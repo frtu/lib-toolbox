@@ -6,7 +6,7 @@ import com.github.frtu.kotlin.utils.data.ValueObject
 import org.springframework.boot.context.properties.ConfigurationProperties
 
 @ValueObject
-@ConfigurationProperties("application.ai.os.llm")
+@ConfigurationProperties("application.${LlmOsAutoConfigs.CONFIG_PREFIX}")
 data class ChatApiProperties(
     val apiKey: String? = null,
     val model: String = LOCAL_MODEL, // "mistral"

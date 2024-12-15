@@ -20,6 +20,16 @@ application:
     api-key: ${AI_OS_OPENAI_API_KEY:sk-xxx}
 ```
 
+### Feature Toggles
+
+By default, feature is enabled. To disable, set `enabled: false`
+
+```yaml
+application:
+  ai.os.llm:
+    enabled: false
+```
+
 ## Import
 
 Import using Maven :
@@ -83,6 +93,10 @@ spring.autoconfigure.exclude:
 ```
 
 ## Release notes
+
+### 2.0.11
+
+* Adding [Feature Toggles](#feature-toggles)
 
 ### 2.0.9
 
