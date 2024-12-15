@@ -99,8 +99,9 @@ class OpenAiCompatibleChat(
     }
 
     companion object {
-        const val LOCAL_URL = "http://127.0.0.1:5000/v1/"
-        const val LOCAL_MODEL = "mistral-7b-instruct-v0.1.Q4_K_M.gguf"
+        // Using Ollama https://ollama.com/blog/ollama-is-now-available-as-an-official-docker-image
+        const val LOCAL_URL = "http://localhost:11434/v1/"
+        const val LOCAL_MODEL = "mistral"
 
         const val OPENAI_URL = "https://api.openai.com/v1/"
         const val OPENAI_MODEL = "gpt-3.5-turbo"

@@ -10,6 +10,7 @@ import org.testcontainers.utility.DockerImageName
 
 /**
  * Test containers for Ollama
+ * @see <a href="https://ollama.com/blog/ollama-is-now-available-as-an-official-docker-image">Ollama docker image</a>
  */
 open class OllamaContainer(
     dockerImageName: DockerImageName,
@@ -54,8 +55,9 @@ open class OllamaContainer(
     }
 
     companion object {
+        // https://hub.docker.com/r/ollama/ollama/tags
         private val DEFAULT_IMAGE_NAME = DockerImageName.parse("ollama/ollama")
-        const val DEFAULT_TAG = "0.4.2"
+        const val DEFAULT_TAG = "0.5.2"
 
         const val API_PORT = 11434
 
