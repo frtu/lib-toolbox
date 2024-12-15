@@ -5,7 +5,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties
 
 @ValueObject
 @ConfigurationProperties("application.slack.app")
-class SlackAppProperties(
+data class SlackAppProperties(
     val token: String,
     val signingSecret: String,
     val botOauthToken: String,

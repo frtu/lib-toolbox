@@ -7,7 +7,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties
 
 @ValueObject
 @ConfigurationProperties("application.ai.os.llm")
-class ChatApiProperties(
+data class ChatApiProperties(
     val apiKey: String? = null,
     val model: String = LOCAL_MODEL, // "mistral"
     val baseUrl: String = LOCAL_URL, // "http://localhost:11434/v1/"

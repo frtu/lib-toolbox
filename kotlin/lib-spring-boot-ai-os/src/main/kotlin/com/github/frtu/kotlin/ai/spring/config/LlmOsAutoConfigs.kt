@@ -10,10 +10,11 @@ import org.springframework.context.annotation.Import
 /**
  * Allow to bootstrap AI OS configuration
  */
-@Configuration
+// Dependencies
 @Import(
     ChatApiConfigs::class,
 )
-@EnableConfigurationProperties(ChatApiProperties::class)
 @ComponentScan(basePackageClasses = [AiOS::class])
+@EnableConfigurationProperties(ChatApiProperties::class)
+@Configuration
 class LlmOsAutoConfigs
