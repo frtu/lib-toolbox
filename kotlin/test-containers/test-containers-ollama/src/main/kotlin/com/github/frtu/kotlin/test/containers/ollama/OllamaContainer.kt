@@ -1,8 +1,5 @@
 package com.github.frtu.kotlin.test.containers.ollama
 
-import io.temporal.client.WorkflowClient
-import io.temporal.serviceclient.WorkflowServiceStubs
-import io.temporal.serviceclient.WorkflowServiceStubsOptions
 import org.slf4j.LoggerFactory
 import org.testcontainers.containers.GenericContainer
 import org.testcontainers.containers.output.Slf4jLogConsumer
@@ -14,6 +11,7 @@ import org.testcontainers.utility.DockerImageName
  */
 open class OllamaContainer(
     dockerImageName: DockerImageName,
+    /** Override the URL to NOT start docker image and use host instead (only for temporary optimisation) */
     private val endpoint: String? = null,
 ) : GenericContainer<OllamaContainer>(dockerImageName) {
     constructor(tag: String = DEFAULT_TAG, endpoint: String? = null) : this(DEFAULT_IMAGE_NAME.withTag(tag), endpoint)
@@ -40,25 +38,10 @@ open class OllamaContainer(
             throw IllegalStateException("Cannot call mappedPortTemporal if endpoint=$endpoint configured!")
         }
 
-    fun buildWorkflowClient(): WorkflowClient {
-        val targetEndpoint = if (isUsingTestContainer()) {
-            "localhost:${mappedPortTemporal}"
-        } else {
-            endpoint
-        }
-        val enableHttps = false
-        return WorkflowClient.newInstance(WorkflowServiceStubs.newServiceStubs(WorkflowServiceStubsOptions {
-            logger.debug("Creating client to $targetEndpoint")
-            setTarget(targetEndpoint)
-            setEnableHttps(enableHttps)
-        }))
-    }
-
     companion object {
         // https://hub.docker.com/r/ollama/ollama/tags
         private val DEFAULT_IMAGE_NAME = DockerImageName.parse("ollama/ollama")
         const val DEFAULT_TAG = "0.5.2"
-
         const val API_PORT = 11434
 
         private val logger = LoggerFactory.getLogger(this::class.java)
