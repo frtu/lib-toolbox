@@ -14,7 +14,7 @@ class SlackCommandRegistry(
     @PostConstruct
     fun init() {
         registry.entries.forEach { (beanName, handler) ->
-            logger.info("Registered command /$beanName for type ${handler.javaClass}")
+            logger.trace("Registered command /$beanName for type ${handler.javaClass}")
         }
     }
 

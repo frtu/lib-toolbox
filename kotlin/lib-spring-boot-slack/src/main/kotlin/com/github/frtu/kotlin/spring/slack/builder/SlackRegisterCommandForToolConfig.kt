@@ -7,6 +7,7 @@ import com.github.frtu.kotlin.spring.slack.tool.ToolExecutorHandler
 import com.github.frtu.kotlin.tool.ToolRegistry
 import com.github.frtu.kotlin.translate.TextToJsonNodeTranslator
 import com.slack.api.bolt.App
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
@@ -41,6 +42,7 @@ class SlackRegisterCommandForToolConfig {
     ): String {
         // Register all commands available as Spring Beans
         toolRegistry.getAll().forEach { tool ->
+            logger.info("Enabling Tool command /{} with tool:{}", tool.id.value, tool.javaClass)
             app.command(
                 "/${tool.id.value}", LongRunningSlashCommandHandler(
                     executorHandler = ToolExecutorHandler(tool, textToJsonNodeTranslator),
@@ -53,5 +55,6 @@ class SlackRegisterCommandForToolConfig {
 
     companion object {
         const val CONFIG_PREFIX = "tools"
+        private val logger = LoggerFactory.getLogger(this::class.java)
     }
 }

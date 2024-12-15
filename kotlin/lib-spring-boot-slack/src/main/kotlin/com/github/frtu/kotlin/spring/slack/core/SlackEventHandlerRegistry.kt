@@ -22,7 +22,7 @@ class SlackEventHandlerRegistry(
     @PostConstruct
     fun init() {
         registry.entries.forEach { (eventType, handler) ->
-            logger.info("Registered event handler for [${eventType.simpleName}] for type ${handler.javaClass}")
+            logger.trace("Registered event handler for [${eventType.simpleName}] for type ${handler.javaClass}")
         }
     }
 

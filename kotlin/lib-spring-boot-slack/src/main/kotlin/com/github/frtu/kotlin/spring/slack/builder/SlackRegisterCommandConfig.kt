@@ -2,6 +2,7 @@ package com.github.frtu.kotlin.spring.slack.builder
 
 import com.github.frtu.kotlin.spring.slack.core.SlackCommandRegistry
 import com.slack.api.bolt.App
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.context.annotation.Bean
@@ -20,6 +21,7 @@ class SlackRegisterCommandConfig {
     fun slackCommandRegistryRegistration(app: App, slackCommandRegistry: SlackCommandRegistry): String {
         // Register all commands available as Spring Beans
         slackCommandRegistry.getAll().forEach { (name, command) ->
+            logger.info("Enabling Command /{} with class:{}", name, command.javaClass)
             app.command("/$name", command)
         }
         return "OK"
@@ -27,5 +29,6 @@ class SlackRegisterCommandConfig {
 
     companion object {
         const val CONFIG_PREFIX = "commands"
+        private val logger = LoggerFactory.getLogger(this::class.java)
     }
 }

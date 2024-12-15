@@ -4,6 +4,7 @@ import com.github.frtu.kotlin.spring.slack.core.SlackEventHandlerRegistry
 import com.slack.api.bolt.App
 import com.slack.api.bolt.handler.BoltEventHandler
 import com.slack.api.model.event.Event
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.context.annotation.Bean
@@ -22,6 +23,7 @@ class SlackRegisterEventConfig {
     fun slackEventHandlerRegistryRegistration(app: App, slackEventHandlerRegistry: SlackEventHandlerRegistry): String {
         // Register all event available as Spring Beans
         slackEventHandlerRegistry.getAll().forEach { (eventType, handler) ->
+            logger.info("Enabling Event {} with class:{}", eventType, handler.javaClass)
             @Suppress("UNCHECKED_CAST")
             app.event(eventType as Class<Event>, handler as BoltEventHandler<Event>)
         }
@@ -30,5 +32,6 @@ class SlackRegisterEventConfig {
 
     companion object {
         const val CONFIG_PREFIX = "events"
+        private val logger = LoggerFactory.getLogger(this::class.java)
     }
 }
