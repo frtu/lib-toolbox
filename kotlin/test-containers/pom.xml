@@ -12,6 +12,7 @@
     <packaging>pom</packaging>
 
     <modules>
+        <module>test-containers-ollama</module>
         <module>temporalite</module>
     </modules>
 

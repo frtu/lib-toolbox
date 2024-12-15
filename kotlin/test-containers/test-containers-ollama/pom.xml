@@ -1,0 +1,87 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.github.frtu.libs</groupId>
+        <artifactId>test-containers</artifactId>
+        <version>2.0.11-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>test-containers-ollama</artifactId>
+
+    <properties>
+        <temporal.version>1.25.1</temporal.version> <!-- 2024-08-22 -->
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>io.temporal</groupId>
+            <artifactId>temporal-sdk</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.temporal</groupId>
+            <artifactId>temporal-kotlin</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>lib-utils</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <!-- Logging -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-slf4j-impl</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- https://mvnrepository.com/artifact/org.testcontainers/testcontainers-bom -->
+            <!-- ATTENTION : make sure to use Testcontainers >1.15.3 for M1 -->
+            <dependency>
+                <groupId>org.testcontainers</groupId>
+                <artifactId>testcontainers-bom</artifactId>
+                <version>${testcontainers.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>io.temporal</groupId>
+                <artifactId>temporal-bom</artifactId>
+                <version>${temporal.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.jetbrains.kotlin</groupId>
+                <artifactId>kotlin-maven-plugin</artifactId>
+                <!--https://kotlinlang.org/docs/reference/compiler-plugins.html-->
+                <configuration>
+                    <compilerPlugins>
+                        <plugin>spring</plugin>
+                        <!-- https://kotlinlang.org/docs/no-arg-plugin.html -->
+                        <plugin>no-arg</plugin>
+                        <!-- https://kotlinlang.org/docs/all-open-plugin.html -->
+                        <plugin>all-open</plugin>
+                    </compilerPlugins>
+                    <pluginOptions>
+                        <option>no-arg:annotation=com.github.frtu.kotlin.utils.data.ValueObject</option>
+                        <option>all-open:annotation=com.github.frtu.kotlin.utils.data.ValueObject</option>
+                    </pluginOptions>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
