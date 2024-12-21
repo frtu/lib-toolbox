@@ -64,19 +64,20 @@ Import using Maven :
   <groupId>com.github.frtu.libs</groupId>
   <artifactId>test-containers-ollama</artifactId>
   <version>${frtu-libs.version}</version>
+  <scope>test</scope>
 </dependency>
 ```
 
 or gradle
 
 ```
-implementation("com.github.frtu.libs:test-containers-ollama:${Versions.frtu_libs}")
+testImplementation("com.github.frtu.libs:test-containers-ollama:${Versions.frtu_libs}")
 ```
 
 or TOML
 
 ```
-spring-boot-llm-os = { group = "com.github.frtu.libs", name = "test-containers-ollama", version.ref = "frtu-libs" }
+test-containers-ollama = { group = "com.github.frtu.libs", name = "test-containers-ollama", version.ref = "frtu-libs" }
 ```
 
 Check the latest version (clickable) :

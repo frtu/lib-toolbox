@@ -16,10 +16,15 @@ All libraries for [kotlin](kotlin)
 
 * [lib-durable-tool-execution](kotlin/workflows/lib-durable-tool-execution) : Allow to bootstrap durable tool execution with `Temporal` (ex: Agent, Workflow & Function)
 * [lib-spring-boot-slack](kotlin/lib-spring-boot-slack) : Allow to start Slack connectivity along with spring boot lifecycle
-* [lib-spring-boot-ai-os](kotlin/lib-spring-boot-ai-os) : Allow to bootstrap agent framework with OpenAI or local Ollama
-  framework by using Temporal as execution storage
 * [workflows](kotlin/workflows) : Temporal & Serverless workflow
 * [lib-workflow](kotlin/workflows/lib-workflow) : Lightweight workflow for `Tool`
+
+### AI & Spring Boot bootstrap
+
+* [lib-spring-boot-ai-os](kotlin/lib-spring-boot-ai-os) : Allow to bootstrap agent framework with OpenAI or local Ollama
+  framework by using Temporal as execution storage
+* [test-containers-ollama](kotlin/test-containers/test-containers-ollama) : Allow to bootstrap Ollama with
+  test-containers
 
 ### Tests
 
@@ -43,6 +48,10 @@ All libraries for [java](java)
 ## Release notes
 
 Check latest release notes at https://github.com/frtu/lib-toolbox/releases
+
+### 2.0.11
+
+* Adding [test-containers-ollama](kotlin/test-containers/test-containers-ollama)
 
 ### 2.0.9
 
