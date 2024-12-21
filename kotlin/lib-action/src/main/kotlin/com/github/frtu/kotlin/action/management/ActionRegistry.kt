@@ -13,22 +13,23 @@ open class ActionRegistry<ACTION : ActionMetadata>(
     registry: List<ACTION> = listOf()
 ) {
     /** registry key MUST be Tool name since this is what Function call will use */
-    protected open val registry: MutableMap<ActionId, ACTION> = registry.associateBy { it.id }.toMutableMap()
+    protected open val _registry: MutableMap<ActionId, ACTION> = registry.associateBy { it.id }.toMutableMap()
 
     @PostConstruct
     fun init() {
-        registry.entries.forEach { (key, tool) ->
+        _registry.entries.forEach { (key, tool) ->
             logger.info("Registered Tool key:[$key] with type ${tool.javaClass}")
         }
     }
 
-    open operator fun get(key: ActionId) = registry[key]
+    open operator fun get(key: ActionId) = _registry[key]
 
     /** Convenience function as a getter */
     open operator fun get(key: String) = get(ActionId(key))
 
-    open fun getAll() = registry.values
-    open fun getAllNames(separator: String = " | ") = registry.keys.joinToString(separator) { it.value }
+    open fun getAll() = _registry.values
+    open fun getRegistry() = _registry.toMap()
+    open fun getAllNames(separator: String = " | ") = _registry.keys.joinToString(separator) { it.value }
 
     open fun register(action: ACTION) = set(key = action.id, action = action)
 
@@ -37,7 +38,7 @@ open class ActionRegistry<ACTION : ActionMetadata>(
             "Registering new action : key=[$key] id=[${action.id}] description=[${action.description}] " +
                     " parameterJsonSchema=[${action.parameterJsonSchema}]"
         )
-        registry[key] = action
+        _registry[key] = action
     }
 
     open fun split(keys: List<String>) = ActionRegistry(getAll().filter { keys.contains(it.id.value) })

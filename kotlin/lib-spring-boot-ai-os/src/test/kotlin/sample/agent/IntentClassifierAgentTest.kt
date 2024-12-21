@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test
 import org.slf4j.LoggerFactory
 import org.testcontainers.junit.jupiter.Testcontainers
 
-//@Disabled
+@Disabled
 @Testcontainers
 internal class IntentClassifierAgentTest : OllamaContainer(
     // == Allows to use local Ollama for faster test
