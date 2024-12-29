@@ -68,6 +68,7 @@ abstract class AbstractAgent(
         if (isStateful) {
             startConversation()
         }
+        logger.info("Creating Agent class:{} with instruction:{}", this.javaClass, instructions)
     }
 
     private var internalStatefulConversation: Conversation? = null

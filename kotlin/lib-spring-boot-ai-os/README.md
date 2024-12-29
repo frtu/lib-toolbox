@@ -51,7 +51,7 @@ implementation("com.github.frtu.libs:lib-spring-boot-ai-os:${Versions.frtu_libs}
 or TOML
 
 ```
-spring-boot-llm-os = { group = "com.github.frtu.libs", name = "lib-spring-boot-ai-os", version.ref = "frtu-libs" }
+spring-boot-ai-os = { group = "com.github.frtu.libs", name = "lib-spring-boot-ai-os", version.ref = "frtu-libs" }
 ```
 
 Check the latest version (clickable) :
@@ -93,6 +93,10 @@ spring.autoconfigure.exclude:
 ```
 
 ## Release notes
+
+### 2.0.12
+
+* Logging instruction when starting Agent
 
 ### 2.0.11
 
