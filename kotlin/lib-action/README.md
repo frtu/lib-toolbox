@@ -58,6 +58,10 @@ Check the latest version (clickable) :
 
 ## Release notes
 
+### 2.0.12
+
+* Enrich all `ActionMetadata` & `ActionTransitionImpl` with `category` & `subCategory`
+
 ### 2.0.8
 
 * Initial version

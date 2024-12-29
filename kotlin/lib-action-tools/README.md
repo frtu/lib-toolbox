@@ -35,6 +35,10 @@ Check the latest version (clickable) :
 
 ## Release notes
 
+### 2.0.12
+
+* Enrich all `Tool`s with `category` & `subCategory`
+
 ### 2.0.9
 
 * Add `StructuredTool` to extend `Tool` & `TypedAction<INPUT, OUTPUT>` for strongly typed execution

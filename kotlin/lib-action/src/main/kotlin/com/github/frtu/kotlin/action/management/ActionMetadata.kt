@@ -19,4 +19,11 @@ interface ActionMetadata {
     /** Return schema. `null` schema when returning `void` */
     val returnJsonSchema: String?
         get() = null
+
+    /** Category name */
+    val category: String?
+        get() = null
+    /** Sub category name */
+    val subCategory: String?
+        get() = null
 }

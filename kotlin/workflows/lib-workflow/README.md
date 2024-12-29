@@ -38,6 +38,10 @@ To use this project for `Tool` please import _optional_ packages :
 
 ## Release notes
 
+### 2.0.12
+
+* Enrich `ToolFlow` with `category` & `subCategory`
+
 ### 2.0.8
 
 * Reactivate `lib-workflow`

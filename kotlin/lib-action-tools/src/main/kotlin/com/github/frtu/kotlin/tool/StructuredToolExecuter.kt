@@ -24,22 +24,30 @@ abstract class StructuredToolExecuter<INPUT, OUTPUT>(
     val parameterClass: Class<INPUT>,
     /** Return schema. `null` schema when returning `void` */
     val returnClass: Class<OUTPUT>?,
+    category: String? = null,
+    subCategory: String? = null,
 ) : ToolExecuter(
     id = id,
     description = description,
     parameterJsonSchema = SchemaGen.generateJsonSchema(parameterClass),
     returnJsonSchema = returnClass?.let { SchemaGen.generateJsonSchema(returnClass) },
+    category = category,
+    subCategory = subCategory,
 ), StructuredTool<INPUT, OUTPUT> {
     constructor(
         id: String,
         description: String,
         parameterClass: Class<INPUT>,
         returnClass: Class<OUTPUT>?,
+        category: String? = null,
+        subCategory: String? = null,
     ) : this(
         id = ActionId(id),
         description = description,
         parameterClass = parameterClass,
         returnClass = returnClass,
+        category = category,
+        subCategory = subCategory,
     )
 
     override suspend fun execute(parameter: JsonNode): JsonNode {
@@ -59,11 +67,15 @@ abstract class StructuredToolExecuter<INPUT, OUTPUT>(
             description: String,
             executerMethod: Method,
             targetObject: Any,
+            category: String? = null,
+            subCategory: String? = null,
         ): StructuredTool<INPUT, OUTPUT> = object : StructuredToolExecuter<INPUT, OUTPUT>(
             id = ActionId(id),
             description = description,
             parameterClass = executerMethod.parameterTypes[0] as Class<INPUT>,
             returnClass = executerMethod.returnType as Class<OUTPUT>,
+            category = category,
+            subCategory = subCategory,
         ) {
             override suspend fun execute(parameter: INPUT): OUTPUT {
                 return executerMethod.invoke(targetObject, parameter) as OUTPUT
@@ -80,11 +92,15 @@ abstract class StructuredToolExecuter<INPUT, OUTPUT>(
             parameterClass: Class<INPUT>,
             returnClass: Class<OUTPUT>?,
             executer: (INPUT) -> OUTPUT,
+            category: String? = null,
+            subCategory: String? = null,
         ): StructuredTool<INPUT, OUTPUT> = object : StructuredToolExecuter<INPUT, OUTPUT>(
             id = id,
             description = description,
             parameterClass = parameterClass,
             returnClass = returnClass,
+            category = category,
+            subCategory = subCategory,
         ) {
             override suspend fun execute(parameter: INPUT): OUTPUT = executer.invoke(parameter)
         }

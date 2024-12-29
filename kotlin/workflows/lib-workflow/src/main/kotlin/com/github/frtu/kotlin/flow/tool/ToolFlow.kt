@@ -32,12 +32,19 @@ abstract class ToolFlow<INPUT, OUTPUT>(
     val returnClass: Class<OUTPUT>?,
     /** Return schema. `null` schema when returning `void` */
     override val returnJsonSchema: String? = null,
+
+    /** Category name */
+    override val category: String? = null,
+    /** Sub category name */
+    override val subCategory: String? = null,
 ) : AbstractFlow<INPUT, OUTPUT>(id.value), Tool {
     constructor(
         id: String,
         parameterClass: Class<INPUT>,
         returnClass: Class<OUTPUT>?,
         description: String? = null,
+        category: String? = null,
+        subCategory: String? = null,
     ) : this(
         id = ActionId(id),
         description = description ?: "Business flow:$id",
@@ -45,6 +52,8 @@ abstract class ToolFlow<INPUT, OUTPUT>(
         parameterJsonSchema = SchemaGen.generateJsonSchema(parameterClass),
         returnClass = returnClass,
         returnJsonSchema = returnClass?.let { SchemaGen.generateJsonSchema(returnClass) },
+        category = category,
+        subCategory = subCategory,
     )
 
     override suspend fun execute(parameter: JsonNode): JsonNode {
