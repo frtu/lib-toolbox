@@ -13,7 +13,7 @@ class CurrentWeatherTool(
     id = id,
     description = TOOL_DESCRIPTION,
     parameterClass = WeatherForecastInputParameter::class.java,
-    WeatherInfoMultiple::class.java,
+    returnClass = WeatherInfoMultiple::class.java,
 ) {
     fun doExecute(parameter: WeatherForecastInputParameter): WeatherInfoMultiple =
         WeatherInfoMultiple(

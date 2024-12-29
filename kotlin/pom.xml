@@ -35,6 +35,7 @@
         <kotlin.version>1.9.23</kotlin.version>
         <kotlinx.version>1.7.3</kotlinx.version>
         <kotlin.test.version>3.4.2</kotlin.test.version>
+        <kotest.version>5.5.4</kotest.version>
 
         <!--CHECK FOR COMPILER PROPS : https://kotlinlang.org/docs/reference/using-maven.html#attributes-common-for-jvm-and-js-->
         <kotlin.compiler.incremental>true</kotlin.compiler.incremental>
@@ -50,6 +51,15 @@
         <dependency>
             <groupId>io.kotlintest</groupId>
             <artifactId>kotlintest-runner-junit5</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.kotest</groupId>
+            <artifactId>kotest-runner-junit5</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.kotest</groupId>
+            <artifactId>kotest-assertions-core-jvm</artifactId>
             <scope>test</scope>
         </dependency>
         <!-- https://mockk.io/ -->
@@ -277,6 +287,19 @@
                 <version>${kotlin.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>io.kotest</groupId>
+                <artifactId>kotest-bom</artifactId>
+                <version>${kotest.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>io.kotest</groupId>
+                <artifactId>kotest-assertions-core-jvm</artifactId>
+                <version>${kotest.version}</version>
+                <scope>test</scope>
             </dependency>
             <!-- Spring Boot and Platform -->
             <dependency>
