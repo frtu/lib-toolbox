@@ -1,15 +1,12 @@
-package sample.agent
+package com.github.frtu.kotlin.ai.feature.intent.agent
 
+import com.github.frtu.kotlin.ai.feature.intent.model.Intent
+import com.github.frtu.kotlin.ai.feature.intent.model.IntentResult
 import com.github.frtu.kotlin.ai.os.instruction.Prompt
 import com.github.frtu.kotlin.ai.os.llm.Chat
 import com.github.frtu.kotlin.ai.os.llm.agent.StructuredBaseAgent
-import com.github.frtu.kotlin.ai.os.llm.agent.UnstructuredBaseAgent
-import com.github.frtu.kotlin.serdes.json.ext.toJsonObj
-import com.github.frtu.kotlin.tool.ToolRegistry
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.stereotype.Component
-import sample.agent.model.Intent
-import sample.agent.model.IntentResult
 
 @Component
 @Qualifier(IntentClassifierAgent.TOOL_NAME)
@@ -48,16 +45,16 @@ class IntentClassifierAgent(
         val (intent, reasoning) = super.execute(parameter)
         return with(intent.trim()) {
             if (this == DEFAULT_INTENT_ID) {
-                logger.info("Returned Intent fall into category `Other`")
+                logger.debug("Returned Intent fall into category `Other`")
                 IntentResult(DEFAULT_INTENT_ID, reasoning)
             } else if (intentIds.contains(this)) {
-                logger.info("Returned Intent direct match with `$this`")
+                logger.debug("Returned Intent direct match with `$this`")
                 IntentResult(this, reasoning)
             } else {
                 // Check if returned `intent` is part of the one provided
                 val blurMatch =
                     intentIds.find { originalIntent: String -> originalIntent.lowercase() == this.lowercase() }
-                logger.info("Returned Intent blur match with `$this` <=> `$blurMatch`")
+                logger.debug("Returned Intent blur match with `$this` <=> `$blurMatch`")
                 blurMatch?.let { IntentResult(blurMatch, reasoning) }
                     ?: throw IllegalStateException(
                         "LLM returned:[$this] which doesn't match any proposed intent:[${
@@ -70,7 +67,7 @@ class IntentClassifierAgent(
         }
     }
 
-    private val intentIds: List<String> = intents.map { it.id }
+    protected val intentIds: List<String> = intents.map { it.id }
 
     /**
      * Make sure all Intent follow best practices!

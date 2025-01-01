@@ -1,19 +1,15 @@
-package sample.agent
+package com.github.frtu.kotlin.ai.feature.intent.agent
 
+import com.github.frtu.kotlin.ai.feature.intent.model.Intent
 import com.github.frtu.kotlin.ai.os.llm.Chat
 import com.github.frtu.kotlin.ai.spring.builder.ChatApiConfigs
-import com.github.frtu.kotlin.test.containers.ollama.OllamaContainer
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldNotBeEmpty
 import io.kotlintest.matchers.types.shouldNotBeNull
 import kotlinx.coroutines.runBlocking
-import org.junit.jupiter.api.AfterAll
-import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.slf4j.LoggerFactory
-import org.testcontainers.junit.jupiter.Testcontainers
-import sample.agent.model.Intent
 
 @Disabled
 class IntentClassifierAgentTest {

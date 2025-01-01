@@ -4,7 +4,7 @@ import io.kotlintest.matchers.string.shouldContain
 import io.kotlintest.matchers.types.shouldNotBeNull
 import org.junit.jupiter.api.Test
 import org.slf4j.LoggerFactory
-import sample.agent.model.Intent
+import com.github.frtu.kotlin.ai.feature.intent.model.Intent
 
 class PromptTest {
     @Test

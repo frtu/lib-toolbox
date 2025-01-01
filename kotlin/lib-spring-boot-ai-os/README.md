@@ -96,6 +96,10 @@ spring.autoconfigure.exclude:
 
 ### 2.0.13
 
+#### Feature
+
+* Adding `IntentClassifierAgent` to classify `Intent` using LLM
+
 #### Request
 
 * Adding `Prompt` class to render prompt using mustache
