@@ -27,7 +27,7 @@ class CurrentWeatherTool(
     override suspend fun execute(parameter: WeatherForecastInputParameter): WeatherInfoMultiple = doExecute(parameter)
 
     companion object {
-        const val TOOL_NAME = "get_current_weather"
+        const val TOOL_NAME = "get_current_weather_tool"
         const val TOOL_DESCRIPTION = "Get the current weather in a given location"
     }
 }
