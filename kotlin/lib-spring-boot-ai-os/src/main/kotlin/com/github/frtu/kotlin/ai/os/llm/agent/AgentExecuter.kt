@@ -18,22 +18,31 @@ abstract class AgentExecuter(
     id: ActionId,
     /** Description */
     description: String,
+    /** Category name */
+    parameterJsonSchema: String,
+    /** Sub category name */
+    returnJsonSchema: String? = null,
+    /** Category name */
+    category: String? = null,
+    /** Sub category name */
+    subCategory: String? = null,
     /** System instruction prompt */
     instructions: String,
     /** Engine containing model version */
     chat: Chat,
-    parameterJsonSchema: String,
-    returnJsonSchema: String? = null,
+    /** If Agent should keep conversation across Q&A */
     isStateful: Boolean = false,
     /** For function / tool execution */
     protected val toolRegistry: ToolRegistry? = null,
 ) : AbstractAgent(
     id = id,
     description = description,
-    instructions = instructions,
-    chat = chat,
     parameterJsonSchema = parameterJsonSchema,
     returnJsonSchema = returnJsonSchema,
+    category = category,
+    subCategory = subCategory,
+    instructions = instructions,
+    chat = chat,
     isStateful = isStateful,
 ) {
     override suspend fun answer(

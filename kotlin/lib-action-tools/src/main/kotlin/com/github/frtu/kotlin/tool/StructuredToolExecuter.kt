@@ -2,7 +2,6 @@ package com.github.frtu.kotlin.tool
 
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.node.NullNode
-import com.github.frtu.kotlin.action.execution.TypedAction
 import com.github.frtu.kotlin.action.management.ActionId
 import com.github.frtu.kotlin.serdes.json.ext.objToJsonNode
 import com.github.frtu.kotlin.serdes.json.ext.toJsonObj
@@ -69,11 +68,13 @@ abstract class StructuredToolExecuter<INPUT, OUTPUT>(
             targetObject: Any,
             category: String? = null,
             subCategory: String? = null,
+            parameterClass: Class<INPUT>? = null,
+            returnClass: Class<OUTPUT>? = null,
         ): StructuredTool<INPUT, OUTPUT> = object : StructuredToolExecuter<INPUT, OUTPUT>(
             id = ActionId(id),
             description = description,
-            parameterClass = executerMethod.parameterTypes[0] as Class<INPUT>,
-            returnClass = executerMethod.returnType as Class<OUTPUT>,
+            parameterClass = parameterClass ?: executerMethod.parameterTypes[0] as Class<INPUT>,
+            returnClass = returnClass ?: executerMethod.returnType as Class<OUTPUT>,
             category = category,
             subCategory = subCategory,
         ) {

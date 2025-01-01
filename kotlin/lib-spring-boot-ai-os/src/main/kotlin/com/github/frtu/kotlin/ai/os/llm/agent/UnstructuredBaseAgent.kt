@@ -18,6 +18,10 @@ open class UnstructuredBaseAgent(
     id: ActionId,
     /** Description */
     description: String,
+    /** Category name */
+    category: String? = null,
+    /** Sub category name */
+    subCategory: String? = null,
     /** System instruction prompt */
     instructions: String,
     /** Engine containing model version */
@@ -28,16 +32,20 @@ open class UnstructuredBaseAgent(
 ) : AgentExecuter(
     id = id,
     description = description,
+    parameterJsonSchema = STRING_SCHEMA,
+    returnJsonSchema = STRING_SCHEMA,
+    category = category,
+    subCategory = subCategory,
     instructions = instructions,
     chat = chat,
     toolRegistry = toolRegistry,
-    parameterJsonSchema = STRING_SCHEMA,
-    returnJsonSchema = STRING_SCHEMA,
     isStateful = isStateful,
 ) {
     constructor(
         id: String,
         description: String,
+        category: String? = null,
+        subCategory: String? = null,
         instructions: String,
         chat: Chat,
         toolRegistry: ToolRegistry? = null,
@@ -45,6 +53,8 @@ open class UnstructuredBaseAgent(
     ) : this(
         id = ActionId(id),
         description = description,
+        category = category,
+        subCategory = subCategory,
         instructions = instructions,
         chat = chat,
         toolRegistry = toolRegistry,

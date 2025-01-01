@@ -20,18 +20,27 @@ abstract class AbstractAgent(
     id: ActionId,
     /** Description */
     description: String,
+    /** Category name */
+    parameterJsonSchema: String,
+    /** Sub category name */
+    returnJsonSchema: String? = null,
+    /** Category name */
+    category: String? = null,
+    /** Sub category name */
+    subCategory: String? = null,
     /** System instruction prompt */
     protected val instructions: String,
     /** Engine containing model version */
     protected val chat: Chat,
-    parameterJsonSchema: String,
-    returnJsonSchema: String? = null,
+    /** If Agent should keep conversation across Q&A */
     isStateful: Boolean = false,
 ) : ToolExecuter(
     id = id,
     description = description,
     parameterJsonSchema = parameterJsonSchema,
     returnJsonSchema = returnJsonSchema,
+    category = category,
+    subCategory = subCategory,
 ) {
     /**
      * Start a new `Conversation`
