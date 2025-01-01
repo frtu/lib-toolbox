@@ -13,6 +13,7 @@
         <aallam-openai.version>3.8.0</aallam-openai.version>
         <!-- Make sure to import your own version of ktor -->
         <ktor-client.version>2.3.2</ktor-client.version>
+        <mustache.java.version>0.9.14</mustache.java.version>
     </properties>
 
     <dependencies>
@@ -26,6 +27,11 @@
             <artifactId>ktor-client-okhttp-jvm</artifactId>
             <version>${ktor-client.version}</version>
             <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.spullara.mustache.java</groupId>
+            <artifactId>compiler</artifactId>
+            <version>${mustache.java.version}</version>
         </dependency>
 
         <!--Internal projects -->

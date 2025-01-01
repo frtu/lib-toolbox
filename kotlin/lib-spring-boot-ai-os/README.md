@@ -94,8 +94,9 @@ spring.autoconfigure.exclude:
 
 ## Release notes
 
-### 2.0.12
+### 2.0.13
 
+* Adding `Prompt` class to render prompt using mustache
 * Logging instruction when starting Agent
 
 ### 2.0.11
