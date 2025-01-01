@@ -29,7 +29,7 @@ abstract class AbstractAgent(
     /** Sub category name */
     subCategory: String? = null,
     /** System instruction prompt */
-    protected val instructions: String,
+    instructions: String? = null,
     /** Engine containing model version */
     protected val chat: Chat,
     /** If Agent should keep conversation across Q&A */
@@ -43,26 +43,42 @@ abstract class AbstractAgent(
     subCategory = subCategory,
 ) {
     //========================================
+    /** Original prompt */
+    private val _instructions: String? = instructions
+
+    /**
+     * Computed prompt - Can be called very early in the construction lifecycle.
+     * Make sure it only rely on early init var
+     */
+    open val instructions: String
+        get() = _instructions
+            ?: throw IllegalStateException("instructions MUST NOT be null. You need to pass an `instructions` using class constructor OR `override val instructions: String`#get")
+
+    //========================================
     /** Internal state to maintain */
     private var _statefulConversation: Conversation? = null
+
     /**
      * Start / Init a new `Conversation`
      */
     fun startConversation() {
-        _statefulConversation = Conversation(_instructions)
+        logger.info("Creating Agent class:{} with instruction:\n{}", this.javaClass, instructions)
+        _statefulConversation = Conversation(instructions)
     }
+
     /**
      * Returning internal `Conversation` or create a new conversion every time
      */
     val defaultConversation: Conversation
-        get() = _statefulConversation ?: Conversation(_instructions)
+        get() = _statefulConversation ?: Conversation(_instructions).also {
+            logger.info("Creating Agent class:{} with instruction:\n{}", this.javaClass, instructions)
+        }
     //========================================
 
     init {
         if (isStateful) {
             startConversation()
         }
-        logger.info("Creating Agent class:{} with instruction:{}", this.javaClass, instructions)
     }
 
     /**

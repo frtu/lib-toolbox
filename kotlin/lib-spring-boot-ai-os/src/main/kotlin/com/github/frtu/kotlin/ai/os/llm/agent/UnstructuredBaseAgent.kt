@@ -23,7 +23,7 @@ open class UnstructuredBaseAgent(
     /** Sub category name */
     subCategory: String? = null,
     /** System instruction prompt */
-    instructions: String,
+    instructions: String? = null,
     /** Engine containing model version */
     chat: Chat,
     /** For function / tool execution */

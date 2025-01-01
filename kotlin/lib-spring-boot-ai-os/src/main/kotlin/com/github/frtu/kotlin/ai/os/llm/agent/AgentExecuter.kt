@@ -27,7 +27,7 @@ abstract class AgentExecuter(
     /** Sub category name */
     subCategory: String? = null,
     /** System instruction prompt */
-    instructions: String,
+    instructions: String? = null,
     /** Engine containing model version */
     chat: Chat,
     /** If Agent should keep conversation across Q&A */
