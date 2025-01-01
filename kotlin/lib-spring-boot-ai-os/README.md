@@ -96,8 +96,16 @@ spring.autoconfigure.exclude:
 
 ### 2.0.13
 
+#### Request
+
 * Adding `Prompt` class to render prompt using mustache
+* Enable `instructions` override
 * Logging instruction when starting Agent
+
+#### Structure output & categorisation
+
+* Adding `StructuredBaseAgent` to return structured JSON object
+* Adding `category` & `subCategory`
 
 ### 2.0.11
 

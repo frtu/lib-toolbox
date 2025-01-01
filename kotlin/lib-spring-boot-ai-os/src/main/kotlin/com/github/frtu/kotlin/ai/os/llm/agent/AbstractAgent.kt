@@ -70,7 +70,7 @@ abstract class AbstractAgent(
      * Returning internal `Conversation` or create a new conversion every time
      */
     val defaultConversation: Conversation
-        get() = _statefulConversation ?: Conversation(_instructions).also {
+        get() = _statefulConversation ?: Conversation(instructions).also {
             logger.info("Creating Agent class:{} with instruction:\n{}", this.javaClass, instructions)
         }
     //========================================
