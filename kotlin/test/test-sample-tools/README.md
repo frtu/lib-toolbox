@@ -2,7 +2,24 @@
 
 ## About
 
-Sample Tools & Functions for testing around Tools
+Sample Tools & Functions for testing around Tools :
+
+### Usage
+
+Can import `SampleToolConfig` into your Spring Boot test to initialise Tools creation.
+Should return `SampleToolConfig.NUMBER_OF_TOOLS` (ex : 4 `Tool`s in total)
+
+Tools
+
+* `IdentityTool`
+* `CurrentWeatherTool`
+
+Functions
+
+* `CurrentWeatherFunction`
+* `WeatherForecastFunction`
+
+Each `Tool` spring bean **name** are captured in `xxTool.TOOL_NAME`
 
 ## Import
 
