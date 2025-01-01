@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory
 import org.testcontainers.junit.jupiter.Testcontainers
 import sample.agent.model.Intent
 
+@Disabled
 class IntentClassifierAgentTest {
     private val chat: Chat = ChatApiConfigs().chatOllama(
         model = "llama3",
