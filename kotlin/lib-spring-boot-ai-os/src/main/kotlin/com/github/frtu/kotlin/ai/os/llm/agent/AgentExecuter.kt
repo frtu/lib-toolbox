@@ -51,7 +51,7 @@ abstract class AgentExecuter(
         conversationOverride: Conversation?,
     ): Answer {
         // Use by priority : parameter, else stateful, else create a new
-        val conversation = conversationOverride ?: statefulConversation ?: Conversation(instructions)
+        val conversation = conversationOverride ?: defaultConversation
         var intermediateAnswer = super.answer(request, conversation)
 
         val functionCall = intermediateAnswer.message.functionCall

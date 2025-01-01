@@ -42,18 +42,28 @@ abstract class AbstractAgent(
     category = category,
     subCategory = subCategory,
 ) {
+    //========================================
+    /** Internal state to maintain */
+    private var _statefulConversation: Conversation? = null
     /**
-     * Start a new `Conversation`
+     * Start / Init a new `Conversation`
      */
     fun startConversation() {
-        internalStatefulConversation = Conversation(instructions)
+        _statefulConversation = Conversation(_instructions)
     }
-
     /**
-     * Returning internal `Conversation` if exist
+     * Returning internal `Conversation` or create a new conversion every time
      */
-    val statefulConversation: Conversation?
-        get() = internalStatefulConversation
+    val defaultConversation: Conversation
+        get() = _statefulConversation ?: Conversation(_instructions)
+    //========================================
+
+    init {
+        if (isStateful) {
+            startConversation()
+        }
+        logger.info("Creating Agent class:{} with instruction:{}", this.javaClass, instructions)
+    }
 
     /**
      * Answering question
@@ -64,7 +74,7 @@ abstract class AbstractAgent(
         conversationOverride: Conversation? = null,
     ): Answer {
         // Use by priority : parameter, else stateful, else create a new
-        val conversation = conversationOverride ?: statefulConversation ?: Conversation(instructions)
+        val conversation = conversationOverride ?: defaultConversation
         return with(conversation) {
             logger.debug("Conversation - Receiving message:$request on history size:${conversation.countMessages()}")
             chat.sendMessage(user(request)).also { answer: Answer ->
@@ -72,13 +82,4 @@ abstract class AbstractAgent(
             }
         }
     }
-
-    init {
-        if (isStateful) {
-            startConversation()
-        }
-        logger.info("Creating Agent class:{} with instruction:{}", this.javaClass, instructions)
-    }
-
-    private var internalStatefulConversation: Conversation? = null
 }
