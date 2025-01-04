@@ -12,6 +12,6 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>test-sample-tools</module>
+        <module>test-tools-sample</module>
     </modules>
 </project>

@@ -1,4 +1,4 @@
-# Project - test-sample-tools
+# Project - test-tools-sample
 
 ## About
 
@@ -28,7 +28,7 @@ Import using Maven :
 ```XML
 <dependency>
     <groupId>${project.groupId}</groupId>
-    <artifactId>test-sample-tools</artifactId>
+    <artifactId>test-tools-sample</artifactId>
     <version>${project.version}</version>
     <scope>test</scope>
 </dependency>
@@ -37,21 +37,21 @@ Import using Maven :
 or gradle
 
 ```
-testImplementation("com.github.frtu.libs:test-sample-tools:${Versions.frtu_libs}")
+testImplementation("com.github.frtu.libs:test-tools-sample:${Versions.frtu_libs}")
 ```
 
 or TOML
 
 ```
-test-sample-tools = { group = "com.github.frtu.libs", name = "test-sample-tools", version.ref = "frtu-libs" }
+test-tools-sample = { group = "com.github.frtu.libs", name = "test-tools-sample", version.ref = "frtu-libs" }
 ```
 
 Check the latest version (clickable) :
 
-[<img src="https://img.shields.io/maven-central/v/com.github.frtu.libs/test-sample-tools.svg?label=latest%20release%20:%20test-sample-tools"/>](https://search.maven.org/#search%7Cga%7C1%7Ca%3A%22lib-utils%22+g%3A%22com.github.frtu.libs%22)
+[<img src="https://img.shields.io/maven-central/v/com.github.frtu.libs/test-tools-sample.svg?label=latest%20release%20:%20test-tools-sample"/>](https://search.maven.org/#search%7Cga%7C1%7Ca%3A%22lib-utils%22+g%3A%22com.github.frtu.libs%22)
 
 ## Release notes
 
-### 2.0.9
+### 2.0.13
 
 * Initial version
