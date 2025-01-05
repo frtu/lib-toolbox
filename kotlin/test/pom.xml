@@ -13,5 +13,6 @@
 
     <modules>
         <module>test-tools-sample</module>
+        <module>containers</module>
     </modules>
 </project>

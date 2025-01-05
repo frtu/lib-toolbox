@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.github.frtu.libs</groupId>
-        <artifactId>kotlin</artifactId>
+        <artifactId>test</artifactId>
         <version>2.0.13-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
@@ -13,7 +13,7 @@
 
     <modules>
         <module>test-containers-ollama</module>
-        <module>temporalite</module>
+        <module>test-containers-temporalite</module>
     </modules>
 
     <properties>

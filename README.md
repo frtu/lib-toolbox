@@ -49,9 +49,13 @@ All libraries for [java](java)
 
 Check latest release notes at https://github.com/frtu/lib-toolbox/releases
 
+### 2.0.13
+
+* Rename to [test-containers-temporalite](kotlin/test/containers/test-containers-temporalite)
+
 ### 2.0.11
 
-* Adding [test-containers-ollama](kotlin/test-containers/test-containers-ollama)
+* Adding [test-containers-ollama](kotlin/test/containers/test-containers-ollama)
 
 ### 2.0.9
 
@@ -105,7 +109,7 @@ Check latest release notes at https://github.com/frtu/lib-toolbox/releases
 ### 1.2.4
 
 * Adding [ActivityAspect using AOP](kotlin/spring-boot/starter-temporal#124)
-* Adding [Testcontainers for Temporalite](kotlin/test-containers/temporalite)
+* Adding [Testcontainers for Temporalite](kotlin/test/containers/test-containers-temporalite)
 * Bump temporal.version -> 1.17.0 <!-- 2022-10-26 -->
 
 ### 1.2.0

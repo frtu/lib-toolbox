@@ -50,7 +50,7 @@
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>temporalite</artifactId>
+            <artifactId>test-containers-temporalite</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>

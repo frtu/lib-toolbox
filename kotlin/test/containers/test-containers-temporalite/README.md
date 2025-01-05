@@ -1,4 +1,4 @@
-# Project - test-containers - Temporalite
+# Project - test-containers-temporalite
 
 ## About
 
