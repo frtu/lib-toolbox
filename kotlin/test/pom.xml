@@ -13,6 +13,7 @@
 
     <modules>
         <module>test-tools-sample</module>
+        <module>test-ai-os-agents</module>
         <module>containers</module>
     </modules>
 </project>
