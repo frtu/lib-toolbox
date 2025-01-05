@@ -9,6 +9,40 @@ Provide a platform for LLM :
 
 Generalisation an extracted from project [frtu/agents-os](https://github.com/frtu/agents-os)
 
+## Creating Agents
+
+Extendable structure for agents
+
+* `StructuredBaseAgent` : Agent returning structured response (Json & object)
+
+Create your own agent
+
+* `UnstructuredBaseAgent` : Versatile agent taking String as input & output. When you want full control on how to
+  format.
+* `AgentExecuter` : Advanced Agent implementing tool & function calls
+* `AbstractAgent` : Base structure for Agent calling LLM
+
+### Best practices
+
+* Always double-check your response inside your agent before returning result (UPPER or lower case, trim space, ...).
+* Check the format & raise proper errors after calling LLM
+* Always try to **shift left** by suggesting good format during instructions passing
+
+### Using prompt
+
+To use [mustache](https://www.baeldung.com/mustache) for your instructions, use `Prompt` class to `#render(params)` :
+
+```kotlin
+override val instructions: String
+    get() = Prompt(
+        template = """
+        {{#intents}}
+        * {{id}} -> {{description}}
+        {{/intents}}
+    """.trimIndent(),
+    ).render(mapOf("intents" to intents))
+```
+
 ## Configuration
 
 ```yaml
@@ -36,9 +70,9 @@ Import using Maven :
 
 ```XML
 <dependency>
-  <groupId>com.github.frtu.libs</groupId>
-  <artifactId>lib-spring-boot-ai-os</artifactId>
-  <version>${frtu-libs.version}</version>
+    <groupId>com.github.frtu.libs</groupId>
+    <artifactId>lib-spring-boot-ai-os</artifactId>
+    <version>${frtu-libs.version}</version>
 </dependency>
 ```
 
