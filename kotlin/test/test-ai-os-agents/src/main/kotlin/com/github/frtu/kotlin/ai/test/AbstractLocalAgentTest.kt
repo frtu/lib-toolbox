@@ -4,12 +4,12 @@ import com.github.frtu.kotlin.ai.os.llm.Chat
 import com.github.frtu.kotlin.ai.os.llm.agent.StructuredBaseAgent
 import com.github.frtu.kotlin.ai.spring.builder.ChatApiConfigs
 import io.kotest.matchers.nulls.shouldNotBeNull
-import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.runBlocking
 import org.slf4j.LoggerFactory
 
 abstract class AbstractLocalAgentTest<INPUT, OUTPUT>(
-    vararg model: String,
+    private val builder: (Chat) -> StructuredBaseAgent<INPUT, OUTPUT>,
+    vararg model: String
 ) {
     private val chatList: List<Chat> = model.map {
         ChatApiConfigs().chatOllama(model = it)
@@ -17,8 +17,7 @@ abstract class AbstractLocalAgentTest<INPUT, OUTPUT>(
 
     protected fun benchmarkAcrossModel(
         input: INPUT,
-        expectedOutput: OUTPUT,
-        builder: (Chat) -> StructuredBaseAgent<INPUT, OUTPUT>
+        validator: (OUTPUT) -> Unit
     ): Unit = runBlocking {
         //--------------------------------------
         // 1. Init
@@ -36,7 +35,7 @@ abstract class AbstractLocalAgentTest<INPUT, OUTPUT>(
                 // 3. Validate
                 //--------------------------------------
                 result.shouldNotBeNull()
-                result shouldBe expectedOutput
+                validator(result)
             }
     }
 
