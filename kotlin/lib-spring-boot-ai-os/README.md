@@ -128,6 +128,10 @@ spring.autoconfigure.exclude:
 
 ## Release notes
 
+### 2.0.14
+
+* Adding `PromptTemplate` to render prompt using mustache
+
 ### 2.0.13
 
 #### Feature
@@ -136,7 +140,6 @@ spring.autoconfigure.exclude:
 
 #### Request
 
-* Adding `Prompt` class to render prompt using mustache
 * Enable `instructions` override
 * Logging instruction when starting Agent
 

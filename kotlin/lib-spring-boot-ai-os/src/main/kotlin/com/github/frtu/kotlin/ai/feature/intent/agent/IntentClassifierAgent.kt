@@ -2,12 +2,16 @@ package com.github.frtu.kotlin.ai.feature.intent.agent
 
 import com.github.frtu.kotlin.ai.feature.intent.model.Intent
 import com.github.frtu.kotlin.ai.feature.intent.model.IntentResult
-import com.github.frtu.kotlin.ai.os.instruction.Prompt
+import com.github.frtu.kotlin.ai.os.instruction.PromptTemplate
 import com.github.frtu.kotlin.ai.os.llm.Chat
 import com.github.frtu.kotlin.ai.os.llm.agent.StructuredBaseAgent
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.stereotype.Component
 
+/**
+ * Agent that classify user request into Intent classification
+ * @since 2.0.13
+ */
 @Component
 @Qualifier(IntentClassifierAgent.TOOL_NAME)
 class IntentClassifierAgent(
@@ -23,7 +27,7 @@ class IntentClassifierAgent(
     chat = chat,
 ) {
     override val instructions: String
-        get() = Prompt(TOOL_NAME,
+        get() = PromptTemplate(TOOL_NAME,
             """
             You’re a LLM that detects intent from user queries. Your task is to classify the user's intent based on their query. 
             Below are the possible intents with brief descriptions. Use these to accurately determine the user's goal, and output only the intent topic.
@@ -39,7 +43,7 @@ class IntentClassifierAgent(
             Response format MUST in JSON format with intent and non empty reasoning explanation.
             Ex : {"intent": "$DEFAULT_INTENT_ID", "reasoning": "1. The user wants to put money into stocks, which is a form of investment. 2. They're asking about options, seeking advice on investment choices."}
             """.trimIndent(),
-        ).render(mapOf("intents" to intents))
+        ).format(mapOf("intents" to intents))
 
     override suspend fun execute(parameter: String): IntentResult {
         val (intent, reasoning) = super.execute(parameter)

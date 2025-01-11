@@ -5,10 +5,43 @@ import io.kotlintest.matchers.types.shouldNotBeNull
 import org.junit.jupiter.api.Test
 import org.slf4j.LoggerFactory
 import com.github.frtu.kotlin.ai.feature.intent.model.Intent
+import io.kotlintest.matchers.types.shouldBeNull
 
-class PromptTest {
+class PromptTemplateTest {
     @Test
-    fun `Render Intent`() {
+    fun `Prompt optional value`() {
+        val result = PromptTemplate(
+            "intent-classifier-agent",
+            """
+            You’re a LLM that detects intent from user queries. Your task is to classify the user's intent based on their query. 
+            Below are the possible intents with brief descriptions. Use these to accurately determine the user's goal, and output only the intent topic.
+            {{#intents}}
+            * {{id}} -> {{description}}
+            {{/intents}}
+            * Other -> Choose this if the intent doesn't fit into any of the above categories
+    
+            You are given an utterance and you have to classify it into an intent. 
+            It's a matter of life and death, only respond with the intent in the following list
+            List:[{{#intents}}{{id}},{{/intents}}Other]
+            
+            Response format should be a JSON with intent and reasoning explanation.
+            Ex : {"intent": "Other", "reasoning": "1. The user wants to put money into stocks, which is a form of investment. 2. They're asking about options, seeking advice on investment choices."}
+            """.trimIndent(),
+            "Agent that classify user request into Intent classification",
+        )
+        logger.debug("result:$result")
+
+        //--------------------------------------
+        // 3. Validate
+        //--------------------------------------
+        with(result) {
+            shouldNotBeNull()
+            description.shouldNotBeNull()
+        }
+    }
+
+    @Test
+    fun `Render Intent prompt`() {
         //--------------------------------------
         // 1. Init
         //--------------------------------------
@@ -17,7 +50,7 @@ class PromptTest {
             Intent(id = "Delivery status", description = "Inquiries about the current status of a delivery."),
             Intent(id = "Unblock delivery", description = "Delivery is blocked and need to call API to unblock."),
         )
-        val prompt = Prompt(
+        val prompt = PromptTemplate(
             "intent-classifier-agent",
             """
             You’re a LLM that detects intent from user queries. Your task is to classify the user's intent based on their query. 
@@ -39,7 +72,7 @@ class PromptTest {
         //--------------------------------------
         // 2. Execute
         //--------------------------------------
-        val result = prompt.render(mapOf("intents" to intents))
+        val result = prompt.format(mapOf("intents" to intents))
         logger.debug("result:$result")
 
         //--------------------------------------
@@ -53,6 +86,8 @@ class PromptTest {
             this shouldContain intents[1].id
             this shouldContain intents[1].description
         }
+        // Description can be empty
+        prompt.description.shouldBeNull()
     }
 
     private val logger = LoggerFactory.getLogger(this::class.java)
