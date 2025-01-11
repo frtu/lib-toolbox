@@ -23,22 +23,22 @@ class IntentClassifierAgent(
     chat = chat,
 ) {
     override val instructions: String
-        get() = Prompt(
-            template = """
-                You’re a LLM that detects intent from user queries. Your task is to classify the user's intent based on their query. 
-                Below are the possible intents with brief descriptions. Use these to accurately determine the user's goal, and output only the intent topic.
-                {{#intents}}
-                * {{id}} -> {{description}}
-                {{/intents}}
-                * $DEFAULT_INTENT_ID -> Choose this if the intent doesn't fit into any of the above categories
-                
-                You are given an utterance and you have to classify it into an intent. 
-                It's a matter of life and death, only respond with the intent in the following list
-                List:[{{#intents}}{{id}},{{/intents}}$DEFAULT_INTENT_ID]
-                
-                Response format MUST in JSON format with intent and non empty reasoning explanation.
-                Ex : {"intent": "$DEFAULT_INTENT_ID", "reasoning": "1. The user wants to put money into stocks, which is a form of investment. 2. They're asking about options, seeking advice on investment choices."}
-        """.trimIndent(),
+        get() = Prompt(TOOL_NAME,
+            """
+            You’re a LLM that detects intent from user queries. Your task is to classify the user's intent based on their query. 
+            Below are the possible intents with brief descriptions. Use these to accurately determine the user's goal, and output only the intent topic.
+            {{#intents}}
+            * {{id}} -> {{description}}
+            {{/intents}}
+            * $DEFAULT_INTENT_ID -> Choose this if the intent doesn't fit into any of the above categories
+            
+            You are given an utterance and you have to classify it into an intent. 
+            It's a matter of life and death, only respond with the intent in the following list
+            List:[{{#intents}}{{id}},{{/intents}}$DEFAULT_INTENT_ID]
+            
+            Response format MUST in JSON format with intent and non empty reasoning explanation.
+            Ex : {"intent": "$DEFAULT_INTENT_ID", "reasoning": "1. The user wants to put money into stocks, which is a form of investment. 2. They're asking about options, seeking advice on investment choices."}
+            """.trimIndent(),
         ).render(mapOf("intents" to intents))
 
     override suspend fun execute(parameter: String): IntentResult {

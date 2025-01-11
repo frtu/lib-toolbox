@@ -17,7 +17,9 @@ class PromptTest {
             Intent(id = "Delivery status", description = "Inquiries about the current status of a delivery."),
             Intent(id = "Unblock delivery", description = "Delivery is blocked and need to call API to unblock."),
         )
-        val prompt = Prompt("""
+        val prompt = Prompt(
+            "intent-classifier-agent",
+            """
             You’re a LLM that detects intent from user queries. Your task is to classify the user's intent based on their query. 
             Below are the possible intents with brief descriptions. Use these to accurately determine the user's goal, and output only the intent topic.
             {{#intents}}
@@ -31,7 +33,7 @@ class PromptTest {
             
             Response format should be a JSON with intent and reasoning explanation.
             Ex : {"intent": "Other", "reasoning": "1. The user wants to put money into stocks, which is a form of investment. 2. They're asking about options, seeking advice on investment choices."}
-        """.trimIndent()
+            """.trimIndent(),
         )
 
         //--------------------------------------
