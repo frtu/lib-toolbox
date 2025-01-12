@@ -9,6 +9,21 @@ Provide a platform for LLM :
 
 Generalisation an extracted from project [frtu/agents-os](https://github.com/frtu/agents-os)
 
+## Prompt
+
+To use [mustache](https://www.baeldung.com/mustache) for your instructions, use `PromptTemplate` class to `#format(inputParamsForRendering)` :
+
+```kotlin
+override val instructions: String
+    get() = PromptTemplate(
+        template = """
+        {{#intents}}
+        * {{id}} -> {{description}}
+        {{/intents}}
+    """.trimIndent(),
+    ).format(mapOf("intents" to intents))
+```
+
 ## Creating Agents
 
 Extendable structure for agents
@@ -22,26 +37,23 @@ Create your own agent
 * `AgentExecuter` : Advanced Agent implementing tool & function calls
 * `AbstractAgent` : Base structure for Agent calling LLM
 
+### Create Agent from PromptTemplate
+
+Create an Agent using `Chat` & `PromptTemplate` :
+
+```kotlin
+UnstructuredBaseAgent.create(chat, prompt).also { agent ->
+    logger.info("Created new agent id:${agent.id} from prompt:{}", prompt)
+}
+```
+
+WIP : Allow to automatically create Agent from Prompt using spring boot config : `AgentFromPromptConfig`
+
 ### Best practices
 
 * Always double-check your response inside your agent before returning result (UPPER or lower case, trim space, ...).
 * Check the format & raise proper errors after calling LLM
 * Always try to **shift left** by suggesting good format during instructions passing
-
-### Using prompt
-
-To use [mustache](https://www.baeldung.com/mustache) for your instructions, use `Prompt` class to `#render(params)` :
-
-```kotlin
-override val instructions: String
-    get() = Prompt(
-        template = """
-        {{#intents}}
-        * {{id}} -> {{description}}
-        {{/intents}}
-    """.trimIndent(),
-    ).render(mapOf("intents" to intents))
-```
 
 ## Configuration
 
@@ -131,6 +143,7 @@ spring.autoconfigure.exclude:
 ### 2.0.14
 
 * Adding `PromptTemplate` to render prompt using mustache
+* Allow to create `UnstructuredBaseAgent.create()` from `PromptTemplate`
 
 ### 2.0.13
 
