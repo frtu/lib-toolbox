@@ -42,7 +42,7 @@ Create your own agent
 Create an Agent using `Chat` & `PromptTemplate` :
 
 ```kotlin
-UnstructuredBaseAgent.create(chat, prompt).also { agent ->
+UnstructuredBaseAgent.create(chat, prompt, description = prompt.description).also { agent ->
     logger.info("Created new agent id:${agent.id} from prompt:{}", prompt)
 }
 ```

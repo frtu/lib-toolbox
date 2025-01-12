@@ -95,7 +95,7 @@ open class UnstructuredBaseAgent(
             isStateful: Boolean = false,
         ): UnstructuredBaseAgent = UnstructuredBaseAgent(
             id = id?.let { it } ?: promptTemplate.id,
-            description = description?.let { it } ?: promptTemplate.id,
+            description = description?.let { it } ?: promptTemplate.description ?: promptTemplate.id,
             category = category,
             subCategory = subCategory,
             instructions = promptTemplate.format(input),

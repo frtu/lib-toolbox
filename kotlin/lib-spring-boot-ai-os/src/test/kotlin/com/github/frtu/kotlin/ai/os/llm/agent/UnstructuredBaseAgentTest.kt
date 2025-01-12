@@ -6,9 +6,11 @@ import com.aallam.openai.api.chat.FunctionCall
 import com.aallam.openai.api.chat.TextContent
 import com.aallam.openai.api.core.FinishReason
 import com.aallam.openai.api.core.Role.Companion.Assistant
+import com.github.frtu.kotlin.ai.os.instruction.PromptTemplate
 import com.github.frtu.kotlin.tool.ToolRegistry
 import com.github.frtu.kotlin.ai.os.llm.Chat
 import com.github.frtu.kotlin.ai.os.llm.model.Answer
+import io.kotest.matchers.shouldBe
 import io.kotlintest.matchers.types.shouldNotBeNull
 import io.mockk.coEvery
 import io.mockk.mockk
@@ -104,6 +106,41 @@ class UnstructuredBaseAgentTest {
         //--------------------------------------
         with(result) {
             shouldNotBeNull()
+        }
+    }
+
+    @Test
+    fun `Create UnstructuredBaseAgent from PromptTemplate`(): Unit = runBlocking {
+        //--------------------------------------
+        // 1. Init
+        //--------------------------------------
+        val prompt = PromptTemplate(
+            id = "prompt-generation-agent",
+            description = "A meta-prompt Agent instructs the model to create a good prompt based on your task description or improve an existing one",
+            template = """
+                You're a prompt engineer, write a very bespoke, detailed and succinct prompt, that will generate an Cartoon storyboard writer optimized to write a story for my 2 pages cartoon content called UFO of a cute space cat and a police dog chasing him.
+                
+                Instructions
+                - output the prompt you generate in markdown using variables in double curly brackets
+                - output the prompt in a codeblock
+                """.trimIndent(),
+        )
+        val chat = mockk<Chat>()
+
+        //--------------------------------------
+        // 2. Execute
+        //--------------------------------------
+        val result = UnstructuredBaseAgent.create(chat, prompt)
+        logger.debug("result:$result")
+
+        //--------------------------------------
+        // 3. Validate
+        //--------------------------------------
+        with(result) {
+            shouldNotBeNull()
+            id.value shouldBe prompt.id
+            description shouldBe prompt.description
+            instructions shouldBe prompt.template
         }
     }
 
