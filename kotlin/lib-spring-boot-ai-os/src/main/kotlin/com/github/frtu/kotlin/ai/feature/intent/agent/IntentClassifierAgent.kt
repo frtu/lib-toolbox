@@ -12,8 +12,6 @@ import org.springframework.stereotype.Component
  * Agent that classify user request into Intent classification
  * @since 2.0.13
  */
-@Component
-@Qualifier(IntentClassifierAgent.TOOL_NAME)
 class IntentClassifierAgent(
     // Chat engine
     chat: Chat,
