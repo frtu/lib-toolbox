@@ -4,6 +4,40 @@
 
 Provide test suite for LLM
 
+
+## Usage
+
+* Extend `AbstractLocalAgentTest<INPUT, OUTPUT>` that accept an agent constructor `StructuredBaseAgent<INPUT, OUTPUT>`
+  and a list of Ollama model name it will support.
+* Create multiple test function that use `benchmarkAcrossModel` with an INPUT and a validator that takes the `output`
+  and the model name that run.
+* Different `model` many have different result, feel free to difference case based on `when(model)`. 
+
+```kotlin
+class XxxAgentTest : AbstractLocalAgentTest<INPUT, OUTPUT>(
+        {
+            XxxAgent(
+                chat = it,
+                ...
+            )
+        },
+        "llama3",
+    ) {
+
+    @Test
+    fun `Test description`() = benchmarkAcrossModel(
+        "added an integration wto this channel.",
+    ) { model, output ->
+        // Can create different condition check depending on model
+        with(output) {
+            // LLM may mix upper & lower case
+            intent.lowercase() shouldBe "Other".lowercase()
+            reasoning.shouldNotBeEmpty()
+        }
+    }
+}
+```
+
 ## Import
 
 Import using Maven :

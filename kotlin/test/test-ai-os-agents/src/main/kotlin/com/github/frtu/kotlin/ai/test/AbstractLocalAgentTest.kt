@@ -11,31 +11,35 @@ abstract class AbstractLocalAgentTest<INPUT, OUTPUT>(
     private val builder: (Chat) -> StructuredBaseAgent<INPUT, OUTPUT>,
     vararg model: String
 ) {
-    private val chatList: List<Chat> = model.map {
-        ChatApiConfigs().chatOllama(model = it)
+    private val chatList: List<Pair<String, Chat>> = model.map { model ->
+        Pair(model, ChatApiConfigs().chatOllama(model = model))
     }
 
     protected fun benchmarkAcrossModel(
         input: INPUT,
-        validator: (OUTPUT) -> Unit
+        validator: (String, OUTPUT) -> Unit
     ): Unit = runBlocking {
         //--------------------------------------
         // 1. Init
         //--------------------------------------
         // Init var
-        chatList.map(builder)
-            .forEach { agent ->
+        chatList
+            .map { (model, chat) ->
+                Pair(model, builder(chat))
+            }
+            .forEach { (model, agent) ->
                 //--------------------------------------
                 // 2. Execute
                 //--------------------------------------
-                val result = agent.execute(input)
-                logger.debug("result:{}", result)
+                val output = agent.execute(input)
+                logger.debug("Received from model:[{}] with output:{}", model, output)
 
                 //--------------------------------------
                 // 3. Validate
                 //--------------------------------------
-                result.shouldNotBeNull()
-                validator(result)
+                output.shouldNotBeNull()
+                // Can create different condition check depending on model
+                validator(model, output)
             }
     }
 
