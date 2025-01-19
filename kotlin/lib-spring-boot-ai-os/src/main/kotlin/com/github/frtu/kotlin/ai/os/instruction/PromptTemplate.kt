@@ -17,6 +17,8 @@ data class PromptTemplate(
     val template: String,
     /** Description of the purpose of this prompt */
     val description: String? = null,
+    /** List of all variables from the template */
+    val variables: Set<String> = extractVariableNames(template)
 ) {
     private val mustache = mustacheFactory.compile(StringReader(template), id)
 
@@ -28,5 +30,16 @@ data class PromptTemplate(
 
     companion object {
         private var mustacheFactory: MustacheFactory = DefaultMustacheFactory()
+
+        // Capturing name with one or more word char (letters, digits, underscores) and allow dots (.)
+        private const val PATTERN_NAMES = """([\w\.]+)"""
+
+        // Adding double curly brackets with spaces
+        private const val PATTERN_MUSTACHE_VARIABLE = """\{\{\s*$PATTERN_NAMES\s*\}\}"""
+
+        fun extractVariableNames(text: String): Set<String> {
+            val regex = Regex(PATTERN_MUSTACHE_VARIABLE)
+            return regex.findAll(text).map { it.groupValues[1] }.toSet()
+        }
     }
 }
