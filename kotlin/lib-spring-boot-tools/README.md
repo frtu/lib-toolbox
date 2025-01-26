@@ -25,6 +25,20 @@ application:
       url-prefix: "/v1/tools"
 ```
 
+Check that your endpoint is really exposed by looking for logs :
+
+```
+Create one static endpoint path:/v1/tools/{tool-name}
+OR
+Create one generic endpoint path:/v1/tools/{tool-name}
+```
+
+If your endpoint is not created, check if your tool has been scanned by looking for log :
+
+```
+Build tools size:{size} names:[...]
+```
+
 ### Create Tool from annotated bean
 
 * `application.tools.scan.enabled` allow to enable `true` (default) or `false`
