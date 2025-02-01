@@ -5,7 +5,7 @@
 Provide all the lib to manipulate JSON :
 
 * Enable Json Schema generation using `SchemaGen`
-* Enable to manipulate object with `JsonNode` & `String` using JsonExtension
+* Enable to manipulate object with `JsonNode` & `String` using `JsonExtension`
 
 ## Usage
 
@@ -72,6 +72,10 @@ Check the latest version (clickable) :
 [<img src="https://img.shields.io/maven-central/v/com.github.frtu.libs/lib-serdes-json.svg?label=latest%20release%20:%20lib-serdes-json"/>](https://search.maven.org/#search%7Cga%7C1%7Ca%3A%22lib-utils%22+g%3A%22com.github.frtu.libs%22)
 
 ## Release notes
+
+### 2.0.15
+
+* Make Json serdes more fault tolerant and permissive
 
 ### 2.0.8
 
