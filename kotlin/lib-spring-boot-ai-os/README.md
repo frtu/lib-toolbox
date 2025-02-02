@@ -42,7 +42,7 @@ Create your own agent
 Create an Agent using `Chat` & `PromptTemplate` :
 
 ```kotlin
-UnstructuredBaseAgent.create(chat, prompt, description = prompt.description).also { agent ->
+UnstructuredBaseAgent.create(chat, prompt).also { agent ->
     logger.info("Created new agent id:${agent.id} from prompt:{}", prompt)
 }
 ```
@@ -139,6 +139,10 @@ spring.autoconfigure.exclude:
 ```
 
 ## Release notes
+
+### 2.0.15
+
+*  Allow to list all variables from a mustache template
 
 ### 2.0.14
 

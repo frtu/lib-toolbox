@@ -34,7 +34,7 @@ class JsonBeanHelper<T>(
     fun <T> jsonToBean(payload: String, clazz: Class<T>): T = mapper.readValue(payload, clazz)
 }
 
-@Deprecated(replaceWith = ReplaceWith("JsonExtension"))
+@Deprecated(message = "Replaced with JsonExtension", replaceWith = ReplaceWith("JsonExtension"))
 object JsonUtil {
     private val objectMapper = jacksonObjectMapper().setSerializationInclusion(JsonInclude.Include.NON_NULL)
     private val jsonBeanHelper = JsonBeanHelper<Any>(objectMapper)
