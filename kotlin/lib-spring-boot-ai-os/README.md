@@ -76,6 +76,17 @@ application:
     enabled: false
 ```
 
+#### Logs
+
+* To allow logging input & output turn on `DEBUG` for package `com.github.frtu.kotlin.ai.os.llm.openai`
+* You can also choose to Log with higher level by setting `logLevel: INFO` (`DEBUG` by default)
+
+```yaml
+application:
+  ai.os.llm:
+    log-level: DEBUG
+```
+
 ## Import
 
 Import using Maven :
@@ -139,6 +150,10 @@ spring.autoconfigure.exclude:
 ```
 
 ## Release notes
+
+### 2.0.16
+
+* Document and facilitate log verbosity using different config profile
 
 ### 2.0.15
 

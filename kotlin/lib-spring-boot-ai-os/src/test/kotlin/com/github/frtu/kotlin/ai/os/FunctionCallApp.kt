@@ -8,6 +8,7 @@ import com.github.frtu.kotlin.tool.function.Function
 import com.github.frtu.kotlin.tool.function.FunctionRegistry
 import com.github.frtu.kotlin.tool.function.registry
 import com.github.frtu.kotlin.utils.io.toJsonNode
+import org.slf4j.event.Level
 import sample.tool.function.CurrentWeatherFunction
 import sample.tool.function.WeatherForecastFunction
 
@@ -59,23 +60,27 @@ fun chatOllama(
     functionRegistry: ToolRegistry,
     model: String = "mistral",
     baseUrl: String = "http://localhost:11434/v1/",
+    logLevel: Level = Level.DEBUG,
 ): OpenAiCompatibleChat = OpenAiCompatibleChat(
     apiKey = "none",
     model = model,
     baseUrl = baseUrl,
     toolRegistry = functionRegistry,
-    defaultEvaluator = { chatChoices -> chatChoices.first() }
+    defaultEvaluator = { chatChoices -> chatChoices.first() },
+    logLevel = logLevel,
 )
 
 fun chatOpenAI(
     apiKey: String,
     functionRegistry: ToolRegistry? = null,
     model: String = "gpt-4o",
+    logLevel: Level = Level.DEBUG,
 ): Chat = OpenAiCompatibleChat(
     apiKey = apiKey,
     model = model,
     toolRegistry = functionRegistry,
-    defaultEvaluator = { chatChoices -> chatChoices.first() }
+    defaultEvaluator = { chatChoices -> chatChoices.first() },
+    logLevel = logLevel,
 )
 
 fun buildFunctionRegistry(): FunctionRegistry = registry {

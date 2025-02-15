@@ -16,6 +16,8 @@ import com.github.frtu.kotlin.ai.os.llm.Chat
 import com.github.frtu.kotlin.ai.os.llm.model.Answer
 import com.github.frtu.kotlin.ai.os.memory.Conversation
 import kotlin.time.Duration.Companion.seconds
+import org.slf4j.LoggerFactory
+import org.slf4j.event.Level
 
 /**
  * Compatible OpenAI API
@@ -26,6 +28,7 @@ class OpenAiCompatibleChat(
     model: String = OPENAI_MODEL,
     baseUrl: String = OPENAI_URL,
     private val defaultEvaluator: ((List<ChatChoice>) -> ChatChoice)? = null,
+    private val logLevel: Level = Level.DEBUG,
 ) : Chat {
     /**
      * Constructor for Local server
@@ -35,12 +38,14 @@ class OpenAiCompatibleChat(
         model: String = LOCAL_MODEL,
         baseUrl: String = LOCAL_URL,
         defaultEvaluator: ((List<ChatChoice>) -> ChatChoice)? = null,
+        logLevel: Level = Level.DEBUG,
     ) : this(
         apiKey = "none",
         toolRegistry = toolRegistry,
         model = model,
         baseUrl = baseUrl,
         defaultEvaluator = defaultEvaluator,
+        logLevel = logLevel,
     )
 
     private val modelId = ModelId(model)
@@ -60,6 +65,11 @@ class OpenAiCompatibleChat(
         conversation: Conversation,
         evaluator: ((List<ChatChoice>) -> ChatChoice)? = null,
     ): Answer {
+        when (logLevel) {
+            Level.DEBUG -> logger.debug("Conversation - Receiving last message on {} history size:{}", conversation.getLastMessage(), conversation.countMessages())
+            else -> logger.info("Conversation - Receiving last message on {} history size:{}", conversation.getLastMessage(), conversation.countMessages())
+        }
+
         val chatCompletion = send(conversation)
 
         val chatChoice = evaluator?.let {
@@ -70,7 +80,12 @@ class OpenAiCompatibleChat(
             chatCompletion.choices
         )
         ?: throw IllegalStateException("You need to pass an `evaluator` or `defaultEvaluator` to be able to call sendMessage()")
-        return Answer(chatChoice)
+        return Answer(chatChoice).also { answer: Answer ->
+            when (logLevel) {
+                Level.DEBUG -> logger.debug("Receiving response:{}", answer)
+                else -> logger.info("Receiving response:{}", answer)
+            }
+        }
     }
 
     suspend fun send(conversation: Conversation): ChatCompletion =
@@ -105,6 +120,8 @@ class OpenAiCompatibleChat(
 
         const val OPENAI_URL = "https://api.openai.com/v1/"
         const val OPENAI_MODEL = "gpt-3.5-turbo"
+
+        private val logger = LoggerFactory.getLogger(this::class.java)
     }
 }
 

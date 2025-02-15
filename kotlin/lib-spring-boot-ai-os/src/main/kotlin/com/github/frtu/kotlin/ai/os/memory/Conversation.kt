@@ -33,6 +33,8 @@ data class Conversation(
 
     fun getMessages(): List<ChatMessage> = conversation
 
+    fun getLastMessage(): ChatMessage = conversation.last()
+
     /**
      * Get Total message in conversation
      */

@@ -7,6 +7,7 @@ import com.github.frtu.kotlin.ai.os.llm.openai.OpenAiCompatibleChat
 import com.github.frtu.kotlin.ai.os.llm.openai.OpenAiCompatibleChat.Companion.LOCAL_MODEL
 import com.github.frtu.kotlin.ai.os.llm.openai.OpenAiCompatibleChat.Companion.LOCAL_URL
 import com.github.frtu.kotlin.ai.spring.config.ChatApiProperties
+import org.slf4j.event.Level
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -29,19 +30,21 @@ class ChatApiConfigs {
         if (!chatApiProperties.validateOpenAIKey()) {
             throw IllegalArgumentException("To use OpenAI model, please configure a correct 'apiKey' properties")
         }
-        chatOpenAI(chatApiProperties.apiKey!!, toolRegistry, evaluator)
+        chatOpenAI(chatApiProperties.apiKey!!, toolRegistry, evaluator, chatApiProperties.logLevel)
     } else {
-        chatOllama(chatApiProperties.model, chatApiProperties.baseUrl, toolRegistry, evaluator)
+        chatOllama(chatApiProperties.model, chatApiProperties.baseUrl, toolRegistry, evaluator, chatApiProperties.logLevel)
     }
 
     fun chatOpenAI(
         apiKey: String,
         toolRegistry: ToolRegistry? = null,
         evaluator: ((List<ChatChoice>) -> ChatChoice)? = null,
+        logLevel: Level = Level.DEBUG,
     ): Chat = OpenAiCompatibleChat(
         apiKey = apiKey,
         toolRegistry = toolRegistry,
         defaultEvaluator = evaluator.takeUnless { it == null } ?: defaultEvaluator,
+        logLevel = logLevel,
     )
 
     fun chatOllama(
@@ -49,11 +52,13 @@ class ChatApiConfigs {
         baseUrl: String = LOCAL_URL, // "http://localhost:11434/v1/"
         toolRegistry: ToolRegistry? = null,
         evaluator: ((List<ChatChoice>) -> ChatChoice)? = null,
+        logLevel: Level = Level.DEBUG,
     ): Chat = OpenAiCompatibleChat(
         toolRegistry = toolRegistry,
         model = model,
         baseUrl = baseUrl,
         defaultEvaluator = evaluator.takeUnless { it == null } ?: defaultEvaluator,
+        logLevel = logLevel,
     )
 
     companion object {

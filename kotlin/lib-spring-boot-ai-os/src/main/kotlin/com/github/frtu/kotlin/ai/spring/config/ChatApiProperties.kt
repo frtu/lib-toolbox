@@ -3,6 +3,7 @@ package com.github.frtu.kotlin.ai.spring.config
 import com.github.frtu.kotlin.ai.os.llm.openai.OpenAiCompatibleChat.Companion.LOCAL_MODEL
 import com.github.frtu.kotlin.ai.os.llm.openai.OpenAiCompatibleChat.Companion.LOCAL_URL
 import com.github.frtu.kotlin.utils.data.ValueObject
+import org.slf4j.event.Level
 import org.springframework.boot.context.properties.ConfigurationProperties
 
 @ValueObject
@@ -11,6 +12,7 @@ data class ChatApiProperties(
     val apiKey: String? = null,
     val model: String = LOCAL_MODEL, // "mistral"
     val baseUrl: String = LOCAL_URL, // "http://localhost:11434/v1/"
+    val logLevel: Level = Level.DEBUG,
 ) {
     /**
      * https://platform.openai.com/docs/models/continuous-model-upgrades
