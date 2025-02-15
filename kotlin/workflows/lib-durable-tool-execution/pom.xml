@@ -25,6 +25,13 @@
             <artifactId>lib-serdes-json</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>lib-spring-boot-ai-os</artifactId>
+            <version>${project.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
         <!-- Test -->
         <dependency>
             <groupId>${project.groupId}</groupId>

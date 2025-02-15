@@ -39,6 +39,10 @@ Check the latest version (clickable) :
 
 ## Release notes
 
+### 2.0.16
+
+* Adding LlmActivity
+
 ### 2.0.8
 
 * Initial version
