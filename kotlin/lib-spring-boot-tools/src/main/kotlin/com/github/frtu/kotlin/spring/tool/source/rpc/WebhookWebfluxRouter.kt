@@ -6,6 +6,7 @@ import com.github.frtu.kotlin.spring.tool.scanner.ToolBuilderFromAnnotationScann
 import com.github.frtu.kotlin.tool.Tool
 import com.github.frtu.kotlin.tool.ToolRegistry
 import org.slf4j.LoggerFactory
+import org.slf4j.event.Level
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass
@@ -40,6 +41,8 @@ class WebhookWebfluxRouter(
     private val mode: DeploymentMode = DeploymentMode.STATIC,
     @Value("\${application.tools.endpoint.url-prefix}")
     private val urlPrefix: String = DEFAULT_URL_PREFIX,
+    @Value("\${application.tools.endpoint.log-level}")
+    private val logLevel: Level = Level.DEBUG,
 ) {
     @Autowired
     lateinit var toolRegistry: ToolRegistry
@@ -66,9 +69,13 @@ class WebhookWebfluxRouter(
                     POST(path) { serverRequest ->
                         // Input parameters
                         val body = serverRequest.awaitBody(String::class)
-                        val toolParameter = jacksonObjectMapper().readValue(body, JsonNode::class.java)
+                        when (logLevel) {
+                            Level.DEBUG -> logger.debug("Executing static endpoint path:{} with body:{}", serverRequest.path(), body)
+                            else -> logger.info("Executing static endpoint path:{} with body:{}", serverRequest.path(), body)
+                        }
 
                         // Execution
+                        val toolParameter = jacksonObjectMapper().readValue(body, JsonNode::class.java)
                         val result = tool.execute(toolParameter)
 
                         // Result
@@ -82,13 +89,17 @@ class WebhookWebfluxRouter(
                 logger.info("Create one generic endpoint path:$path")
                 POST(path) { serverRequest ->
                     val toolName = serverRequest.pathVariable(toolNameKeyPath)
-                    val tool: Tool = toolRegistry[toolName] ?: throw RuntimeException("$toolName doesn't exist")
 
                     // Input parameters
                     val body = serverRequest.awaitBody(String::class)
-                    val toolParameter = jacksonObjectMapper().readValue(body, JsonNode::class.java)
+                    when (logLevel) {
+                        Level.DEBUG -> logger.debug("Executing static endpoint path:{} with body:{}", serverRequest.path(), body)
+                        else -> logger.info("Executing static endpoint path:{} with body:{}", serverRequest.path(), body)
+                    }
 
                     // Execution
+                    val tool: Tool = toolRegistry[toolName] ?: throw RuntimeException("$toolName doesn't exist")
+                    val toolParameter = jacksonObjectMapper().readValue(body, JsonNode::class.java)
                     val result = tool.execute(toolParameter)
 
                     // Result
