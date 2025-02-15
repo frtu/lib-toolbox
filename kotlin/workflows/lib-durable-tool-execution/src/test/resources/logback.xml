@@ -11,6 +11,8 @@
     <logger name="com.github.frtu.kotlin.ai.os.llm.openai" level="DEBUG" additivity="true"/>
     <logger name="com.github.frtu.kotlin.tool.execution.durable" level="TRACE" additivity="true"/>
 
+    <logger name="com.github.frtu.kotlin.test.containers.temporalite" level="WARN" additivity="true"/>
+
     <!--ONLY NEEDED WHEN YOU NEED BELOW WARN-->
     <root level="INFO">
         <appender-ref ref="STDOUT"/>

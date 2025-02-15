@@ -14,10 +14,11 @@ running `Agent` execution by capturing Agent & Tool exchange through Temporal hi
 Import using Maven :
 
 ```XML
+
 <dependency>
-  <groupId>com.github.frtu.libs</groupId>
-  <artifactId>lib-durable-tool-execution</artifactId>
-  <version>${frtu-libs.version}</version>
+    <groupId>com.github.frtu.libs</groupId>
+    <artifactId>lib-durable-tool-execution</artifactId>
+    <version>${frtu-libs.version}</version>
 </dependency>
 ```
 
@@ -42,6 +43,7 @@ Check the latest version (clickable) :
 ### 2.0.16
 
 * Adding LlmActivity
+* Adding BaseLlmWorkflowImpl that encapsulate an LLM executor `LlmActivityImpl` as an abstract Workflow.
 
 ### 2.0.8
 
