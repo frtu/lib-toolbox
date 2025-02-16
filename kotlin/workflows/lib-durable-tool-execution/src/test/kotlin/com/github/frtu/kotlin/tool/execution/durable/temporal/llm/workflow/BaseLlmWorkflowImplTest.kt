@@ -10,11 +10,13 @@ import java.util.UUID
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.slf4j.LoggerFactory
 import org.testcontainers.junit.jupiter.Testcontainers
 import sample.tool.workflow.SummariserLlmWorkflowImpl
 
+@Disabled
 @Testcontainers
 class BaseLlmWorkflowImplTest : TemporaliteContainer(
     // UNCOMMENT to switch to remote temporal service

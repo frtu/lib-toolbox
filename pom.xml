@@ -284,7 +284,7 @@
                         <artifactId>maven-gpg-plugin</artifactId>
                         <version>1.6</version>
                         <configuration>
-                            <useAgent>true</useAgent>
+                            <!-- OBSOLETE - <useAgent>true</useAgent> -->
                             <!--<passphrase>${gpg.passphrase}</passphrase>-->
                         </configuration>
                         <executions>

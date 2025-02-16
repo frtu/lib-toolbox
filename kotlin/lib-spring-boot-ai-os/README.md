@@ -154,7 +154,7 @@ spring.autoconfigure.exclude:
 ### 2.0.16
 
 * Document and facilitate log verbosity using different config profile
-* Decouple from ChatMessage & ChatRole from aallam-openai model
+* Decouple from aallam-openai model (ChatMessage & ChatRole) to enable deserialisation with default jackson
 
 ### 2.0.15
 
