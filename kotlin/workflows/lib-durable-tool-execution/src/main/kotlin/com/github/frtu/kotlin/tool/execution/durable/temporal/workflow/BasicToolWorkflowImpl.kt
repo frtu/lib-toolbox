@@ -18,7 +18,8 @@ open class BasicToolWorkflowImpl(
     private val activityTaskQueue: String = TASK_QUEUE,
     private val activityExecutionTimeout: Duration? = Duration.ofSeconds(5), // Timeout options specify when to automatically timeout Activities if the process is taking too long.
     private val activityRetryOptions: RetryOptions? = RetryOptions {
-        setInitialInterval(Duration.ofMillis(100))
+        // ATTENTION : Tuning LLM activity values depending on service latency
+        setInitialInterval(Duration.ofMillis(1000))
         setMaximumInterval(Duration.ofSeconds(10))
         setBackoffCoefficient(2.0)
         setMaximumAttempts(10)
