@@ -9,6 +9,16 @@ running `Agent` execution by capturing Agent & Tool exchange through Temporal hi
 * Starting a `Tool` encapsulated into an Activity
 * Sending callbacks through `Slack`
 
+## Allows to call LLM with **specialised prompt**
+
+### Specialise prompt on Workflow `LlmWorkflow` with generic `LlmActivity`
+
+Set a generic Activity worker with specialised prompt at workflow level using `BaseLlmWorkflowImpl`
+
+### Specialise prompt on Activity `SpecialisedAgentActivity` with generic `LlmActivity`
+
+Set a dedicated Activity worker with specialised prompt with dedicated TASK_QUEUE
+
 ## Import
 
 Import using Maven :
@@ -42,8 +52,10 @@ Check the latest version (clickable) :
 
 ### 2.0.16
 
-* Adding LlmActivity
-* Adding BaseLlmWorkflowImpl that encapsulate an LLM executor `LlmActivityImpl` as an abstract Workflow.
+* Adding `LlmActivity`
+* Adding `BaseLlmWorkflowImpl` that encapsulate an LLM executor `LlmActivityImpl` as an abstract Workflow.
+* Adding experimental`BaseSpecialisedAgentActivityImpl.create(chat, prompt)` that implement `SpecialisedAgentActivity`
+  that contains a prompt
 
 ### 2.0.8
 
