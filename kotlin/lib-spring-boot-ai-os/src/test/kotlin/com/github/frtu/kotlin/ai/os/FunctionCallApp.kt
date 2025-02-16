@@ -2,6 +2,7 @@ package com.github.frtu.kotlin.ai.os
 
 import com.github.frtu.kotlin.ai.os.llm.Chat
 import com.github.frtu.kotlin.ai.os.llm.openai.OpenAiCompatibleChat
+import com.github.frtu.kotlin.ai.os.llm.openai.protocol.toMessage
 import com.github.frtu.kotlin.ai.os.memory.Conversation
 import com.github.frtu.kotlin.tool.ToolRegistry
 import com.github.frtu.kotlin.tool.function.Function
@@ -34,7 +35,7 @@ suspend fun main() {
 
         val message = response.message
         message.functionCall?.let { functionCall ->
-            this.addResponse(message)
+            this.addResponse(message.toMessage())
 
             val functionToCall: Function<*, *> = functionRegistry[functionCall.name]!!
 

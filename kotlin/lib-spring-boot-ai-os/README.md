@@ -154,6 +154,7 @@ spring.autoconfigure.exclude:
 ### 2.0.16
 
 * Document and facilitate log verbosity using different config profile
+* Decouple from ChatMessage & ChatRole from aallam-openai model
 
 ### 2.0.15
 

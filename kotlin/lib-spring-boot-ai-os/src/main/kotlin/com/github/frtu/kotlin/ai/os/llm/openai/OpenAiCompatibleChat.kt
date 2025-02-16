@@ -14,6 +14,8 @@ import com.aallam.openai.client.OpenAIHost
 import com.github.frtu.kotlin.tool.ToolRegistry
 import com.github.frtu.kotlin.ai.os.llm.Chat
 import com.github.frtu.kotlin.ai.os.llm.model.Answer
+import com.github.frtu.kotlin.ai.os.llm.openai.protocol.toChatCompletionFunction
+import com.github.frtu.kotlin.ai.os.llm.openai.protocol.toChatMessage
 import com.github.frtu.kotlin.ai.os.memory.Conversation
 import kotlin.time.Duration.Companion.seconds
 import org.slf4j.LoggerFactory
@@ -89,7 +91,7 @@ class OpenAiCompatibleChat(
     }
 
     suspend fun send(conversation: Conversation): ChatCompletion =
-        send(conversation.getMessages())
+        send(conversation.getMessages().map { it.toChatMessage() })
 
     suspend fun send(chatMessages: List<ChatMessage>): ChatCompletion {
         // https://github.com/aallam/openai-kotlin/blob/main/guides/ChatFunctionCall.md

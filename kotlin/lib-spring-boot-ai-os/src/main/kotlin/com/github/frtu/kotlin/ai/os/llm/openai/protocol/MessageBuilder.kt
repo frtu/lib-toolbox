@@ -1,4 +1,4 @@
-package com.github.frtu.kotlin.ai.os.llm
+package com.github.frtu.kotlin.ai.os.llm.openai.protocol
 
 import com.aallam.openai.api.chat.ChatMessage
 import com.aallam.openai.api.chat.ChatRole

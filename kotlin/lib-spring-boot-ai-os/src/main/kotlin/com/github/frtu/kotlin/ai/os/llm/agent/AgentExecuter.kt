@@ -4,6 +4,7 @@ import com.github.frtu.kotlin.action.management.ActionId
 import com.github.frtu.kotlin.tool.ToolRegistry
 import com.github.frtu.kotlin.ai.os.llm.Chat
 import com.github.frtu.kotlin.ai.os.llm.model.Answer
+import com.github.frtu.kotlin.ai.os.llm.openai.protocol.toMessage
 import com.github.frtu.kotlin.ai.os.memory.Conversation
 import com.github.frtu.kotlin.utils.io.toJsonNode
 
@@ -64,7 +65,7 @@ abstract class AgentExecuter(
                 // Maintain Conversation when tool call is needed
                 with(conversation) {
                     val message = intermediateAnswer.message
-                    this.addResponse(message)
+                    this.addResponse(message.toMessage())
 
                     val result = tool.execute(functionArgs)
                     val secondResponse = chat.sendMessage(

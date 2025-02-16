@@ -1,4 +1,4 @@
-package com.github.frtu.kotlin.ai.os.llm.openai
+package com.github.frtu.kotlin.ai.os.llm.openai.protocol
 
 import com.aallam.openai.api.chat.ChatCompletionFunction
 import com.aallam.openai.api.chat.Parameters
