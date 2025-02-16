@@ -1,9 +1,12 @@
 package com.github.frtu.kotlin.ai.os.model
 
+import com.github.frtu.kotlin.utils.data.ValueObject
+
 /**
  * Message class is a base unit from a Thread
  * @author frtu
  */
+@ValueObject
 data class Message(
     /**
      * The role of the author of this message.

@@ -1,17 +1,21 @@
 package com.github.frtu.kotlin.ai.os.memory
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.github.frtu.kotlin.ai.os.model.Message
+import com.github.frtu.kotlin.utils.data.ValueObject
 
 /**
  * Short term memory - Ephemeral message class is a base unit from a Thread
  * @author frtu
  */
+@ValueObject
+@JsonIgnoreProperties(ignoreUnknown = true)
 data class Conversation(
     val systemDirective: String? = null,
     private val conversation: MutableList<Message> = mutableListOf()
 ) {
     init {
-        systemDirective?.let { system(systemDirective) }
+        systemDirective?.let { system(systemDirective!!) }
     }
 
     fun system(content: String): Conversation = append(Message.system(content))
