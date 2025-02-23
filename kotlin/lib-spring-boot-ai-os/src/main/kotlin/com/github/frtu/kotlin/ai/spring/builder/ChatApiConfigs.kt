@@ -1,12 +1,13 @@
 package com.github.frtu.kotlin.ai.spring.builder
 
 import com.aallam.openai.api.chat.ChatChoice
-import com.github.frtu.kotlin.tool.ToolRegistry
 import com.github.frtu.kotlin.ai.os.llm.Chat
 import com.github.frtu.kotlin.ai.os.llm.openai.OpenAiCompatibleChat
 import com.github.frtu.kotlin.ai.os.llm.openai.OpenAiCompatibleChat.Companion.LOCAL_MODEL
 import com.github.frtu.kotlin.ai.os.llm.openai.OpenAiCompatibleChat.Companion.LOCAL_URL
+import com.github.frtu.kotlin.ai.os.llm.openai.OpenAiCompatibleChat.Companion.OPENAI_MODEL_4O
 import com.github.frtu.kotlin.ai.spring.config.ChatApiProperties
+import com.github.frtu.kotlin.tool.ToolRegistry
 import org.slf4j.event.Level
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.context.annotation.Bean
@@ -30,7 +31,7 @@ class ChatApiConfigs {
         if (!chatApiProperties.validateOpenAIKey()) {
             throw IllegalArgumentException("To use OpenAI model, please configure a correct 'apiKey' properties")
         }
-        chatOpenAI(chatApiProperties.apiKey!!, toolRegistry, evaluator, chatApiProperties.logLevel)
+        chatOpenAI(chatApiProperties.apiKey!!, toolRegistry, chatApiProperties.model, evaluator, chatApiProperties.logLevel)
     } else {
         chatOllama(chatApiProperties.model, chatApiProperties.baseUrl, toolRegistry, evaluator, chatApiProperties.logLevel)
     }
@@ -38,10 +39,12 @@ class ChatApiConfigs {
     fun chatOpenAI(
         apiKey: String,
         toolRegistry: ToolRegistry? = null,
+        model: String = OPENAI_MODEL_4O,
         evaluator: ((List<ChatChoice>) -> ChatChoice)? = null,
         logLevel: Level = Level.DEBUG,
     ): Chat = OpenAiCompatibleChat(
         apiKey = apiKey,
+        model = model,
         toolRegistry = toolRegistry,
         defaultEvaluator = evaluator.takeUnless { it == null } ?: defaultEvaluator,
         logLevel = logLevel,

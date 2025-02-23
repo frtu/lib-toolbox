@@ -27,7 +27,7 @@ import org.slf4j.event.Level
 class OpenAiCompatibleChat(
     apiKey: String,
     private val toolRegistry: ToolRegistry? = null,
-    model: String = OPENAI_MODEL,
+    model: String = OPENAI_MODEL_4O,
     baseUrl: String = OPENAI_URL,
     private val defaultEvaluator: ((List<ChatChoice>) -> ChatChoice)? = null,
     private val logLevel: Level = Level.DEBUG,
@@ -121,7 +121,7 @@ class OpenAiCompatibleChat(
         const val LOCAL_MODEL = "mistral"
 
         const val OPENAI_URL = "https://api.openai.com/v1/"
-        const val OPENAI_MODEL = "gpt-3.5-turbo"
+        const val OPENAI_MODEL_4O = "gpt-4o"
 
         private val logger = LoggerFactory.getLogger(this::class.java)
     }
