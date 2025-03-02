@@ -21,6 +21,9 @@ class LlmOsAutoConfigsTest {
             //--------------------------------------
             // 2. Execute
             //--------------------------------------
+            .withPropertyValues(
+                "application.${LlmOsAutoConfigs.CONFIG_PREFIX}.model=mistral",
+            )
             .withUserConfiguration(
                 LlmOsAutoConfigs::class.java,
             )
@@ -77,6 +80,7 @@ class LlmOsAutoConfigsTest {
             //--------------------------------------
             .withPropertyValues(
                 "application.${LlmOsAutoConfigs.CONFIG_PREFIX}.log-level=INFO",
+                "application.${LlmOsAutoConfigs.CONFIG_PREFIX}.model=mistral",
             )
             .withUserConfiguration(
                 LlmOsAutoConfigs::class.java,

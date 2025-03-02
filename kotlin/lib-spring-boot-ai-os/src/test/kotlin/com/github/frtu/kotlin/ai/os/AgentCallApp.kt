@@ -1,7 +1,8 @@
 package com.github.frtu.kotlin.ai.os
 
-import com.github.frtu.kotlin.tool.ToolRegistry
 import com.github.frtu.kotlin.ai.os.llm.agent.UnstructuredBaseAgent
+import com.github.frtu.kotlin.ai.spring.builder.ChatApiConfigs
+import com.github.frtu.kotlin.tool.ToolRegistry
 import sample.tool.function.CurrentWeatherFunction
 import sample.tool.function.WeatherForecastFunction
 
@@ -14,8 +15,8 @@ suspend fun main() {
     )
 
     // === Choose between OpenAI & open source ===
-    val chat = chatOpenAI(apiKey, toolRegistry)
-//    val chat = chatOllama(functionRegistry)
+    val chat = ChatApiConfigs().chatOpenAI(apiKey, toolRegistry)
+//    val chat = ChatApiConfigs().chatOllama(functionRegistry)
 
     // === Start conversation ===
     val weatherAgent = UnstructuredBaseAgent(
