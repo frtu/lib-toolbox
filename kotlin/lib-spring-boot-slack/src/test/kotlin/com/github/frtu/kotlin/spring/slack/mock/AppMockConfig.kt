@@ -1,4 +1,4 @@
-package com.github.frtu.kotlin.spring.slack.builder
+package com.github.frtu.kotlin.spring.slack.mock
 
 import com.slack.api.bolt.App
 import io.mockk.mockk

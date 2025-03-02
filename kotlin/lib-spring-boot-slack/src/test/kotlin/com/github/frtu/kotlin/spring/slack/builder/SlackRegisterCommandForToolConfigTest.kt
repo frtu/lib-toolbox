@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.NoSuchBeanDefinitionException
 import org.springframework.boot.test.context.runner.ApplicationContextRunner
+import com.github.frtu.kotlin.spring.slack.mock.AppMockConfig
 
 class SlackRegisterCommandForToolConfigTest {
     private val applicationContextRunner = ApplicationContextRunner()
