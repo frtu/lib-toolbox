@@ -46,10 +46,11 @@ Configure your application using :
 ```yaml
 application:
   name: sample-spring-boot-slack
-  slack.app:
-    token: ${SLACK_APP_TOKEN:xapp-xxx}
-    signing-secret: ${SLACK_APP_SIGNING_SECRET:yyy}
-    bot-oauth-token: ${SLACK_APP_BOT_OAUTH_TOKEN:xoxb-zzz}
+  slack.apps:
+    default:
+      token: ${SLACK_APP_TOKEN:xapp-xxx}
+      signing-secret: ${SLACK_APP_SIGNING_SECRET:yyy}
+      bot-oauth-token: ${SLACK_APP_BOT_OAUTH_TOKEN:xoxb-zzz}
 ```
 
 #### Feature Toggles
