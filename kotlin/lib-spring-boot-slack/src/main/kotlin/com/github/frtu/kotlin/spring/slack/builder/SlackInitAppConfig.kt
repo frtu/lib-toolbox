@@ -1,6 +1,6 @@
 package com.github.frtu.kotlin.spring.slack.builder
 
-import com.github.frtu.kotlin.spring.slack.config.SlackAppProperties
+import com.github.frtu.kotlin.spring.slack.config.SlackProperties
 import com.slack.api.bolt.App
 import com.slack.api.bolt.AppConfig
 import org.springframework.beans.factory.annotation.Qualifier
@@ -11,9 +11,9 @@ import org.springframework.context.annotation.Lazy
 @Configuration
 class SlackInitAppConfig {
     @Bean
-    fun appConfig(slackAppProperties: SlackAppProperties) = AppConfig.builder()
-        .singleTeamBotToken(slackAppProperties.botOauthToken)
-        .signingSecret(slackAppProperties.signingSecret)
+    fun appConfig(slackProperties: SlackProperties) = AppConfig.builder()
+        .singleTeamBotToken(slackProperties.botOauthToken())
+        .signingSecret(slackProperties.signingSecret())
         .build()
 
     @Bean
@@ -22,7 +22,7 @@ class SlackInitAppConfig {
 
     @Bean
     @Qualifier(KEY_APP_TOKEN)
-    fun defaultAppToken(slackAppProperties: SlackAppProperties): String = slackAppProperties.token
+    fun defaultAppToken(slackProperties: SlackProperties): String = slackProperties.defaultAppToken()
 
     /**
      * BotID is available using `ctx.botUserId`. If needed elsewhere, Can get injected using @Qualifier(KEY_APP_BOT_ID)
@@ -31,9 +31,9 @@ class SlackInitAppConfig {
     @Bean
     @Qualifier(KEY_APP_BOT_ID)
     fun botId(
-        slackAppProperties: SlackAppProperties,
+        slackProperties: SlackProperties,
         app: App,
-    ): String = app.client().authTest { r -> r.token(slackAppProperties.botOauthToken) }.userId
+    ): String = app.client().authTest { r -> r.token(slackProperties.botOauthToken()) }.userId
 
     companion object {
         const val KEY_APP = "APP_QUALIFIER"

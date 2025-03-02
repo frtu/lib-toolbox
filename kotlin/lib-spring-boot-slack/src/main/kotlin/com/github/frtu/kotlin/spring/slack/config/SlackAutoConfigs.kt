@@ -17,6 +17,6 @@ import org.springframework.context.annotation.Import
     SlackRegisterEventConfig::class,
     SlackRegisterCommandForToolConfig::class,
 )
-@EnableConfigurationProperties(SlackAppProperties::class)
+@EnableConfigurationProperties(SlackProperties::class)
 @ComponentScan(basePackageClasses = [SpringSlack::class])
 class SlackAutoConfigs
