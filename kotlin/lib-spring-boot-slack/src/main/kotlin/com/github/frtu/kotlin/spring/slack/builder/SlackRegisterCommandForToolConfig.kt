@@ -2,6 +2,7 @@ package com.github.frtu.kotlin.spring.slack.builder
 
 import com.github.frtu.kotlin.spring.slack.command.LongRunningSlashCommandHandler
 import com.github.frtu.kotlin.spring.slack.command.UserInputToJsonNodeTranslator
+import com.github.frtu.kotlin.spring.slack.core.SlackApp
 import com.github.frtu.kotlin.spring.slack.tool.ToolCommandFactory
 import com.github.frtu.kotlin.spring.slack.tool.ToolExecutorHandler
 import com.github.frtu.kotlin.tool.ToolRegistry
@@ -36,19 +37,21 @@ class SlackRegisterCommandForToolConfig {
     @Bean
     @Qualifier("SlackCommandRegistryForToolRegistration")
     fun slackCommandRegistryForToolRegistration(
-        app: App,
+        slackApps: List<SlackApp>,
         toolRegistry: ToolRegistry,
         textToJsonNodeTranslator: TextToJsonNodeTranslator,
     ): String {
-        // Register all commands available as Spring Beans
-        toolRegistry.getAll().forEach { tool ->
-            logger.info("Enabling Tool command /{} with tool:{}", tool.id.value, tool.javaClass)
-            app.command(
-                "/${tool.id.value}", LongRunningSlashCommandHandler(
-                    executorHandler = ToolExecutorHandler(tool, textToJsonNodeTranslator),
-                    defaultStartingMessage = "Starting execution for tool:${tool.id.value}",
+        slackApps.forEach { slackApp ->
+            // Register all commands available as Spring Beans
+            toolRegistry.getAll().forEach { tool ->
+                logger.info("Enabling Tool command /{} with tool:{}", tool.id.value, tool.javaClass)
+                slackApp.app.command(
+                    "/${tool.id.value}", LongRunningSlashCommandHandler(
+                        executorHandler = ToolExecutorHandler(tool, textToJsonNodeTranslator),
+                        defaultStartingMessage = "Starting execution for tool:${tool.id.value}",
+                    )
                 )
-            )
+            }
         }
         return "OK"
     }

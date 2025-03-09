@@ -1,5 +1,6 @@
 package com.github.frtu.kotlin.spring.slack.builder
 
+import com.github.frtu.kotlin.spring.slack.core.SlackApp
 import com.github.frtu.kotlin.spring.slack.core.SlackCommandRegistry
 import com.slack.api.bolt.App
 import org.slf4j.LoggerFactory
@@ -18,11 +19,16 @@ import org.springframework.context.annotation.Import
 class SlackRegisterCommandConfig {
     @Bean
     @Qualifier("SlackCommandRegistryRegistration")
-    fun slackCommandRegistryRegistration(app: App, slackCommandRegistry: SlackCommandRegistry): String {
-        // Register all commands available as Spring Beans
-        slackCommandRegistry.getAll().forEach { (name, command) ->
-            logger.info("Enabling Command /{} with class:{}", name, command.javaClass)
-            app.command("/$name", command)
+    fun slackCommandRegistryRegistration(
+        slackApps: List<SlackApp>,
+        slackCommandRegistry: SlackCommandRegistry,
+    ): String {
+        slackApps.forEach { slackApp ->
+            // Register all commands available as Spring Beans
+            slackCommandRegistry.getAll().forEach { (name, command) ->
+                logger.info("Enabling Command /{} with class:{}", name, command.javaClass)
+                slackApp.app.command("/$name", command)
+            }
         }
         return "OK"
     }

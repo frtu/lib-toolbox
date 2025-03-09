@@ -1,5 +1,6 @@
 package com.github.frtu.kotlin.spring.slack.builder
 
+import com.github.frtu.kotlin.spring.slack.core.SlackApp
 import com.github.frtu.kotlin.spring.slack.core.SlackEventHandlerRegistry
 import com.slack.api.bolt.App
 import com.slack.api.bolt.handler.BoltEventHandler
@@ -20,12 +21,17 @@ import org.springframework.context.annotation.Import
 class SlackRegisterEventConfig {
     @Bean
     @Qualifier("SlackEventHandlerRegistryRegistration")
-    fun slackEventHandlerRegistryRegistration(app: App, slackEventHandlerRegistry: SlackEventHandlerRegistry): String {
-        // Register all event available as Spring Beans
-        slackEventHandlerRegistry.getAll().forEach { (eventType, handler) ->
-            logger.info("Enabling Event {} with class:{}", eventType, handler.javaClass)
-            @Suppress("UNCHECKED_CAST")
-            app.event(eventType as Class<Event>, handler as BoltEventHandler<Event>)
+    fun slackEventHandlerRegistryRegistration(
+        slackApps: List<SlackApp>,
+        slackEventHandlerRegistry: SlackEventHandlerRegistry,
+    ): String {
+        slackApps.forEach { slackApp ->
+            // Register all event available as Spring Beans
+            slackEventHandlerRegistry.getAll().forEach { (eventType, handler) ->
+                logger.info("Enabling Event {} with class:{}", eventType, handler.javaClass)
+                @Suppress("UNCHECKED_CAST")
+                slackApp.app.event(eventType as Class<Event>, handler as BoltEventHandler<Event>)
+            }
         }
         return "OK"
     }
