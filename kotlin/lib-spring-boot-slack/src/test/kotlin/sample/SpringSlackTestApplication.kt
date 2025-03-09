@@ -2,6 +2,7 @@ package sample
 
 import com.github.frtu.kotlin.spring.slack.config.SlackAutoConfigs
 import com.github.frtu.kotlin.spring.slack.config.SlackProperties
+import com.github.frtu.kotlin.spring.slack.core.SlackApp
 import org.slf4j.LoggerFactory
 import org.springframework.boot.CommandLineRunner
 import org.springframework.boot.WebApplicationType
@@ -19,8 +20,8 @@ import sample.tool.SampleToolConfig
 )
 class SpringSlackTestApplication {
     @Bean
-    fun initializer(properties: SlackProperties): CommandLineRunner = CommandLineRunner {
-        logger.info("properties:$properties")
+    fun initializer(slackApps: List<SlackApp>): CommandLineRunner = CommandLineRunner {
+        logger.info("== SpringSlackTestApplication slackApps:{}", slackApps.map { it.name })
     }
 
     private val logger = LoggerFactory.getLogger(this::class.java)

@@ -16,10 +16,10 @@ class SlackLifecycleManagement(
 
     @EventListener(ApplicationReadyEvent::class)
     fun handleAppReady() {
-        logger.info("== Starting SocketModeApp ==")
         // Initialize the adapter for Socket Mode
         // with an app-level token and your Bolt app with listeners.
         slackApps.forEach { slackApp ->
+            logger.info("== Starting SocketModeApp : ${slackApp.name} ==")
             val socketModeApp = SocketModeApp(
                 slackApp.appToken(),
                 SocketModeClient.Backend.JavaWebSocket,
@@ -28,13 +28,13 @@ class SlackLifecycleManagement(
             // Using #startAsync() to not block initialisation thread
             socketModeApp.startAsync()
             socketModeApps.add(socketModeApp)
-            logger.info("== Started SocketModeApp ==")
+            logger.info("== Started SocketModeApp : ${slackApp.name} ==")
         }
     }
 
     @EventListener(ContextClosedEvent::class)
     fun handleContextClosedEvent() {
-        logger.info("== Closing SocketModeApp ==")
+        logger.info("== Closing all SocketModeApp (size: ${socketModeApps.size}) ==")
         socketModeApps.forEach { socketModeApp ->
             socketModeApp.close()
         }

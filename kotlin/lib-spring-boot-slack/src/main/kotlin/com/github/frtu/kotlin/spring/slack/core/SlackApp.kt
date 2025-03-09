@@ -5,6 +5,7 @@ import com.slack.api.bolt.App
 import com.slack.api.bolt.AppConfig
 
 class SlackApp(
+    val name: String,
     private val slackAppProperties: SlackAppProperties,
 ) {
     val app: App = App(

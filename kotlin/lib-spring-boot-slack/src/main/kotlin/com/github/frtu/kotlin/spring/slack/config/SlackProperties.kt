@@ -26,6 +26,9 @@ data class SlackProperties(
         _registry.putAll(apps)
     }
 
+    /**
+     * For backward compatibility, app: SlackAppProperties will initialise 'default' app
+     */
     fun defaultApp() = _registry[APP_NAME_DEFAULT]!!
 
     fun getRegistry() = _registry

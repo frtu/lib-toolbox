@@ -31,6 +31,7 @@ class SlackAppRegistryPostProcessor(
         val slackRegistry = slackProperties.getRegistry()
         slackRegistry.entries.forEach { entry ->
             val builder = BeanDefinitionBuilder.genericBeanDefinition(SlackApp::class.java)
+            builder.addConstructorArgValue(entry.key)
             builder.addConstructorArgValue(entry.value)
             logger.info("Registering SlackApp name:{}", entry.key)
             logger.trace("[SENSITIVE DATA - DO NOT LOG ON PROD] Found properties:{}", entry.value)
