@@ -1,14 +1,15 @@
 package com.github.frtu.kotlin.spring.slack.config
 
+import com.github.frtu.kotlin.spring.slack.config.SlackProperties.Companion.SPRING_CONFIG_PREFIX
 import com.github.frtu.kotlin.utils.data.ValueObject
 import org.slf4j.LoggerFactory
 import org.springframework.boot.context.properties.ConfigurationProperties
 
 @ValueObject
-@ConfigurationProperties(prefix = "application.slack")
+@ConfigurationProperties(prefix = SPRING_CONFIG_PREFIX)
 data class SlackProperties(
     val enabled: Boolean = true,
-    private val app: SlackAppProperties?,
+    private val app: SlackAppProperties? = null,
     private val apps: Map<String, SlackAppProperties> = emptyMap(),
 ) {
     private val _registry: MutableMap<String, SlackAppProperties> = mutableMapOf()
@@ -29,6 +30,7 @@ data class SlackProperties(
 
     companion object {
         const val APP_NAME_DEFAULT = "default"
+        const val SPRING_CONFIG_PREFIX = "application.slack"
         private val logger = LoggerFactory.getLogger(this::class.java)
     }
 }
