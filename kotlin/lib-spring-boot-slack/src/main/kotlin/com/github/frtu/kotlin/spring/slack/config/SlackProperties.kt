@@ -28,6 +28,8 @@ data class SlackProperties(
 
     fun defaultApp() = _registry[APP_NAME_DEFAULT]!!
 
+    fun getRegistry() = _registry
+
     companion object {
         const val APP_NAME_DEFAULT = "default"
         const val SPRING_CONFIG_PREFIX = "application.slack"

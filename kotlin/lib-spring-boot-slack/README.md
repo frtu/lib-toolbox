@@ -208,6 +208,10 @@ spring.autoconfigure.exclude:
 
 ## Release notes
 
+### 2.0.18
+
+* Adding ability to configure multiple Slack App per token
+
 ### 2.0.11
 
 * Fix : using #startAsync() to not block initialisation thread
