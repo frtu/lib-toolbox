@@ -93,6 +93,43 @@ class EventHandlerFactory {
             ctx.say("Hi there!")
             ctx.ack()
         })
+
+    @Bean
+    fun appMentionEventHandler2(): Pair<Class<AppMentionEvent>, BoltEventHandler<AppMentionEvent>> =
+        object : AbstractEventHandler<AppMentionEvent>(AppMentionEvent::class.java) {
+            override fun handleEvent(appMentionEvent: AppMentionEvent, eventId: String, ctx: EventContext) {
+                ...
+            }
+        }.toPair()    
+}
+```
+
+#### ThreadManager
+
+`ThreadManager` allows to interact with current thread & respond text or form : 
+
+```kotlin
+with(ThreadManager(ctx, appMentionEvent.threadTs.takeIf { it != null } ?: appMentionEvent.ts)) {
+    this.respondForm {
+        section {
+            // "text" fields can be constructed via `plainText()` and `markdownText()`
+            markdownText("*Please select a restaurant:*")
+        }
+        divider()
+        actions {
+            // To align with the JSON structure, you could put the `elements { }` block around the buttons but for brevity it can be omitted
+            // The same is true for things such as the section block's "accessory" container
+            button {
+                // For instances where only `plain_text` is acceptable, the field's name can be filled with `plain_text` inputs
+                text("Farmhouse", emoji = true)
+                value("v1")
+            }
+            button {
+                text("Kin Khao", emoji = true)
+                value("v2")
+            }
+        }
+    }
 }
 ```
 

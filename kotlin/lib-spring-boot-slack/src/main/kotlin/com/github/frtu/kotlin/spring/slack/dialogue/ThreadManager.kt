@@ -6,9 +6,11 @@ import com.github.frtu.logs.core.RpcLogger.responseBody
 import com.github.frtu.logs.core.StructuredLogger
 import com.github.frtu.logs.core.StructuredLogger.entry
 import com.slack.api.bolt.context.builtin.EventContext
+import com.slack.api.methods.kotlin_extension.request.chat.blocks
 import com.slack.api.methods.request.chat.ChatPostMessageRequest
 import com.slack.api.methods.response.chat.ChatPostMessageResponse
 import com.slack.api.model.Message
+import com.slack.api.model.kotlin_extension.block.dsl.LayoutBlockDsl
 import org.slf4j.LoggerFactory
 
 /**
@@ -56,17 +58,30 @@ open class ThreadManager(
         return repliesResponse.messages.filter(filter)
     }
 
-    /** Respond TO the thread */
+    /** Respond TO the current thread */
     fun respond(messageToThread: MessageToThread): ChatPostMessageResponse = respond(messageToThread.message)
 
-    /** Respond TO the thread */
-    fun respond(messageString: String): ChatPostMessageResponse = methodsClient.chatPostMessage(
-        ChatPostMessageRequest.builder()
+    /** Respond TO the current thread */
+    fun respond(messageString: String): ChatPostMessageResponse = respond {
+        it.text(messageString)
+    }
+
+    /**
+     * Respond TO the current thread
+     * @see <a href="https://tools.slack.dev/java-slack-sdk/guides/composing-messages/#block-kit-kotlin-dsl">block kit kotlin dsl</a>
+     */
+    fun respondForm(builder: LayoutBlockDsl.() -> Unit): ChatPostMessageResponse = respond {
+        it.blocks(builder)
+    }
+
+    /** Execute ON the current thread */
+    fun respond(handler: (ChatPostMessageRequest.ChatPostMessageRequestBuilder) -> Unit): ChatPostMessageResponse {
+        val requestBuilder = ChatPostMessageRequest.builder()
             .channel(channelId)
             .threadTs(threadTs) // Respond in the same thread
-            .text(messageString)
-            .build()
-    )
+        handler.invoke(requestBuilder)
+        return methodsClient.chatPostMessage(requestBuilder.build())
+    }
 
     private val logger = LoggerFactory.getLogger(this::class.java)
     private val structuredLogger = StructuredLogger.create(logger)
