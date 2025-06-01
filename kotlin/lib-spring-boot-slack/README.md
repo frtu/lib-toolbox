@@ -210,6 +210,7 @@ spring.autoconfigure.exclude:
 
 ### 2.0.18
 
+* Bump to slack version `1.45.3` & add kotlin extension
 * Adding ability to configure multiple Slack App per token
 
 ### 2.0.11
