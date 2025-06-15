@@ -149,6 +149,10 @@ spring.autoconfigure.exclude:
   - com.github.frtu.kotlin.ai.spring.config.LlmOsAutoConfigs
 ```
 
+## TBD
+
+* Integration with [MCP Service](https://cobusgreyling.medium.com/openai-has-added-remote-mcp-server-support-3f5da047da6d)
+
 ## Release notes
 
 ### 2.0.16
