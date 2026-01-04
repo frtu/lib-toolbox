@@ -8,6 +8,50 @@ Mini lib that provides common useful method to facilitate testing :
 * Json utilities
 * Predicates for Stream
 
+## ValueObject
+
+Import and declare in `build.gradle.kts` :
+
+```gradle
+plugins {
+    var kotlin = "1.9.25"
+
+    // Core
+    kotlin("jvm") version kotlin
+    kotlin("plugin.noarg") version kotlin
+}
+   
+noArg {
+    // Apply this magic constructor generation to any class with this annotation
+    annotation("com.github.frtu.kotlin.utils.data.ValueObject")
+}
+```
+
+Annotate any classes with `@ValueObject` :
+
+```kotlin
+@ValueObject
+data class EventInput(
+    val eventId: String?,
+)
+```
+
+To combine data classes with Jackson & Serialization :
+
+```kotlin
+@ValueObject
+// Critical: Don't crash on new/unexpected fields
+@JsonIgnoreProperties(ignoreUnknown = true)
+data class RawInput(
+    @JsonProperty("event_id")
+    val eventId: String?,
+) : Serializable {
+    companion object {
+        private const val serialVersionUID = 1L
+    }
+}
+```
+
 ## Import
 
 Import using :
@@ -22,7 +66,7 @@ Import using :
 
 or
 
-```
+```gradle
 implementation("com.github.frtu.libs:lib-utils:${Versions.frtu_libs}")
 ```
 
